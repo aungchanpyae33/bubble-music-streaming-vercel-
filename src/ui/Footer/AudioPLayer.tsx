@@ -14,7 +14,7 @@ const mimeType_audio = "audio/mp4";
 const codecs_audio = "mp4a.40.2";
 const mimeCodec_audio = `${mimeType_audio};codecs="${codecs_audio}"`;
 
-const bufferThreshold = 2.5;
+const bufferThreshold = 25;
 
 function AudioPlayer() {
   const fetching = useRef<boolean>(false);
