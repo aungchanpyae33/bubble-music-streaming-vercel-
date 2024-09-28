@@ -7,19 +7,9 @@ function NavBar() {
       <div className="logo flex-1 pl-2">
         <Link href="/">Bubble</Link>
       </div>
-
-      <ul className="navLinkContainer w-[40%] flex flex-wrap   bg-green-500 justify-around">
-        <li className="cursor-pointer">
-          <a href="">About</a>
-        </li>
-        <li className="cursor-pointer">
-          <Link href={"/logout"}>sing out</Link>
-        </li>
-        <li className="cursor-pointer">
-          <Link href={"/login"}>sign in</Link>
-        </li>
-        <li className="cursor-pointer">
-          <a href="">github</a>
+      <ul className="navLinkContainer w-[40%] flex flex-wrap    justify-around">
+        <li className="bg-green-500 p-2 rounded-sm">
+          <Link href={"/three"}>User</Link>
         </li>
       </ul>
     </nav>
