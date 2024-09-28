@@ -1,10 +1,9 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useTransition } from "react";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import SearchResult from "./SearchResult";
 import { Movie } from "@/database/data";
 import CloseFunctoion from "@/lib/CloseFunction";
-import ArrowNavi from "@/lib/Accessibility/ArrowNavi";
 
 function SearchBar({ data }: { data: Movie[] }) {
   const router = useRouter();
@@ -14,7 +13,7 @@ function SearchBar({ data }: { data: Movie[] }) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
-
+  const [isPending, startTransion] = useTransition();
   function handleSearch(term: string) {
     const params = new URLSearchParams(searchParams);
     if (term) {
@@ -22,9 +21,11 @@ function SearchBar({ data }: { data: Movie[] }) {
     } else {
       params.delete("query");
     }
-    replace(`${pathname}?${params.toString()}`);
+    startTransion(() => {
+      replace(`${pathname}?${params.toString()}`);
+    });
   }
-  console.log(open);
+
   CloseFunctoion(open, setopen, DivRef);
   return (
     <div className="SearchContainer w-[98%] z-0 mx-auto ">
@@ -62,6 +63,7 @@ function SearchBar({ data }: { data: Movie[] }) {
                 handleSearch(e.target.value);
               }}
             />
+            {isPending && <span>loading...</span>}
             {open && <SearchResult data={data} inputRef={inputRef} />}
           </label>
         </form>
