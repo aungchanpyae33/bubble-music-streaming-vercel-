@@ -1,8 +1,14 @@
+import MediaSessionSeek from "@/lib/MediaSession/MediaSessionSeek";
 import DataContext from "@/lib/MediaSource/ContextMedia";
 import { playBackRate } from "@/lib/MediaSource/playBackRate";
 import { TimeFormat } from "@/lib/TimeFormat";
 import { useContext } from "react";
-import { eventProp } from "@/lib/MediaSource/playBackRate";
+export interface eventProp {
+  e:
+    | React.MouseEvent<HTMLInputElement>
+    | React.TouchEvent<HTMLInputElement>
+    | React.KeyboardEvent<HTMLInputElement>;
+}
 interface PropAudioSeek {
   dataCur: React.MutableRefObject<HTMLSpanElement | null>;
   bottom: boolean;
@@ -36,13 +42,21 @@ function AudioSeekBar({
         abortController.current = new AbortController();
         fetching.current = false;
       }
-
-      segNum.current = playBackRate({ dataAudio, e, sege });
+      const data = e.currentTarget.value;
+      segNum.current = playBackRate({ dataAudio, data, sege });
 
       loadNextSegment();
     }
     setBottom(true);
   }
+  MediaSessionSeek(
+    fetching,
+    abortController,
+    segNum,
+    dataAudio,
+    sege,
+    loadNextSegment
+  ); // Pass value for seeking
   return (
     <input
       type="range"

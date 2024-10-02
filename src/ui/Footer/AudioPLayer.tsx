@@ -10,11 +10,9 @@ import TimeIndicatorDur from "./audio/TimeIndicatorDur";
 import AudioFunctionButton from "./audio/AudioFunctionButton";
 import AudioDisplayFooter from "./AudioDisplayFooter";
 import useMediaSourceBuffer from "@/lib/CustomHooks/MediaSourceBuffer";
-import useMediaSession from "@/lib/CustomHooks/MediaSession";
-
+import MediaSessionDes from "@/lib/MediaSession/MediaSessionDescription";
 function AudioPlayer() {
   const { duration, sege, name } = Song((state: any) => state.songCu);
-
   const [, url] = Song(
     (state: any) =>
       Object.entries(state.songCu as Record<string, string>)[0] || []
@@ -22,7 +20,9 @@ function AudioPlayer() {
 
   const { dataAudio, loadNextSegment, segNum, abortController, fetching } =
     useMediaSourceBuffer(url, sege);
-  useMediaSession(name);
+  // useMediaSession(name, url);
+  console.log(name);
+  MediaSessionDes(name, url);
   console.log("render audio playre");
   return (
     <DataContext.Provider
