@@ -11,6 +11,7 @@ import AudioFunctionButton from "./audio/AudioFunctionButton";
 import AudioDisplayFooter from "./AudioDisplayFooter";
 import useMediaSourceBuffer from "@/lib/CustomHooks/MediaSourceBuffer";
 import MediaSessionDes from "@/lib/MediaSession/MediaSessionDescription";
+import AudioInfo from "./AudioInfo";
 function AudioPlayer() {
   const { duration, sege, name } = Song((state: any) => state.songCu);
   const [, url] = Song(
@@ -38,19 +39,26 @@ function AudioPlayer() {
     >
       {
         // i need to wrap in div to remove uncessary usage child
-        <div className="flex justify-between items-center">
+        <div className="flex  items-center">
           <AudioDisplayFooter
             urlImage={
               "https://s3.tebi.io/test1345/timo-volz-ZlFKIG6dApg-unsplash%20%281%29.jpg"
             }
           />
-          <div>{name}</div>
-          <ToggleButton />
-          <AudioFunctionButton functionality="pre" url={url} />
-          <AudioFunctionButton functionality="nex" url={url} />
-          <AudioElement
-            Child={<TimeIndicatorDur duration={duration} />}
-          ></AudioElement>
+
+          <AudioInfo name={name} />
+          <div className="audioFunctionContainer flex flex-col items-center w-[80%] md:w-[50%]">
+            <div className="upContainer">
+              <AudioFunctionButton functionality="pre" url={url} />
+              <ToggleButton />
+              <AudioFunctionButton functionality="nex" url={url} />
+            </div>
+            <div className="BottomContainer w-[90%]">
+              <AudioElement
+                Child={<TimeIndicatorDur duration={duration} />}
+              ></AudioElement>
+            </div>
+          </div>
         </div>
       }
     </DataContext.Provider>
