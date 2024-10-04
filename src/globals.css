@@ -21,9 +21,13 @@
     text-wrap: balance;
   }
   .time {
-    @apply bg-red-500 w-[3rem] text-center;
+    @apply text-sm md:text-base w-[3rem] text-center;
+  }
+  .test {
+    @apply border-4 border-red-600;
   }
 }
+/* body scrolllock */
 /* Firefox */
 .playlist {
   scrollbar-width: thin;
@@ -52,3 +56,15 @@ body.scrolllock {
   right: 0;
   bottom: 0;
 }
+/* body scrolllock */
+
+/* hide scrollbar */
+.no-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, and Opera */
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+/* hide scrollbar */
