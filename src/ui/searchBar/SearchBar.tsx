@@ -43,6 +43,7 @@ function SearchBar({ data }: { data: Movie[] }) {
           <label className="">
             <span className="sr-only">Search</span>
             <input
+              autoFocus
               className="placeholder:text-slate-400 block bg-blue w-full   border border-slate-300  py-2 pl-9  shadow-sm focus:outline-none sm:text-sm"
               placeholder="Search for song and artist"
               type="search"
