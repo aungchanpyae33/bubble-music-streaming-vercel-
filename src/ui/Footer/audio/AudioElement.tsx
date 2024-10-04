@@ -9,13 +9,11 @@ export interface PropTime {
 }
 function AudioElement({ Child }: { Child: ReactNode }) {
   const dataInput = useRef<HTMLInputElement>(null);
-
   const [bottom, setBottom] = useState(true);
   const dataCur = useRef<HTMLSpanElement>(null);
   const { dataAudio, duration } = useContext(DataContext);
-  console.log("render audioELement");
   return (
-    <>
+    <div className="flex">
       <audio
         ref={dataAudio}
         className="hidden"
@@ -33,21 +31,17 @@ function AudioElement({ Child }: { Child: ReactNode }) {
           }
         }}
       ></audio>
-      <div
-        className="w-[50%] max-w-[400px] flex
-        "
-      >
-        <TimeIndicatorCur dataCur={dataCur} />
-        <AudioSeekBar
-          dataCur={dataCur}
-          bottom={bottom}
-          setBottom={setBottom}
-          duration={duration}
-          dataInput={dataInput}
-        />
-        {Child}
-      </div>
-    </>
+
+      <TimeIndicatorCur dataCur={dataCur} />
+      <AudioSeekBar
+        dataCur={dataCur}
+        bottom={bottom}
+        setBottom={setBottom}
+        duration={duration}
+        dataInput={dataInput}
+      />
+      {Child}
+    </div>
   );
 }
 
