@@ -31,22 +31,16 @@ function Track({
       id="uni1"
       role={`cell${index + 1}`}
       onKeyDown={(e) => {
-        ArrowNavi(e, roleCell, "ArrowRight", "ArrowLeft", 3, "rowCell");
+        ArrowNavi(e, roleCell, "ArrowRight", "ArrowLeft", 1, "rowCell");
       }}
       onFocus={(e) => {
         dataInc.current = index + 1;
         FocusElement(e.currentTarget, "rowCell", roleCell);
       }}
     >
-      <button tabIndex={-1} role="rowCell1">
-        play
-      </button>
+      <ToggleElement url={url} sege={sege} duration={duration} name={name} />
       <span>{name}</span>
       <span>{TimeFormat(duration)}</span>
-      <ToggleElement url={url} sege={sege} duration={duration} name={name} />
-      <button tabIndex={-1} role="rowCell3">
-        hello
-      </button>
     </div>
   );
 }
