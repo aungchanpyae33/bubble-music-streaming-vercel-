@@ -17,6 +17,15 @@ const config: Config = {
       colors: {
         overlay: "rgba(43, 43, 41,0.3)",
       },
+      animation: {
+        showtextoverflow: "showtextoverflow linear",
+      },
+      keyframes: {
+        showtextoverflow: {
+          "0%,2%,100%": { transform: "translateX(0)" },
+          "50%,55%": { transform: "translateX(calc(-100% + 150px))" },
+        },
+      },
     },
   },
   plugins: [],
