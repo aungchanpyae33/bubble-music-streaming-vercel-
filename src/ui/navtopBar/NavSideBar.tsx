@@ -10,7 +10,7 @@ import OverLay from "./OverLay";
 import useBodyScrollLock from "@/lib/CustomHooks/BodyScrollLock";
 
 function NavSideBar() {
-  const DivRef = useRef<HTMLUListElement | null>(null);
+  // const DivRef = useRef<HTMLUListElement | null>(null);
   const [open, setopen] = useBodyScrollLock();
   // Only run when isOpen changes
   // (open, setopen, DivRef);
@@ -18,17 +18,17 @@ function NavSideBar() {
     <>
       <div>
         <ul
-          ref={DivRef}
+          // ref={DivRef}
           className={clsx(
-            "fixed top-0 z-30 isolate  box-border transition-[width] duration-300 text-center left-0 h-[100%]   flex flex-col bg-green-500  rounded-b-sm  ",
+            "fixed top-0 z-30 isolate   box-border transition-[width] duration-300 text-center left-0 h-[100%]   flex flex-col bg-green-500  rounded-b-sm  ",
             {
-              "w-[55px]": open === false,
-              "w-[200px]": open === true,
+              "w-[70px]": open === false,
+              "w-[200px] ": open === true,
             }
           )}
         >
-          <li className=" min-h-[50px] sticky top-0  flex items-center">
-            <button onClick={() => setopen(!open)} className=" w-[50px]">
+          <li className=" min-h-[50px]  sticky top-0 flex items-center justify-center">
+            <button onClick={() => setopen(!open)} className="w-[70px]">
               open
             </button>
             <MenuItem open={open}>
@@ -46,20 +46,6 @@ function NavSideBar() {
           />
           <NavSideLink
             setopen={setopen}
-            url={"/search"}
-            icon="search"
-            desp="search bar"
-            open={open}
-          />
-          <NavSideLink
-            setopen={setopen}
-            url={"/search"}
-            icon="search"
-            desp="search bar"
-            open={open}
-          />{" "}
-          <NavSideLink
-            setopen={setopen}
             url={"/explore"}
             icon="explore"
             desp="search bar"
@@ -67,9 +53,16 @@ function NavSideBar() {
           />{" "}
           <NavSideLink
             setopen={setopen}
-            url={"/search"}
-            icon="search"
-            desp="search bar"
+            url={"/live"}
+            icon="live"
+            desp="live song"
+            open={open}
+          />
+          <NavSideLink
+            setopen={setopen}
+            url={"/library"}
+            icon="library"
+            desp="library"
             open={open}
           />
         </ul>{" "}
