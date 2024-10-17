@@ -3,16 +3,16 @@ import React, { useEffect, useState } from "react";
 const useOverflowCheck = (
   element: React.MutableRefObject<HTMLDivElement | null>
 ) => {
-  const [isOverFlow, setIsOverFlow] = useState(false);
+  const [isOverFlow, setIsOverFlow] = useState(0);
   const [animate, setanimatie] = useState(true);
   useEffect(() => {
     const checkOverflow = () => {
-      if (element.current!.scrollWidth > element.current!.clientWidth) {
-        // console.log("i am hit");
-        setIsOverFlow(true);
+      const fullWidth = element.current!.scrollWidth;
+      const showWidth = element.current!.clientWidth;
+      if (fullWidth > showWidth) {
+        const overFlowWidth = (fullWidth - showWidth) * 150;
+        setIsOverFlow(overFlowWidth);
         setanimatie(true);
-      } else {
-        setIsOverFlow(false);
       }
     };
     checkOverflow();
