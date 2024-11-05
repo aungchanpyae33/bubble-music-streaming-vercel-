@@ -14,10 +14,10 @@ function NavSideLink({ url, icon, desp, open, setopen }: LinkProps) {
     <div className="mb-8">
       <Link
         href={url}
-        className=" h-[50px]  flex items-center"
+        className=" h-[50px]  flex items-center justify-center"
         onClick={() => setopen(false)}
       >
-        <p className="w-[50px] z-40  duration-300 transition-all ">{icon}</p>
+        <p className="z-40 w-[70px]  duration-300 transition-all ">{icon}</p>
         <MenuItem open={open}>
           <p>{desp}</p>
         </MenuItem>
