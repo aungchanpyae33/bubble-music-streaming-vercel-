@@ -42,8 +42,8 @@ function AudioSeekBar({
         abortController.current = new AbortController();
         fetching.current = false;
       }
-      const data = e.currentTarget.value;
-      segNum.current = playBackRate({ dataAudio, data, sege });
+
+      const data = parseFloat(e.currentTarget.value);
 
       loadNextSegment();
     }
@@ -62,6 +62,7 @@ function AudioSeekBar({
       type="range"
       id="seek-slider"
       ref={dataInput}
+      step="0.01"
       max={duration}
       className=" flex-1"
       onKeyUp={(e) => {
