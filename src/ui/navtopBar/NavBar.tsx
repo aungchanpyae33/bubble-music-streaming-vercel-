@@ -3,7 +3,7 @@ import Link from "next/link";
 function NavBar() {
   return (
     <nav className="navBarContainer flex w-full fixed  top-0  bg-red-500 z-10 h-[50px] items-center">
-      <div className="w-[50px]"></div>
+      <div className="w-[70px]"></div>
       <div className="logo flex-1 pl-2">
         <Link href="/">Bubble</Link>
       </div>
