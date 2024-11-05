@@ -1,5 +1,5 @@
 import { Song, SongFunction } from "@/lib/zustand";
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import type { SongDetail } from "@/lib/zustand";
 
 const ToggleElement = ({ url, sege, duration, name }: SongDetail) => {

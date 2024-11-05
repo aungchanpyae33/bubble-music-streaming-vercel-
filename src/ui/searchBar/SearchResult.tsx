@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Dispatch, SetStateAction } from "react";
+import React from "react";
 import { Movie } from "@/database/data";
 import Link from "next/link";
 import useTest from "@/lib/CustomHooks/NaviHook";

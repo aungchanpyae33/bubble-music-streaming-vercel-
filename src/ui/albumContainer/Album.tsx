@@ -1,7 +1,7 @@
 "use client";
 import ArrowNavi from "@/lib/Accessibility/ArrowNavi";
 import Track from "../trackComponent/Track";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { currentPlayList } from "@/lib/zustand";
 export interface urlProp {
