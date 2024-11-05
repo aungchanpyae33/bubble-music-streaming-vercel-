@@ -6,8 +6,10 @@ export async function GET(request: NextRequest) {
   const query: string | null = searchParams.get("with");
   if (query) {
     console.log(query);
-    const fetchData = await fetch(query);
-
+    const fetchData = await fetch(query, {
+      priority: "high",
+      keepalive: true,
+    });
     // Create a new NextResponse based on the original fetchData response
     const response = new NextResponse(fetchData.body, {
       status: fetchData.status,
