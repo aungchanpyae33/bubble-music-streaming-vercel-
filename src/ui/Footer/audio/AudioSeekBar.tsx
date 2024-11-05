@@ -45,6 +45,8 @@ function AudioSeekBar({
 
       const data = parseFloat(e.currentTarget.value);
 
+      segNum.current = playBackRate({ dataAudio, data, sege, duration });
+      // console.log(segNum.current);
       loadNextSegment();
     }
     setBottom(true);
@@ -57,6 +59,7 @@ function AudioSeekBar({
     sege,
     loadNextSegment
   ); // Pass value for seeking
+  // console.log(duration);
   return (
     <input
       type="range"
