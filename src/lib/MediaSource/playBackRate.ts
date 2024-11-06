@@ -4,13 +4,15 @@ interface prop {
   dataAudio: React.MutableRefObject<HTMLAudioElement | null>;
   data: number;
   sege: number | undefined;
+  duration: number | undefined;
 }
-export function playBackRate({ dataAudio, data, sege }: prop) {
-  dataAudio.current!.currentTime = +data;
-  const audioDu = dataAudio.current!.duration;
-  const audioCu = dataAudio.current!.currentTime;
-  const audioPosition = Math.floor((audioCu / audioDu) * 100);
-  const segPosition = Math.floor((sege! * audioPosition) / 100);
 
+export function playBackRate({ dataAudio, data, sege, duration }: prop) {
+  dataAudio.current!.currentTime = data;
+
+  const audioPosition = (data / duration!) * 100;
+  // change to math.round to get data more precies
+  // it can be greate if can fetch needed data it self (further) but it can not be fully accurate cuz all segemetns are not the same size
+  const segPosition = Math.round((sege! * audioPosition) / 100);
   return segPosition;
 }
