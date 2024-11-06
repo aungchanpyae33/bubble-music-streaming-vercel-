@@ -2,18 +2,19 @@ import React from "react";
 export const fetchSegement = (
   url: string,
   sourceBuffer: React.MutableRefObject<SourceBuffer | null>,
+  mediaSource: React.MutableRefObject<MediaSource | null>,
   segNum: number | undefined = undefined,
   abortController: AbortController | null //need to get the data from other side ,so not use current
 ) => {
   const fetchOptions: RequestInit = {
     signal: abortController?.signal,
+    priority: "high",
+    keepalive: true,
   };
+
   const outputUrl = segNum ? url.replace("init.mp4", `seg-${segNum}.m4s`) : url;
   // console.log(outputUrl);
-  fetch(
-    `https://jolly-sun-bbad.bubblemusic990.workers.dev/api?with=${outputUrl}`,
-    fetchOptions
-  )
+  fetch(`/api/sound?with=${outputUrl}`, fetchOptions)
     .then((response) => {
       if (!response.ok) {
         throw new Error(`failed to fetch the song segements sege-${segNum}`);
@@ -21,7 +22,13 @@ export const fetchSegement = (
       return response.arrayBuffer();
     })
     .then((buf) => {
-      if (sourceBuffer.current && !sourceBuffer.current.updating) {
+      if (
+        sourceBuffer.current?.buffered &&
+        !sourceBuffer.current.updating &&
+        mediaSource.current?.readyState
+      ) {
+        console.log(segNum, "i got buffend");
+
         sourceBuffer.current!.appendBuffer(buf);
       }
     })
