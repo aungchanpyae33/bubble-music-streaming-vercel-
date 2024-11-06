@@ -2,7 +2,7 @@ import React from "react";
 
 interface prop {
   dataAudio: React.MutableRefObject<HTMLAudioElement | null>;
-  data: string;
+  data: number;
   sege: number | undefined;
 }
 export function playBackRate({ dataAudio, data, sege }: prop) {
