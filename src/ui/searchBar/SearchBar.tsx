@@ -1,5 +1,6 @@
 "use client";
 import React, { useRef, useState, useTransition } from "react";
+import Form from "next/form";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import SearchResult from "./SearchResult";
 import { Movie } from "@/database/data";
@@ -58,7 +59,7 @@ function SearchBar({ data }: { data: Movie[] }) {
             {isPending && <span>loading...</span>}
             {open && <SearchResult data={data} inputRef={inputRef} />}
           </label>
-        </form>
+        </Form>
       </div>
     </div>
   );
