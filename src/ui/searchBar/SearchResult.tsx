@@ -5,7 +5,7 @@ import useTest from "@/lib/CustomHooks/NaviHook";
 
 interface prop {
   data: Movie[];
-  inputRef: React.MutableRefObject<HTMLInputElement | null>;
+  inputRef: RefObject<HTMLInputElement | null>;
 }
 
 function SearchResult({ data, inputRef }: prop) {
@@ -27,7 +27,7 @@ function SearchResult({ data, inputRef }: prop) {
             }
           }}
         >
-          <Link href={`/test/${item.title}?query=${item.title}`} tabIndex={-1}>
+          <Link href={`/test?query=${item.title}`} tabIndex={-1}>
             {item.title}
           </Link>
         </div>
