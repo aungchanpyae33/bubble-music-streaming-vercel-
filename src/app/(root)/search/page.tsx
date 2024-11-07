@@ -4,13 +4,14 @@ import Link from "next/link";
 import SearchBar from "@/ui/searchBar/SearchBar";
 import { getData } from "@/database/data";
 
-async function page({
-  searchParams,
-}: {
-  searchParams?: {
-    query?: string;
-  };
-}) {
+async function page(
+  props: {
+    searchParams?: Promise<{
+      query?: string;
+    }>;
+  }
+) {
+  const searchParams = await props.searchParams;
   const query = searchParams?.query || "";
   const data = query.length > 0 ? await getData(query) : [];
   return (

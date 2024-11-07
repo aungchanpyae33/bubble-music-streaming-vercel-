@@ -47,8 +47,13 @@ const url = [
   },
 ];
 
-function page({ params }: { params: { album: string } }) {
-  return <AudiosContainer url={url} description={params.album} />;
+async function page(props: { params: Promise<{ album: string }> }) {
+  const params = await props.params;
+  return (
+    <div>
+      <AudiosContainer url={url} description={params.album} />
+    </div>
+  );
 }
 
 export default page;
