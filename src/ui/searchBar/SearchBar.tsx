@@ -6,7 +6,6 @@ import { Movie } from "@/database/data";
 import CloseFunctoion from "@/lib/CloseFunction";
 
 function SearchBar({ data }: { data: Movie[] }) {
-  const router = useRouter();
   const DivRef = useRef<HTMLDivElement | null>(null);
   const [open, setopen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -30,16 +29,7 @@ function SearchBar({ data }: { data: Movie[] }) {
   return (
     <div className="SearchContainer w-[98%] z-0 mx-auto ">
       <div ref={DivRef} className="max-w-[600px] w-[100%] relative mx-auto ">
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            router.push(
-              `/test/${inputRef.current!.value}?query=${
-                inputRef.current!.value
-              }`
-            );
-          }}
-        >
+        <Form action={"/test"}>
           <label className="">
             <span className="sr-only">Search</span>
             <input
@@ -47,7 +37,8 @@ function SearchBar({ data }: { data: Movie[] }) {
               className="placeholder:text-slate-400 block bg-blue w-full   border border-slate-300  py-2 pl-9  shadow-sm focus:outline-none sm:text-sm"
               placeholder="Search for song and artist"
               type="search"
-              name="search"
+              name="query"
+              required
               autoComplete="off"
               spellCheck="false"
               ref={inputRef}
