@@ -20,7 +20,8 @@ interface SongFunctionState {
 interface SongFunctionActions {
   setPlay: (key: string, play: boolean) => void;
 }
-export const Song = create<SongState & SongActions>((set) => ({
+
+export const useSong = create<SongState & SongActions>((set) => ({
   songCu: {},
   updateSongCu: (newSong: any) =>
     set(() => ({
@@ -28,7 +29,7 @@ export const Song = create<SongState & SongActions>((set) => ({
     })),
 }));
 
-export const currentPlayList = create((set) => ({
+export const useCurrentPlayList = create((set) => ({
   playListArray: [],
   setPlayListArray: (newList: urlProp[]) =>
     set(() => ({
@@ -36,7 +37,7 @@ export const currentPlayList = create((set) => ({
     })),
 }));
 
-export const SongFunction = create<SongFunctionState & SongFunctionActions>(
+export const useSongFunction = create<SongFunctionState & SongFunctionActions>(
   (set) => ({
     Isplay: {},
     setPlay: (key: string, play: boolean) =>
