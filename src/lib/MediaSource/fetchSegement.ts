@@ -1,8 +1,8 @@
-import React from "react";
+import React, { RefObject } from "react";
 export const fetchSegement = (
   url: string,
-  sourceBuffer: React.MutableRefObject<SourceBuffer | null>,
-  mediaSource: React.MutableRefObject<MediaSource | null>,
+  sourceBuffer: RefObject<SourceBuffer | null>,
+  mediaSource: RefObject<MediaSource | null>,
   segNum: number | undefined = undefined,
   abortController: AbortController | null //need to get the data from other side ,so not use current
 ) => {

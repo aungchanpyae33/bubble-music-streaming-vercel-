@@ -1,8 +1,9 @@
 import { TimeFormat } from "@/lib/TimeFormat";
+import { RefObject } from "react";
 function TimeIndicatorCur({
   dataCur,
 }: {
-  dataCur: React.MutableRefObject<HTMLSpanElement | null>;
+  dataCur: RefObject<HTMLSpanElement | null>;
 }) {
   console.log("render timeindicator");
   return (

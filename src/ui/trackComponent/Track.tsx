@@ -3,7 +3,8 @@ import { TimeFormat } from "@/lib/TimeFormat";
 import ToggleElement from "../Footer/audio/ToggleElement";
 import { FocusElement } from "@/lib/Accessibility/FocusElement";
 import ArrowNavi from "@/lib/Accessibility/ArrowNavi";
-import clsx from "clsx";
+import { clsx } from "clsx";
+import { RefObject } from "react";
 
 function Track({
   name,
@@ -19,8 +20,8 @@ function Track({
   url: string;
   sege: number;
   index: number;
-  roleCell: React.MutableRefObject<number>;
-  dataInc: React.MutableRefObject<number>;
+  roleCell: RefObject<number>;
+  dataInc: RefObject<number>;
 }) {
   return (
     <div

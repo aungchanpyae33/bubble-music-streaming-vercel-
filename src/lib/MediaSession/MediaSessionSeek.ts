@@ -2,10 +2,10 @@ import React, { RefObject, useEffect } from "react";
 import { playBackRate } from "../MediaSource/playBackRate";
 
 const MediaSessionSeek = (
-  fetching: React.MutableRefObject<boolean>,
-  abortController: React.MutableRefObject<AbortController | null>,
-  segNum: React.MutableRefObject<number>,
-  dataAudio: React.MutableRefObject<HTMLAudioElement | null>,
+  fetching: RefObject<boolean>,
+  abortController: RefObject<AbortController | null>,
+  segNum: RefObject<number>,
+  dataAudio: RefObject<HTMLAudioElement | null>,
   sege: number | undefined,
   loadNextSegment: () => void
 ) => {
