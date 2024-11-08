@@ -1,4 +1,4 @@
-import { create } from "zustand";
+import { createWithEqualityFn as create } from "zustand/traditional";
 import { urlProp } from "@/ui/albumContainer/Album";
 export interface SongDetail {
   url: string;
