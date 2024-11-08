@@ -3,7 +3,7 @@ import ArrowNavi from "@/lib/Accessibility/ArrowNavi";
 import Track from "../trackComponent/Track";
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { currentPlayList } from "@/lib/zustand";
+import { useCurrentPlayList } from "@/lib/zustand";
 export interface urlProp {
   urlSong: string;
   duration: number;
@@ -19,7 +19,7 @@ function AudiosContainer({
 }) {
   const dataInc = useRef(0);
   const rowCell = useRef(1);
-  const setPlayListArray = currentPlayList(
+  const setPlayListArray = useCurrentPlayList(
     (state: any) => state.setPlayListArray
   );
 

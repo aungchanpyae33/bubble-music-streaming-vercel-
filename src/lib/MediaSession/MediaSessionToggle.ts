@@ -1,9 +1,9 @@
 import { useEffect } from "react";
-import { SongFunction } from "../zustand";
+import { useSongFunction } from "../zustand";
 
 const MediaSessionToggle = () => {
-  const setPlay = SongFunction((state: any) => state.setPlay);
-  const [firstKey] = SongFunction(
+  const setPlay = useSongFunction((state: any) => state.setPlay);
+  const [firstKey] = useSongFunction(
     (state: any) => Object.entries(state.Isplay)[0] || []
   );
   useEffect(() => {

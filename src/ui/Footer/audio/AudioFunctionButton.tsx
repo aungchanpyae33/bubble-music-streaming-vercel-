@@ -1,6 +1,6 @@
 // import useMediaSession from "@/lib/CustomHooks/MediaSession";
 import MediaSessionButton from "@/lib/MediaSession/MediaSessionButton";
-import { currentPlayList, Song, SongFunction } from "@/lib/zustand";
+import { useCurrentPlayList, useSong, useSongFunction } from "@/lib/zustand";
 import { urlProp } from "@/ui/albumContainer/Album";
 
 function AudioFunctionButton({
@@ -10,12 +10,12 @@ function AudioFunctionButton({
   functionality: string;
   url: string;
 }) {
-  const playListArray = currentPlayList(
+  const playListArray = useCurrentPlayList(
     (state: any) => state.playListArray
   ) as urlProp[];
   // console.log(playListArray);
-  const setPlay = SongFunction((state: any) => state.setPlay);
-  const updateSongCu = Song((state: any) => state.updateSongCu);
+  const setPlay = useSongFunction((state: any) => state.setPlay);
+  const updateSongCu = useSong((state: any) => state.updateSongCu);
   const urlSongs = playListArray.flatMap(({ urlSong }) => urlSong);
   // console.log(urlSongs);
   const currentIndex = urlSongs.indexOf(url);

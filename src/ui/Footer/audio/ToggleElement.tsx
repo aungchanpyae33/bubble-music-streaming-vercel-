@@ -1,4 +1,4 @@
-import { Song, SongFunction } from "@/lib/zustand";
+import { useSong, useSongFunction } from "@/lib/zustand";
 import React from "react";
 import type {
   SongDetail,

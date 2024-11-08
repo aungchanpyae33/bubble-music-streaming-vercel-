@@ -1,16 +1,16 @@
 import MediaSessionToggle from "@/lib/MediaSession/MediaSessionToggle";
 import DataContext from "@/lib/MediaSource/ContextMedia";
-import { Song, SongFunction } from "@/lib/zustand";
+import { useSongFunction } from "@/lib/zustand";
 import { useContext, useEffect } from "react";
 
 function ToggleButton() {
   const { dataAudio } = useContext(DataContext);
   // Get the first key-value pair from Isplay
-  const [firstKey, firstIsplay] = SongFunction(
+  const [firstKey, firstIsplay] = useSongFunction(
     (state: any) => Object.entries(state.Isplay)[0] || []
   );
 
-  const setPlay = SongFunction((state: any) => state.setPlay);
+  const setPlay = useSongFunction((state: any) => state.setPlay);
   // console.log("render togglebutton");
   useEffect(() => {
     function handlePlay() {
