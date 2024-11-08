@@ -6,24 +6,24 @@ export interface SongDetail {
   duration: number;
   name: string;
 }
-interface SongState {
-  songCu: Record<string, SongDetail>;
+export interface SongState {
+  songCu: SongDetail | {};
 }
 
-interface SongActions {
+export interface SongActions {
   updateSongCu: (newSong: SongState["songCu"]) => void;
 }
-interface SongFunctionState {
-  Isplay: Record<string, boolean>;
+export interface SongFunctionState {
+  Isplay: Record<string, boolean | undefined>;
 }
 
-interface SongFunctionActions {
-  setPlay: (key: string, play: boolean) => void;
+export interface SongFunctionActions {
+  setPlay: (key: string, play: boolean | undefined) => void;
 }
 
 export const useSong = create<SongState & SongActions>((set) => ({
   songCu: {},
-  updateSongCu: (newSong: any) =>
+  updateSongCu: (newSong) =>
     set(() => ({
       songCu: { ...newSong },
     })),
@@ -40,10 +40,10 @@ export const useCurrentPlayList = create((set) => ({
 export const useSongFunction = create<SongFunctionState & SongFunctionActions>(
   (set) => ({
     Isplay: {},
-    setPlay: (key: string, play: boolean) =>
-      set((state: any) => ({
+    setPlay: (key: string, play: boolean | undefined) =>
+      set((state) => ({
         Isplay: {
-          [key]: play !== undefined ? play : !state.Isplay[key],
+          [key]: play || !state.Isplay[key],
         },
       })),
   })

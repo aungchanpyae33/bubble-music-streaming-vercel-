@@ -12,10 +12,15 @@ import AudioDisplayFooter from "./AudioDisplayFooter";
 import useMediaSourceBuffer from "@/lib/CustomHooks/MediaSourceBuffer";
 import MediaSessionDes from "@/lib/MediaSession/MediaSessionDescription";
 import AudioInfo from "./AudioInfo";
+import type { SongDetail, SongState } from "@/lib/zustand";
 function AudioPlayer() {
-  const { duration, sege, name } = Song((state: any) => state.songCu);
-  const [, url] = Song(
-    (state: any) =>
+  console.log("audioPLayer");
+  const { sege, name, duration } = useSong(
+    (state: SongState) => state.songCu
+  ) as SongDetail;
+
+  const [, url] = useSong(
+    (state: SongState) =>
       Object.entries(state.songCu as Record<string, string>)[0] || []
   );
 
