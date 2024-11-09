@@ -37,6 +37,7 @@ const MediaSessionSeek = (
     dataAudio,
     sege,
     loadNextSegment,
+    duration,
     // Ensure `data` is part of dependencies
   ]);
 };
