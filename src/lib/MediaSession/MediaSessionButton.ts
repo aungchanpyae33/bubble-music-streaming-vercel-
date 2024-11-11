@@ -1,14 +1,22 @@
 import { useEffect } from "react";
 import { useCurrentPlayList, useSong, useSongFunction } from "../zustand";
 import { urlProp } from "@/ui/albumContainer/Album";
+import type {
+  SongFunctionActions,
+  SongActions,
+  currentSongPlaylist,
+} from "../zustand";
 
 const MediaSessionButton = (url: string) => {
   const playListArray = useCurrentPlayList(
-    (state: any) => state.playListArray
+    (state: currentSongPlaylist) => state.playListArray
   ) as urlProp[];
-  const setPlay = useSongFunction((state: any) => state.setPlay);
-  const updateSongCu = useSong((state: any) => state.updateSongCu);
-  const urlSongs = playListArray.flatMap(({ urlSong }) => urlSong);
+  console.log(playListArray, "playListArray");
+  const setPlay = useSongFunction(
+    (state: SongFunctionActions) => state.setPlay
+  );
+  const updateSongCu = useSong((state: SongActions) => state.updateSongCu);
+  const urlSongs = playListArray.flatMap(({ url }) => url);
 
   // console.log(urlSongs);
   const currentIndex = urlSongs.indexOf(url);
