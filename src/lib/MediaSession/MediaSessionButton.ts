@@ -25,7 +25,7 @@ const MediaSessionButton = (url: string) => {
       navigator.mediaSession.setActionHandler("previoustrack", () => {
         // u.play();
         if (currentIndex <= 0) return;
-        const url = playListArray[currentIndex - 1].urlSong;
+        const url = playListArray[currentIndex - 1].url;
         const sege = playListArray[currentIndex - 1].sege;
         const duration = playListArray[currentIndex - 1].duration;
         const name = playListArray[currentIndex - 1].name;
@@ -35,7 +35,7 @@ const MediaSessionButton = (url: string) => {
       });
       navigator.mediaSession.setActionHandler("nexttrack", () => {
         if (currentIndex >= urlSongs.length - 1) return;
-        const url = playListArray[currentIndex + 1].urlSong;
+        const url = playListArray[currentIndex + 1].url;
         const sege = playListArray[currentIndex + 1].sege;
         const duration = playListArray[currentIndex + 1].duration;
         const name = playListArray[currentIndex + 1].name;
