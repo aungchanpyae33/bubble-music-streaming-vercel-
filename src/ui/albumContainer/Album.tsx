@@ -6,7 +6,7 @@ import Image from "next/image";
 import type { currentSongPlaylistAction } from "@/lib/zustand";
 import { useCurrentPlayList } from "@/lib/zustand";
 export interface urlProp {
-  urlSong: string;
+  url: string;
   duration: number;
   sege: number;
   name: string;
@@ -63,7 +63,7 @@ function AudiosContainer({
             roleCell={rowCell}
             dataInc={dataInc}
             sege={url[index].sege}
-            url={url[index].urlSong}
+            url={url[index].url}
           />
         ))}
       </div>
