@@ -1,60 +1,17 @@
-// import useMediaSession from "@/lib/CustomHooks/MediaSession";
 import MediaSessionButton from "@/lib/MediaSession/MediaSessionButton";
-import { useCurrentPlayList, useSong, useSongFunction } from "@/lib/zustand";
+import { useCurrentPlayList } from "@/lib/zustand";
 import { urlProp } from "@/ui/albumContainer/Album";
-
-function AudioFunctionButton({
-  functionality,
-  url,
-}: {
-  functionality: string;
-  url: string;
-}) {
+import { ReactNode } from "react";
+import type { currentSongPlaylist } from "@/lib/zustand";
+interface AudioFunctionButtonProps {
+  children: (playListArray: urlProp[]) => ReactNode;
+}
+function AudioFunctionButton({ children }: AudioFunctionButtonProps) {
   const playListArray = useCurrentPlayList(
-    (state: any) => state.playListArray
+    (state: currentSongPlaylist) => state.playListArray
   ) as urlProp[];
-  // console.log(playListArray);
-  const setPlay = useSongFunction((state: any) => state.setPlay);
-  const updateSongCu = useSong((state: any) => state.updateSongCu);
-  const urlSongs = playListArray.flatMap(({ urlSong }) => urlSong);
-  // console.log(urlSongs);
-  const currentIndex = urlSongs.indexOf(url);
-  // useMediaSession("hello", url);
-  MediaSessionButton(url);
-  function songFunctionPre() {
-    if (currentIndex <= 0) return;
-    const url = playListArray[currentIndex - 1].urlSong;
-    const sege = playListArray[currentIndex - 1].sege;
-    const duration = playListArray[currentIndex - 1].duration;
-    const name = playListArray[currentIndex - 1].name;
-    updateSongCu({ [url || ""]: url, sege, duration, name });
-    // url is also  keyName
-    setPlay(url || "", true);
-  }
-  function songFunctionNext() {
-    if (currentIndex >= urlSongs.length - 1) return;
-    const url = playListArray[currentIndex + 1].urlSong;
-    const sege = playListArray[currentIndex + 1].sege;
-    const duration = playListArray[currentIndex + 1].duration;
-    const name = playListArray[currentIndex + 1].name;
-    updateSongCu({ [url || ""]: url, sege, duration, name });
-    // url is js keyName
-    setPlay(url || "", true);
-  }
-  const data = functionality;
-  if (data === "pre") {
-    return (
-      <button onClick={() => songFunctionPre()} className="bg-blue-300 px-3">
-        pre
-      </button>
-    );
-  } else {
-    return (
-      <button onClick={() => songFunctionNext()} className="bg-blue-300 px-3">
-        nex
-      </button>
-    );
-  }
+  console.log("audiofuntionButton", playListArray);
+  return children(playListArray);
 }
 
 export default AudioFunctionButton;
