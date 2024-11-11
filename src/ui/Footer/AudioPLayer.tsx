@@ -13,6 +13,8 @@ import useMediaSourceBuffer from "@/lib/CustomHooks/MediaSourceBuffer";
 import MediaSessionDes from "@/lib/MediaSession/MediaSessionDescription";
 import AudioInfo from "./AudioInfo";
 import type { SongDetail, SongState } from "@/lib/zustand";
+import AudioFunctionPre from "./audio/AudioFunctionPre";
+import AudioFunctionNext from "./audio/AudioFunctionNext";
 function AudioPlayer() {
   console.log("audioPLayer");
   const { sege, name, duration } = useSong(
@@ -53,10 +55,18 @@ function AudioPlayer() {
 
           <AudioInfo name={name} />
           <div className="audioFunctionContainer flex flex-col items-center w-[80%] md:w-[50%]">
-            <div className="upContainer">
-              <AudioFunctionButton functionality="pre" url={url} />
-              <ToggleButton />
-              <AudioFunctionButton functionality="nex" url={url} />
+            <div className="upContainer flex gap-2">
+              <AudioFunctionButton>
+                {/* in jsx when use arrow and {} , react expect to return elemetn , if it does not have  return ,  implicitly returns void, or undefined, so, react think nothing to render  */}
+                {(playListArray) => (
+                  // return element
+                  <>
+                    <AudioFunctionPre url={url} urlProp={playListArray} />
+                    <ToggleButton />
+                    <AudioFunctionNext url={url} urlProp={playListArray} />
+                  </>
+                )}
+              </AudioFunctionButton>
             </div>
             <div className="BottomContainer w-[90%]">
               <AudioElement
