@@ -31,7 +31,7 @@ function NavSideBar() {
             <button onClick={() => setopen(!open)} className="w-[70px]">
               open
             </button>
-            <MenuItem open={open}>
+            <MenuItem>
               <Link href={"/"} onClick={() => setopen(false)}>
                 Bubble
               </Link>
@@ -39,31 +39,21 @@ function NavSideBar() {
           </li>
           <NavSideLink
             setopen={setopen}
-            url={"/search"}
-            icon="search"
-            desp="search bar"
-            open={open}
-          />
-          <NavSideLink
-            setopen={setopen}
             url={"/explore"}
             icon="explore"
             desp="search bar"
-            open={open}
           />{" "}
           <NavSideLink
             setopen={setopen}
             url={"/live"}
             icon="live"
             desp="live song"
-            open={open}
           />
           <NavSideLink
             setopen={setopen}
             url={"/library"}
             icon="library"
             desp="library"
-            open={open}
           />
         </ul>{" "}
       </div>

@@ -6,23 +6,23 @@ interface LinkProps {
   url: string;
   icon: string;
   desp: string;
-  open: boolean;
   setopen: React.Dispatch<React.SetStateAction<boolean>>;
 }
-function NavSideLink({ url, icon, desp, open, setopen }: LinkProps) {
+function NavSideLink({ url, icon, desp, setopen }: LinkProps) {
   return (
-    <div className="mb-8">
+    <li className="mb-8">
       <Link
         href={url}
-        className=" h-[50px]  flex items-center justify-center"
+        className=" h-[50px]  flex items-center justify-center overflow-hidden"
+        //overflow hidden to cover delay text cuz of relative left2 in menuItem
         onClick={() => setopen(false)}
       >
         <p className="z-40 w-[70px]  duration-300 transition-all ">{icon}</p>
-        <MenuItem open={open}>
+        <MenuItem>
           <p>{desp}</p>
         </MenuItem>
       </Link>
-    </div>
+    </li>
   );
 }
 
