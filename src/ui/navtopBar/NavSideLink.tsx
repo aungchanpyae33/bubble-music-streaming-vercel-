@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React from "react";
+import React, { ReactNode } from "react";
 import MenuItem from "./MenuItem";
 
 interface LinkProps {
@@ -7,8 +7,10 @@ interface LinkProps {
   icon: string;
   desp: string;
   setopen: React.Dispatch<React.SetStateAction<boolean>>;
+  children: ReactNode;
 }
-function NavSideLink({ url, icon, desp, setopen }: LinkProps) {
+function NavSideLink({ url, icon, desp, setopen, children }: LinkProps) {
+  console.log("render navsidebarlink");
   return (
     <li className="mb-8">
       <Link
@@ -17,10 +19,7 @@ function NavSideLink({ url, icon, desp, setopen }: LinkProps) {
         //overflow hidden to cover delay text cuz of relative left2 in menuItem
         onClick={() => setopen(false)}
       >
-        <p className="z-40 w-[70px]  duration-300 transition-all ">{icon}</p>
-        <MenuItem>
-          <p>{desp}</p>
-        </MenuItem>
+        {children}
       </Link>
     </li>
   );
