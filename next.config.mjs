@@ -11,20 +11,6 @@ const nextConfig = {
       },
     ],
   },
-  async headers() {
-    return [
-      {
-        source: "/search",
-        headers: [
-          {
-            key: "CDN-Cache-Control",
-            value:
-              "public, max-age=36000,s-maxage=36000 stale-while-revalidate=36000",
-          },
-        ],
-      },
-    ];
-  },
 };
 
 export default nextConfig;
