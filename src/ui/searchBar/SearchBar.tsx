@@ -1,38 +1,52 @@
 "use client";
-import React, { useRef, useState, useTransition } from "react";
-import Form from "next/form";
-import { useSearchParams, usePathname, useRouter } from "next/navigation";
+import React, { useRef, useState } from "react";
+import useSWR from "swr";
 import SearchResult from "./SearchResult";
-import { Movie } from "@/database/data";
-import CloseFunctoion from "@/lib/CloseFunction";
+import Form from "next/form";
 
-function SearchBar({ data }: { data: Movie[] }) {
+function SearchBar() {
   const DivRef = useRef<HTMLDivElement | null>(null);
   const [open, setopen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
-  const { replace } = useRouter();
-  const [isPending, startTransion] = useTransition();
-  function handleSearch(term: string) {
-    const params = new URLSearchParams(searchParams);
-    if (term) {
-      params.set("query", term);
-    } else {
-      params.delete("query");
+  const [value, setValue] = useState<string | null>(null);
+  const searchAbortController = useRef<AbortController>(null);
+  // CloseFunctoion(open, setopen, DivRef);
+  async function fetchInput(params: string) {
+    if (searchAbortController.current) {
+      searchAbortController.current.abort();
     }
-    startTransion(() => {
-      replace(`${pathname}?${params.toString()}`);
-    });
+    console.log("render fetchinput");
+    searchAbortController.current = new AbortController();
+    const signal = searchAbortController.current?.signal;
+    if (params.length > 0) {
+      const fetchData = await fetch(`/api/search?with=${params}`, {
+        signal,
+      });
+      return await fetchData.json();
+    }
+    console.log("iam run");
+    return [];
   }
-
-  CloseFunctoion(open, setopen, DivRef);
+  const { data = [], error } = useSWR(
+    value && value.length > 0 ? value : null,
+    fetchInput,
+    {
+      keepPreviousData: value ? true : false,
+    }
+  );
+  console.log("yes i am render", error);
   return (
-    <div className="SearchContainer w-[98%] z-0 mx-auto ">
-      <div ref={DivRef} className="max-w-[600px] w-[100%] relative mx-auto ">
-        <Form action={"/test"}>
-          <label className="">
-            <span className="sr-only">Search</span>
+    <Form
+      action={"/test"}
+      onSubmit={() => {
+        setopen(false);
+        inputRef.current?.blur();
+      }}
+    >
+      <div ref={DivRef} className="w-[100%] relative mx-auto">
+        <label className="">
+          <span className="sr-only">Search</span>
+          <div className=" flex items-stretch bg-white">
             <input
               autoFocus
               className="placeholder:text-slate-400 block bg-blue w-full   border border-slate-300  py-2 pl-9  shadow-sm focus:outline-none sm:text-sm"
@@ -53,7 +67,7 @@ function SearchBar({ data }: { data: Movie[] }) {
               }}
               onChange={(e) => {
                 setopen(true);
-                handleSearch(e.target.value);
+                setValue(e.currentTarget.value);
               }}
             />
             {isPending && <span>loading...</span>}
