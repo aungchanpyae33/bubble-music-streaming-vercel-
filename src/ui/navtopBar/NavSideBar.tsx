@@ -1,64 +1,33 @@
-"use client";
-import clsx from "clsx";
-import Link from "next/link";
-import React, { useRef } from "react";
-import NavSideLink from "./NavSideLink";
+import React from "react";
 
 import MenuItem from "./MenuItem";
-import OverLay from "./OverLay";
+
 // import CloseFunctoion from "@/lib/CloseFunction";
-import useBodyScrollLock from "@/lib/CustomHooks/BodyScrollLock";
+
+import NavList from "./NavList";
 
 function NavSideBar() {
-  // const DivRef = useRef<HTMLUListElement | null>(null);
-  const [open, setopen] = useBodyScrollLock();
-  // Only run when isOpen changes
-  // (open, setopen, DivRef);
   return (
-    <>
-      <div>
-        <ul
-          // ref={DivRef}
-          className={clsx(
-            "fixed top-0 z-30 isolate   box-border transition-[width] duration-300 text-center left-0 h-[100%]   flex flex-col bg-green-500  rounded-b-sm  ",
-            {
-              "w-[70px]": open === false,
-              "w-[200px] ": open === true,
-            }
-          )}
-        >
-          <li className=" min-h-[50px]  sticky top-0 flex items-center justify-center">
-            <button onClick={() => setopen(!open)} className="w-[70px]">
-              open
-            </button>
+    <div>
+      <NavList
+        childrenExplore={
+          <>
+            <p className="z-40 w-[70px]">explore</p>
             <MenuItem>
-              <Link href={"/"} onClick={() => setopen(false)}>
-                Bubble
-              </Link>
+              <p className="pl-2">explore</p>
             </MenuItem>
-          </li>
-          <NavSideLink
-            setopen={setopen}
-            url={"/explore"}
-            icon="explore"
-            desp="search bar"
-          />{" "}
-          <NavSideLink
-            setopen={setopen}
-            url={"/live"}
-            icon="live"
-            desp="live song"
-          />
-          <NavSideLink
-            setopen={setopen}
-            url={"/library"}
-            icon="library"
-            desp="library"
-          />
-        </ul>{" "}
-      </div>
-      {open && <OverLay setopen={setopen} />}
-    </>
+          </>
+        }
+        childrenLive={
+          <>
+            <p className="z-40 w-[70px]">live</p>
+            <MenuItem>
+              <p className="pl-2">live</p>
+            </MenuItem>
+          </>
+        }
+      />
+    </div>
   );
 }
 
