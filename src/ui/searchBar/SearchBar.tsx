@@ -60,6 +60,18 @@ function SearchBar() {
               onBlur={() => setopen(false)}
               onFocus={() => setopen(true)}
               onKeyDown={(e) => {
+                if (e.key === "Escape") {
+                  const inputElement = e.currentTarget;
+                  e.preventDefault();
+                  if (
+                    inputElement.selectionStart !== inputElement.value.length
+                  ) {
+                    const goToEndValue = inputElement.value.length;
+                    inputElement.setSelectionRange(goToEndValue, goToEndValue);
+                    return;
+                  }
+                  e.currentTarget.blur();
+                }
                 if (e.key === "ArrowUp") {
                   e.preventDefault();
                 }
