@@ -1,10 +1,11 @@
 import useOverflowCheck from "@/lib/CustomHooks/OverFlowCheck";
 import clsx from "clsx";
+import { RefObject } from "react";
 function AudioInfoOverFlow({
   ofcheckDiv,
   name,
 }: {
-  ofcheckDiv: React.MutableRefObject<HTMLDivElement | null>;
+  ofcheckDiv: RefObject<HTMLDivElement | null>;
   name: string;
 }) {
   const [isOverFlow, animate, setanimatie] = useOverflowCheck(ofcheckDiv) as [
