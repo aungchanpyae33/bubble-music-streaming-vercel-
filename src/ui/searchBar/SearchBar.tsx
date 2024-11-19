@@ -81,10 +81,21 @@ function SearchBar() {
                 setValue(e.currentTarget.value);
               }}
             />
-            {isPending && <span>loading...</span>}
-            {open && <SearchResult data={data} inputRef={inputRef} />}
-          </label>
-        </Form>
+
+            <button
+              className="border-l border-gray-300 px-2"
+              type="reset"
+              onClick={() => {
+                inputRef.current?.focus();
+                setopen(false);
+              }}
+            >
+              reset
+            </button>
+          </div>
+
+          {open && <SearchResult data={data} inputRef={inputRef} />}
+        </label>
       </div>
     </div>
   );
