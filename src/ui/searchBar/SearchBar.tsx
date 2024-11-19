@@ -57,8 +57,7 @@ function SearchBar() {
               autoComplete="off"
               spellCheck="false"
               ref={inputRef}
-              defaultValue={searchParams.get("query")?.toString()}
-              // prevent up and down for displaying search list
+              onBlur={() => setopen(false)}
               onFocus={() => setopen(true)}
               onKeyDown={(e) => {
                 if (e.key === "ArrowUp") {
