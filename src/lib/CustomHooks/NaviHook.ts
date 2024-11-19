@@ -1,5 +1,5 @@
 import { Movie } from "@/database/data";
-import React, { useEffect, useState } from "react";
+import React, { RefObject, useEffect, useState } from "react";
 
 interface NaviState {
   run: boolean;
@@ -7,7 +7,7 @@ interface NaviState {
 }
 function useTest(
   initialState: NaviState,
-  inputRef: React.MutableRefObject<HTMLInputElement | null>,
+  inputRef: RefObject<HTMLInputElement | null>,
   data: Movie[]
 ): [NaviState, React.Dispatch<React.SetStateAction<NaviState>>] {
   const [navi, setnavi] = useState(initialState);
