@@ -1,5 +1,4 @@
-"use client";
-import React, { useRef } from "react";
+import React from "react";
 import PlaylistContainer from "../playlist/PlaylistContainer";
 import ArrowNavi from "@/lib/Accessibility/ArrowNavi";
 function Container({
@@ -9,15 +8,15 @@ function Container({
   songs: string[];
   description: string;
 }) {
-  const dataInc = useRef(0);
+  // const dataInc = useRef(0);
   return (
     <div
       className="playlist border-2 overflow-auto  max-w-full"
       role="row"
-      tabIndex={0}
-      onKeyDown={(e) => {
-        ArrowNavi(e, dataInc, "ArrowRight", "ArrowLeft", 7, "cell");
-      }}
+      // tabIndex={0}
+      // onKeyDown={(e) => {
+      //   ArrowNavi(e, dataInc, "ArrowRight", "ArrowLeft", 6, "cell");
+      // }}
     >
       <h1
         aria-label="song playlist name is playlist"

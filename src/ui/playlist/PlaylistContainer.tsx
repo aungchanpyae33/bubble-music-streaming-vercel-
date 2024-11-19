@@ -12,7 +12,7 @@ function PlaylistContainer({ songs, description, index }: prop) {
   return (
     <Link
       href={"album/supanova"}
-      tabIndex={-1}
+      // tabIndex={0}
       role={`cell${index + 1}`}
       prefetch={false}
       className={clsx(

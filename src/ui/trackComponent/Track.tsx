@@ -12,32 +12,32 @@ function Track({
   url,
   sege,
   index,
-  roleCell,
-  dataInc,
-}: {
+}: // roleCell,
+// dataInc,
+{
   name: string;
   duration: number;
   url: string;
   sege: number;
   index: number;
-  roleCell: RefObject<number>;
-  dataInc: RefObject<number>;
+  // roleCell: RefObject<number>;
+  // dataInc: RefObject<number>;
 }) {
   return (
     <div
       className={clsx(
         " p-3 border border-black shadow-md  flex justify-between mb-2 focus-within:bg-red-200 [&:has(:focus-visible)]:ring-4"
       )}
-      tabIndex={-1}
+      // tabIndex={0}
       id="uni1"
       role={`cell${index + 1}`}
-      onKeyDown={(e) => {
-        ArrowNavi(e, roleCell, "ArrowRight", "ArrowLeft", 1, "rowCell");
-      }}
-      onFocus={(e) => {
-        dataInc.current = index + 1;
-        FocusElement(e.currentTarget, "rowCell", roleCell);
-      }}
+      // onKeyDown={(e) => {
+      //   ArrowNavi(e, roleCell, "ArrowRight", "ArrowLeft", 1, "rowCell");
+      // }}
+      // onFocus={(e) => {
+      //   dataInc.current = index + 1;
+      //   FocusElement(e.currentTarget, "rowCell", roleCell);
+      // }}
     >
       <ToggleElement url={url} sege={sege} duration={duration} name={name} />
       <span>{name}</span>

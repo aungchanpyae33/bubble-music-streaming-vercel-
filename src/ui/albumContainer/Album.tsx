@@ -1,10 +1,10 @@
 "use client";
 import ArrowNavi from "@/lib/Accessibility/ArrowNavi";
 import Track from "../trackComponent/Track";
-import { useEffect, useRef } from "react";
+// import { useEffect, useRef } from "react";
 import Image from "next/image";
-import type { currentSongPlaylistAction } from "@/lib/zustand";
-import { useCurrentPlayList } from "@/lib/zustand";
+// import type { currentSongPlaylistAction } from "@/lib/zustand";
+// import { useCurrentPlayList } from "@/lib/zustand";
 export interface urlProp {
   url: string;
   duration: number;
@@ -18,15 +18,15 @@ function AudiosContainer({
   url: urlProp[];
   description: string;
 }) {
-  const dataInc = useRef(0);
-  const rowCell = useRef(1);
-  const setPlayListArray = useCurrentPlayList(
-    (state: currentSongPlaylistAction) => state.setPlayListArray
-  );
-
-  useEffect(() => {
-    setPlayListArray(url);
-  }, [setPlayListArray, url]);
+  console.log("album");
+  // const dataInc = useRef(0);
+  // const rowCell = useRef(1);
+  // const setPlayListArray = useCurrentPlayList(
+  //   (state: currentSongPlaylistAction) => state.setPlayListArray
+  // );
+  // useEffect(() => {
+  //   setPlayListArray(url);
+  // }, [setPlayListArray, url]);
   return (
     <div>
       <div className="Container w-full flex">
@@ -49,10 +49,10 @@ function AudiosContainer({
         </div>
       </div>
       <div
-        tabIndex={0}
-        onKeyDown={(e) => {
-          ArrowNavi(e, dataInc, "ArrowDown", "ArrowUp", url.length, "cell");
-        }}
+      // tabIndex={0}
+      // onKeyDown={(e) => {
+      //   ArrowNavi(e, dataInc, "ArrowDown", "ArrowUp", url.length, "cell");
+      // }}
       >
         {url.map((item, index) => (
           <Track
@@ -60,8 +60,8 @@ function AudiosContainer({
             name={url[index].name}
             duration={url[index].duration}
             index={index}
-            roleCell={rowCell}
-            dataInc={dataInc}
+            // roleCell={rowCell}
+            // dataInc={dataInc}
             sege={url[index].sege}
             url={url[index].url}
           />
