@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { RefObject, useEffect, useState } from "react";
 
-const useOverflowCheck = (
-  element: React.MutableRefObject<HTMLDivElement | null>
-) => {
+const useOverflowCheck = (element: RefObject<HTMLDivElement | null>) => {
   const [isOverFlow, setIsOverFlow] = useState(0);
   const [animate, setanimatie] = useState(true);
   useEffect(() => {
