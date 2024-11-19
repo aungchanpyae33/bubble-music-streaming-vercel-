@@ -97,7 +97,7 @@ function SearchBar() {
           {open && <SearchResult data={data} inputRef={inputRef} />}
         </label>
       </div>
-    </div>
+    </Form>
   );
 }
 
