@@ -15,6 +15,6 @@ const useOverflowCheck = (element: RefObject<HTMLDivElement | null>) => {
     };
     checkOverflow();
   }, [element]);
-  return [isOverFlow, animate, setanimatie];
+  return [isOverFlow, animate, setanimatie, setIsOverFlow];
 };
 export default useOverflowCheck;
