@@ -21,7 +21,7 @@ function NavList({ childrenExplore, childrenLive }: childrenProp) {
     <div>
       <ul
         className={clsx(
-          "fixed top-0 z-30 isolate   box-border transition-[width] duration-300 text-center left-0 h-[100%]   flex flex-col bg-green-500  rounded-b-sm  ",
+          "fixed top-0 z-30 isolate   box-border  text-center left-0 h-[100%]   flex flex-col bg-green-500  rounded-b-sm   ",
           {
             "md:w-[100px] w-[70px]": open === false,
             "w-[200px]": open === true,
