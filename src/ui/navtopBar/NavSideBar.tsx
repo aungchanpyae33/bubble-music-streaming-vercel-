@@ -12,7 +12,7 @@ function NavSideBar() {
       <NavList
         childrenExplore={
           <>
-            <p className="z-40 w-[70px]">explore</p>
+            <p className="z-40 md:w-[100px] w-[70px]">explore</p>
             <MenuItem>
               <p className="pl-2">explore</p>
             </MenuItem>
@@ -20,7 +20,7 @@ function NavSideBar() {
         }
         childrenLive={
           <>
-            <p className="z-40 w-[70px]">live</p>
+            <p className="z-40 md:w-[100px] w-[70px]">live</p>
             <MenuItem>
               <p className="pl-2">live</p>
             </MenuItem>

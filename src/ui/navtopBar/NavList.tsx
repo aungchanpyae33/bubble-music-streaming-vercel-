@@ -23,7 +23,7 @@ function NavList({ childrenExplore, childrenLive }: childrenProp) {
         className={clsx(
           "fixed top-0 z-30 isolate   box-border transition-[width] duration-300 text-center left-0 h-[100%]   flex flex-col bg-green-500  rounded-b-sm  ",
           {
-            "w-[70px]": open === false,
+            "md:w-[100px] w-[70px]": open === false,
             "w-[200px]": open === true,
           }
         )}
@@ -35,7 +35,7 @@ function NavList({ childrenExplore, childrenLive }: childrenProp) {
         <li className=" min-h-[50px]  sticky top-0 flex items-center justify-center  overflow-hidden">
           <button
             onClick={() => setopen(!open)}
-            className="w-[70px]"
+            className="md:w-[100px] w-[70px]"
             ref={closeElement}
           >
             open
