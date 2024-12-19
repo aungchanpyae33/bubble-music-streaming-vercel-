@@ -1,25 +1,37 @@
 import Link from "next/link";
 import React, { ReactNode } from "react";
-import MenuItem from "./MenuItem";
+
+import clsx from "clsx";
 
 interface LinkProps {
   url: string;
   icon: string;
   desp: string;
+  open: boolean;
   setopen: React.Dispatch<React.SetStateAction<boolean>>;
   children: ReactNode;
 }
-function NavSideLink({ url, icon, desp, setopen, children }: LinkProps) {
+function NavSideLink({ url, icon, desp, open, setopen, children }: LinkProps) {
   console.log("render navsidebarlink");
   return (
-    <li className="mb-8">
+    <li className=" min-h-[50px] z-10  ">
       <Link
         href={url}
-        className=" h-[50px]  flex items-center justify-center overflow-hidden"
-        //overflow hidden to cover delay text cuz of relative left2 in menuItem
+        className="flex items-center relative"
         onClick={() => setopen(false)}
       >
         {children}
+        <div
+          className={clsx(
+            "absolute -z-10  top-0 left-2 flex md:w-[100px] w-[70px] items-center justify-start h-[50px] transition-[transform,opacity] duration-200 ",
+            {
+              "-translate-x-0 opacity-0 ": open === false,
+              "translate-x-full opacity-100": open === true,
+            }
+          )}
+        >
+          {desp}
+        </div>
       </Link>
     </li>
   );

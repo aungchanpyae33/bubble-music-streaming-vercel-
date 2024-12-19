@@ -2,8 +2,6 @@
 import useBodyScrollLock from "@/lib/CustomHooks/BodyScrollLock";
 import OverLay from "./OverLay";
 import clsx from "clsx";
-import MenuItem from "./MenuItem";
-import Link from "next/link";
 import NavSideLink from "./NavSideLink";
 import { ReactNode, useRef } from "react";
 import CloseFunctoion from "@/lib/CloseFunction";
@@ -18,56 +16,64 @@ function NavList({ childrenExplore, childrenLive }: childrenProp) {
 
   CloseFunctoion(open, setopen, closeElement);
   return (
-    <div>
+    <div className="">
       <ul
-        className={clsx(
-          "fixed top-0 z-30 isolate   box-border  text-center left-0 h-[100%]   flex flex-col bg-green-500  rounded-b-sm   ",
-          {
-            "md:w-[100px] w-[70px]": open === false,
-            "w-[200px]": open === true,
-          }
-        )}
-        onKeyDown={(e) => {
-          console.log(e);
-        }}
+        className="
+          fixed top-0 z-30 box-border  left-0 h-[100%] flex  flex-col gap-1  bg-green-500  rounded-b-sm"
       >
-        {}
-        <li className=" min-h-[50px]  sticky top-0 flex items-center justify-center  overflow-hidden">
+        <li className=" min-h-[50px] z-10 relative">
           <button
             onClick={() => setopen(!open)}
-            className="md:w-[100px] w-[70px]"
+            className="md:w-[100px] w-[70px] min-h-[50px] bg-green-500"
             ref={closeElement}
           >
             open
           </button>
-          <MenuItem>
-            <Link
-              href={"/"}
-              className="pl-2"
-              tabIndex={open ? 0 : 1}
-              onClick={() => setopen(false)}
-            >
-              Bubble
-            </Link>
-          </MenuItem>
+          <button
+            className={clsx(
+              "absolute -z-10  top-0 left-2  flex md:w-[100px] w-[70px] items-center  justify-start h-[50px] transition-[transform,opacity] duration-200 ",
+              {
+                "-translate-x-0 opacity-0 ": open === false,
+                "translate-x-full opacity-100": open === true,
+              }
+            )}
+            tabIndex={open ? 0 : -1}
+            aria-hidden={true}
+          >
+            <span className=" ">Bubble</span>
+          </button>
         </li>
         <NavSideLink
-          setopen={setopen}
-          url={"/explore"}
+          url="/explore"
           icon="explore"
-          desp="search bar"
+          desp="Explore"
+          open={open}
+          setopen={setopen}
         >
           {childrenExplore}
         </NavSideLink>
+
         <NavSideLink
-          setopen={setopen}
-          url={"/live"}
+          url="/live"
           icon="live"
-          desp="search bar"
+          desp="Live"
+          open={open}
+          setopen={setopen}
         >
           {childrenLive}
         </NavSideLink>
+
+        {/* backgroundlayer for expand element */}
+        <div
+          className={clsx(
+            "backgroundLayer absolute md:w-[100px] w-[70px] top-0 transition-[transform,opacity] duration-200 box-border  h-[100%] flex-col bg-green-500  rounded-b-sm",
+            {
+              "translate-x-full  ": open === true,
+            }
+          )}
+        ></div>
       </ul>
+
       {open && <OverLay setopen={setopen} />}
     </div>
   );
