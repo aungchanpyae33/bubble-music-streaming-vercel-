@@ -31,7 +31,7 @@ function NavList({ childrenExplore, childrenLive }: childrenProp) {
           </button>
           <button
             className={clsx(
-              "absolute -z-10  top-0 left-2  flex md:w-[100px] w-[70px] items-center  justify-start h-[50px] transition-[transform,opacity] duration-200 ",
+              "absolute -z-10  top-0 pl-2  flex md:w-[100px] w-[70px] items-center  justify-start h-[50px] transition-[transform,opacity] duration-200 ",
               {
                 "-translate-x-0 opacity-0 ": open === false,
                 "translate-x-full opacity-100": open === true,
