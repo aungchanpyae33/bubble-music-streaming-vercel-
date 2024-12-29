@@ -29,7 +29,7 @@ function Track({
   console.log("trackelemnt", name);
   return (
     <tr
-      className="focus-within:bg-red-200 [&:has(:focus-visible)]:ring-4 h-fit bg-yellow-400 "
+      className="focus-within:bg-red-200  [&:has(:focus-visible)]:ring-4 h-fit bg-yellow-400 "
       // tabIndex={0}
       id="uni1"
       role={`cell${index + 1}`}
@@ -50,20 +50,22 @@ function Track({
         // playlistUrl={playlistUrl}
       />
 
-      <td className="py-2 px-4 text-left   max-w-[100px] break-words truncate">
+      <td className=" text-left   max-w-[100px] break-words truncate">
         {name}
         {sege}
       </td>
 
-      <td className="py-2 px-4 max-w-[100px]  truncate">aung {index}</td>
-      <td className="py-2 px-4 max-w-[100px]  ">
+      <td className=" max-w-[100px]  truncate">aung {index}</td>
+      <td className=" max-w-[100px]  ">
         <ToolTip>
           <div className="text-ellipsis overflow-x-hidden whitespace-nowrap">
-            hello nice to meet you
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ullam, eos
+            nemo exercitationem earum voluptates porro dignissimos numquam
+            explicabo libero ipsam!
           </div>
         </ToolTip>
       </td>
-      <td className="py-2 px-4 text-right  max-w-[100px] truncate">
+      <td className=" text-right  max-w-[100px] truncate">
         {index}
         {TimeFormat(duration)}
       </td>
