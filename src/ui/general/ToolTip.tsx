@@ -47,7 +47,7 @@ function ToolTip({ children }: { children: ReactNode }) {
 
       <div
         className={clsx(
-          "absolute max-w-[500px] md:max-w-[650px] w-max  z-50 left-[50%]  top-0 -translate-x-[50%] -translate-y-[105%]  outline-2 outline-blue-300  text-sm bg-blue-500",
+          "absolute max-w-[400px] md:max-w-[500px] w-max  z-50 left-[50%]  top-0 -translate-x-[50%] -translate-y-[105%]  outline-2 outline-blue-300  text-sm bg-blue-500",
           { hidden: !show }
         )}
         ref={toolTipRef}
