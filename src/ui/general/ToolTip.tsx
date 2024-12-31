@@ -1,27 +1,27 @@
 "use client";
 import clsx from "clsx";
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { ReactNode, useEffect, useLayoutEffect, useRef, useState } from "react";
 
 function ToolTip({ children }: { children: ReactNode }) {
   const [show, setShow] = useState(false);
+  const [tooltipStyle, setTooltipStyle] = useState({ left: "50%" });
   const setTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const toolTipRef = useRef<HTMLDivElement | null>(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const copyRef = toolTipRef.current;
     if (show && copyRef) {
       const tooltipRect = copyRef.getBoundingClientRect();
       if (tooltipRect.right > window.document.body.offsetWidth) {
         const data = tooltipRect.right - window.document.body.offsetWidth;
-        console.log(tooltipRect.right, window.document.body.offsetWidth, data);
-        copyRef.style.left = `calc(50% - ${data}px)`;
+        setTooltipStyle({ left: `calc(50% - ${data}px)` });
+      } else {
+        setTooltipStyle({ left: "50%" });
       }
     }
 
     return () => {
-      if (copyRef) {
-        copyRef.style.left = "";
-      }
+      setTooltipStyle({ left: "50%" });
     };
   }, [show]);
 
@@ -50,9 +50,10 @@ function ToolTip({ children }: { children: ReactNode }) {
 
       <div
         className={clsx(
-          "absolute max-w-[400px] md:max-w-[500px] w-max  z-50 left-[50%] top-0 -translate-y-[110%]  -translate-x-[50%]   outline-2 outline-blue-300  text-sm bg-blue-500",
+          "absolute max-w-[400px] md:max-w-[500px] w-max  z-50 top-0 -translate-y-[110%] left-[50%]  -translate-x-[50%]   outline-2 outline-blue-300  text-sm bg-blue-500",
           { hidden: !show }
         )}
+        style={tooltipStyle}
         ref={toolTipRef}
       >
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit
