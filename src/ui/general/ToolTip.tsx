@@ -1,44 +1,20 @@
 "use client";
+import useTooltipOverflow from "@/lib/CustomHooks/TooltipOverflow";
 import clsx from "clsx";
-import { ReactNode, useEffect, useLayoutEffect, useRef, useState } from "react";
+import {
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 
 function ToolTip({ children }: { children: ReactNode }) {
-  console.log("tooltip ref");
-  const [tooltipShow, setTooltipShow] = useState({
-    show: false,
-    toolTipLeft: { left: "50%" },
-  });
-  const setTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const toolTipRef = useRef<HTMLDivElement | null>(null);
-
-  useLayoutEffect(() => {
-    const copyRef = toolTipRef.current;
-    if (tooltipShow.show && copyRef) {
-      const tooltipRect = copyRef.getBoundingClientRect();
-      const rightEdge = tooltipRect.right;
-      const leftEdge = tooltipRect.left;
-      if (rightEdge > window.document.body.offsetWidth) {
-        const data = rightEdge - window.document.body.offsetWidth;
-        setTooltipShow((pre) => ({
-          ...pre,
-          toolTipLeft: { left: `calc(50% - ${data}px)` },
-        }));
-      } else if (leftEdge < 0) {
-        const data = Math.abs(leftEdge);
-        setTooltipShow((pre) => ({
-          ...pre,
-          toolTipLeft: { left: `calc(50% + ${data}px)` },
-        }));
-      }
-    }
-
-    return () => {
-      setTooltipShow((pre) => ({
-        ...pre,
-        toolTipLeft: { left: "50%" },
-      }));
-    };
-  }, [tooltipShow.show]);
+  const [tooltipShow, setTooltipShow] = useTooltipOverflow({ toolTipRef });
+  const setTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   return (
     <div className="group relative w-fit max-w-full bg-red-950 cursor-pointer">
