@@ -8,14 +8,9 @@ function AudioInfoOverFlow({
   ofcheckDiv: RefObject<HTMLDivElement | null>;
   name: string;
 }) {
-  const [isOverFlow, animate, setanimatie, setIsOverFlow] = useOverflowCheck(
-    ofcheckDiv
-  ) as [
-    number,
-    boolean,
-    React.Dispatch<React.SetStateAction<boolean>>,
-    React.Dispatch<React.SetStateAction<number>>
-  ];
+  const [isOverFlow, animate, setanimatie, setIsOverFlow] =
+    useOverflowCheck(ofcheckDiv);
+  console.log("render");
   return (
     /* w-fit is needed to be get full width when animate */
     <div
