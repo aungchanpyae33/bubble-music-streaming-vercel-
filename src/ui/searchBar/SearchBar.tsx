@@ -48,8 +48,7 @@ function SearchBar() {
           <span className="sr-only">Search</span>
           <div className=" flex items-stretch bg-white">
             <input
-              autoFocus
-              className="placeholder:text-slate-400 block bg-blue w-full   border border-slate-300  py-2 pl-9  shadow-sm focus:outline-none sm:text-sm"
+              className="placeholder:text-slate-400 block bg-blue w-full h-[40px] pl-9 shadow-sm focus:outline-none sm:text-sm bg-transparent"
               placeholder="Search for song and artist"
               type="search"
               name="query"
@@ -75,6 +74,9 @@ function SearchBar() {
                 if (e.key === "ArrowUp") {
                   e.preventDefault();
                 }
+              }}
+              onSubmit={() => {
+                console.log("yes");
               }}
               onChange={(e) => {
                 setopen(true);
