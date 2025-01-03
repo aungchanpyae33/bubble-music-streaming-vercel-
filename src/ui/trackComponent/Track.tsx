@@ -49,22 +49,20 @@ function Track({
         name={name}
         // playlistUrl={playlistUrl}
       />
-
+      <td className=" max-w-[100px]  ">
+        <ToolTip tooltipContent="Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit blanditiis, amet voluptate quibusdam incidunt est illum vel ipsam nesciunt porro!">
+          <div className="text-ellipsis overflow-x-hidden whitespace-nowrap">
+            Lorem ipsum dolor
+          </div>
+        </ToolTip>
+      </td>
       <td className=" text-left   max-w-[100px] break-words truncate">
         {name}
         {sege}
       </td>
 
       <td className=" max-w-[100px]  truncate">aung {index}</td>
-      <td className=" max-w-[100px]  ">
-        <ToolTip>
-          <div className="text-ellipsis overflow-x-hidden whitespace-nowrap">
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ullam, eos
-            nemo exercitationem earum voluptates porro dignissimos numquam
-            explicabo libero ipsam!
-          </div>
-        </ToolTip>
-      </td>
+
       <td className=" text-right  max-w-[100px] truncate">
         {index}
         {TimeFormat(duration)}
