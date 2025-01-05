@@ -47,23 +47,23 @@ function AudiosContainer({
         </div>
       </div>
       <div
-        className=" bg-red-300"
+        className=" bg-red-300 p-2"
         //for accessbility
         // tabIndex={0}
         // onKeyDown={(e) => {
         //   ArrowNavi(e, dataInc, "ArrowDown", "ArrowUp", url.length, "cell");
         // }}
       >
-        <table className=" w-full border-collapse">
-          <thead className=" sticky z-20 text-white  top-[50px] bg-blue-950 h-[65px] ">
+        <table className=" w-full">
+          <thead className=" sticky z-20 text-white  top-[50px]  h-[65px] bg-red-300">
             <tr className="text-left">
-              <th className=" w-14  text-center">#</th>
-              <th className="">song</th>
-              <th className="hidden sm:table-cell  ">artist</th>
+              <th className=" w-14 p-2  text-center">#</th>
+              <th className="p-2">song</th>
+              <th className="hidden p-2 sm:table-cell  ">artist</th>
               {/* need to use table-cell */}
-              <th className=" hidden md:table-cell ">album</th>
-              <th className=" hidden sm:table-cell text-right ">Time</th>
-              <th className=" sm:hidden table-cell"></th>
+              <th className=" p-2 hidden md:table-cell ">album</th>
+              <th className=" p-2 hidden sm:table-cell text-right ">Time</th>
+              <th className=" p-2 sm:hidden table-cell"></th>
             </tr>
           </thead>
 
