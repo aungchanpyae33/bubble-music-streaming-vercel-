@@ -29,7 +29,7 @@ function Track({
   console.log("trackelemnt", name);
   return (
     <tr
-      className="focus-within:bg-red-200  [&:has(:focus-visible)]:ring-4 h-fit bg-yellow-400 "
+      className="focus-within:bg-red-200  [&:has(:focus-visible)]:ring-4 h-14 bg-yellow-400  "
       // tabIndex={0}
       id="uni1"
       role={`cell${index + 1}`}
@@ -49,24 +49,37 @@ function Track({
         name={name}
         // playlistUrl={playlistUrl}
       />
-      <td className=" max-w-[100px]  ">
-        <ToolTip tooltipContent="Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit blanditiis, amet voluptate quibusdam incidunt est illum vel ipsam nesciunt porro!">
+      <td className=" max-w-[100px]">
+        <ToolTip
+          tooltipContent="Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit blanditiis, amet voluptate quibusdam incidunt est illum vel ipsam nesciunt porro!"
+          tooltipPosition="top"
+        >
           <div className="text-ellipsis overflow-x-hidden whitespace-nowrap">
-            Lorem ipsum dolor
+            Lorem ipsum dolo Lorem ipsum dolor sit amet consectetur adipisicing
+            elit. Impedit, molestias distinctio aspernatur repellat dolor
+            tempore ducimus doloremque quibusdam velit perferendis.
           </div>
         </ToolTip>
+        <div className="sm:hidden">
+          {" "}
+          {name}
+          {sege}
+        </div>
       </td>
-      <td className=" text-left   max-w-[100px] break-words truncate">
+      <td className=" text-left hidden sm:table-cell   max-w-[100px] break-words truncate">
         {name}
         {sege}
       </td>
 
-      <td className=" max-w-[100px]  truncate">aung {index}</td>
+      <td className=" max-w-[100px] hidden md:table-cell  truncate">
+        aung {index}
+      </td>
 
-      <td className=" text-right  max-w-[100px] truncate">
+      <td className=" text-right hidden sm:table-cell  max-w-[100px] truncate">
         {index}
         {TimeFormat(duration)}
       </td>
+      <td className=" w-14 text-center sm:hidden table-cell"> dot</td>
     </tr>
   );
 }
