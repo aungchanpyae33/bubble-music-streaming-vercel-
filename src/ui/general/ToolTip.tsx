@@ -16,6 +16,38 @@ function ToolTip({
   const [tooltipShow, setTooltipShow] = useTooltipOverflow({ toolTipRef });
   const setTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  // useEffect(() => {
+  //   const targetElement = toolTipRef!.current!;
+
+  //   // Create Intersection Observer
+
+  //   const observer = new IntersectionObserver(
+  //     (entries) => {
+  //       entries.forEach((entry) => {
+  //         if (entry.isIntersecting) {
+  //           targetElement.classList.remove("hidden");
+  //         } else {
+  //           targetElement.classList.add("hidden");
+  //         }
+  //       });
+  //     },
+  //     {
+  //       root: null, // Use the viewport as the root
+  //       rootMargin: `-20px 0px 0px 0px`, // Account for header height
+  //       threshold: 1, // Trigger when at least 10% of the element is visible
+  //     }
+  //   );
+
+  //   // Observe the target element
+  //   if (targetElement) {
+  //     observer.observe(targetElement);
+  //   }
+
+  //   // Cleanup on unmount
+  //   return () => {
+  //     if (targetElement) observer.unobserve(targetElement);
+  //   };
+  // }, []);
   return (
     <div className="group relative w-fit max-w-full bg-red-950 cursor-pointer">
       <div
