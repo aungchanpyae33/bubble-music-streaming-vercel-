@@ -6,9 +6,11 @@ import { ReactNode, useRef } from "react";
 function ToolTip({
   children,
   tooltipContent,
+  tooltipPosition,
 }: {
   children: ReactNode;
   tooltipContent: string;
+  tooltipPosition: "top" | "bottom" | "right" | "left";
 }) {
   const toolTipRef = useRef<HTMLDivElement | null>(null);
   const [tooltipShow, setTooltipShow] = useTooltipOverflow({ toolTipRef });
@@ -45,8 +47,12 @@ function ToolTip({
 
       <div
         className={clsx(
-          "absolute max-w-[400px] md:max-w-[500px] w-max  z-50 bottom-0 translate-y-full  left-[50%]  -translate-x-[50%] px-2 p-1   outline-2 outline-blue-300  text-sm bg-blue-500",
-          { hidden: !tooltipShow.show }
+          "absolute max-w-[400px] md:max-w-[500px] w-max  z-50   left-[50%]   -translate-x-[50%] px-2 p-1   outline-2 outline-blue-300  text-sm bg-blue-500",
+          {
+            hidden: !tooltipShow.show,
+            "top-0 -translate-y-[105%]": tooltipPosition === "top",
+            "bottom-0 translate-y-[105%]": tooltipPosition === "bottom",
+          }
         )}
         style={tooltipShow.toolTipLeft}
         ref={toolTipRef}
