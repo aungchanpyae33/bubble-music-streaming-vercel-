@@ -21,12 +21,7 @@ function AudiosContainer({
   console.log("album");
   // const dataInc = useRef(0);
   // const rowCell = useRef(1);
-  // const setPlayListArray = useCurrentPlayList(
-  //   (state: currentSongPlaylistAction) => state.setPlayListArray
-  // );
-  // useEffect(() => {
-  //   setPlayListArray(url);
-  // }, [setPlayListArray, url]);
+
   return (
     <div className="">
       <div className="Container w-full flex p-2 ">
