@@ -1,8 +1,9 @@
-"use client";
+// "use client";
 import ArrowNavi from "@/lib/Accessibility/ArrowNavi";
 import Track from "../trackComponent/Track";
 // import { useEffect, useRef } from "react";
 import Image from "next/image";
+import SongContainer from "./SongContainer";
 // import type { currentSongPlaylistAction } from "@/lib/zustand";
 // import { useCurrentPlayList } from "@/lib/zustand";
 export interface urlProp {
@@ -19,6 +20,8 @@ function AudiosContainer({
   description: string;
 }) {
   console.log("album");
+
+  //for accessbility
   // const dataInc = useRef(0);
   // const rowCell = useRef(1);
 
@@ -44,10 +47,12 @@ function AudiosContainer({
         </div>
       </div>
       <div
-      // tabIndex={0}
-      // onKeyDown={(e) => {
-      //   ArrowNavi(e, dataInc, "ArrowDown", "ArrowUp", url.length, "cell");
-      // }}
+        className=" bg-red-300"
+        //for accessbility
+        // tabIndex={0}
+        // onKeyDown={(e) => {
+        //   ArrowNavi(e, dataInc, "ArrowDown", "ArrowUp", url.length, "cell");
+        // }}
       >
         <table className=" w-full border-collapse">
           <thead className=" sticky z-20 text-white  top-[50px] bg-blue-950 h-[65px] ">
