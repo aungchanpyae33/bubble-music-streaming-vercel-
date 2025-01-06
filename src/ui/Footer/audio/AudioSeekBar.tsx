@@ -66,7 +66,7 @@ function AudioSeekBar({
       type="range"
       id="seek-slider"
       ref={dataInput}
-      step="0.01"
+      step="0.001"
       max={duration}
       className=" flex-1"
       onKeyUp={(e) => {
