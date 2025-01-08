@@ -24,14 +24,14 @@ function NavList({ childrenExplore, childrenLive }: childrenProp) {
         <li className=" min-h-[50px] z-10 relative">
           <button
             onClick={() => setopen(!open)}
-            className="md:w-[100px] w-[70px] min-h-[50px] bg-green-500"
+            className=" w-[70px] min-h-[50px] bg-green-500"
             ref={closeElement}
           >
             open
           </button>
           <button
             className={clsx(
-              "absolute -z-10  top-0 pl-2  flex md:w-[100px] w-[70px] items-center  justify-start h-[50px] transition-[transform,opacity] duration-200 ",
+              "absolute -z-10  top-0 pl-2  flex  w-[70px] items-center  justify-start h-[50px] transition-[transform,opacity] duration-200 ",
               {
                 "-translate-x-0 opacity-0 ": open === false,
                 "translate-x-full opacity-100": open === true,
@@ -66,7 +66,7 @@ function NavList({ childrenExplore, childrenLive }: childrenProp) {
         {/* backgroundlayer for expand element */}
         <div
           className={clsx(
-            "backgroundLayer absolute md:w-[100px] w-[70px] top-0 transition-[transform,opacity] duration-200 box-border  h-[100%] flex-col bg-green-500  rounded-b-sm",
+            "backgroundLayer absolute  w-[70px] top-0 transition-[transform,opacity] duration-200 box-border  h-[100%] flex-col bg-green-500  rounded-b-sm",
             {
               "translate-x-full  ": open === true,
             }

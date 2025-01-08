@@ -6,8 +6,8 @@ import UserInfo from "../user/UserInfo";
 function NavBar() {
   console.log("nice");
   return (
-    <nav className="navBarContainer flex w-full sticky  top-0  bg-red-500 z-10 h-[50px] items-center justify-between">
-      <div className="md:w-[100px] w-[70px]"></div>
+    <nav className="navBarContainer flex w-full sticky  top-0  bg-red-500 z-20 h-[50px] items-center justify-between">
+      <div className=" w-[70px]"></div>
       <div className="logo  px-2">
         <Link href="/">Bubble</Link>
       </div>

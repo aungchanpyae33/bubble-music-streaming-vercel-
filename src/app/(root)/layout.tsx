@@ -22,9 +22,10 @@ export default function RootLayout({
         <NavSideBar />
         <NavBar />
         <div className="scr">
-          <main className="ml-[50px]  pt-[50px]  pb-[50px]">
+          <main className="pl-[70px] pt-[5px] pb-[70px]">
             {children}
-            <h1>this is footer bar all copyRight 2024</h1>
+            <h1>this is footer bar</h1>
+            <h1>made by github Lorem ipsum dolor sit amet,</h1>
           </main>
         </div>
 
