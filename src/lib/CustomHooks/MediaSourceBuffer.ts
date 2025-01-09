@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef } from "react";
 import { fetchSegement } from "../MediaSource/fetchSegement";
 import { getRemainingBufferDuration } from "../MediaSource/getRemainBuffer";
-const bufferThreshold = 25;
+const bufferThreshold = 10;
 const mimeType_audio = "audio/mp4";
 const codecs_audio = "mp4a.40.2";
 const mimeCodec_audio = `${mimeType_audio};codecs="${codecs_audio}"`;
@@ -9,33 +9,40 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
   const fetching = useRef<boolean>(false);
   const segNum = useRef(1);
   const dataAudio = useRef<HTMLAudioElement | null>(null);
-
   const mediaSource = useRef<MediaSource | null>(null);
   const sourceBuffer = useRef<SourceBuffer | null>(null);
   const abortController = useRef<AbortController | null>(null);
   const fetchAudioSegment = useCallback(
     (segNum: number) => {
       if (abortController.current === null) {
+        console.log("abort");
         // return when no initialized
         return;
       }
-
-      fetchSegement(url, sourceBuffer, segNum, abortController.current);
+      fetchSegement(
+        url,
+        sourceBuffer,
+        mediaSource,
+        segNum,
+        abortController.current
+      );
     },
     [url]
   );
   const loadNextSegment = useCallback(() => {
     const remainingBuffer = getRemainingBufferDuration(dataAudio);
-
+    // console.log("run twice?");
+    // console.log(mediaSource.current?.duration, mediaSource.current?.readyState);
+    // console.log(bufferThreshold > remainingBuffer);
     if (
       !fetching.current &&
       bufferThreshold > remainingBuffer &&
       segNum.current <= sege
     ) {
       fetching.current = true;
-
       fetchAudioSegment(segNum.current);
       segNum.current++;
+      // console.log(segNum.current);
     }
   }, [fetchAudioSegment, sege]);
 
@@ -43,7 +50,13 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
     if (sourceBuffer.current === null) {
       sourceBuffer.current =
         mediaSource.current!.addSourceBuffer(mimeCodec_audio);
-      fetchSegement(url, sourceBuffer, undefined, abortController.current);
+      fetchSegement(
+        url,
+        sourceBuffer,
+        mediaSource,
+        undefined, // start point
+        abortController.current
+      );
       sourceBuffer.current!.addEventListener("updateend", () => {
         fetching.current = false;
         loadNextSegment();
@@ -81,6 +94,7 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
   }, [sourceOpen]);
 
   useEffect(() => {
+    console.log("run");
     if (!url) {
       return;
     }
@@ -94,6 +108,12 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
       clearUpPreviousSong();
     };
   }, [startUp, url, clearUpPreviousSong]);
-  return { dataAudio, segNum, loadNextSegment, fetching, abortController };
+  return {
+    dataAudio,
+    segNum,
+    loadNextSegment,
+    fetching,
+    abortController,
+  };
 };
 export default useMediaSourceBuffer;
