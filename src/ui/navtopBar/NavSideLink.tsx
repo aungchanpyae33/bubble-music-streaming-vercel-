@@ -14,23 +14,23 @@ interface LinkProps {
 function NavSideLink({ url, icon, desp, open, setopen, children }: LinkProps) {
   console.log("render navsidebarlink");
   return (
-    <li className=" min-h-[50px] z-10  ">
+    <li className=" min-h-[50px] z-10   ">
       <Link
         href={url}
-        className="flex items-center relative"
+        className=" relative inline-block "
         onClick={() => setopen(false)}
       >
         {children}
         <div
           className={clsx(
-            " absolute -z-10  top-0 pl-2  flex  w-[70px] items-center justify-start h-[50px] transition-[transform,opacity] duration-200 ",
+            " absolute -z-10  top-0 pl-2 max-w-[150px]  bg-purple-600 flex    min-w-[150px]  items-center justify-start h-[50px] transition-[transform,opacity] duration-200  ",
             {
               "-translate-x-0 opacity-0 ": open === false,
-              "translate-x-full opacity-100": open === true,
+              "translate-x-[70px] opacity-100": open === true,
             }
           )}
         >
-          {desp}
+          <div className=" truncate">{desp}</div>
         </div>
       </Link>
     </li>
