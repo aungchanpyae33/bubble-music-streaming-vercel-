@@ -19,9 +19,9 @@ function NavSideLink({ url, icon, desp, open, setopen, children }: LinkProps) {
         {children}
         <div
           className={clsx(
-            " absolute -z-10  top-0 pl-2 max-w-[150px]  bg-purple-600 flex    min-w-[150px]  items-center justify-start h-[50px] transition-[transform,opacity] duration-200  ",
+            " absolute -z-10  top-0 px-2 max-w-[150px]  bg-purple-600 flex w-[150px] min-w-[150px]  items-center justify-start h-[50px] transition-[transform,opacity] duration-200",
             {
-              "-translate-x-0 opacity-0 ": open === false,
+              "-translate-x-[calc(100%-70px)]  opacity-0 ": open === false,
               "translate-x-[70px] opacity-100": open === true,
             }
           )}
