@@ -14,12 +14,8 @@ interface LinkProps {
 function NavSideLink({ url, icon, desp, open, setopen, children }: LinkProps) {
   console.log("render navsidebarlink");
   return (
-    <li className=" min-h-[50px] z-10   ">
-      <Link
-        href={url}
-        className=" relative inline-block "
-        onClick={() => setopen(false)}
-      >
+    <li className="h-[50px] z-10 relative will-change-transform">
+      <Link href={url} className="" onClick={() => setopen(false)}>
         {children}
         <div
           className={clsx(

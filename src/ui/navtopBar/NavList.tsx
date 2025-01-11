@@ -21,7 +21,7 @@ function NavList({ childrenExplore, childrenLive }: childrenProp) {
         className="
           fixed top-0 z-30 box-border  left-0 h-[100%] flex  flex-col gap-1  bg-green-500  rounded-b-sm"
       >
-        <li className=" min-h-[50px] z-10  relative">
+        <li className="h-[50px] z-10 relative will-change-transform">
           <button
             onClick={() => setopen(!open)}
             className=" w-[70px] min-h-[50px] bg-green-500 "
