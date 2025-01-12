@@ -24,14 +24,14 @@ function NavList({ childrenExplore, childrenLive }: childrenProp) {
         <li className="h-[50px] z-10 relative will-change-transform">
           <button
             onClick={() => setopen(!open)}
-            className=" w-[70px] h-[50px] bg-black text-white "
+            className=" w-[70px] h-[50px] bg-green-500 text-white "
             ref={closeElement}
           >
             open
           </button>
           <button
             className={clsx(
-              "absolute -z-10  top-0 px-2   flex  w-[150px] min-w-[150px] max-w-[150px] items-center  justify-start h-[50px] transition-[transform,opacity] duration-200 bg-red-700",
+              "absolute -z-10  top-0 px-2   flex  w-[150px] min-w-[150px] max-w-[150px] items-center  justify-start h-[50px] transition-[transform,opacity] duration-200 bg-green-500",
               {
                 "-translate-x-[calc(100%-70px)] opacity-0 ": open === false,
                 "translate-x-[70px] opacity-100": open === true,
