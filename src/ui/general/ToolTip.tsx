@@ -54,6 +54,7 @@ function ToolTip({
         onMouseEnter={() => {
           console.log("mouse enter");
           setTimeoutRef.current = setTimeout(() => {
+            // it is only one returning object , so need to wrapp with ()
             setTooltipShow((pre) => ({
               ...pre,
               show: true,
