@@ -49,7 +49,7 @@ function ToolTip({
   //   };
   // }, []);
   return (
-    <div className="group relative w-fit max-w-full bg-red-950 cursor-pointer">
+    <div className="group relative w-fit max-w-full cursor-pointer ">
       <div
         onMouseEnter={() => {
           console.log("mouse enter");
