@@ -58,7 +58,7 @@ function ToolTip({
               ...pre,
               show: true,
             }));
-          }, 500);
+          }, 1000);
         }}
         onMouseLeave={() => {
           console.log("mouse leave");
