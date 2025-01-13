@@ -1,6 +1,6 @@
 import MediaSessionButton from "@/lib/MediaSession/MediaSessionButton";
 import { useCurrentPlayList } from "@/lib/zustand";
-import { urlProp } from "@/ui/albumContainer/Album";
+import type { urlProp } from "@/ui/albumContainer/AudiosContainer";
 import { ReactNode } from "react";
 import type { currentSongPlaylist } from "@/lib/zustand";
 interface AudioFunctionButtonProps {

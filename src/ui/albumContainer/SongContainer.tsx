@@ -1,7 +1,7 @@
 "use client";
 import { currentSongPlaylistAction, useCurrentPlayList } from "@/lib/zustand";
 import { ReactNode, useEffect } from "react";
-import { urlProp } from "./Album";
+import type { urlProp } from "./AudiosContainer";
 
 function SongContainer({
   children,

@@ -4,7 +4,7 @@ import { FocusElement } from "@/lib/Accessibility/FocusElement";
 import ArrowNavi from "@/lib/Accessibility/ArrowNavi";
 import { clsx } from "clsx";
 import { RefObject } from "react";
-import { urlProp } from "../albumContainer/Album";
+import type { urlProp } from "../albumContainer/AudiosContainer";
 import ToolTip from "../general/ToolTip";
 
 function Track({

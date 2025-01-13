@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useCurrentPlayList, useSong, useSongFunction } from "../zustand";
-import { urlProp } from "@/ui/albumContainer/Album";
+import type { urlProp } from "@/ui/albumContainer/AudiosContainer";
 import type {
   SongFunctionActions,
   SongActions,

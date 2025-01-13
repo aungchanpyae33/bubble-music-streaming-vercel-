@@ -1,6 +1,6 @@
 import { useSong, useSongFunction } from "@/lib/zustand";
 import type { SongActions, SongFunctionActions } from "@/lib/zustand";
-import { urlProp } from "@/ui/albumContainer/Album";
+import type { urlProp } from "@/ui/albumContainer/AudiosContainer";
 
 function AudioFunctionPre({
   urlProp,

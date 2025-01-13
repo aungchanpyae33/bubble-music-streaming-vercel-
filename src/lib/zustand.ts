@@ -1,5 +1,5 @@
 import { createWithEqualityFn as create } from "zustand/traditional";
-import { urlProp } from "@/ui/albumContainer/Album";
+import type { urlProp } from "@/ui/albumContainer/AudiosContainer";
 export interface SongDetail {
   url: string;
   sege: number;
