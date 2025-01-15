@@ -51,14 +51,28 @@ function ToolTip({
   return (
     <div className="group relative w-fit max-w-full cursor-pointer ">
       <div
-        onMouseEnter={() => {
-          console.log("mouse enter");
+        onMouseEnter={(e) => {
+          console.log("enter");
+          const targetElement = e.currentTarget;
           setTimeoutRef.current = setTimeout(() => {
-            // it is only one returning object , so need to wrapp with ()
-            setTooltipShow((pre) => ({
-              ...pre,
-              show: true,
-            }));
+            const { clientX: x, clientY: y } = e;
+            const elementMouseIsOver = document.elementFromPoint(x, y);
+            console.log(
+              elementMouseIsOver?.textContent,
+              targetElement.textContent
+            );
+            console.log(elementMouseIsOver, targetElement);
+
+            if (
+              elementMouseIsOver?.contains(targetElement) ||
+              targetElement.contains(elementMouseIsOver)
+            ) {
+              // This ensures the mouse is either over the target or its child elements
+              setTooltipShow((pre) => ({
+                ...pre,
+                show: true,
+              }));
+            }
           }, 1000);
         }}
         onMouseLeave={() => {
