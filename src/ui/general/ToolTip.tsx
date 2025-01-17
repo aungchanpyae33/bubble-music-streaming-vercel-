@@ -54,6 +54,29 @@ function ToolTip({
         onMouseEnter={(e) => {
           console.log("enter");
           const targetElement = e.currentTarget;
+          const handleWheel = (wheelEvent: WheelEvent) => {
+            console.log("onwheel");
+            const { clientX: x, clientY: y } = wheelEvent;
+            const rect = targetElement.getBoundingClientRect();
+            const isPointerInside =
+              x >= rect.left &&
+              x <= rect.right &&
+              y >= rect.top &&
+              y <= rect.bottom;
+
+            if (!isPointerInside && setTimeoutRef.current) {
+              clearTimeout(setTimeoutRef.current);
+              setTimeoutRef.current = null;
+              setTooltipShow((pre) => ({
+                ...pre,
+                show: false,
+              }));
+              targetElement.removeEventListener("wheel", handleWheel);
+            }
+          };
+
+          targetElement.addEventListener("wheel", handleWheel);
+
           setTimeoutRef.current = setTimeout(() => {
             const { clientX: x, clientY: y } = e;
             const rect = targetElement.getBoundingClientRect();
