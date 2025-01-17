@@ -1,7 +1,7 @@
 "use client";
 import useTooltipOverflow from "@/lib/CustomHooks/TooltipOverflow";
 import clsx from "clsx";
-import { ReactNode, useEffect, useRef } from "react";
+import { ReactNode, useRef } from "react";
 
 function ToolTip({
   children,
