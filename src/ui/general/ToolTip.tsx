@@ -75,6 +75,10 @@ function ToolTip({
             }
           }, 1000);
         }}
+        //{...} is used to inset js expression ,
+        // {...(tooltipShow.show && {
+        //   onWheel: (e) => {
+        //  above comment is for the past idea to add onwheel on condition
         onMouseLeave={() => {
           console.log("mouse leave");
           if (setTimeoutRef.current) {
