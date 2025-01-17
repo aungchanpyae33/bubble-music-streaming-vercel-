@@ -56,18 +56,17 @@ function ToolTip({
           const targetElement = e.currentTarget;
           setTimeoutRef.current = setTimeout(() => {
             const { clientX: x, clientY: y } = e;
-            const elementMouseIsOver = document.elementFromPoint(x, y);
-            console.log(
-              elementMouseIsOver?.textContent,
-              targetElement.textContent
-            );
-            console.log(elementMouseIsOver, targetElement);
+            const rect = targetElement.getBoundingClientRect();
 
-            if (
-              elementMouseIsOver?.contains(targetElement) ||
-              targetElement.contains(elementMouseIsOver)
-            ) {
-              // This ensures the mouse is either over the target or its child elements
+            // Check if the mouse is within the element's bounds
+            const isPointerInside =
+              x >= rect.left ||
+              x <= rect.right ||
+              y >= rect.top ||
+              y <= rect.bottom;
+
+            console.log("Pointer inside element:", isPointerInside);
+            if (isPointerInside && !tooltipShow.show) {
               setTooltipShow((pre) => ({
                 ...pre,
                 show: true,
