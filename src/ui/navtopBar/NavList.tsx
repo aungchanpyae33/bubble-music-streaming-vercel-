@@ -17,9 +17,19 @@ function NavList({ childrenExplore, childrenLive }: childrenProp) {
   CloseFunctoion(open, setopen, closeElement);
   return (
     <div className="">
+      <button onClick={() => setopen(!open)} className="sm:hidden">
+        open
+      </button>
+
       <ul
-        className="
-          fixed top-0 z-30 box-border  left-0 h-[100%] flex  flex-col gap-1  bg-green-500  rounded-b-sm"
+        className={clsx(
+          "fixed top-0 z-30 box-border  left-0 h-[100%] flex  flex-col gap-1  bg-green-500 transition-[transform,opacity] sm:opacity-100 sm:translate-x  rounded-b-sm",
+          {
+            "-translate-x-full opacity-0 sm:-translate-x-0 sm:opacity-100":
+              !open,
+            "translate-x-0 opacity-100": open,
+          }
+        )}
       >
         <li className="h-[50px] z-10 relative will-change-transform">
           <button
