@@ -17,7 +17,11 @@ function NavList({ childrenExplore, childrenLive }: childrenProp) {
   CloseFunctoion(open, setopen, closeElement);
   return (
     <div className="">
-      <button onClick={() => setopen(!open)} className="sm:hidden">
+      <button
+        onClick={() => setopen(!open)}
+        className=" w-[70px] cursor-pointer sm:hidden h-[50px] bg-green-500 text-white "
+        ref={closeElement}
+      >
         open
       </button>
 
