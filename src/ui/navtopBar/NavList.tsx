@@ -24,10 +24,9 @@ function NavList({ childrenExplore, childrenLive }: childrenProp) {
       >
         open
       </button>
-
       <ul
         className={clsx(
-          "fixed top-0 z-30 box-border  left-0 h-[100%] flex  flex-col gap-1  bg-green-500 transition-[transform,opacity] sm:opacity-100 sm:translate-x  rounded-b-sm",
+          "fixed top-0 z-30 box-border  left-0 h-[100%] flex  flex-col gap-1  bg-green-500 transition-[transform,opacity] sm:opacity-100 duration-200 sm:translate-x  rounded-b-sm",
           {
             "-translate-x-full opacity-0 sm:-translate-x-0 sm:opacity-100":
               !open,
@@ -38,14 +37,14 @@ function NavList({ childrenExplore, childrenLive }: childrenProp) {
         <li className="h-[50px] z-10 relative will-change-transform">
           <button
             onClick={() => setopen(!open)}
-            className=" w-[70px] h-[50px] bg-green-500 text-white "
+            className=" w-[70px] cursor-pointer h-[50px] bg-green-500 text-white "
             ref={closeElement}
           >
             open
           </button>
           <button
             className={clsx(
-              "absolute -z-10  top-0 px-2   flex  w-[150px] min-w-[150px] max-w-[150px] items-center  justify-start h-[50px] transition-[transform,opacity] duration-200 bg-green-500",
+              "absolute -z-10  top-0 px-2   flex  w-[150px] min-w-[150px] max-w-[150px] items-center sm:duration-200 sm:transition-[transform,opacity]  justify-start h-[50px]   bg-green-500",
               {
                 "-translate-x-[calc(100%-70px)] opacity-0 ": open === false,
                 "translate-x-[70px] opacity-100": open === true,
@@ -60,7 +59,7 @@ function NavList({ childrenExplore, childrenLive }: childrenProp) {
         <NavSideLink
           url="/live"
           icon="live"
-          desp="Live oiertoi hteroi heort oeirtheioteorh"
+          desp="Live oie wofnw oin wonw orinoier"
           open={open}
           setopen={setopen}
         >
@@ -69,7 +68,7 @@ function NavList({ childrenExplore, childrenLive }: childrenProp) {
         <NavSideLink
           url="/explore"
           icon="explore"
-          desp="Explore iertoi hteroi heort oeirtheioteorh"
+          desp="Expl sdkofn osfn oifn ofnwoifnwe"
           open={open}
           setopen={setopen}
         >
@@ -79,7 +78,7 @@ function NavList({ childrenExplore, childrenLive }: childrenProp) {
         {/* backgroundlayer for expand element */}
         <div
           className={clsx(
-            "backgroundLayer absolute  w-[150px] max-w-[150px] top-0 transition-[transform,opacity] duration-200 box-border  h-[100%] flex-col bg-green-500  rounded-b-sm",
+            "backgroundLayer absolute  w-[150px] max-w-[150px] top-0  box-border  h-[100%] sm:duration-200 sm:transition-[transform,opacity] flex-col bg-green-500  rounded-b-sm",
             {
               "translate-x-[70px]": open,
               "-translate-x-[calc(100%-70px)]": !open,
