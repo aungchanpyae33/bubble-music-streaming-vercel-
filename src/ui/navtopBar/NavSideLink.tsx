@@ -25,6 +25,9 @@ function NavSideLink({ url, icon, desp, open, setopen, children }: LinkProps) {
               "translate-x-[70px] opacity-100": open === true,
             }
           )}
+          onTransitionEnd={(e) => {
+            e.stopPropagation();
+          }}
         >
           <div className=" truncate">{desp}</div>
         </div>

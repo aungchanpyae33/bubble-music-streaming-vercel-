@@ -84,6 +84,9 @@ function NavList({ childrenExplore, childrenLive }: childrenProp) {
               "-translate-x-[calc(100%-70px)]": !open,
             }
           )}
+          onTransitionEnd={(e) => {
+            e.stopPropagation();
+          }}
         ></div>
       </ul>
 
