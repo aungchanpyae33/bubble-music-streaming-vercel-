@@ -2,14 +2,14 @@ import Link from "next/link";
 import SearchBar from "../searchBar/SearchBar";
 import Too from "./Too";
 import UserInfo from "../user/UserInfo";
-import NavSideInNavBar from "./NavSideInNavBar";
+import NavSideBar from "./NavSideBar";
 
 function NavBar() {
   console.log("nice");
   return (
     <nav className="navBarContainer flex w-full sticky  top-0  bg-red-500 z-20 h-[50px] items-center justify-between">
       <div className=" w-[70px]">
-        <NavSideInNavBar />
+        <NavSideBar />
       </div>
       <div className="logo  px-2">
         <Link href="/">Bubble</Link>
