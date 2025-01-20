@@ -12,7 +12,7 @@ interface LinkProps {
   children: ReactNode;
 }
 function NavSideLink({ url, icon, desp, open, setopen, children }: LinkProps) {
-  console.log("render navsidebarlink");
+  // console.log("render navsidebarlink");
   return (
     <li className="h-[50px] z-10 relative will-change-transform">
       <Link href={url} className="" onClick={() => setopen(false)}>

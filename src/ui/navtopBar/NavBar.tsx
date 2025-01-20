@@ -5,7 +5,6 @@ import UserInfo from "../user/UserInfo";
 import NavSideBar from "./NavSideBar";
 
 function NavBar() {
-  console.log("nice");
   return (
     <nav className="navBarContainer flex w-full sticky  top-0  bg-red-500 z-20 h-[50px] items-center justify-between">
       <div className=" w-[70px]">

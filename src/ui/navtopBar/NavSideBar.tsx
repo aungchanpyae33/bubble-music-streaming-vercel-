@@ -5,7 +5,7 @@ import NavList from "./NavList";
 
 function NavSideBar() {
   return (
-    <div>
+    <div className="">
       <NavList
         childrenExplore={
           <div className=" w-[70px] max-w-[70px] h-[50px]  flex items-center justify-center bg-green-500 text-white   ">
