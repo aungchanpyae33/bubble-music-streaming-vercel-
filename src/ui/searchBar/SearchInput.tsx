@@ -11,17 +11,18 @@ function SearchInput() {
   const testRef = useRef<HTMLFormElement>(null);
   const [show, setShow] = useState(false);
   const isSmallScreen = useScreenSize("(max-width: 640px)");
-
+  const inputRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
     if (isSmallScreen) {
       // testRef!.current!.classList.add("hidden");
       // setShow(true);
     } else {
-      setShow(false);
+      if (document.activeElement !== inputRef.current) {
+        setShow(false);
+      }
     }
   }, [isSmallScreen]);
   console.log(isSmallScreen);
-  const inputRef = useRef<HTMLInputElement>(null);
 
   const [value, setValue] = useState<string | null>(null);
   const searchAbortController = useRef<AbortController | null>(null);
