@@ -1,3 +1,4 @@
+"use client";
 import React, { RefObject } from "react";
 import { Movie } from "@/database/data";
 import Link from "next/link";
