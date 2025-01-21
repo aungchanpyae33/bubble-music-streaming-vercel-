@@ -44,6 +44,9 @@
   .test {
     @apply border-4 border-red-600;
   }
+  .unhide {
+    @apply flex;
+  }
 }
 /* body scrolllock */
 /* Firefox */
