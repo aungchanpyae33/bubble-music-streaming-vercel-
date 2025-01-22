@@ -26,6 +26,8 @@ function AudioInfoOverFlow({
         //even same anitmate value would make still twice render even though prop is not change
         // first call is change from false to true ,seconde call is change from true to true , may be this is the reaseon to prevent it use check ===
 
+        // found the answer check below link
+        // https://github.com/facebook/react/issues/20817
         const fullWidth = ofcheckDiv.current!.scrollWidth;
         const showWidth = ofcheckDiv.current!.clientWidth;
         if (fullWidth > showWidth) {
