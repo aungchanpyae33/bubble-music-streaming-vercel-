@@ -50,17 +50,24 @@ function useTest(
     copyRef?.addEventListener("keydown", handleKeyDown);
 
     return () => {
-      setnavi((pre) => {
-        if (pre.number === -1 && pre.run === false) return pre;
-        console.log("am i running");
-        return {
-          run: false,
-          number: -1,
-        };
-      });
+      if (navi.run && navi.number !== -1) {
+        setnavi({ run: false, number: -1 });
+      }
+
+      // setnavi((pre) => {
+      //   if (pre.number === -1 && pre.run === false) {
+      //     console.warn("am i crazy");
+      //     return pre;
+      //   }
+      //   console.warn("am i running");
+      //   return {
+      //     run: false,
+      //     number: -1,
+      //   };
+      // });
       copyRef?.removeEventListener("keydown", handleKeyDown);
     };
-  }, [inputRef, data.length, data]);
+  }, [inputRef, data.length, data, navi]);
 
   return [navi, setnavi];
 }
