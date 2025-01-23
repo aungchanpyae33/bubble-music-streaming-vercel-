@@ -53,7 +53,7 @@ function useTest(
       if (navi.run && navi.number !== -1) {
         setnavi({ run: false, number: -1 });
       }
-
+      // just use navi check and call setnavi only for clear console , both same behavior altho setnavi(pre) has additional re-render that does not effect to its render tree (see comment in audioInfoOverFlow.tsx
       // setnavi((pre) => {
       //   if (pre.number === -1 && pre.run === false) {
       //     console.warn("am i crazy");
