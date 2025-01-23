@@ -54,48 +54,38 @@ function ToolTip({
         onMouseEnter={(e) => {
           console.log("enter");
           const targetElement = e.currentTarget;
-          const handleWheel = (wheelEvent: WheelEvent) => {
-            console.log("onwheel");
-            const { clientX: x, clientY: y } = wheelEvent;
-            const rect = targetElement.getBoundingClientRect();
-            const isPointerInside =
-              x >= rect.left &&
-              x <= rect.right &&
-              y >= rect.top &&
-              y <= rect.bottom;
 
-            if (!isPointerInside && setTimeoutRef.current) {
-              clearTimeout(setTimeoutRef.current);
-              setTimeoutRef.current = null;
-              setTooltipShow((pre) => ({
-                ...pre,
-                show: false,
-              }));
-              targetElement.removeEventListener("wheel", handleWheel);
+          showToolTipCheck(
+            setTimeoutRef,
+            tooltipShow,
+            setTooltipShow,
+            targetElement,
+            e
+          );
+        }}
+        onWheel={(e) => {
+          const targetElement = e.currentTarget;
+          const isPointerInside = isInside(targetElement, e);
+
+          if (!isPointerInside) {
+            console.log("cle");
+            clearTimeout(setTimeoutRef!.current!);
+            setTimeoutRef.current = null;
+            setTooltipShow((pre) => ({
+              ...pre,
+              show: false,
+            }));
+          } else {
+            if (!tooltipShow.show && !setTimeoutRef.current) {
+              showToolTipCheck(
+                setTimeoutRef,
+                tooltipShow,
+                setTooltipShow,
+                targetElement,
+                e
+              );
             }
-          };
-
-          targetElement.addEventListener("wheel", handleWheel);
-
-          setTimeoutRef.current = setTimeout(() => {
-            const { clientX: x, clientY: y } = e;
-            const rect = targetElement.getBoundingClientRect();
-
-            // Check if the mouse is within the element's bounds
-            const isPointerInside =
-              x >= rect.left ||
-              x <= rect.right ||
-              y >= rect.top ||
-              y <= rect.bottom;
-
-            console.log("Pointer inside element:", isPointerInside);
-            if (isPointerInside && !tooltipShow.show) {
-              setTooltipShow((pre) => ({
-                ...pre,
-                show: true,
-              }));
-            }
-          }, 1000);
+          }
         }}
         //{...} is used to inset js expression ,
         // {...(tooltipShow.show && {
