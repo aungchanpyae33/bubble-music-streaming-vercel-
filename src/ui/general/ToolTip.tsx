@@ -4,7 +4,7 @@ import { isInside, showToolTipCheck } from "@/lib/ToolTip/showToolTipCheck";
 
 import clsx from "clsx";
 import { ReactNode, useRef } from "react";
-
+// need to add debounce or throttle to the onwheel event
 function ToolTip({
   children,
   tooltipContent,
