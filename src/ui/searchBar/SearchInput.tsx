@@ -39,7 +39,9 @@ function SearchInput() {
       setopen={setopen}
       setValue={setValue}
     >
-      {open && <SearchResult data={data} inputRef={inputRef} />}
+      {open && data.length > 0 && (
+        <SearchResult data={data} inputRef={inputRef} />
+      )}
     </FormWrapper>
   );
 }
