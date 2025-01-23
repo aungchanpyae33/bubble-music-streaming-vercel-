@@ -8,7 +8,7 @@ import {
 interface tooltipRefProp {
   toolTipRef: RefObject<HTMLDivElement | null>;
 }
-interface tooltipState {
+export interface tooltipState {
   show: boolean;
   toolTipLeft: { left: string };
 }
