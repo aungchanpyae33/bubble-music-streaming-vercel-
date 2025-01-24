@@ -65,8 +65,22 @@ function FormWrapper({
                 }}
                 onKeyDown={(e) => {
                   if (e.key === "Escape") {
+                    const inputElement = e.currentTarget;
                     e.preventDefault();
-                    inputRef.current?.blur();
+                    if (
+                      inputElement.selectionStart !== inputElement.value.length
+                    ) {
+                      const goToEndValue = inputElement.value.length;
+                      inputElement.setSelectionRange(
+                        goToEndValue,
+                        goToEndValue
+                      );
+                      return;
+                    }
+                    e.currentTarget.blur();
+                  }
+                  if (e.key === "ArrowUp") {
+                    e.preventDefault();
                   }
                 }}
                 onChange={(e) => {
