@@ -1,8 +1,9 @@
 "use client";
 import React, { RefObject } from "react";
 import { Movie } from "@/database/data";
-import Link from "next/link";
+
 import useTest from "@/lib/CustomHooks/NaviHook";
+import SearchResultItem from "./SearchResultItem";
 
 interface prop {
   data: Movie[];
@@ -15,23 +16,13 @@ function SearchResult({ data, inputRef }: prop) {
   return (
     <div className="SearchResult w-full absolute bg-white rounded-b-md border-none shadow-md shadow-overlay z-40 text-start">
       {data?.map((item: Movie, index: number) => (
-        <div
-          className={`pl-9  ${
-            index === arrow.number && !arrow.run && "bg-red-600"
-          } ${arrow.run && "hover:bg-red-600"}`}
-          style={{ cursor: "pointer" }}
+        <SearchResultItem
           key={item.title}
-          onMouseMove={() => {
-            console.log("enter");
-            if (arrow.number !== index) {
-              setarrow({ run: true, number: index });
-            }
-          }}
-        >
-          <Link href={`/test?query=${item.title}`} tabIndex={-1}>
-            {item.title}
-          </Link>
-        </div>
+          title={item.title}
+          index={index}
+          show={index === arrow.number && !arrow.run}
+          // arrow={arrow}
+        />
       ))}
     </div>
   );
