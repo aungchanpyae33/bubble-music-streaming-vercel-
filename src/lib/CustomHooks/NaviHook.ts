@@ -9,7 +9,7 @@ function useTest(
   initialState: NaviState,
   inputRef: RefObject<HTMLInputElement | null>,
   data: Movie[]
-): [NaviState, React.Dispatch<React.SetStateAction<NaviState>>] {
+): [NaviState] {
   const [navi, setnavi] = useState(initialState);
 
   useEffect(() => {
@@ -69,6 +69,6 @@ function useTest(
     };
   }, [inputRef, data.length, data, navi]);
 
-  return [navi, setnavi];
+  return [navi];
 }
 export default useTest;

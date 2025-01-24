@@ -11,7 +11,7 @@ interface prop {
 }
 
 function SearchResult({ data, inputRef }: prop) {
-  const [arrow, setarrow] = useTest({ run: false, number: -1 }, inputRef, data);
+  const [arrow] = useTest({ run: false, number: -1 }, inputRef, data);
 
   return (
     <div className="SearchResult w-full absolute bg-white rounded-b-md border-none shadow-md shadow-overlay z-40 text-start">
