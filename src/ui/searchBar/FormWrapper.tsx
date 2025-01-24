@@ -41,18 +41,7 @@ function FormWrapper({
           }
         )}
       >
-        <button
-          className={clsx(" sm:hidden bg-white h-[40px] px-3 ", {
-            "inline-block ": open,
-          })}
-          onClick={() => {
-            setShow(!show);
-          }}
-        >
-          {show ? "Close" : "Open"}
-        </button>
-
-        <div className="w-[100%] sm:max-w-[500px] lg:max-w-[600px] relative mx-auto">
+        <div className="w-[100%] sm:max-w-[500px] lg:max-w-[600px] relative mx-auto ">
           <label>
             <span className="sr-only">Search</span>
             <div className="flex items-stretch gap-1 bg-white">
