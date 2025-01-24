@@ -26,16 +26,7 @@ function FormWrapper({
 
   return (
     <div>
-      <button
-        className={clsx(" sm:hidden bg-white h-[40px] px-3 ", {
-          "inline-block ": open,
-        })}
-        onClick={() => {
-          setShow(!show);
-        }}
-      >
-        {show ? "Close" : "Open"}
-      </button>
+      <SearchToggleButton show={show} setShow={setShow} />
 
       <Form
         action="/test"
@@ -64,7 +55,8 @@ function FormWrapper({
         <div className="w-[100%] sm:max-w-[500px] lg:max-w-[600px] relative mx-auto">
           <label>
             <span className="sr-only">Search</span>
-            <div className="flex items-stretch bg-white">
+            <div className="flex items-stretch gap-1 bg-white">
+              <SearchToggleButton show={show} setShow={setShow} />
               <input
                 className="placeholder:text-slate-400 block bg-blue w-full h-[40px] pl-9 shadow-sm focus:outline-none sm:text-sm bg-transparent"
                 placeholder="Search for song and artist"
