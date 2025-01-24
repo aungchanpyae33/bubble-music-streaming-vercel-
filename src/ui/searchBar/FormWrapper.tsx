@@ -2,6 +2,7 @@ import useScreenSize from "@/lib/CustomHooks/ScreenSizeDetecter";
 import clsx from "clsx";
 import { useEffect, useState } from "react";
 import Form from "next/form";
+import SearchToggleButton from "./SearchToggleButton";
 function FormWrapper({
   children,
   inputRef,
