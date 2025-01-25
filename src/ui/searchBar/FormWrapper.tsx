@@ -93,7 +93,7 @@ function FormWrapper({
                 type="reset"
                 onClick={() => {
                   inputRef.current?.focus();
-                  setopen(false);
+                  setValue("");
                 }}
               >
                 Reset
