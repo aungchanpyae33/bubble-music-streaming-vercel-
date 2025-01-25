@@ -10,6 +10,7 @@ interface prop {
   // };
   show: boolean;
 }
+//[later] : reactcompiler -> stable
 const SearchResultItem = memo(({ title, index, show }: prop) => {
   console.log("SearchResultItem");
   return (
