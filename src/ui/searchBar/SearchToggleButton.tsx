@@ -10,9 +10,7 @@ function SearchToggleButton({
 }) {
   return (
     <button
-      className={clsx(" sm:hidden  h-[40px] px-3  ", {
-        "inline-block ": open,
-      })}
+      className="sm:hidden  h-[40px] px-3"
       onClick={() => {
         setShow(!show);
       }}

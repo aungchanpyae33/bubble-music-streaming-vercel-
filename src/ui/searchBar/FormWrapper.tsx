@@ -6,13 +6,11 @@ import SearchToggleButton from "./SearchToggleButton";
 function FormWrapper({
   children,
   inputRef,
-  open,
   setopen,
   setValue,
 }: {
   children: React.ReactNode;
   inputRef: React.RefObject<HTMLInputElement | null>;
-  open: boolean;
   setopen: React.Dispatch<React.SetStateAction<boolean>>;
   setValue: React.Dispatch<React.SetStateAction<string | null>>;
 }) {

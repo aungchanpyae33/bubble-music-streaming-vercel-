@@ -31,14 +31,8 @@ function SearchInput() {
       keepPreviousData: !!value,
     }
   );
-
   return (
-    <FormWrapper
-      inputRef={inputRef}
-      open={open}
-      setopen={setopen}
-      setValue={setValue}
-    >
+    <FormWrapper inputRef={inputRef} setopen={setopen} setValue={setValue}>
       {open && data.length > 0 && (
         <SearchResult data={data} inputRef={inputRef} />
       )}
