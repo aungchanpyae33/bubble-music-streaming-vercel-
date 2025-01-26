@@ -4,7 +4,8 @@ import { isInside, showToolTipCheck } from "@/lib/ToolTip/showToolTipCheck";
 
 import clsx from "clsx";
 import { ReactNode, useRef } from "react";
-// need to add debounce or throttle to the onwheel event
+//[todo] : need to add debounce or throttle to the onwheel event
+//[todo] : in mobile , tooltip  is trigger , need to prevent it
 function ToolTip({
   children,
   tooltipContent,
