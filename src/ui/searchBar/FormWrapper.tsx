@@ -89,8 +89,13 @@ function FormWrapper({
               <button
                 className="border-l border-gray-300 px-2"
                 type="reset"
+                onTouchStart={(e) => {
+                  e.preventDefault(); // Prevent focus loss
+                }}
+                onMouseDown={(e) => {
+                  e.preventDefault(); // Prevent focus loss
+                }}
                 onClick={() => {
-                  inputRef.current?.focus();
                   setValue("");
                 }}
               >
