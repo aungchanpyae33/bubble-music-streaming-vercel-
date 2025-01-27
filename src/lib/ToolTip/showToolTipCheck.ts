@@ -10,10 +10,7 @@ export function isInsideForEnter(
     x >= rect.left || x <= rect.right || y >= rect.top || y <= rect.bottom;
   return isPointerInsideForEnter;
 }
-export const showToolTipCheck = (
-  setTimeoutRef: RefObject<ReturnType<typeof setTimeout> | null>,
-  tooltipShow: tooltipState,
-  setTooltipShow: React.Dispatch<React.SetStateAction<tooltipState>>,
+export function isInsideForOnWheel(
   targetElement: HTMLDivElement,
   e: React.WheelEvent<HTMLDivElement> | React.MouseEvent<HTMLDivElement>
 ) {
