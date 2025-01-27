@@ -39,7 +39,10 @@ export const showToolTipCheck = ({
   isEnterEvent,
 }: TooltipProps) => {
   setTimeoutRef.current = setTimeout(() => {
-    const isPointerInside = isInside(targetElement, e);
+    const isPointerInside = isEnterEvent
+      ? isInsideForEnter(targetElement, e)
+      : isInsideForOnWheel(targetElement, e);
+    console.log(isPointerInside);
     if (isPointerInside && !tooltipShow.show) {
       setTooltipShow((pre) => ({
         ...pre,
