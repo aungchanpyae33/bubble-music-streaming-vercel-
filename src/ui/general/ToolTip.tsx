@@ -1,6 +1,9 @@
 "use client";
 import useTooltipOverflow from "@/lib/CustomHooks/TooltipOverflow";
-import { isInside, showToolTipCheck } from "@/lib/ToolTip/showToolTipCheck";
+import {
+  isInsideForOnWheel,
+  showToolTipCheck,
+} from "@/lib/ToolTip/showToolTipCheck";
 
 import clsx from "clsx";
 import { ReactNode, useRef } from "react";
@@ -58,17 +61,18 @@ function ToolTip({
           console.log("enter");
           const targetElement = e.currentTarget;
 
-          showToolTipCheck(
+          showToolTipCheck({
             setTimeoutRef,
             tooltipShow,
             setTooltipShow,
-            targetElement,
-            e
-          );
+            targetElement: e.currentTarget,
+            e,
+            isEnterEvent: true,
+          });
         }}
         onWheel={(e) => {
           const targetElement = e.currentTarget;
-          const isPointerInside = isInside(targetElement, e);
+          const isPointerInside = isInsideForOnWheel(targetElement, e);
 
           if (!isPointerInside) {
             console.log("cle");
@@ -80,13 +84,14 @@ function ToolTip({
             }));
           } else {
             if (!tooltipShow.show && !setTimeoutRef.current) {
-              showToolTipCheck(
+              showToolTipCheck({
                 setTimeoutRef,
                 tooltipShow,
                 setTooltipShow,
-                targetElement,
-                e
-              );
+                targetElement: e.currentTarget,
+                e,
+                isEnterEvent: false, // It's a wheel event, so set to false
+              });
             }
           }
         }}
