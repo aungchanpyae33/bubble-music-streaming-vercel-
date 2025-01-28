@@ -122,7 +122,7 @@ function ToolTip({
             setTimeoutRef,
             tooltipShow,
             setTooltipShow,
-            targetElement: e.currentTarget,
+            targetElement,
             e,
             isEnterEvent: true,
             delay: 1000,
