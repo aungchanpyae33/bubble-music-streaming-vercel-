@@ -115,7 +115,7 @@ function ToolTip({
     <div className="group relative w-fit max-w-full cursor-pointer ">
       <div
         onMouseEnter={(e) => {
-          console.log("enter");
+          isOutsideBeforeShow.current = true;
           const targetElement = e.currentTarget;
 
           showToolTipCheck({
