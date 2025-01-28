@@ -21,20 +21,82 @@ function ToolTip({
   const toolTipRef = useRef<HTMLDivElement | null>(null);
   const [tooltipShow, setTooltipShow] = useTooltipOverflow({ toolTipRef });
   const setTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const isOutsideBeforeShow = useRef<boolean>(false);
+  // using callback and memmo in this case is to prevent re-render if in furture  when i want to add another state that does not belong with onwheelhandler
+  const onWheelCallbackprop = useCallback(
+    ({ e, tooltipShow, setTooltipShow }: onWheelCallbackprop) => {
+      const targetElement = e.target as HTMLDivElement;
+      const isPointerInside = isInsideForOnWheel(targetElement, e);
+      if (isOutsideBeforeShow) {
+        clearTimeout(setTimeoutRef!.current!);
+        setTimeoutRef.current = null;
+      }
+      if (!isPointerInside) {
+        clearTimeout(setTimeoutRef!.current!);
+        setTimeoutRef.current = null;
+        if (tooltipShow.show) {
+          setTooltipShow((pre) => ({
+            ...pre,
+            show: false,
+          }));
+        }
+        isOutsideBeforeShow.current = false;
+      } else {
+        if (!tooltipShow.show && !setTimeoutRef.current) {
+          showToolTipCheck({
+            setTimeoutRef,
+            tooltipShow,
+            setTooltipShow,
+            targetElement,
+            e,
+            isEnterEvent: false, // It's a wheel event, so set to false
+            delay: 0,
+            isOutsideBeforeShow,
+          });
+        }
+      }
+    },
+    []
+  );
 
-  // useEffect(() => {
-  //   const targetElement = toolTipRef!.current!;
+  const onWheelFunction = useMemo(() => {
+    return debounce(onWheelCallbackprop, 200);
+  }, [onWheelCallbackprop]);
 
-  //   // Create Intersection Observer
+  // const go = (
+  //   e: React.WheelEvent<HTMLDivElement> | React.MouseEvent<HTMLDivElement>
+  // ) => {
+  //   console.warn("go", isOutsideBeforeShow.current);
 
-  //   const observer = new IntersectionObserver(
-  //     (entries) => {
-  //       entries.forEach((entry) => {
-  //         if (entry.isIntersecting) {
-  //           targetElement.classList.remove("hidden");
-  //         } else {
-  //           targetElement.classList.add("hidden");
-  //         }
+  //   const targetElement = e.target as HTMLDivElement;
+  //   const isPointerInside = isInsideForOnWheel(targetElement, e);
+  //   if (isOutsideBeforeShow) {
+  //     clearTimeout(setTimeoutRef!.current!);
+  //     setTimeoutRef.current = null;
+  //   }
+  //   if (!isPointerInside) {
+  //     console.log("cle");
+  //     clearTimeout(setTimeoutRef!.current!);
+  //     setTimeoutRef.current = null;
+  //     if (tooltipShow.show) {
+  //       setTooltipShow((pre) => ({
+  //         ...pre,
+  //         show: false,
+  //       }));
+  //     }
+
+  //     isOutsideBeforeShow.current = false;
+  //   } else {
+  //     if (!tooltipShow.show && !setTimeoutRef.current) {
+  //       showToolTipCheck({
+  //         setTimeoutRef,
+  //         tooltipShow,
+  //         setTooltipShow,
+  //         targetElement,
+  //         e,
+  //         isEnterEvent: false, // It's a wheel event, so set to false
+  //         delay: 0,
+  //         isOutsideBeforeShow,
   //       });
   //     },
   //     {
