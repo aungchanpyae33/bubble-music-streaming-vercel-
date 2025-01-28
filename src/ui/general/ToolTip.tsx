@@ -106,24 +106,11 @@ function ToolTip({
   //         delay: 0,
   //         isOutsideBeforeShow,
   //       });
-  //     },
-  //     {
-  //       root: null, // Use the viewport as the root
-  //       rootMargin: `-20px 0px 0px 0px`, // Account for header height
-  //       threshold: 1, // Trigger when at least 10% of the element is visible
   //     }
-  //   );
-
-  //   // Observe the target element
-  //   if (targetElement) {
-  //     observer.observe(targetElement);
   //   }
+  // };
+  // const debb = debounce(go, 200);
 
-  //   // Cleanup on unmount
-  //   return () => {
-  //     if (targetElement) observer.unobserve(targetElement);
-  //   };
-  // }, []);
   return (
     <div className="group relative w-fit max-w-full cursor-pointer ">
       <div
