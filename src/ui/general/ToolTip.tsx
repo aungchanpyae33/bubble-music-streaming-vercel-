@@ -130,29 +130,11 @@ function ToolTip({
           });
         }}
         onWheel={(e) => {
-          const targetElement = e.currentTarget;
-          const isPointerInside = isInsideForOnWheel(targetElement, e);
-
-          if (!isPointerInside) {
-            console.log("cle");
+          if (isOutsideBeforeShow.current) {
             clearTimeout(setTimeoutRef!.current!);
             setTimeoutRef.current = null;
-            setTooltipShow((pre) => ({
-              ...pre,
-              show: false,
-            }));
-          } else {
-            if (!tooltipShow.show && !setTimeoutRef.current) {
-              showToolTipCheck({
-                setTimeoutRef,
-                tooltipShow,
-                setTooltipShow,
-                targetElement: e.currentTarget,
-                e,
-                isEnterEvent: false, // It's a wheel event, so set to false
-              });
-            }
           }
+          onWheelFunction({ e, tooltipShow, setTooltipShow });
         }}
         //{...} is used to inset js expression ,
         // {...(tooltipShow.show && {
