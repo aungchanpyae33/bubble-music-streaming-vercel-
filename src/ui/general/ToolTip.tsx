@@ -68,6 +68,8 @@ function ToolTip({
             targetElement: e.currentTarget,
             e,
             isEnterEvent: true,
+            delay: 1000,
+            isOutsideBeforeShow,
           });
         }}
         onWheel={(e) => {
