@@ -9,6 +9,11 @@ import clsx from "clsx";
 import { ReactNode, useRef } from "react";
 //[todo] : need to add debounce or throttle to the onwheel event
 //[todo] : in mobile , tooltip  is trigger , need to prevent it
+interface onWheelCallbackprop {
+  e: React.WheelEvent<HTMLDivElement> | React.MouseEvent<HTMLDivElement>;
+  tooltipShow: tooltipState;
+  setTooltipShow: React.Dispatch<SetStateAction<tooltipState>>;
+}
 function ToolTip({
   children,
   tooltipContent,
