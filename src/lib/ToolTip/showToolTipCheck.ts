@@ -28,6 +28,8 @@ interface TooltipProps {
   targetElement: HTMLDivElement;
   e: React.WheelEvent<HTMLDivElement> | React.MouseEvent<HTMLDivElement>;
   isEnterEvent: boolean;
+  delay: number;
+  isOutsideBeforeShow: RefObject<boolean>;
 }
 
 export const showToolTipCheck = ({
@@ -37,6 +39,8 @@ export const showToolTipCheck = ({
   targetElement,
   e,
   isEnterEvent,
+  delay,
+  isOutsideBeforeShow,
 }: TooltipProps) => {
   setTimeoutRef.current = setTimeout(() => {
     const isPointerInside = isEnterEvent
@@ -48,6 +52,7 @@ export const showToolTipCheck = ({
         ...pre,
         show: true,
       }));
+      isOutsideBeforeShow.current = false;
     }
-  }, 1000);
+  }, delay);
 };
