@@ -55,7 +55,7 @@ function NavList({
           open={open}
           setopen={setopen}
         >
-          {childrenExplore}
+          {childrenLive}
         </NavSideLink>
         <div>
           <div className=" border-t-2  border-black text-white h-[50px] flex items-center justify-between px-2 ">
