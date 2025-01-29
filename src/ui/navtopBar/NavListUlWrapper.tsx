@@ -19,17 +19,8 @@ function NavListUlWrapper({ open, setopen, children }: NavListUlWrapperProp) {
           }
         )}
       >
-        <li className="h-[50px] z-10 relative will-change-transform">
-          <button
-            onClick={() => {
-              setopen(!open);
-              setAnimate(!animate);
-            }}
-            className=" w-[70px] cursor-pointer h-[50px] bg-green-500 text-white "
-            ref={closeElement}
-          >
-            open
-          </button>
+        <li className="h-[50px] z-10 relative bg-green-500 hover:bg-green-600  flex">
+          <NavSidebarToggle setopen={setopen} open={open} />
           <button
             className={clsx(
               "px-2   flex  w-[150px] min-w-[150px] max-w-[150px] items-center   justify-start h-[50px]"
