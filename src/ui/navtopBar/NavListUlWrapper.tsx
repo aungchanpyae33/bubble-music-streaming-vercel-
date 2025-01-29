@@ -27,7 +27,6 @@ function NavListUlWrapper({ open, setopen, children }: NavListUlWrapperProp) {
             )}
             aria-hidden={true}
             tabIndex={open ? 0 : -1}
-            
           >
             <span className=" ">Bubble</span>
           </button>
