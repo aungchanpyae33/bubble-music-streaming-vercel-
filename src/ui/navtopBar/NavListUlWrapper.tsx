@@ -1,9 +1,10 @@
 import clsx from "clsx";
-import { ReactNode, RefObject, SetStateAction, useState } from "react";
+import { ReactNode, SetStateAction } from "react";
+import NavSidebarToggle from "./NavSideBarToggle";
+
 interface NavListUlWrapperProp {
   open: boolean;
   setopen: React.Dispatch<SetStateAction<boolean>>;
-  closeElement: RefObject<HTMLButtonElement | null>;
   children: ReactNode;
 }
 function NavListUlWrapper({
