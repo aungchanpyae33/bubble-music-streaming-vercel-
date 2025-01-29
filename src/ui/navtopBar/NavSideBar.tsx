@@ -5,19 +5,26 @@ import NavList from "./NavList";
 
 function NavSideBar() {
   return (
-    <div className="">
-      <NavList
-        childrenExplore={
-          <div className=" w-[70px] max-w-[70px] h-[50px]  flex items-center justify-center bg-green-500 text-white   ">
-            <div className="truncate">Explore</div>
-          </div>
-        }
-        childrenLive={
-          <div className=" w-[70px] h-[50px]  flex items-center justify-center bg-green-500 text-white">
-            Live
-          </div>
-        }
-      />
+    <div>
+      <div className="">
+        <NavList
+          childrenExplore={
+            <div className=" w-[70px] max-w-[70px] h-[50px]  flex items-center justify-center  text-white   ">
+              <div className="truncate">icon</div>
+            </div>
+          }
+          childrenLive={
+            <div className=" w-[70px] h-[50px]  flex items-center justify-center  text-white">
+              icon
+            </div>
+          }
+          childrenPlaylist={
+            <div className=" w-[70px] h-[50px]  flex items-center justify-center  text-white">
+              playlist
+            </div>
+          }
+        />
+      </div>
     </div>
   );
 }
