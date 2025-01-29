@@ -57,20 +57,23 @@ function NavList({
         >
           {childrenExplore}
         </NavSideLink>
-
-        {/* backgroundlayer for expand element */}
-        <div
-          className={clsx(
-            "backgroundLayer absolute  w-[150px] max-w-[150px] top-0  box-border  h-[100%] sm:duration-200 sm:transition-[transform,opacity] flex-col bg-green-500  rounded-b-sm",
-            {
-              "translate-x-[70px]": open,
-              "-translate-x-[calc(100%-70px)]": !open,
-            }
-          )}
-          onTransitionEnd={(e) => {
-            e.stopPropagation();
-          }}
-        ></div>
+        <div>
+          <div className=" border-t-2  border-black text-white h-[50px] flex items-center justify-between px-2 ">
+            <span>playlist</span>
+            <span>
+              <button>add icon</button>
+            </span>
+          </div>
+          {[...Array(20)].map((item) => (
+            <div
+              className=" mt-2  h-[50px] hover:bg-green-600  flex items-center px-2"
+              key={crypto.randomUUID()}
+            >
+              <div className="w-[70px]  cursor-pointer  text-white">icon</div>
+              <div>test for playlist folder</div>
+            </div>
+          ))}
+        </div>
       </NavListUlWrapper>
 
       {open && <OverLay setopen={setopen} />}
