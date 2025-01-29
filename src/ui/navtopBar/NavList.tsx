@@ -28,18 +28,18 @@ function NavList({
         closeElement={closeElement}
       >
         <NavSideLink
-          url="/live"
-          icon="live"
-          desp="Live oie wofnw oin wonw orinoier"
+          url="/explore"
+          icon="icon"
+          desp="Explore"
           open={open}
           setopen={setopen}
         >
-          {childrenLive}
+          {childrenExplore}
         </NavSideLink>
         <NavSideLink
-          url="/explore"
-          icon="explore"
-          desp="Expl sdkofn osfn oifn ofnwoifnwe"
+          url="/live"
+          icon="icon"
+          desp="Live"
           open={open}
           setopen={setopen}
         >
