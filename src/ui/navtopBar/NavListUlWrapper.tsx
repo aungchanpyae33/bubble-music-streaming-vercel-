@@ -10,16 +10,6 @@ interface NavListUlWrapperProp {
 function NavListUlWrapper({ open, setopen, children }: NavListUlWrapperProp) {
   return (
     <>
-      <button
-        onClick={() => {
-          setopen(!open);
-          setAnimate(!animate);
-        }}
-        className=" w-[70px] cursor-pointer sm:hidden h-[50px] bg-green-500 text-white "
-        ref={closeElement}
-      >
-        open
-      </button>
       <ul
         className={clsx(
           "fixed top-0 z-30 box-border  left-0 h-[100%] flex  flex-col gap-1  bg-green-500  rounded-b-sm",
