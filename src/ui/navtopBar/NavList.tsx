@@ -22,11 +22,23 @@ function NavList({
   CloseFunctoion(open, setopen, closeElement);
   return (
     <div>
-      <NavListUlWrapper
-        open={open}
-        setopen={setopen}
-        closeElement={closeElement}
-      >
+      <ul className="fixed  top-0 z-30 box-border  left-0 h-[50px] sm:h-[100%] flex  flex-col gap-1  bg-green-500  rounded-b-sm">
+        <button
+          onClick={() => {
+            setopen(!open);
+          }}
+          tabIndex={open ? -1 : 0}
+          className=" w-[70px] cursor-pointer h-[50px] bg-green-500 text-white"
+        >
+          open
+        </button>
+        <div className="hidden sm:block">{childrenExplore}</div>
+
+        <div className=" hidden sm:block">{childrenLive}</div>
+        <div className="hidden sm:block">{childrenPlaylist}</div>
+      </ul>
+
+      <NavListUlWrapper open={open} setopen={setopen}>
         <NavSideLink
           url="/explore"
           icon="icon"
