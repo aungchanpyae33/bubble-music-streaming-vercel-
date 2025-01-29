@@ -7,13 +7,7 @@ interface NavListUlWrapperProp {
   setopen: React.Dispatch<SetStateAction<boolean>>;
   children: ReactNode;
 }
-function NavListUlWrapper({
-  open,
-  setopen,
-  closeElement,
-  children,
-}: NavListUlWrapperProp) {
-  const [animate, setAnimate] = useState(false); //to prevent
+function NavListUlWrapper({ open, setopen, children }: NavListUlWrapperProp) {
   return (
     <>
       <button
