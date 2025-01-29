@@ -14,20 +14,18 @@ interface LinkProps {
 function NavSideLink({ url, icon, desp, open, setopen, children }: LinkProps) {
   // console.log("render navsidebarlink");
   return (
-    <li className="h-[50px] z-10 relative will-change-transform">
-      <Link href={url} className="" onClick={() => setopen(false)}>
+    <li className=" bg-green-500 hover:bg-green-600">
+      <Link
+        href={url}
+        className="h-[50px] z-10 relative flex"
+        onClick={() => setopen(false)}
+        tabIndex={open ? 0 : -1}
+      >
         {children}
         <div
           className={clsx(
-            " absolute -z-10  top-0 px-2 max-w-[150px]  bg-green-500 flex w-[150px] min-w-[150px] sm:duration-200 sm:transition-[transform,opacity]  items-center justify-start h-[50px]",
-            {
-              "-translate-x-[calc(100%-70px)]  opacity-0 ": open === false,
-              "translate-x-[70px] opacity-100": open === true,
-            }
+            "px-2 flex  w-[150px] min-w-[150px] max-w-[150px] items-center   justify-start h-[50px]    "
           )}
-          onTransitionEnd={(e) => {
-            e.stopPropagation();
-          }}
         >
           <div className=" truncate">{desp}</div>
         </div>
