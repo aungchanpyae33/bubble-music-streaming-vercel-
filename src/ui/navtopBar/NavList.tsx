@@ -9,8 +9,13 @@ import NavListUlWrapper from "./NavListUlWrapper";
 interface childrenProp {
   childrenExplore: ReactNode;
   childrenLive: ReactNode;
+  childrenPlaylist: ReactNode;
 }
-function NavList({ childrenExplore, childrenLive }: childrenProp) {
+function NavList({
+  childrenExplore,
+  childrenLive,
+  childrenPlaylist,
+}: childrenProp) {
   // console.log("render");
   const [open, setopen] = useBodyScrollLock();
   const closeElement = useRef<HTMLButtonElement | null>(null);
