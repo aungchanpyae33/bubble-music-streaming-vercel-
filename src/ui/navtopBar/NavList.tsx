@@ -1,10 +1,8 @@
 "use client";
 import useBodyScrollLock from "@/lib/CustomHooks/BodyScrollLock";
 import OverLay from "./OverLay";
-import clsx from "clsx";
 import NavSideLink from "./NavSideLink";
-import { ReactNode, useRef } from "react";
-import CloseFunctoion from "@/lib/CloseFunction";
+import { ReactNode } from "react";
 import NavListUlWrapper from "./NavListUlWrapper";
 interface childrenProp {
   childrenExplore: ReactNode;
