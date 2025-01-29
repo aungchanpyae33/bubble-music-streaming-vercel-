@@ -18,8 +18,7 @@ function NavList({
 }: childrenProp) {
   // console.log("render");
   const [open, setopen] = useBodyScrollLock();
-  const closeElement = useRef<HTMLButtonElement | null>(null);
-  CloseFunctoion(open, setopen, closeElement);
+
   return (
     <div>
       <ul className="fixed  top-0 z-30 box-border  left-0 h-[50px] sm:h-[100%] flex  flex-col gap-1  bg-green-500  rounded-b-sm">
