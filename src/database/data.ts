@@ -7,22 +7,18 @@ export interface Movie {
 export interface MovieRe {
   title: string;
 }
-export const getData = unstable_cache(
-  async (query: string) => {
-    const { rows } = await turso.execute(
-      `SELECT title FROM movieB WHERE title LIKE '${query}%'`
-    );
-    const data: Movie[] =
-      rows.length > 0
-        ? rows.map((row: any) => ({
-            title: row.title,
-          }))
-        : [{ title: `we do not found the result` }];
-    return data;
-  },
-  ["movie-query"],
-  { revalidate: 36000 }
-);
+export const getData = async (query: string) => {
+  const { rows } = await turso.execute(
+    `SELECT title FROM movieB WHERE title LIKE '${query}%'`
+  );
+  const data: Movie[] =
+    rows.length > 0
+      ? rows.map((row: any) => ({
+          title: row.title,
+        }))
+      : [{ title: `we do not found the result` }];
+  return data;
+};
 
 export async function getRecom(query: string) {
   console.log(query);
