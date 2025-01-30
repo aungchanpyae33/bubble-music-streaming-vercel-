@@ -12,7 +12,7 @@ function NavListUlWrapper({ open, setopen, children }: NavListUlWrapperProp) {
     <>
       <ul
         className={clsx(
-          "fixed overflow-auto thinScrollbar top-0 z-30 box-border  left-0 h-[100%] flex duration-200 transition-[transform,opacity]  flex-col gap-1  bg-green-500  rounded-b-sm",
+          "fixed overflow-auto thinScrollbar top-0 z-30 box-border  left-0 h-[100%] flex duration-200 transition-[transform,opacity]  flex-col gap-1  bg-green-500  rounded-b-sm pb-[70px]",
           {
             "-translate-x-full opacity-0  ": !open,
             "translate-x-0 opacity-100": open,
