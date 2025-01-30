@@ -5,7 +5,6 @@ import NavBar from "@/ui/navtopBar/NavBar";
 
 const inter = Inter({ subsets: ["latin"] });
 import FooterBar from "@/ui/Footer/FooterBar";
-import NavSideBar from "@/ui/navtopBar/NavSideBar";
 
 export const metadata: Metadata = {
   title: "Create Next App",
