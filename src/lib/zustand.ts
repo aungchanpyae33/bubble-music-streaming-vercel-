@@ -1,5 +1,4 @@
 import { createWithEqualityFn as create } from "zustand/traditional";
-import type { urlProp } from "@/ui/albumContainer/AudiosContainer";
 export interface SongDetail {
   url: string;
   sege: number;
@@ -18,7 +17,7 @@ export interface currentSongPlaylist {
 }
 
 export interface currentSongPlaylistAction {
-  setPlayListArray: (newList: urlProp[]) => void;
+  setPlayListArray: (newList: SongDetail[]) => void;
 }
 
 export interface SongFunctionState {
@@ -47,7 +46,7 @@ export const useCurrentPlayList = create<
       duration: 52.199,
     },
   ],
-  setPlayListArray: (newList: urlProp[]) =>
+  setPlayListArray: (newList: SongDetail[]) =>
     set(() => ({
       playListArray: [...newList],
     })),
