@@ -23,13 +23,9 @@ const ToggleElement = ({
   name,
   playlistUrl,
 }: toggleElementProp) => {
-  // const albumIdCur = useCurrentAlbumId(
-  //   (state: albumIdProp) => state.CuralbumId as Record<string, string>
-  // );
-
-  console.log("toggle Element", url);
-
-  console.log("toggle Element", name);
+  const setPlayListArray = useCurrentPlayList(
+    (state: currentSongPlaylistAction) => state.setPlayListArray
+  );
   const Isplay = useSongFunction(
     (state: SongFunctionState) => state.Isplay[url || ""]
   );
