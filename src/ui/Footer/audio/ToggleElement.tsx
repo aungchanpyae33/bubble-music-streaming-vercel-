@@ -9,10 +9,22 @@ import type {
   SongFunctionActions,
   currentSongPlaylistAction,
 } from "@/lib/zustand";
-
-const ToggleElement = ({ url, sege, duration, name }: SongDetail) => {
-  // const setPlayListArray = useCurrentPlayList(
-  //   (state: currentSongPlaylistAction) => state.setPlayListArray
+interface toggleElementProp {
+  url: string;
+  sege: number;
+  duration: number;
+  name: string;
+  playlistUrl: SongDetail[];
+}
+const ToggleElement = ({
+  url,
+  sege,
+  duration,
+  name,
+  playlistUrl,
+}: toggleElementProp) => {
+  // const albumIdCur = useCurrentAlbumId(
+  //   (state: albumIdProp) => state.CuralbumId as Record<string, string>
   // );
 
   console.log("toggle Element", url);
