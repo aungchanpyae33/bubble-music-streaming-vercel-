@@ -48,7 +48,7 @@ export const useCurrentPlayList = create<
   ],
   setPlayListArray: (newList: SongDetail[]) =>
     set(() => ({
-      playListArray: [...newList],
+      playListArray: newList,
     })),
 }));
 
