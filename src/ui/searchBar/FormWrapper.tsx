@@ -33,7 +33,7 @@ function FormWrapper({
           inputRef.current?.blur();
         }}
         className={clsx(
-          "w-full hidden sm:flex h-[50px] bg-black top-0 left-0 z-50 absolute  items-center  sm:w-auto md:bg-transparent sm:h-auto sm:static sm:z-auto sm:flex-none sm:items-start",
+          "w-full hidden sm:flex h-[50px] bg-black top-0 left-0  absolute  items-center  sm:w-auto md:bg-transparent sm:h-auto sm:static  sm:flex-none sm:items-start",
           {
             unhide: show,
           }

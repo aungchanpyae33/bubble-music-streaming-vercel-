@@ -12,14 +12,14 @@ function NavListUlWrapper({ open, setopen, children }: NavListUlWrapperProp) {
     <>
       <ul
         className={clsx(
-          "fixed overflow-auto thinScrollbar top-0 z-30 box-border  left-0 h-[100%] flex duration-200 transition-[transform,opacity]  flex-col gap-1  bg-green-500  rounded-b-sm pb-[70px]",
+          "fixed  top-0 z-30 box-border  left-0 h-[100%] flex duration-200 transition-[transform,opacity]  flex-col gap-1  bg-green-500  rounded-b-sm",
           {
             "-translate-x-full opacity-0  ": !open,
             "translate-x-0 opacity-100": open,
           }
         )}
       >
-        <li className="h-[50px] z-10 relative bg-green-500 hover:bg-green-600  flex">
+        <li className="h-[50px]  relative bg-green-500 hover:bg-green-600  flex">
           <NavSidebarToggle setopen={setopen} open={open} />
           <button
             className={clsx(

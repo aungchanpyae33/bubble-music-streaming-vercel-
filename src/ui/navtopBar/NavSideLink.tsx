@@ -17,7 +17,7 @@ function NavSideLink({ url, icon, desp, open, setopen, children }: LinkProps) {
     <li className=" bg-green-500 hover:bg-green-600">
       <Link
         href={url}
-        className="h-[50px] z-10 relative flex"
+        className="h-[50px]  relative flex"
         onClick={() => setopen(false)}
         tabIndex={open ? 0 : -1}
       >
