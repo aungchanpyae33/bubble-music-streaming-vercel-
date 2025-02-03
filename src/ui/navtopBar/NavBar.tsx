@@ -6,8 +6,8 @@ import NavSideBar from "./NavSideBar";
 
 function NavBar() {
   return (
-    <nav className="navBarContainer flex w-full sticky  top-0  bg-red-500 z-20 h-[50px] items-center justify-between">
-      <div className=" w-[70px]">
+    <nav className="navBarContainer flex w-full sticky  top-0  bg-red-500 h-[50px] z-20 items-center justify-between ">
+      <div className="w-[70px]">
         <NavSideBar />
       </div>
       <div className="logo  px-2">
