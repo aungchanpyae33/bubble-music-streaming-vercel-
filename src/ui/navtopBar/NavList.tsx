@@ -18,8 +18,8 @@ function NavList({
   const [open, setopen] = useBodyScrollLock();
 
   return (
-    <div>
-      <ul className="fixed  top-0 z-30 box-border  left-0 h-[50px] sm:h-[100%] flex  flex-col gap-1  bg-green-500  rounded-b-sm">
+    <div className="">
+      <ul className="fixed  top-0  box-border  left-0 h-[50px] sm:h-[calc(100%-70px)] flex  flex-col gap-1  bg-green-500  rounded-b-sm ">
         <button
           onClick={() => {
             setopen(!open);
