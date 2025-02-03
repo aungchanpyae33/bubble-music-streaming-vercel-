@@ -36,40 +36,42 @@ function NavList({
       </ul>
 
       <NavListUlWrapper open={open} setopen={setopen}>
-        <NavSideLink
-          url="/explore"
-          icon="icon"
-          desp="Explore"
-          open={open}
-          setopen={setopen}
-        >
-          {childrenExplore}
-        </NavSideLink>
-        <NavSideLink
-          url="/live"
-          icon="icon"
-          desp="Live"
-          open={open}
-          setopen={setopen}
-        >
-          {childrenLive}
-        </NavSideLink>
-        <div>
-          <div className=" border-t-2  border-black text-white h-[50px] flex items-center justify-between px-2 ">
-            <span>playlist</span>
-            <span>
-              <button>add icon</button>
-            </span>
-          </div>
-          {[...Array(20)].map((item) => (
-            <div
-              className=" mt-2  h-[50px] hover:bg-green-600  flex items-center px-2"
-              key={crypto.randomUUID()}
-            >
-              <div className="w-[70px]  cursor-pointer  text-white">icon</div>
-              <div>test for playlist folder</div>
+        <div className="overflow-auto thinScrollbar">
+          <NavSideLink
+            url="/explore"
+            icon="icon"
+            desp="Explore"
+            open={open}
+            setopen={setopen}
+          >
+            {childrenExplore}
+          </NavSideLink>
+          <NavSideLink
+            url="/live"
+            icon="icon"
+            desp="Live"
+            open={open}
+            setopen={setopen}
+          >
+            {childrenLive}
+          </NavSideLink>
+          <div>
+            <div className=" border-t-2  border-black text-white h-[50px] flex items-center justify-between px-2 ">
+              <span>playlist</span>
+              <span>
+                <button>add icon</button>
+              </span>
             </div>
-          ))}
+            {[...Array(20)].map((item) => (
+              <div
+                className=" mt-2  h-[50px] hover:bg-green-600  flex items-center px-2"
+                key={crypto.randomUUID()}
+              >
+                <div className="w-[70px]  cursor-pointer  text-white">icon</div>
+                <div>test for playlist folder</div>
+              </div>
+            ))}
+          </div>
         </div>
       </NavListUlWrapper>
 
