@@ -25,7 +25,7 @@ function NavList({
             setopen(!open);
           }}
           tabIndex={open ? -1 : 0}
-          className=" w-[70px] cursor-pointer h-[50px] bg-green-500 text-white"
+          className=" w-[70px]  cursor-pointer h-[50px] min-h-[50px] bg-green-500 text-white"
         >
           open
         </button>
