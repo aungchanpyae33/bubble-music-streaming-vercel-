@@ -29,10 +29,12 @@ function NavList({
         >
           open
         </button>
-        <div className="hidden sm:block">{childrenExplore}</div>
+        <div className=" overflow-hidden">
+          <div className="hidden sm:block">{childrenExplore}</div>
 
-        <div className=" hidden sm:block">{childrenLive}</div>
-        <div className="hidden sm:block">{childrenPlaylist}</div>
+          <div className=" hidden sm:block">{childrenLive}</div>
+          <div className="hidden sm:block">{childrenPlaylist}</div>
+        </div>
       </ul>
 
       <NavListUlWrapper open={open} setopen={setopen}>
