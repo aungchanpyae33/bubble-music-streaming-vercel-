@@ -20,7 +20,7 @@ export default function RootLayout({
       <body className={`${inter.className} relative `} style={{}}>
         <NavBar />
         <div className="scr">
-          <main className="px-1 sm:pl-[70px] pt-[5px] pb-[70px]">
+          <main className="px-1 sm:pl-[70px] pt-[5px]">
             {children}
             <h1>this is footer bar</h1>
             <h1>made by github Lorem ipsum dolor sit amet,</h1>
