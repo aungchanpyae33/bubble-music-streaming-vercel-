@@ -65,15 +65,15 @@ function AudioSeekBar({
       document.removeEventListener("mouseup", handleMouseUp);
     };
   }, [dataAudio, isDragging]);
-  // function seekFunction(e: eventProp["e"]) {
-  //   if (!bottom) {
-  //     if (fetching.current) {
-  //       if (abortController.current) {
-  //         abortController.current.abort();
-  //       }
-  //       abortController.current = new AbortController();
-  //       fetching.current = false;
-  //     }
+  function seekFunction(e: eventProp["e"]) {
+    if (!bottom) {
+      if (fetching.current) {
+        if (abortController.current) {
+          abortController.current.abort();
+        }
+        abortController.current = new AbortController();
+        fetching.current = false;
+      }
 
       const data = parseFloat(e.currentTarget.value);
 
