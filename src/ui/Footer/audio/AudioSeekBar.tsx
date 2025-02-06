@@ -52,7 +52,11 @@ function AudioSeekBar({
       const rect = sliderRef.current!.getBoundingClientRect();
       const offset = e.clientX - rect.left;
       const per = Math.min(Math.max(offset / rect.width, 0), 1);
-      copyDataAudio.currentTime = per * copyDataAudio.duration;
+      const data = per * copyDataAudio.duration;
+      segNum.current = playBackRate({ dataAudio, data, sege, duration });
+      // console.log(segNum.current);
+      loadNextSegment();
+      // copyDataAudio.currentTime = ;
     }
     function handleTimeUpdate(e: Event) {
       console.log("time");
@@ -79,25 +83,25 @@ function AudioSeekBar({
       document.removeEventListener("mouseup", handleMouseUp);
       copyDataAudio.removeEventListener("timeupdate", handleTimeUpdate);
     };
-  }, [dataAudio, isDragging]);
-  function seekFunction(e: eventProp["e"]) {
-    if (!bottom) {
-      if (fetching.current) {
-        if (abortController.current) {
-          abortController.current.abort();
-        }
-        abortController.current = new AbortController();
-        fetching.current = false;
-      }
+  }, [dataAudio, duration, isDragging, loadNextSegment, segNum, sege]);
+  // function seekFunction(e: eventProp["e"]) {
+  //   if (!bottom) {
+  //     if (fetching.current) {
+  //       if (abortController.current) {
+  //         abortController.current.abort();
+  //       }
+  //       abortController.current = new AbortController();
+  //       fetching.current = false;
+  //     }
 
-      const data = parseFloat(e.currentTarget.value);
+  //     const data = parseFloat(e.currentTarget.value);
 
-      segNum.current = playBackRate({ dataAudio, data, sege, duration });
-      // console.log(segNum.current);
-      loadNextSegment();
-    }
-    setBottom(true);
-  }
+  //     segNum.current = playBackRate({ dataAudio, data, sege, duration });
+  //     // console.log(segNum.current);
+  //     loadNextSegment();
+  //   }
+  //   setBottom(true);
+  // }
   MediaSessionSeek(
     fetching,
     abortController,
