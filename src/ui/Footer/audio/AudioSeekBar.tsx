@@ -2,7 +2,7 @@ import MediaSessionSeek from "@/lib/MediaSession/MediaSessionSeek";
 import DataContext from "@/lib/MediaSource/ContextMedia";
 import { playBackRate } from "@/lib/MediaSource/playBackRate";
 import { TimeFormat } from "@/lib/TimeFormat";
-import { RefObject, useContext, useState } from "react";
+import { RefObject, useContext, useRef, useState } from "react";
 export interface eventProp {
   e:
     | React.MouseEvent<HTMLInputElement>
@@ -33,6 +33,10 @@ function AudioSeekBar({
     fetching,
   } = useContext(DataContext);
   const [value, setValue] = useState<number>(100);
+  const sliderRef = useRef<HTMLDivElement | null>(null);
+
+  const [isDragging, setIsDragging] = useState(false);
+
   function seekFunction(e: eventProp["e"]) {
     if (!bottom) {
       if (fetching.current) {
@@ -63,7 +67,21 @@ function AudioSeekBar({
   // console.log(duration);
   return (
     <div className="ml-10 border-2 group border-black h-[30px] w-[600px] flex items-center">
-      <div className="flex-1 h-[8px]  flex bg-blue-700 relative select-none">
+      <div
+        className="flex-1 h-[8px]  flex bg-blue-700 relative select-none"
+        ref={sliderRef}
+        onMouseDown={(e) => {
+          if (!sliderRef.current) return;
+          setIsDragging(true);
+          //[todo]: need to make reuseable function
+          const rect = e.currentTarget!.getBoundingClientRect();
+          const offset = e.clientX - rect.left;
+          const per = Math.min(Math.max(offset / rect.width, 0), 1);
+          const percentage = per * 100;
+          const newValue = Math.round(100 - percentage);
+          setValue(newValue);
+        }}
+      >
         <div
           className="bg-red-400  absolute top-0 left-0 h-full"
           style={{
