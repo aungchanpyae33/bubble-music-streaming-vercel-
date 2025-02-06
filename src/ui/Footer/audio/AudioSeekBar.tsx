@@ -2,7 +2,7 @@ import MediaSessionSeek from "@/lib/MediaSession/MediaSessionSeek";
 import DataContext from "@/lib/MediaSource/ContextMedia";
 import { playBackRate } from "@/lib/MediaSource/playBackRate";
 import { TimeFormat } from "@/lib/TimeFormat";
-import { RefObject, useContext, useRef, useState } from "react";
+import { RefObject, useContext, useEffect, useRef, useState } from "react";
 export interface eventProp {
   e:
     | React.MouseEvent<HTMLInputElement>
@@ -36,16 +36,44 @@ function AudioSeekBar({
   const sliderRef = useRef<HTMLDivElement | null>(null);
 
   const [isDragging, setIsDragging] = useState(false);
-
-  function seekFunction(e: eventProp["e"]) {
-    if (!bottom) {
-      if (fetching.current) {
-        if (abortController.current) {
-          abortController.current.abort();
-        }
-        abortController.current = new AbortController();
-        fetching.current = false;
-      }
+  useEffect(() => {
+    function handleMouseMove(e: MouseEvent) {
+      const rect = sliderRef!.current!.getBoundingClientRect();
+      const offset = e.clientX - rect.left;
+      const per = Math.min(Math.max(offset / rect.width, 0), 1);
+      const percentage = Math.round(per * 100);
+      const newValue = 100 - percentage;
+      setValue(newValue);
+    }
+    function handleMouseUp(e: MouseEvent) {
+      // console.log("what");
+      setIsDragging(false);
+      const rect = sliderRef.current!.getBoundingClientRect();
+      const offset = e.clientX - rect.left;
+      const per = Math.min(Math.max(offset / rect.width, 0), 1);
+      dataAudio.current!.currentTime = per * dataAudio!.current!.duration;
+    }
+    if (isDragging) {
+      document.addEventListener("mousemove", handleMouseMove);
+      document.addEventListener("mouseup", handleMouseUp);
+    } else {
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
+    }
+    return () => {
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, [dataAudio, isDragging]);
+  // function seekFunction(e: eventProp["e"]) {
+  //   if (!bottom) {
+  //     if (fetching.current) {
+  //       if (abortController.current) {
+  //         abortController.current.abort();
+  //       }
+  //       abortController.current = new AbortController();
+  //       fetching.current = false;
+  //     }
 
       const data = parseFloat(e.currentTarget.value);
 
