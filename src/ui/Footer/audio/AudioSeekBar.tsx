@@ -51,7 +51,7 @@ function AudioSeekBar({
       const rect = sliderRef.current!.getBoundingClientRect();
       const offset = e.clientX - rect.left;
       const per = Math.min(Math.max(offset / rect.width, 0), 1);
-      dataAudio.current!.currentTime = per * dataAudio!.current!.duration;
+      dataAudio!.current!.currentTime = per * dataAudio!.current!.duration;
     }
     if (isDragging) {
       document.addEventListener("mousemove", handleMouseMove);
