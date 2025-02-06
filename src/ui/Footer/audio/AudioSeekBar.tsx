@@ -37,6 +37,7 @@ function AudioSeekBar({
 
   const [isDragging, setIsDragging] = useState(false);
   useEffect(() => {
+    const copyDataAudio = dataAudio!.current!;
     function handleMouseMove(e: MouseEvent) {
       const rect = sliderRef!.current!.getBoundingClientRect();
       const offset = e.clientX - rect.left;
@@ -51,7 +52,19 @@ function AudioSeekBar({
       const rect = sliderRef.current!.getBoundingClientRect();
       const offset = e.clientX - rect.left;
       const per = Math.min(Math.max(offset / rect.width, 0), 1);
-      dataAudio!.current!.currentTime = per * dataAudio!.current!.duration;
+      copyDataAudio.currentTime = per * copyDataAudio.duration;
+    }
+    function handleTimeUpdate(e: Event) {
+      console.log("time");
+      if (!isDragging) {
+        const audioElement = e.currentTarget as HTMLAudioElement;
+        const data = Math.round(
+          (audioElement.currentTime / audioElement.duration) * 100
+        );
+        const f = 100 - data;
+        console.log(f);
+        setValue(f);
+      }
     }
     if (isDragging) {
       document.addEventListener("mousemove", handleMouseMove);
@@ -60,9 +73,11 @@ function AudioSeekBar({
       document.removeEventListener("mousemove", handleMouseMove);
       document.removeEventListener("mouseup", handleMouseUp);
     }
+    copyDataAudio.addEventListener("timeupdate", handleTimeUpdate);
     return () => {
       document.removeEventListener("mousemove", handleMouseMove);
       document.removeEventListener("mouseup", handleMouseUp);
+      copyDataAudio.removeEventListener("timeupdate", handleTimeUpdate);
     };
   }, [dataAudio, isDragging]);
   function seekFunction(e: eventProp["e"]) {
