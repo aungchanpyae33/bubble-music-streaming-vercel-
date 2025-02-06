@@ -62,42 +62,42 @@ function AudioSeekBar({
   ); // Pass value for seeking
   // console.log(duration);
   return (
-    <input
-      type="range"
-      id="seek-slider"
-      ref={dataInput}
-      step="0.001"
-      max={duration}
-      className=" flex-1"
-      onKeyUp={(e) => {
-        if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
-          seekFunction(e);
-        } else if (e.key !== "Tab") {
-          e.preventDefault();
-        }
-      }}
-      onMouseUp={(e) => {
-        seekFunction(e);
-      }}
-      onTouchEnd={(e) => {
-        seekFunction(e);
-      }}
-      // prevent timeupdate
-      onTouchStart={() => setBottom(false)}
-      onMouseDown={() => setBottom(false)}
-      onKeyDown={(e) => {
-        if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
-          setBottom(false);
-        } else if (e.key !== "Tab") {
-          e.preventDefault();
-        }
-      }}
-      // show changeDuration while seeking without effecting the audio
-      onInput={(e) => {
-        dataCur.current!.textContent = TimeFormat(+e.currentTarget.value);
-      }}
-    />
-  );
+  //   <input
+  //     type="range"
+  //     id="seek-slider"
+  //     ref={dataInput}
+  //     // step={bottom ? "0.001" : undefined}
+  //     max={duration}
+  //     className=" flex-1"
+  //     onKeyUp={(e) => {
+  //       if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
+  //         seekFunction(e);
+  //       } else if (e.key !== "Tab") {
+  //         e.preventDefault();
+  //       }
+  //     }}
+  //     onMouseUp={(e) => {
+  //       seekFunction(e);
+  //     }}
+  //     onTouchEnd={(e) => {
+  //       seekFunction(e);
+  //     }}
+  //     // prevent timeupdate
+  //     onTouchStart={() => setBottom(false)}
+  //     onMouseDown={() => setBottom(false)}
+  //     onKeyDown={(e) => {
+  //       if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
+  //         setBottom(false);
+  //       } else if (e.key !== "Tab") {
+  //         e.preventDefault();
+  //       }
+  //     }}
+  //     // show changeDuration while seeking without effecting the audio
+  //     onInput={(e) => {
+  //       dataCur.current!.textContent = TimeFormat(+e.currentTarget.value);
+  //     }}
+  //   />
+  // );
 }
 
 export default AudioSeekBar;
