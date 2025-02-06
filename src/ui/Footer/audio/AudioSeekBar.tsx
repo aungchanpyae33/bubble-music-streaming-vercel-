@@ -2,7 +2,7 @@ import MediaSessionSeek from "@/lib/MediaSession/MediaSessionSeek";
 import DataContext from "@/lib/MediaSource/ContextMedia";
 import { playBackRate } from "@/lib/MediaSource/playBackRate";
 import { TimeFormat } from "@/lib/TimeFormat";
-import { RefObject, useContext } from "react";
+import { RefObject, useContext, useState } from "react";
 export interface eventProp {
   e:
     | React.MouseEvent<HTMLInputElement>
@@ -32,7 +32,7 @@ function AudioSeekBar({
     abortController,
     fetching,
   } = useContext(DataContext);
-
+  const [value, setValue] = useState<number>(100);
   function seekFunction(e: eventProp["e"]) {
     if (!bottom) {
       if (fetching.current) {
@@ -64,9 +64,17 @@ function AudioSeekBar({
   return (
     <div className="ml-10 border-2 group border-black h-[30px] w-[600px] flex items-center">
       <div className="flex-1 h-[8px]  flex bg-blue-700 relative select-none">
-        <div className="bg-red-400  absolute top-0 left-0 h-full"></div>
+        <div
+          className="bg-red-400  absolute top-0 left-0 h-full"
+          style={{
+            right: `${value}%`,
+          }}
+        ></div>
 
-        <span className="absolute   w-[20px] rounded-full h-[20px] top-1/2 -translate-y-1/2 bg-black -translate-x-[10px]"></span>
+        <span
+          className="absolute   w-[20px] rounded-full h-[20px] top-1/2 -translate-y-1/2 bg-black -translate-x-[10px]"
+          style={{ left: `calc(100% - ${value}%)` }}
+        ></span>
       </div>
     </div>
   );
