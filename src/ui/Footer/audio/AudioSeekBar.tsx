@@ -61,7 +61,6 @@ function AudioSeekBar({ duration }: PropAudioSeek) {
       loadNextSegment();
     }
     function handleTimeUpdate(e: Event) {
-      console.log("time");
       if (!isDragging) {
         const audioElement = e.currentTarget as HTMLAudioElement;
         const data = Math.round(
@@ -89,24 +88,6 @@ function AudioSeekBar({ duration }: PropAudioSeek) {
       copyDataAudio.removeEventListener("timeupdate", handleTimeUpdate);
     };
   }, [dataAudio, duration, isDragging, loadNextSegment, segNum, sege]);
-  // function seekFunction(e: eventProp["e"]) {
-  //   if (!bottom) {
-  //     if (fetching.current) {
-  //       if (abortController.current) {
-  //         abortController.current.abort();
-  //       }
-  //       abortController.current = new AbortController();
-  //       fetching.current = false;
-  //     }
-
-  //     const data = parseFloat(e.currentTarget.value);
-
-  //     segNum.current = playBackRate({ dataAudio, data, sege, duration });
-  //     // console.log(segNum.current);
-  //     loadNextSegment();
-  //   }
-  //   setBottom(true);
-  // }
   MediaSessionSeek(
     fetching,
     abortController,
