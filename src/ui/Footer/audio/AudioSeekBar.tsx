@@ -78,6 +78,8 @@ function AudioSeekBar({ duration }: PropAudioSeek) {
     } else {
       document.removeEventListener("mousemove", handleMouseMove);
       document.removeEventListener("mouseup", handleMouseUp);
+      document.removeEventListener("touchmove", handleTouchMove);
+      document.removeEventListener("touchend", handleTouchEnd);
     }
     copyDataAudio.addEventListener("timeupdate", handleTimeUpdate);
     return () => {
