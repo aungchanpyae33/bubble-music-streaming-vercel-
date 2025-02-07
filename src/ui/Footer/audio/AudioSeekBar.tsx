@@ -1,6 +1,10 @@
 import MediaSessionSeek from "@/lib/MediaSession/MediaSessionSeek";
 import DataContext from "@/lib/MediaSource/ContextMedia";
 import { playBackRate } from "@/lib/MediaSource/playBackRate";
+import {
+  seekCal,
+  sliderPositionCal,
+} from "@/lib/MediaSource/SliderPositionCal";
 import { TimeFormat } from "@/lib/TimeFormat";
 import { RefObject, useContext, useEffect, useRef, useState } from "react";
 export interface eventProp {
@@ -16,14 +20,8 @@ interface PropAudioSeek {
   duration: number;
   dataInput: RefObject<HTMLInputElement | null>;
 }
-function AudioSeekBar({
-  dataCur,
-  bottom,
-  setBottom,
-  duration,
-  dataInput,
-}: PropAudioSeek) {
-  // console.log("render AudioSeekbar");
+//[todo] : need to create reusable function , and test re-render audioseebar and need to add alternative event handler touch and key
+function AudioSeekBar({ duration }: PropAudioSeek) {
   const {
     dataAudio,
     loadNextSegment,
@@ -39,24 +37,27 @@ function AudioSeekBar({
   useEffect(() => {
     const copyDataAudio = dataAudio!.current!;
     function handleMouseMove(e: MouseEvent) {
-      const rect = sliderRef!.current!.getBoundingClientRect();
-      const offset = e.clientX - rect.left;
-      const per = Math.min(Math.max(offset / rect.width, 0), 1);
-      const percentage = Math.round(per * 100);
-      const newValue = 100 - percentage;
+      const newValue = sliderPositionCal({ sliderRef, e });
       setValue(newValue);
     }
     function handleMouseUp(e: MouseEvent) {
-      // console.log("what");
       setIsDragging(false);
-      const rect = sliderRef.current!.getBoundingClientRect();
-      const offset = e.clientX - rect.left;
-      const per = Math.min(Math.max(offset / rect.width, 0), 1);
+      const per = seekCal({ sliderRef, e });
       const data = per * copyDataAudio.duration;
       segNum.current = playBackRate({ dataAudio, data, sege, duration });
-      // console.log(segNum.current);
       loadNextSegment();
-      // copyDataAudio.currentTime = ;
+    }
+
+    function handleTouchMove(e: TouchEvent) {
+      const newValue = sliderPositionCal({ sliderRef, e });
+      setValue(newValue);
+    }
+    function handleTouchEnd(e: TouchEvent) {
+      setIsDragging(false);
+      const per = seekCal({ sliderRef, e });
+      const data = per * copyDataAudio.duration;
+      segNum.current = playBackRate({ dataAudio, data, sege, duration });
+      loadNextSegment();
     }
     function handleTimeUpdate(e: Event) {
       console.log("time");
@@ -65,14 +66,15 @@ function AudioSeekBar({
         const data = Math.round(
           (audioElement.currentTime / audioElement.duration) * 100
         );
-        const f = 100 - data;
-        console.log(f);
-        setValue(f);
+        const newValue = 100 - data;
+        setValue(newValue);
       }
     }
     if (isDragging) {
       document.addEventListener("mousemove", handleMouseMove);
       document.addEventListener("mouseup", handleMouseUp);
+      document.addEventListener("touchmove", handleTouchMove);
+      document.addEventListener("touchend", handleTouchEnd);
     } else {
       document.removeEventListener("mousemove", handleMouseMove);
       document.removeEventListener("mouseup", handleMouseUp);
@@ -81,6 +83,8 @@ function AudioSeekBar({
     return () => {
       document.removeEventListener("mousemove", handleMouseMove);
       document.removeEventListener("mouseup", handleMouseUp);
+      document.removeEventListener("touchmove", handleTouchMove);
+      document.removeEventListener("touchend", handleTouchEnd);
       copyDataAudio.removeEventListener("timeupdate", handleTimeUpdate);
     };
   }, [dataAudio, duration, isDragging, loadNextSegment, segNum, sege]);
@@ -120,12 +124,13 @@ function AudioSeekBar({
         onMouseDown={(e) => {
           if (!sliderRef.current) return;
           setIsDragging(true);
-          //[todo]: need to make reuseable function
-          const rect = e.currentTarget!.getBoundingClientRect();
-          const offset = e.clientX - rect.left;
-          const per = Math.min(Math.max(offset / rect.width, 0), 1);
-          const percentage = per * 100;
-          const newValue = Math.round(100 - percentage);
+          const newValue = sliderPositionCal({ sliderRef, e });
+          setValue(newValue);
+        }}
+        onTouchStart={(e) => {
+          if (!sliderRef.current) return;
+          setIsDragging(true);
+          const newValue = sliderPositionCal({ sliderRef, e });
           setValue(newValue);
         }}
       >
