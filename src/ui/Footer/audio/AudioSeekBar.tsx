@@ -20,7 +20,7 @@ interface PropAudioSeek {
   duration: number;
   dataInput: RefObject<HTMLInputElement | null>;
 }
-//[todo] : need to create reusable function , and test re-render audioseebar and need to add alternative event handler touch and key
+//[todo] : need to create keyevent handler
 function AudioSeekBar({ duration }: PropAudioSeek) {
   const {
     dataAudio,
