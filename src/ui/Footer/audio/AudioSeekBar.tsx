@@ -32,6 +32,7 @@ function AudioSeekBar({ duration }: PropAudioSeek) {
   } = useContext(DataContext);
   const [value, setValue] = useState<number>(100);
   const sliderRef = useRef<HTMLDivElement | null>(null);
+  const progressRef = useRef<HTMLDivElement | null>(null);
 
   const [isDragging, setIsDragging] = useState(false);
   useEffect(() => {
@@ -116,7 +117,39 @@ function AudioSeekBar({ duration }: PropAudioSeek) {
     duration
   );
   return (
-    <div className="ml-10 border-2 group border-black h-[30px] w-[600px] flex items-center">
+    <div
+      className="ml-10 border-2 group  h-[30px] w-[600px] flex items-center"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
+          if (!sliderRef.current) return;
+          setIsDragging(true);
+          const newValue = Math.max(value - 1, 0);
+          setValue(newValue);
+        } else if (e.key !== "Tab") {
+          e.preventDefault();
+        }
+      }}
+      onKeyUp={(e) => {
+        if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
+          setIsDragging(false);
+          const offsetWidth =
+            progressRef!.current!.getBoundingClientRect().width;
+          const per = Math.min(
+            Math.max(
+              offsetWidth / sliderRef!.current!.getBoundingClientRect().width,
+              0
+            ),
+            1
+          );
+          const data = per * duration;
+          segNum.current = playBackRate({ dataAudio, data, sege, duration });
+          loadNextSegment();
+        } else if (e.key !== "Tab") {
+          e.preventDefault();
+        }
+      }}
+    >
       <div
         className="flex-1 h-[8px]  flex bg-blue-700 relative select-none"
         ref={sliderRef}
@@ -138,6 +171,7 @@ function AudioSeekBar({ duration }: PropAudioSeek) {
           style={{
             right: `${value}%`,
           }}
+          ref={progressRef}
         ></div>
 
         <span
