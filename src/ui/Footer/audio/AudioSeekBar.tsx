@@ -114,8 +114,7 @@ function AudioSeekBar({ duration }: PropAudioSeek) {
     sege,
     loadNextSegment,
     duration
-  ); // Pass value for seeking
-  // console.log(duration);
+  );
   return (
     <div className="ml-10 border-2 group border-black h-[30px] w-[600px] flex items-center">
       <div
