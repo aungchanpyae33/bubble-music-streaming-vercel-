@@ -104,10 +104,15 @@ function AudioSeekBar({ duration }: PropAudioSeek) {
       className="ml-10 border-2 group  h-[30px] w-[600px] flex items-center"
       tabIndex={0}
       onKeyDown={(e) => {
-        if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
+        if (e.key === "ArrowRight") {
           if (!sliderRef.current) return;
           setIsDragging(true);
           const newValue = Math.max(value - 1, 0);
+          setValue(newValue);
+        } else if (e.key === "ArrowLeft") {
+          if (!sliderRef.current) return;
+          setIsDragging(true);
+          const newValue = Math.min(value + 1, 100);
           setValue(newValue);
         } else if (e.key !== "Tab") {
           e.preventDefault();
