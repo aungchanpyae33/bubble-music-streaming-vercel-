@@ -5,6 +5,7 @@ import {
   seekCal,
   sliderPositionCal,
 } from "@/lib/MediaSource/SliderPositionCal";
+import throttle from "@/lib/throttle";
 import { TimeFormat } from "@/lib/TimeFormat";
 import { RefObject, useContext, useEffect, useRef, useState } from "react";
 export interface eventProp {
@@ -21,7 +22,7 @@ interface PropAudioSeek {
   dataInput: RefObject<HTMLInputElement | null>;
 }
 //[todo] : need to create keyevent handler
-function AudioSeekBar({ duration }: PropAudioSeek) {
+function AudioSeekBar({ duration, dataCur }: PropAudioSeek) {
   const {
     dataAudio,
     loadNextSegment,
@@ -37,9 +38,13 @@ function AudioSeekBar({ duration }: PropAudioSeek) {
   const [isDragging, setIsDragging] = useState(false);
   useEffect(() => {
     const copyDataAudio = dataAudio!.current!;
+    const throttledHandleTimeUpdate = throttle(handleTimeUpdate, 1000);
     function handleMouseMove(e: MouseEvent) {
       const newValue = sliderPositionCal({ sliderRef, e });
+      const data = 100 - newValue;
+      const currentTime = (data / 100) * duration;
       setValue(newValue);
+      dataCur!.current!.textContent = TimeFormat(currentTime);
     }
     function handleMouseUp(e: MouseEvent) {
       setIsDragging(false);
@@ -62,12 +67,16 @@ function AudioSeekBar({ duration }: PropAudioSeek) {
     }
     function handleTimeUpdate(e: Event) {
       if (!isDragging) {
+        // console.log("run");
         const audioElement = e.currentTarget as HTMLAudioElement;
-        const data = Math.round(
-          (audioElement.currentTime / audioElement.duration) * 100
-        );
+        const data = (audioElement.currentTime / audioElement.duration) * 100;
+        // console.log((audioElement.currentTime / audioElement.duration) * 100);
+        const currentTime = audioElement.currentTime;
+        // console.log(data);
         const newValue = 100 - data;
+        // console.log(newValue);
         setValue(newValue);
+        dataCur!.current!.textContent = TimeFormat(currentTime);
       }
     }
     if (isDragging) {
@@ -81,15 +90,18 @@ function AudioSeekBar({ duration }: PropAudioSeek) {
       document.removeEventListener("touchmove", handleTouchMove);
       document.removeEventListener("touchend", handleTouchEnd);
     }
-    copyDataAudio.addEventListener("timeupdate", handleTimeUpdate);
+    copyDataAudio.addEventListener("timeupdate", throttledHandleTimeUpdate);
     return () => {
       document.removeEventListener("mousemove", handleMouseMove);
       document.removeEventListener("mouseup", handleMouseUp);
       document.removeEventListener("touchmove", handleTouchMove);
       document.removeEventListener("touchend", handleTouchEnd);
-      copyDataAudio.removeEventListener("timeupdate", handleTimeUpdate);
+      copyDataAudio.removeEventListener(
+        "timeupdate",
+        throttledHandleTimeUpdate
+      );
     };
-  }, [dataAudio, duration, isDragging, loadNextSegment, segNum, sege]);
+  }, [dataAudio, duration, isDragging, loadNextSegment, segNum, sege, dataCur]);
   MediaSessionSeek(
     fetching,
     abortController,
@@ -145,7 +157,10 @@ function AudioSeekBar({ duration }: PropAudioSeek) {
           if (!sliderRef.current) return;
           setIsDragging(true);
           const newValue = sliderPositionCal({ sliderRef, e });
+          const data = 100 - newValue;
+          const currentTime = (data / 100) * duration;
           setValue(newValue);
+          dataCur!.current!.textContent = TimeFormat(currentTime);
         }}
         onTouchStart={(e) => {
           if (!sliderRef.current) return;
