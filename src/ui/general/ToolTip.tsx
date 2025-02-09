@@ -35,10 +35,6 @@ function ToolTip({
     ({ e, tooltipShow, setTooltipShow }: onWheelCallbackprop) => {
       const targetElement = e.target as HTMLDivElement;
       const isPointerInside = isInsideForOnWheel(targetElement, e);
-      if (isOutsideBeforeShow) {
-        clearTimeout(setTimeoutRef!.current!);
-        setTimeoutRef.current = null;
-      }
       if (!isPointerInside) {
         clearTimeout(setTimeoutRef!.current!);
         setTimeoutRef.current = null;
@@ -48,7 +44,7 @@ function ToolTip({
             show: false,
           }));
         }
-        isOutsideBeforeShow.current = false;
+        isOutsideBeforeShow.current = true;
       } else {
         if (!tooltipShow.show && !setTimeoutRef.current) {
           showToolTipCheck({
@@ -117,22 +113,25 @@ function ToolTip({
         onMouseEnter={(e) => {
           isOutsideBeforeShow.current = true;
           const targetElement = e.currentTarget;
-
-          showToolTipCheck({
-            setTimeoutRef,
-            tooltipShow,
-            setTooltipShow,
-            targetElement,
-            e,
-            isEnterEvent: true,
-            delay: 1000,
-            isOutsideBeforeShow,
-          });
+          if (!setTimeoutRef.current) {
+            // console.log("runtoo", setTimeoutRef.current);
+            showToolTipCheck({
+              setTimeoutRef,
+              tooltipShow,
+              setTooltipShow,
+              targetElement,
+              e,
+              isEnterEvent: true,
+              delay: 1000,
+              isOutsideBeforeShow,
+            });
+          }
         }}
         onWheel={(e) => {
           if (isOutsideBeforeShow.current) {
             clearTimeout(setTimeoutRef!.current!);
             setTimeoutRef.current = null;
+            return;
           }
           onWheelFunction({ e, tooltipShow, setTooltipShow });
         }}
@@ -141,6 +140,7 @@ function ToolTip({
         //   onWheel: (e) => {
         //  above comment is for the past idea to add onwheel on condition
         onMouseLeave={() => {
+          isOutsideBeforeShow.current = true;
           if (setTimeoutRef.current) {
             clearTimeout(setTimeoutRef.current);
             setTimeoutRef.current = null;
