@@ -45,35 +45,41 @@ function AudioPlayer() {
       }}
     >
       {
-        // i need to wrap in div to remove uncessary usage child
-        <div className="flex  items-center">
-          <AudioDisplayFooter
-            urlImage={
-              "https://s3.tebi.io/test1345/timo-volz-ZlFKIG6dApg-unsplash%20%281%29.jpg"
-            }
-          />
+        <div className="flex w-full h-full">
+          <div className="w-[20%] flex bg-yellow-700">
+            <AudioDisplayFooter
+              urlImage={
+                "https://s3.tebi.io/test1345/timo-volz-ZlFKIG6dApg-unsplash%20%281%29.jpg"
+              }
+            />
 
-          <AudioInfo name={name} />
-          <div className="audioFunctionContainer flex flex-col items-center w-[80%] md:w-[50%]">
-            <div className="upContainer flex gap-2">
-              <AudioFunctionButton>
-                {/* in jsx when use arrow and {} , react expect to return elemetn , if it does not have  return ,  implicitly returns void, or undefined, so, react think nothing to render  */}
-                {(playListArray) => (
-                  // return element
-                  <>
-                    <AudioFunctionPre url={url} urlProp={playListArray} />
-                    <ToggleButton />
-                    <AudioFunctionNext url={url} urlProp={playListArray} />
-                  </>
-                )}
-              </AudioFunctionButton>
-            </div>
-            <div className="BottomContainer w-[90%]">
-              <AudioElement
-                Child={<TimeIndicatorDur duration={duration} />}
-              ></AudioElement>
+            {name && <AudioInfo name={name} key={name} />}
+          </div>
+
+          <div className="flex-1  flex bg-blue-100">
+            <div className="audioFunctionContainer flex  flex-col flex-1 items-center">
+              <div className="upContainer flex gap-2">
+                <AudioFunctionButton>
+                  {/* in jsx when use arrow and {} , react expect to return elemetn , if it does not have  return ,  implicitly returns void, or undefined, so, react think nothing to render  */}
+                  {(playListArray) => (
+                    // return element
+                    <>
+                      <AudioFunctionPre url={url} urlProp={playListArray} />
+                      <ToggleButton />
+                      <AudioFunctionNext url={url} urlProp={playListArray} />
+                    </>
+                  )}
+                </AudioFunctionButton>
+              </div>
+              <div className="BottomContainer w-full ">
+                <AudioElement
+                  Child={<TimeIndicatorDur duration={duration} />}
+                ></AudioElement>
+              </div>
             </div>
           </div>
+
+          <div className="w-[20%] flex bg-yellow-700">use space</div>
         </div>
       }
     </DataContext.Provider>

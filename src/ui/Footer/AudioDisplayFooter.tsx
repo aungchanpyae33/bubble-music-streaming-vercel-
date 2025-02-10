@@ -2,7 +2,7 @@ import Image from "next/image";
 
 function AudioDisplayFooter({ urlImage }: { urlImage: string }) {
   return (
-    <div className=" p-1  w-[70px] h-[70px]   flex items-center justify-center shadow-md ">
+    <div className=" p-1  w-[70px] h-[70px] bg-blue-600   flex items-center justify-center shadow-md ">
       <div className=" w-[70px]">
         <Image
           src={urlImage}

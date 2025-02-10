@@ -6,9 +6,7 @@ function AudioInfo({ name }: { name: string }) {
   return (
     <div
       ref={ofcheckDiv}
-      className="hidden md:block md:w-[150px]
-    lg:w-[200px]
-    overflow-hidden"
+      className="hidden md:block flex-1 overflow-hidden bg-purple-700"
     >
       <AudioInfoOverFlow ofcheckDiv={ofcheckDiv} name={name} />
     </div>

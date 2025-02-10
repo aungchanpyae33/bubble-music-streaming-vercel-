@@ -13,7 +13,7 @@ function AudioElement({ Child }: { Child: ReactNode }) {
   const dataCur = useRef<HTMLSpanElement>(null);
   const { dataAudio, duration } = useContext(DataContext);
   return (
-    <div className="flex items-center">
+    <div className=" w-full flex items-center ">
       <audio ref={dataAudio} className="hidden" hidden autoPlay></audio>
 
       <AudioSeekBar
