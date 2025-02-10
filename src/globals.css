@@ -88,4 +88,10 @@ body.scrolllock {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
+.no-select {
+  -webkit-user-select: none; /* Safari, Chrome, Opera */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer and Edge */
+  user-select: none; /* Standard syntax */
+}
 /* hide scrollbar */
