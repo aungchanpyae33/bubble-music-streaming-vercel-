@@ -50,7 +50,7 @@
 }
 /* body scrolllock */
 /* Firefox */
-.playlist {
+.thinScrollbar {
   scrollbar-width: thin;
   scrollbar-color: var(--secondary) var(--primary);
 }
