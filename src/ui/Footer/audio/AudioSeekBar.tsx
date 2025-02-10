@@ -6,7 +6,6 @@ import {
   sliderPositionCal,
 } from "@/lib/MediaSource/SliderPositionCal";
 import throttle from "@/lib/throttle";
-import { TimeFormat } from "@/lib/TimeFormat";
 import { RefObject, useContext, useEffect, useRef, useState } from "react";
 import TimeIndicatorCur from "./TimeIndicatorCur";
 export interface eventProp {
@@ -22,7 +21,7 @@ interface PropAudioSeek {
   duration: number;
   dataInput: RefObject<HTMLInputElement | null>;
 }
-//[todo] : need to create keyevent handler
+
 function AudioSeekBar({ duration, dataCur }: PropAudioSeek) {
   const {
     dataAudio,
@@ -70,9 +69,7 @@ function AudioSeekBar({ duration, dataCur }: PropAudioSeek) {
       if (!isDragging) {
         const audioElement = e.currentTarget as HTMLAudioElement;
         const data = (audioElement.currentTime / audioElement.duration) * 100;
-
         const currentTime = audioElement.currentTime;
-
         const newValue = 100 - data;
 
         setValue(newValue);
@@ -114,7 +111,6 @@ function AudioSeekBar({ duration, dataCur }: PropAudioSeek) {
   return (
     <>
       <TimeIndicatorCur timePosition={timePosition} />
-
       <div
         className="ml-10 border-2 group  h-[30px] w-[600px] flex items-center"
         tabIndex={0}
@@ -154,7 +150,7 @@ function AudioSeekBar({ duration, dataCur }: PropAudioSeek) {
         }}
       >
         <div
-          className="flex-1 h-[8px]  flex bg-blue-700 relative select-none"
+          className="flex-1 h-[8px]  flex bg-blue-700 relative"
           ref={sliderRef}
           onMouseDown={(e) => {
             if (!sliderRef.current) return;
