@@ -4,6 +4,10 @@ import { sliderPositionCal } from "@/lib/MediaSource/SliderPositionCal";
 
 import { RefObject, useContext, useRef } from "react";
 import TimeIndicatorCur from "./TimeIndicatorCur";
+import useAudioSeek from "@/lib/CustomHooks/AudioSeek";
+import AudioSeeking from "@/lib/MediaSource/AudioSeeking";
+import AbortFetch from "@/lib/MediaSource/AbortFetch";
+import AudioSeeked from "@/lib/MediaSource/AudioSeeked";
 export interface eventProp {
   e:
     | React.MouseEvent<HTMLInputElement>
@@ -62,24 +66,19 @@ function AudioSeekBar({ duration, dataCur }: PropAudioSeek) {
             if (!sliderRef.current) return;
             setIsDragging(true);
             const newValue = Math.max(value - 1, 0);
-            const data = 100 - newValue;
-            const currentTime = (data / 100) * duration;
-            setValue(newValue);
-            setTimePosition(currentTime);
+            AudioSeeking({ newValue, duration, setValue, setTimePosition });
           } else if (e.key === "ArrowLeft") {
             if (!sliderRef.current) return;
             setIsDragging(true);
             const newValue = Math.min(value + 1, 100);
-            const data = 100 - newValue;
-            const currentTime = (data / 100) * duration;
-            setValue(newValue);
-            setTimePosition(currentTime);
+            AudioSeeking({ newValue, duration, setValue, setTimePosition });
           } else if (e.key !== "Tab") {
             e.preventDefault();
           }
         }}
         onKeyUp={(e) => {
           if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
+            AbortFetch(fetching, abortController);
             setIsDragging(false);
             const offsetWidth =
               progressRef!.current!.getBoundingClientRect().width;
@@ -90,9 +89,14 @@ function AudioSeekBar({ duration, dataCur }: PropAudioSeek) {
               ),
               1
             );
-            const data = per * duration;
-            segNum.current = playBackRate({ dataAudio, data, sege, duration });
-            loadNextSegment();
+            AudioSeeked({
+              per,
+              duration,
+              dataAudio,
+              sege,
+              segNum,
+              loadNextSegment,
+            });
           } else if (e.key !== "Tab") {
             e.preventDefault();
           }
@@ -105,19 +109,13 @@ function AudioSeekBar({ duration, dataCur }: PropAudioSeek) {
             if (!sliderRef.current) return;
             setIsDragging(true);
             const newValue = sliderPositionCal({ sliderRef, e });
-            const data = 100 - newValue;
-            const currentTime = (data / 100) * duration;
-            setValue(newValue);
-            setTimePosition(currentTime);
+            AudioSeeking({ newValue, duration, setValue, setTimePosition });
           }}
           onTouchStart={(e) => {
             if (!sliderRef.current) return;
             setIsDragging(true);
             const newValue = sliderPositionCal({ sliderRef, e });
-            const data = 100 - newValue;
-            const currentTime = (data / 100) * duration;
-            setValue(newValue);
-            setTimePosition(currentTime);
+            AudioSeeking({ newValue, duration, setValue, setTimePosition });
           }}
         >
           <div className=" w-full h-[8px]    bg-blue-700 relative">
