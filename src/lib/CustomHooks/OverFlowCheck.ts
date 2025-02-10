@@ -30,6 +30,24 @@ const useOverflowCheck = (
       }
     };
     checkOverflow();
+    const observer = new ResizeObserver((entries) => {
+      for (let entry of entries) {
+        const clientWidth = Math.round(entry.contentRect.width);
+        const scrollWidth = entry.target.scrollWidth;
+        if (scrollWidth <= clientWidth) {
+          setIsOverFlow({
+            duration: 0,
+            clientWidth: 0,
+          });
+          setanimatie(false);
+        }
+      }
+    });
+    observer.observe(element!.current!);
+
+    return () => {
+      observer.disconnect();
+    };
   }, [element]);
   return [isOverFlow, animate, setanimatie, setIsOverFlow];
 };
