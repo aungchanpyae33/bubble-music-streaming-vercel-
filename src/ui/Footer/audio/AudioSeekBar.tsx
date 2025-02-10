@@ -22,7 +22,7 @@ interface PropAudioSeek {
   dataInput: RefObject<HTMLInputElement | null>;
 }
 
-function AudioSeekBar({ duration, dataCur }: PropAudioSeek) {
+function AudioSeekBar({ duration }: PropAudioSeek) {
   const {
     dataAudio,
     loadNextSegment,
@@ -59,7 +59,7 @@ function AudioSeekBar({ duration, dataCur }: PropAudioSeek) {
     <>
       <TimeIndicatorCur timePosition={timePosition} />
       <div
-        className="ml-10 border-2 group  h-[25px] w-[600px] flex items-center select-none"
+        className="border-2 group  h-[25px] w-full flex items-center select-none no-select"
         tabIndex={0}
         onKeyDown={(e) => {
           if (e.key === "ArrowRight") {
