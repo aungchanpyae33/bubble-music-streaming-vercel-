@@ -56,7 +56,10 @@ function AudioSeekBar({ duration, dataCur }: PropAudioSeek) {
 
     function handleTouchMove(e: TouchEvent) {
       const newValue = sliderPositionCal({ sliderRef, e });
+      const data = 100 - newValue;
+      const currentTime = (data / 100) * duration;
       setValue(newValue);
+      setTimePosition(currentTime);
     }
     function handleTouchEnd(e: TouchEvent) {
       setIsDragging(false);
@@ -119,12 +122,18 @@ function AudioSeekBar({ duration, dataCur }: PropAudioSeek) {
             if (!sliderRef.current) return;
             setIsDragging(true);
             const newValue = Math.max(value - 1, 0);
+            const data = 100 - newValue;
+            const currentTime = (data / 100) * duration;
             setValue(newValue);
+            setTimePosition(currentTime);
           } else if (e.key === "ArrowLeft") {
             if (!sliderRef.current) return;
             setIsDragging(true);
             const newValue = Math.min(value + 1, 100);
+            const data = 100 - newValue;
+            const currentTime = (data / 100) * duration;
             setValue(newValue);
+            setTimePosition(currentTime);
           } else if (e.key !== "Tab") {
             e.preventDefault();
           }
@@ -165,7 +174,10 @@ function AudioSeekBar({ duration, dataCur }: PropAudioSeek) {
             if (!sliderRef.current) return;
             setIsDragging(true);
             const newValue = sliderPositionCal({ sliderRef, e });
+            const data = 100 - newValue;
+            const currentTime = (data / 100) * duration;
             setValue(newValue);
+            setTimePosition(currentTime);
           }}
         >
           <div
