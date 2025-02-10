@@ -115,7 +115,7 @@ function AudioSeekBar({ duration, dataCur }: PropAudioSeek) {
     <>
       <TimeIndicatorCur timePosition={timePosition} />
       <div
-        className="ml-10 border-2 group  h-[30px] w-[600px] flex items-center"
+        className="ml-10 border-2 group  h-[25px] w-[600px] flex items-center"
         tabIndex={0}
         onKeyDown={(e) => {
           if (e.key === "ArrowRight") {
@@ -159,7 +159,7 @@ function AudioSeekBar({ duration, dataCur }: PropAudioSeek) {
         }}
       >
         <div
-          className="flex-1 h-[8px]  flex bg-blue-700 relative"
+          className="flex-1 h-full flex items-center justify-center"
           ref={sliderRef}
           onMouseDown={(e) => {
             if (!sliderRef.current) return;
@@ -180,18 +180,20 @@ function AudioSeekBar({ duration, dataCur }: PropAudioSeek) {
             setTimePosition(currentTime);
           }}
         >
-          <div
-            className="bg-red-400  absolute top-0 left-0 h-full"
-            style={{
-              right: `${value}%`,
-            }}
-            ref={progressRef}
-          ></div>
+          <div className=" w-full h-[8px]    bg-blue-700 relative">
+            <div
+              className="bg-red-400  absolute top-0 left-0 h-full"
+              style={{
+                right: `${value}%`,
+              }}
+              ref={progressRef}
+            ></div>
 
-          <span
-            className="absolute group-hover:inline hidden group-focus:inline    w-[20px] rounded-full h-[20px] top-1/2 -translate-y-1/2 bg-black -translate-x-[10px]"
-            style={{ left: `calc(100% - ${value}%)` }}
-          ></span>
+            <span
+              className="absolute group-hover:inline hidden group-focus:inline    w-[20px] rounded-full h-[20px] top-1/2 -translate-y-1/2 bg-black -translate-x-[10px]"
+              style={{ left: `calc(100% - ${value}%)` }}
+            ></span>
+          </div>
         </div>
       </div>
     </>
