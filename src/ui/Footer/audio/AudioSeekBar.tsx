@@ -1,12 +1,8 @@
 import MediaSessionSeek from "@/lib/MediaSession/MediaSessionSeek";
 import DataContext from "@/lib/MediaSource/ContextMedia";
-import { playBackRate } from "@/lib/MediaSource/playBackRate";
-import {
-  seekCal,
-  sliderPositionCal,
-} from "@/lib/MediaSource/SliderPositionCal";
-import throttle from "@/lib/throttle";
-import { RefObject, useContext, useEffect, useRef, useState } from "react";
+import { sliderPositionCal } from "@/lib/MediaSource/SliderPositionCal";
+
+import { RefObject, useContext, useRef } from "react";
 import TimeIndicatorCur from "./TimeIndicatorCur";
 export interface eventProp {
   e:
@@ -31,77 +27,21 @@ function AudioSeekBar({ duration, dataCur }: PropAudioSeek) {
     abortController,
     fetching,
   } = useContext(DataContext);
-  const [value, setValue] = useState<number>(100);
+
   const sliderRef = useRef<HTMLDivElement | null>(null);
   const progressRef = useRef<HTMLDivElement | null>(null);
-  const [timePosition, setTimePosition] = useState(0);
-  const [isDragging, setIsDragging] = useState(false);
-  useEffect(() => {
-    const copyDataAudio = dataAudio!.current!;
-    const throttledHandleTimeUpdate = throttle(handleTimeUpdate, 1000);
-    function handleMouseMove(e: MouseEvent) {
-      const newValue = sliderPositionCal({ sliderRef, e });
-      const data = 100 - newValue;
-      const currentTime = (data / 100) * duration;
-      setValue(newValue);
-      setTimePosition(currentTime);
-    }
-    function handleMouseUp(e: MouseEvent) {
-      setIsDragging(false);
-      const per = seekCal({ sliderRef, e });
-      const data = per * copyDataAudio.duration;
-      segNum.current = playBackRate({ dataAudio, data, sege, duration });
-      loadNextSegment();
-    }
+  const [value, setValue, timePosition, setTimePosition, setIsDragging] =
+    useAudioSeek({
+      dataAudio,
+      sliderRef,
+      duration,
+      segNum,
+      sege,
+      abortController,
+      fetching,
+      loadNextSegment,
+    });
 
-    function handleTouchMove(e: TouchEvent) {
-      const newValue = sliderPositionCal({ sliderRef, e });
-      const data = 100 - newValue;
-      const currentTime = (data / 100) * duration;
-      setValue(newValue);
-      setTimePosition(currentTime);
-    }
-    function handleTouchEnd(e: TouchEvent) {
-      setIsDragging(false);
-      const per = seekCal({ sliderRef, e });
-      const data = per * copyDataAudio.duration;
-      segNum.current = playBackRate({ dataAudio, data, sege, duration });
-      loadNextSegment();
-    }
-    function handleTimeUpdate(e: Event) {
-      if (!isDragging) {
-        const audioElement = e.currentTarget as HTMLAudioElement;
-        const data = (audioElement.currentTime / audioElement.duration) * 100;
-        const currentTime = audioElement.currentTime;
-        const newValue = 100 - data;
-
-        setValue(newValue);
-        setTimePosition(currentTime);
-      }
-    }
-    if (isDragging) {
-      document.addEventListener("mousemove", handleMouseMove);
-      document.addEventListener("mouseup", handleMouseUp);
-      document.addEventListener("touchmove", handleTouchMove);
-      document.addEventListener("touchend", handleTouchEnd);
-    } else {
-      document.removeEventListener("mousemove", handleMouseMove);
-      document.removeEventListener("mouseup", handleMouseUp);
-      document.removeEventListener("touchmove", handleTouchMove);
-      document.removeEventListener("touchend", handleTouchEnd);
-    }
-    copyDataAudio.addEventListener("timeupdate", throttledHandleTimeUpdate);
-    return () => {
-      document.removeEventListener("mousemove", handleMouseMove);
-      document.removeEventListener("mouseup", handleMouseUp);
-      document.removeEventListener("touchmove", handleTouchMove);
-      document.removeEventListener("touchend", handleTouchEnd);
-      copyDataAudio.removeEventListener(
-        "timeupdate",
-        throttledHandleTimeUpdate
-      );
-    };
-  }, [dataAudio, duration, isDragging, loadNextSegment, segNum, sege, dataCur]);
   MediaSessionSeek(
     fetching,
     abortController,
