@@ -16,7 +16,6 @@ function AudioElement({ Child }: { Child: ReactNode }) {
     <div className="flex items-center">
       <audio ref={dataAudio} className="hidden" hidden autoPlay></audio>
 
-      <TimeIndicatorCur dataCur={dataCur} />
       <AudioSeekBar
         dataCur={dataCur}
         bottom={bottom}
