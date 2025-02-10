@@ -59,7 +59,7 @@ function AudioSeekBar({ duration, dataCur }: PropAudioSeek) {
     <>
       <TimeIndicatorCur timePosition={timePosition} />
       <div
-        className="ml-10 border-2 group  h-[25px] w-[600px] flex items-center"
+        className="ml-10 border-2 group  h-[25px] w-[600px] flex items-center select-none"
         tabIndex={0}
         onKeyDown={(e) => {
           if (e.key === "ArrowRight") {
