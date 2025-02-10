@@ -68,14 +68,13 @@ function AudioSeekBar({ duration, dataCur }: PropAudioSeek) {
     }
     function handleTimeUpdate(e: Event) {
       if (!isDragging) {
-        // console.log("run");
         const audioElement = e.currentTarget as HTMLAudioElement;
         const data = (audioElement.currentTime / audioElement.duration) * 100;
-        // console.log((audioElement.currentTime / audioElement.duration) * 100);
+
         const currentTime = audioElement.currentTime;
-        // console.log(data);
+
         const newValue = 100 - data;
-        // console.log(newValue);
+
         setValue(newValue);
         setTimePosition(currentTime);
       }
