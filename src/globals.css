@@ -6,6 +6,7 @@
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
+  --animate-translate-info: 0px;
   --border: red;
   input[type="search"]::-webkit-search-cancel-button,
   input[type="search"]::-webkit-search-decoration,
@@ -39,7 +40,7 @@
     text-wrap: balance;
   }
   .time {
-    @apply text-sm md:text-base w-[3rem] text-center;
+    @apply text-sm md:text-base w-[5rem] text-center;
   }
   .test {
     @apply border-4 border-red-600;

@@ -14,13 +14,22 @@ function AudioInfoOverFlow({
   return (
     /* w-fit is needed to be get full width when animate */
     <div
-      className={clsx("w-fit hover:ease-linear truncate hover:text-clip px-3", {
-        "animate-showtextoverflow": animate && isOverFlow > 0,
-      })}
-      style={isOverFlow > 0 ? { animationDuration: `${isOverFlow}ms` } : {}}
-      // key={name}
+      className={clsx(
+        "w-fit hover:ease-linear truncate hover:text-clip px-2 ",
+        {
+          "animate-showtextoverflow": animate && isOverFlow.duration > 0,
+        }
+      )}
+      style={
+        isOverFlow.duration > 0
+          ? ({
+              animationDuration: `${isOverFlow.duration}ms`,
+              "--animate-translate-info": `${isOverFlow.clientWidth}px`,
+            } as React.CSSProperties)
+          : {}
+      }
       onAnimationEnd={() => {
-        isOverFlow > 0 && setanimatie(false);
+        isOverFlow.duration > 0 && setanimatie(false);
       }}
       onMouseEnter={() => {
         //even same anitmate value would make still twice render even though prop is not change
@@ -31,10 +40,13 @@ function AudioInfoOverFlow({
         const fullWidth = ofcheckDiv.current!.scrollWidth;
         const showWidth = ofcheckDiv.current!.clientWidth;
         if (fullWidth > showWidth) {
-          const overFlowWidth = (fullWidth - showWidth) * 150;
-          console.log(overFlowWidth);
-          if (isOverFlow !== overFlowWidth) {
-            setIsOverFlow(overFlowWidth);
+          const overFlowWidth = (fullWidth - showWidth) * showWidth;
+
+          if (isOverFlow.duration !== overFlowWidth) {
+            setIsOverFlow({
+              duration: overFlowWidth,
+              clientWidth: showWidth,
+            });
           }
           if (!animate) {
             console.log(animate);
