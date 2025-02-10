@@ -17,10 +17,11 @@ const getClientX = (
 export const seekCal = ({ sliderRef, e }: sliderPositionCalprop) => {
   const rect = sliderRef!.current!.getBoundingClientRect();
   const offset = getClientX(e) - rect.left;
+
   return Math.min(Math.max(offset / rect.width, 0), 1);
 };
 export const sliderPositionCal = ({ sliderRef, e }: sliderPositionCalprop) => {
   const per = seekCal({ sliderRef, e });
   const percentage = per * 100;
-  return Math.round(100 - percentage);
+  return 100 - percentage;
 };
