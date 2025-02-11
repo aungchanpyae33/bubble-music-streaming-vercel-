@@ -59,11 +59,19 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
       );
       sourceBuffer.current!.addEventListener("updateend", () => {
         fetching.current = false;
-        loadNextSegment();
+        // without endofStream , audio ended can not be trigger
+        if (segNum.current <= sege) {
+          loadNextSegment();
+        } else if (
+          mediaSource!.current!.readyState === "open" &&
+          !sourceBuffer!.current!.updating
+        ) {
+          mediaSource!.current!.endOfStream();
+        }
       });
       dataAudio.current!.addEventListener("timeupdate", loadNextSegment);
     }
-  }, [loadNextSegment, url]);
+  }, [loadNextSegment, sege, url]);
 
   const clearUpPreviousSong = useCallback(() => {
     const audio = dataAudio.current;
