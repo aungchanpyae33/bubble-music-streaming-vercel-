@@ -14,12 +14,9 @@ function AudioInfoOverFlow({
   return (
     /* w-fit is needed to be get full width when animate */
     <div
-      className={clsx(
-        "w-fit hover:ease-linear truncate hover:text-clip px-2 ",
-        {
-          "animate-showtextoverflow": animate && isOverFlow.duration > 0,
-        }
-      )}
+      className={clsx("w-fit hover:ease-linear truncate hover:text-clip ", {
+        "animate-showtextoverflow": animate && isOverFlow.duration > 0,
+      })}
       style={
         isOverFlow.duration > 0
           ? ({
