@@ -23,7 +23,10 @@ const config: Config = {
       keyframes: {
         showtextoverflow: {
           "0%,2%,100%": { transform: "translateX(0)" },
-          "50%,55%": { transform: "translateX(calc(-100% + 150px))" },
+          "50%,55%": {
+            transform:
+              "translateX(calc(-100% +  var( --animate-translate-info)))",
+          },
         },
       },
     },
