@@ -1,8 +1,6 @@
 "use client";
 import React, { useCallback, useEffect, useRef } from "react";
-// import { fetchSegement } from "@/lib/MediaSource/fetchSegement";
 import { useSong } from "@/lib/zustand";
-// import { getRemainingBufferDuration } from "@/lib/MediaSource/getRemainBuffer";
 import AudioElement from "./audio/AudioElement";
 import DataContext from "@/lib/MediaSource/ContextMedia";
 import ToggleButton from "./audio/ToggleButton";
@@ -16,7 +14,6 @@ import type { SongDetail, SongState } from "@/lib/zustand";
 import AudioFunctionPre from "./audio/AudioFunctionPre";
 import AudioFunctionNext from "./audio/AudioFunctionNext";
 function AudioPlayer() {
-  console.log("audioPLayer");
   const { sege, name, duration } = useSong(
     (state: SongState) => state.songCu
   ) as SongDetail;
@@ -28,10 +25,7 @@ function AudioPlayer() {
 
   const { dataAudio, loadNextSegment, segNum, abortController, fetching } =
     useMediaSourceBuffer(url, sege);
-  // useMediaSession(name, url);
-  console.log(name);
   MediaSessionDes(name, url);
-  console.log("render audio playre");
   return (
     <DataContext.Provider
       value={{
