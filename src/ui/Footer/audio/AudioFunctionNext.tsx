@@ -18,10 +18,7 @@ function AudioFunctionNext({
   function songFunctionNext() {
     const songList = urlProp;
     if (currentIndex >= urlSongs.length - 1) return;
-    const url = songList[currentIndex + 1].url;
-    const sege = songList[currentIndex + 1].sege;
-    const duration = songList[currentIndex + 1].duration;
-    const name = songList[currentIndex + 1].name;
+    const { url, sege, duration, name } = songList[currentIndex + 1];
     updateSongCu({ [url || ""]: url, sege, duration, name });
     // url is js keyName
     setPlay(url || "", true);
