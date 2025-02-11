@@ -1,16 +1,19 @@
 import { useCallback, useEffect, useRef } from "react";
 import { fetchSegment } from "../MediaSource/fetchSegment";
 import { getRemainingBufferDuration } from "../MediaSource/getRemainBuffer";
+import { PrefetchSegment } from "../MediaSource/PrefetchSegment";
 const bufferThreshold = 10;
 const mimeType_audio = "audio/mp4";
 const codecs_audio = "mp4a.40.2";
 const mimeCodec_audio = `${mimeType_audio};codecs="${codecs_audio}"`;
+//[todo] : need to get after next song url and need to fetch at least 1 segement , need to consider that is it possible to appendbuffer the two arrayBuffer
 const useMediaSourceBuffer = (url: string, sege: number) => {
   const fetching = useRef<boolean>(false);
   const segNum = useRef(1);
   const dataAudio = useRef<HTMLAudioElement | null>(null);
   const mediaSource = useRef<MediaSource | null>(null);
   const sourceBuffer = useRef<SourceBuffer | null>(null);
+  const audioBufferRef = useRef<ArrayBuffer | null>(null);
   const abortController = useRef<AbortController | null>(null);
   const fetchAudioSegment = useCallback(
     (segNum: number) => {
@@ -50,13 +53,26 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
     if (sourceBuffer.current === null) {
       sourceBuffer.current =
         mediaSource.current!.addSourceBuffer(mimeCodec_audio);
-      fetchSegment(
-        url,
-        sourceBuffer,
-        mediaSource,
-        undefined, // start point
-        abortController.current
-      );
+      if (audioBufferRef.current) {
+        if (
+          sourceBuffer.current?.buffered &&
+          !sourceBuffer.current.updating &&
+          mediaSource.current?.readyState
+        ) {
+          // console.log(segNum, "it got buffend");
+          sourceBuffer.current!.appendBuffer(audioBufferRef.current);
+          audioBufferRef.current = null;
+        }
+      } else {
+        fetchSegment(
+          url,
+          sourceBuffer,
+          mediaSource,
+          undefined, // start point
+          abortController.current
+        );
+      }
+
       sourceBuffer.current!.addEventListener("updateend", () => {
         fetching.current = false;
         // without endofStream , audio ended can not be trigger
@@ -67,6 +83,14 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
           !sourceBuffer!.current!.updating
         ) {
           mediaSource!.current!.endOfStream();
+          PrefetchSegment(
+            "https://tebi.bubblemusic.us.kg/init.mp4",
+            sourceBuffer,
+            mediaSource,
+            undefined, // start point
+            abortController.current,
+            audioBufferRef
+          );
         }
       });
       dataAudio.current!.addEventListener("timeupdate", loadNextSegment);
