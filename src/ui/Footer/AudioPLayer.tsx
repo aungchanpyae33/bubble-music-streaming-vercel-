@@ -47,7 +47,7 @@ function AudioPlayer() {
               }
             />
 
-            {name && <AudioInfo name={name} key={name} />}
+            {name && <AudioInfo name={name} />}
           </div>
 
           <div className="flex-1  flex bg-blue-100">
