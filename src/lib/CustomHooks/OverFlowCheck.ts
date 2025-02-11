@@ -1,4 +1,4 @@
-import React, { RefObject, useEffect, useState } from "react";
+import React, { RefObject, useEffect, useRef, useState } from "react";
 interface isOverFlowProp {
   duration: number;
   clientWidth: number;
@@ -16,12 +16,14 @@ const useOverflowCheck = (
     clientWidth: 0,
   });
   const [animate, setanimatie] = useState(true);
+  const previousWidth = useRef(0);
   useEffect(() => {
     const checkOverflow = () => {
       const fullWidth = element.current!.scrollWidth;
       const showWidth = element.current!.clientWidth;
       if (fullWidth > showWidth) {
         const overFlowWidth = (fullWidth - showWidth) * showWidth;
+        previousWidth.current = showWidth;
         setIsOverFlow({
           duration: overFlowWidth,
           clientWidth: showWidth,
@@ -33,8 +35,7 @@ const useOverflowCheck = (
     const observer = new ResizeObserver((entries) => {
       for (let entry of entries) {
         const clientWidth = Math.round(entry.contentRect.width);
-        const scrollWidth = entry.target.scrollWidth;
-        if (scrollWidth <= clientWidth) {
+        if (clientWidth !== previousWidth.current) {
           setIsOverFlow({
             duration: 0,
             clientWidth: 0,
