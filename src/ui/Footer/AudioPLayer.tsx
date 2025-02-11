@@ -40,14 +40,14 @@ function AudioPlayer() {
     >
       {
         <div className="flex w-full h-full">
-          <div className="w-[20%] flex bg-yellow-700">
+          <div className="w-[20%] md:w-[25%] lg:w-[28%] flex bg-yellow-700">
             <AudioDisplayFooter
               urlImage={
                 "https://s3.tebi.io/test1345/timo-volz-ZlFKIG6dApg-unsplash%20%281%29.jpg"
               }
             />
-
-            {name && <AudioInfo name={name} />}
+            {/* without it will just changing data for audioinfo */}
+            {name && <AudioInfo name={name} key={name} />}
           </div>
 
           <div className="flex-1  flex bg-blue-100">
@@ -73,7 +73,9 @@ function AudioPlayer() {
             </div>
           </div>
 
-          <div className="w-[20%] flex bg-yellow-700">use space</div>
+          <div className="w-[20%] md:w-[25%] lg:w-[30%] flex bg-yellow-700">
+            use space
+          </div>
         </div>
       }
     </DataContext.Provider>
