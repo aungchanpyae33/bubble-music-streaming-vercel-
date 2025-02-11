@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef } from "react";
-import { fetchSegement } from "../MediaSource/fetchSegement";
+import { fetchSegment } from "../MediaSource/fetchSegment";
 import { getRemainingBufferDuration } from "../MediaSource/getRemainBuffer";
 const bufferThreshold = 10;
 const mimeType_audio = "audio/mp4";
@@ -19,7 +19,7 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
         // return when no initialized
         return;
       }
-      fetchSegement(
+      fetchSegment(
         url,
         sourceBuffer,
         mediaSource,
@@ -50,7 +50,7 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
     if (sourceBuffer.current === null) {
       sourceBuffer.current =
         mediaSource.current!.addSourceBuffer(mimeCodec_audio);
-      fetchSegement(
+      fetchSegment(
         url,
         sourceBuffer,
         mediaSource,
