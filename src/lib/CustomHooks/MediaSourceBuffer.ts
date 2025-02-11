@@ -6,14 +6,15 @@ const bufferThreshold = 10;
 const mimeType_audio = "audio/mp4";
 const codecs_audio = "mp4a.40.2";
 const mimeCodec_audio = `${mimeType_audio};codecs="${codecs_audio}"`;
-//[todo] : need to get after next song url and need to fetch at least 1 segement , need to consider that is it possible to appendbuffer the two arrayBuffer
+
 const useMediaSourceBuffer = (url: string, sege: number) => {
   const fetching = useRef<boolean>(false);
   const segNum = useRef(1);
   const dataAudio = useRef<HTMLAudioElement | null>(null);
   const mediaSource = useRef<MediaSource | null>(null);
   const sourceBuffer = useRef<SourceBuffer | null>(null);
-  const audioBufferRef = useRef<ArrayBuffer | null>(null);
+  const audioInitBufferRef = useRef<ArrayBuffer | null>(null);
+  const audioSeg1BufferRef = useRef<ArrayBuffer | null>(null);
   const abortController = useRef<AbortController | null>(null);
   const fetchAudioSegment = useCallback(
     (segNum: number) => {
@@ -22,13 +23,25 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
         // return when no initialized
         return;
       }
-      fetchSegment(
-        url,
-        sourceBuffer,
-        mediaSource,
-        segNum,
-        abortController.current
-      );
+      if (audioSeg1BufferRef.current) {
+        if (
+          sourceBuffer.current?.buffered &&
+          !sourceBuffer.current.updating &&
+          mediaSource.current?.readyState
+        ) {
+          // console.log(segNum, "it got buffend");
+          sourceBuffer.current!.appendBuffer(audioSeg1BufferRef.current);
+          audioSeg1BufferRef.current = null;
+        }
+      } else {
+        fetchSegment(
+          url,
+          sourceBuffer,
+          mediaSource,
+          segNum,
+          abortController.current
+        );
+      }
     },
     [url]
   );
@@ -53,15 +66,15 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
     if (sourceBuffer.current === null) {
       sourceBuffer.current =
         mediaSource.current!.addSourceBuffer(mimeCodec_audio);
-      if (audioBufferRef.current) {
+      if (audioInitBufferRef.current) {
         if (
           sourceBuffer.current?.buffered &&
           !sourceBuffer.current.updating &&
           mediaSource.current?.readyState
         ) {
           // console.log(segNum, "it got buffend");
-          sourceBuffer.current!.appendBuffer(audioBufferRef.current);
-          audioBufferRef.current = null;
+          sourceBuffer.current!.appendBuffer(audioInitBufferRef.current);
+          audioInitBufferRef.current = null;
         }
       } else {
         fetchSegment(
@@ -89,7 +102,8 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
             mediaSource,
             undefined, // start point
             abortController.current,
-            audioBufferRef
+            audioInitBufferRef,
+            audioSeg1BufferRef
           );
         }
       });
