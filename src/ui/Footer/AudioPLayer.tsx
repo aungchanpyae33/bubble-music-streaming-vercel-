@@ -13,6 +13,8 @@ import AudioInfo from "./AudioInfo";
 import type { SongDetail, SongState } from "@/lib/zustand";
 import AudioFunctionPre from "./audio/AudioFunctionPre";
 import AudioFunctionNext from "./audio/AudioFunctionNext";
+import AudioFunctionRepeat from "./audio/AudioFunctionRepeat";
+import AudioFunctionShuffle from "./audio/AudioFunctionShuffle";
 function AudioPlayer() {
   const { sege, name, duration } = useSong(
     (state: SongState) => state.songCu
@@ -58,9 +60,11 @@ function AudioPlayer() {
                   {(playListArray) => (
                     // return element
                     <>
+                      <AudioFunctionShuffle />
                       <AudioFunctionPre url={url} urlProp={playListArray} />
                       <ToggleButton />
                       <AudioFunctionNext url={url} urlProp={playListArray} />
+                      <AudioFunctionRepeat />
                     </>
                   )}
                 </AudioFunctionButton>
