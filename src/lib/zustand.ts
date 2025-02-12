@@ -5,6 +5,25 @@ export interface SongDetail {
   duration: number;
   name: string;
 }
+
+export interface IsRepeatState {
+  isRepeat: boolean;
+}
+export interface RepeatAction {
+  setRepeat: () => void;
+}
+export interface PrefetchAction {
+  prefetchSegment: (params: PrefetchParams) => Promise<void>;
+}
+export interface PrefetchParams {
+  url: string;
+  sourceBuffer: RefObject<SourceBuffer | null>;
+  mediaSource: RefObject<MediaSource | null>;
+  segNum: number | undefined;
+  abortController: RefObject<AbortController | null>;
+  audioInitBufferRef: RefObject<ArrayBuffer | null>;
+  audioSeg1BufferRef: RefObject<ArrayBuffer | null>;
+}
 export interface SongState {
   songCu: SongDetail | {};
 }
@@ -61,5 +80,54 @@ export const useSongFunction = create<SongFunctionState & SongFunctionActions>(
           [key]: play || !state.Isplay[key],
         },
       })),
+  })
+);
+
+export const useRepeat = create<IsRepeatState & RepeatAction & PrefetchAction>(
+  (set, get) => ({
+    isRepeat: false,
+    setRepeat: () => set((state) => ({ isRepeat: !state.isRepeat })),
+    // if it check as isRepeat in function component, it will re-render entrire component 
+    prefetchSegment: async ({
+      url,
+      sourceBuffer,
+      mediaSource,
+      segNum,
+      abortController,
+      audioInitBufferRef,
+      audioSeg1BufferRef,
+    }: PrefetchParams) => {
+      const fetchOptions: RequestInit = {
+        signal: abortController!.current!.signal,
+      };
+      console.log("hidd");
+      // Early return if repeat is enabled
+      if (get().isRepeat) return;
+
+      const initUrl = url;
+      const seg1Url = url.replace("init.mp4", "seg-1.m4s");
+
+      try {
+        const [initBuffer, seg1Buffer] = await Promise.all([
+          fetch(initUrl, fetchOptions).then((res) => res.arrayBuffer()),
+          fetch(seg1Url, fetchOptions).then((res) => res.arrayBuffer()),
+        ]);
+
+        if (
+          sourceBuffer.current?.buffered &&
+          !sourceBuffer.current.updating &&
+          mediaSource.current?.readyState
+        ) {
+          audioInitBufferRef.current = initBuffer;
+          audioSeg1BufferRef.current = seg1Buffer;
+        }
+      } catch (err: any) {
+        if (err.name === "AbortError") {
+          console.log(`the song segments sege-${segNum} fetching is aborted`);
+        } else {
+          console.error(`Error fetching segments sege-${segNum}`, err);
+        }
+      }
+    },
   })
 );
