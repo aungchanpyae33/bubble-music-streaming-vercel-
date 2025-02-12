@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef } from "react";
 import { fetchSegment } from "../MediaSource/fetchSegment";
 import { getRemainingBufferDuration } from "../MediaSource/getRemainBuffer";
-import { PrefetchSegment } from "../MediaSource/PrefetchSegment";
+import { useRepeat } from "../zustand";
 const bufferThreshold = 10;
 const mimeType_audio = "audio/mp4";
 const codecs_audio = "mp4a.40.2";
@@ -16,6 +16,7 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
   const audioInitBufferRef = useRef<ArrayBuffer | null>(null);
   const audioSeg1BufferRef = useRef<ArrayBuffer | null>(null);
   const abortController = useRef<AbortController | null>(null);
+  const prefetchSegment = useRepeat((state) => state.prefetchSegment);
   const fetchAudioSegment = useCallback(
     (segNum: number) => {
       if (abortController.current === null) {
@@ -90,20 +91,21 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
           !sourceBuffer!.current!.updating
         ) {
           mediaSource!.current!.endOfStream();
-          PrefetchSegment(
-            "https://tebi.bubblemusic.us.kg/init.mp4",
+
+          prefetchSegment({
+            url: "https://tebi.bubblemusic.us.kg/init.mp4",
             sourceBuffer,
             mediaSource,
-            undefined, // start point
-            abortController.current,
+            segNum: undefined, // start point
+            abortController,
             audioInitBufferRef,
-            audioSeg1BufferRef
-          );
+            audioSeg1BufferRef,
+          });
         }
       });
       dataAudio.current!.addEventListener("timeupdate", loadNextSegment);
     }
-  }, [loadNextSegment, sege, url]);
+  }, [loadNextSegment, prefetchSegment, sege, url]);
 
   const clearUpPreviousSong = useCallback(() => {
     const audio = dataAudio.current;
