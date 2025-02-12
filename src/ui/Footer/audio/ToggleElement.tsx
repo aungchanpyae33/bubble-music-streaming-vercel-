@@ -54,7 +54,7 @@ const ToggleElement = ({
         //   e.stopPropagation();
         // }}
         onClick={() => {
-          //  setPlayListArray(url);
+          setPlayListArray(playlistUrl);
           if (url === songCuUrl) {
             setPlay(url || "", undefined);
           } else {
