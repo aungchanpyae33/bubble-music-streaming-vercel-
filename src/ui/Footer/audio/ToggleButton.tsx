@@ -1,11 +1,12 @@
 import MediaSessionToggle from "@/lib/MediaSession/MediaSessionToggle";
 import DataContext from "@/lib/MediaSource/ContextMedia";
-import { useSong, useSongFunction } from "@/lib/zustand";
+import { useRepeat, useSong, useSongFunction } from "@/lib/zustand";
 import { useContext, useEffect } from "react";
 import type {
   SongFunctionState,
   SongFunctionActions,
   SongActions,
+  IsRepeatState,
 } from "@/lib/zustand";
 import { urlProp } from "@/ui/albumContainer/AudiosContainer";
 function ToggleButton({ urlProp }: { urlProp: urlProp[] }) {
@@ -20,11 +21,12 @@ function ToggleButton({ urlProp }: { urlProp: urlProp[] }) {
     (state: SongFunctionActions) => state.setPlay
   );
   const updateSongCu = useSong((state: SongActions) => state.updateSongCu);
-  console.log(firstIsplay, firstKey);
+  const isRepeat = useRepeat((state: IsRepeatState) => state.isRepeat);
+
   // console.log("render togglebutton");
   useEffect(() => {
     const copyDataAudio = dataAudio!.current!;
-    console.log(copyDataAudio);
+
     function handlePlay() {
       if (dataAudio.current?.readyState) {
         if (firstIsplay) {
@@ -35,13 +37,18 @@ function ToggleButton({ urlProp }: { urlProp: urlProp[] }) {
       }
     }
     function playNext() {
-      const songList = urlProp;
-      if (currentIndex >= urlSongs.length - 1) return;
+      if (!isRepeat) {
+        const songList = urlProp;
+        if (currentIndex >= urlSongs.length - 1) return;
 
-      const { url, sege, duration, name } = songList[currentIndex + 1];
-      updateSongCu({ [url || ""]: url, sege, duration, name });
-      // url is js keyName
-      setPlay(url || "", true);
+        const { url, sege, duration, name } = songList[currentIndex + 1];
+        updateSongCu({ [url || ""]: url, sege, duration, name });
+        // url is js keyName
+        setPlay(url || "", true);
+      } else {
+        dataAudio!.current!.currentTime = 0;
+        dataAudio!.current!.play();
+      }
     }
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === " " || e.code === "Space") {
@@ -64,6 +71,7 @@ function ToggleButton({ urlProp }: { urlProp: urlProp[] }) {
     currentIndex,
     urlSongs.length,
     updateSongCu,
+    isRepeat,
   ]);
   MediaSessionToggle();
   return (
