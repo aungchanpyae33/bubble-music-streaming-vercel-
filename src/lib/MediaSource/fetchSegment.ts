@@ -4,10 +4,10 @@ export const fetchSegment = (
   sourceBuffer: RefObject<SourceBuffer | null>,
   mediaSource: RefObject<MediaSource | null>,
   segNum: number | undefined = undefined,
-  abortController: AbortController | null //need to get the data from other side ,so not use current
+  abortController: RefObject<AbortController | null>
 ) => {
   const fetchOptions: RequestInit = {
-    signal: abortController?.signal,
+    signal: abortController!.current!.signal,
   };
 
   const outputUrl = segNum ? url.replace("init.mp4", `seg-${segNum}.m4s`) : url;

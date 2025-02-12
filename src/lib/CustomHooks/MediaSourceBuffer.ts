@@ -34,13 +34,7 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
           audioSeg1BufferRef.current = null;
         }
       } else {
-        fetchSegment(
-          url,
-          sourceBuffer,
-          mediaSource,
-          segNum,
-          abortController.current
-        );
+        fetchSegment(url, sourceBuffer, mediaSource, segNum, abortController);
       }
     },
     [url]
@@ -82,7 +76,7 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
           sourceBuffer,
           mediaSource,
           undefined, // start point
-          abortController.current
+          abortController
         );
       }
 
