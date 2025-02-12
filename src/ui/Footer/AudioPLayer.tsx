@@ -62,7 +62,7 @@ function AudioPlayer() {
                     <>
                       <AudioFunctionShuffle />
                       <AudioFunctionPre url={url} urlProp={playListArray} />
-                      <ToggleButton />
+                      <ToggleButton urlProp={playListArray} />
                       <AudioFunctionNext url={url} urlProp={playListArray} />
                       <AudioFunctionRepeat />
                     </>
