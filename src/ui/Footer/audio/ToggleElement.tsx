@@ -1,5 +1,10 @@
 "use client";
-import { useCurrentPlayList, useSong, useSongFunction } from "@/lib/zustand";
+import {
+  useCurrentPlayList,
+  usePreviousPlayList,
+  useSong,
+  useSongFunction,
+} from "@/lib/zustand";
 import React from "react";
 import type {
   SongDetail,
@@ -8,6 +13,7 @@ import type {
   SongFunctionState,
   SongFunctionActions,
   currentSongPlaylistAction,
+  previousSongPlaylistAction,
 } from "@/lib/zustand";
 interface toggleElementProp {
   url: string;
@@ -36,7 +42,9 @@ const ToggleElement = ({
     (state: SongFunctionActions) => state.setPlay
   );
   const updateSongCu = useSong((state: SongActions) => state.updateSongCu);
-
+  const setPreviousPlayListArray = usePreviousPlayList(
+    (state: previousSongPlaylistAction) => state.setPreviousPlayListArray
+  );
   // console.log("render toggleElement");
   return (
     <td className="  p-2 border-4 border-black max-w-[10px] ">
@@ -55,6 +63,7 @@ const ToggleElement = ({
         // }}
         onClick={() => {
           setPlayListArray(playlistUrl);
+          setPreviousPlayListArray(playlistUrl);
           if (url === songCuUrl) {
             setPlay(url || "", undefined);
           } else {
