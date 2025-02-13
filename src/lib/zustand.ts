@@ -1,3 +1,5 @@
+import { RefObject } from "react";
+import { persist } from "zustand/middleware";
 import { createWithEqualityFn as create } from "zustand/traditional";
 export interface SongDetail {
   url: string;
@@ -39,6 +41,14 @@ export interface currentSongPlaylistAction {
   setPlayListArray: (newList: SongDetail[]) => void;
 }
 
+export interface previousSongPlaylist {
+  previousPlayListArray: SongDetail[];
+}
+
+export interface previousSongPlaylistAction {
+  setPreviousPlayListArray: (newList: SongDetail[]) => void;
+}
+
 export interface SongFunctionState {
   Isplay: Record<string, boolean | undefined>;
 }
@@ -46,30 +56,69 @@ export interface SongFunctionActions {
   setPlay: (key: string, play: boolean | undefined) => void;
 }
 
-export const useSong = create<SongState & SongActions>((set) => ({
-  songCu: {},
-  updateSongCu: (newSong) =>
-    set(() => ({
-      songCu: { ...newSong },
-    })),
-}));
+export const useSong = create<SongState & SongActions>()(
+  persist(
+    (set) => ({
+      songCu: {},
+      updateSongCu: (newSong) =>
+        set(() => ({
+          songCu: { ...newSong },
+        })),
+    }),
+    {
+      name: "currentSong-storage",
+    }
+  )
+);
 
 export const useCurrentPlayList = create<
   currentSongPlaylist & currentSongPlaylistAction
->((set) => ({
-  playListArray: [
+>()(
+  persist(
+    (set) => ({
+      playListArray: [
+        {
+          url: "https://s3.tebi.io/test1345/hello/init.mp4",
+          sege: 27,
+          name: "gone",
+          duration: 52.199,
+        },
+      ],
+
+      setPlayListArray: (newList: SongDetail[]) =>
+        set((state) => ({
+          playListArray: newList,
+        })),
+    }),
     {
-      url: "https://s3.tebi.io/test1345/hello/init.mp4",
-      sege: 27,
-      name: "gone",
-      duration: 52.199,
-    },
-  ],
-  setPlayListArray: (newList: SongDetail[]) =>
-    set(() => ({
-      playListArray: newList,
-    })),
-}));
+      name: "playlist-storage",
+    }
+  )
+);
+
+export const usePreviousPlayList = create<
+  previousSongPlaylist & previousSongPlaylistAction
+>()(
+  persist(
+    (set) => ({
+      previousPlayListArray: [
+        {
+          url: "https://s3.tebi.io/test1345/hello/init.mp4",
+          sege: 27,
+          name: "gone",
+          duration: 52.199,
+        },
+      ],
+      setPreviousPlayListArray: (newList: SongDetail[]) =>
+        set(() => ({
+          previousPlayListArray: newList,
+        })),
+    }),
+    {
+      name: "previous-playlistArray-storage",
+    }
+  )
+);
 
 export const useSongFunction = create<SongFunctionState & SongFunctionActions>(
   (set) => ({
@@ -83,51 +132,58 @@ export const useSongFunction = create<SongFunctionState & SongFunctionActions>(
   })
 );
 
-export const useRepeat = create<IsRepeatState & RepeatAction & PrefetchAction>(
-  (set, get) => ({
-    isRepeat: false,
-    setRepeat: () => set((state) => ({ isRepeat: !state.isRepeat })),
-    // if it check as isRepeat in function component, it will re-render entrire component 
-    prefetchSegment: async ({
-      url,
-      sourceBuffer,
-      mediaSource,
-      segNum,
-      abortController,
-      audioInitBufferRef,
-      audioSeg1BufferRef,
-    }: PrefetchParams) => {
-      const fetchOptions: RequestInit = {
-        signal: abortController!.current!.signal,
-      };
-      console.log("hidd");
-      // Early return if repeat is enabled
-      if (get().isRepeat) return;
+export const useRepeat = create<
+  IsRepeatState & RepeatAction & PrefetchAction
+>()(
+  persist(
+    (set, get) => ({
+      isRepeat: false,
+      setRepeat: () => set((state) => ({ isRepeat: !state.isRepeat })),
+      // if it check as isRepeat in function component, it will re-render entrire component
+      prefetchSegment: async ({
+        url,
+        sourceBuffer,
+        mediaSource,
+        segNum,
+        abortController,
+        audioInitBufferRef,
+        audioSeg1BufferRef,
+      }: PrefetchParams) => {
+        const fetchOptions: RequestInit = {
+          signal: abortController!.current!.signal,
+        };
+        console.log("hidd");
+        // Early return if repeat is enabled
+        if (get().isRepeat) return;
 
-      const initUrl = url;
-      const seg1Url = url.replace("init.mp4", "seg-1.m4s");
+        const initUrl = url;
+        const seg1Url = url.replace("init.mp4", "seg-1.m4s");
 
-      try {
-        const [initBuffer, seg1Buffer] = await Promise.all([
-          fetch(initUrl, fetchOptions).then((res) => res.arrayBuffer()),
-          fetch(seg1Url, fetchOptions).then((res) => res.arrayBuffer()),
-        ]);
+        try {
+          const [initBuffer, seg1Buffer] = await Promise.all([
+            fetch(initUrl, fetchOptions).then((res) => res.arrayBuffer()),
+            fetch(seg1Url, fetchOptions).then((res) => res.arrayBuffer()),
+          ]);
 
-        if (
-          sourceBuffer.current?.buffered &&
-          !sourceBuffer.current.updating &&
-          mediaSource.current?.readyState
-        ) {
-          audioInitBufferRef.current = initBuffer;
-          audioSeg1BufferRef.current = seg1Buffer;
+          if (
+            sourceBuffer.current?.buffered &&
+            !sourceBuffer.current.updating &&
+            mediaSource.current?.readyState
+          ) {
+            audioInitBufferRef.current = initBuffer;
+            audioSeg1BufferRef.current = seg1Buffer;
+          }
+        } catch (err: any) {
+          if (err.name === "AbortError") {
+            console.log(`the song segments sege-${segNum} fetching is aborted`);
+          } else {
+            console.error(`Error fetching segments sege-${segNum}`, err);
+          }
         }
-      } catch (err: any) {
-        if (err.name === "AbortError") {
-          console.log(`the song segments sege-${segNum} fetching is aborted`);
-        } else {
-          console.error(`Error fetching segments sege-${segNum}`, err);
-        }
-      }
-    },
-  })
+      },
+    }),
+    {
+      name: "repeat-storage",
+    }
+  )
 );
