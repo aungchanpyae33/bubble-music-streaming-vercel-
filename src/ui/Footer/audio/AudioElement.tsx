@@ -2,20 +2,20 @@ import { TimeFormat } from "@/lib/TimeFormat";
 import { ReactNode, useContext, useRef, useState } from "react";
 import DataContext from "@/lib/MediaSource/ContextMedia";
 import AudioSeekBar from "./AudioSeekBar";
-import TimeIndicatorCur from "./TimeIndicatorCur";
+import AudioWrapper from "./AudioWrapper";
 export interface PropTime {
   cur: number;
   durationTime: number | undefined;
 }
-function AudioElement({ Child }: { Child: ReactNode }) {
+function AudioElement({ Child, url }: { Child: ReactNode; url: string }) {
   const dataInput = useRef<HTMLInputElement>(null);
   const [bottom, setBottom] = useState(true);
   const dataCur = useRef<HTMLSpanElement>(null);
   const { dataAudio, duration } = useContext(DataContext);
+
   return (
     <div className=" w-full flex items-center ">
-      <audio ref={dataAudio} className="hidden" hidden autoPlay></audio>
-
+      <AudioWrapper dataAudio={dataAudio} url={url} />
       <AudioSeekBar
         dataCur={dataCur}
         bottom={bottom}
