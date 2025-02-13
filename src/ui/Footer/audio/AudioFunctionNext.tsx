@@ -9,15 +9,16 @@ function AudioFunctionNext({
   url: string;
 }) {
   const updateSongCu = useSong((state: SongActions) => state.updateSongCu);
-  const urlSongs = urlProp.flatMap(({ url }) => url);
+
+  const currentIndex = urlProp.findIndex((song) => song.url === url);
   const setPlay = useSongFunction(
     (state: SongFunctionActions) => state.setPlay
   );
-  const currentIndex = urlSongs.indexOf(url);
-  console.log("audio next");
+
   function songFunctionNext() {
     const songList = urlProp;
-    if (currentIndex >= urlSongs.length - 1) return;
+    console.log(currentIndex);
+    if (currentIndex >= urlProp.length - 1) return;
     const { url, sege, duration, name } = songList[currentIndex + 1];
     updateSongCu({ [url || ""]: url, sege, duration, name });
     // url is js keyName

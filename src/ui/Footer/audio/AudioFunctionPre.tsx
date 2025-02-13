@@ -11,11 +11,10 @@ function AudioFunctionPre({
 }) {
   console.log("audio pre");
   const updateSongCu = useSong((state: SongActions) => state.updateSongCu);
-  const urlSongs = urlProp.flatMap(({ url }) => url);
   const setPlay = useSongFunction(
     (state: SongFunctionActions) => state.setPlay
   );
-  const currentIndex = urlSongs.indexOf(url);
+  const currentIndex = urlProp.findIndex((song) => song.url === url);
 
   function songFunctionPre() {
     const songList = urlProp;
