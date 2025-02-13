@@ -71,6 +71,7 @@ function AudioPlayer() {
               </div>
               <div className="BottomContainer w-full ">
                 <AudioElement
+                  url={url}
                   Child={<TimeIndicatorDur duration={duration} />}
                 ></AudioElement>
               </div>
