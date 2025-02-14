@@ -29,9 +29,9 @@ function UserProfile({ name }: { name: string }) {
           }
         )}
       >
-        <p>hi</p>
-        <p>hi</p>
-        <p>hi</p>
+        <button>hi</button>
+        <button>hi</button>
+        <button>hi</button>
       </div>
     </div>
   );
