@@ -38,6 +38,8 @@ const useAudioSeek = ({
   loadNextSegment,
   fetching,
   abortController,
+  isPointer,
+  isTouchDevice,
 }: audioSeekProp): useAudioSeekReturnType => {
   const [value, setValue] = useState<number>(100);
   const [timePosition, setTimePosition] = useState(0);
@@ -45,27 +47,17 @@ const useAudioSeek = ({
   useEffect(() => {
     const copyDataAudio = dataAudio!.current!;
     const throttledHandleTimeUpdate = throttle(handleTimeUpdate, 1000);
-    function handleMouseMove(e: MouseEvent) {
+    function handleMove(e: PointerEvent | TouchEvent | MouseEvent) {
       const newValue = sliderPositionCal({ sliderRef, e });
       AudioSeeking({ newValue, duration, setValue, setTimePosition });
     }
-    function handleMouseUp(e: MouseEvent) {
+    function handleUp(e: PointerEvent | TouchEvent | MouseEvent) {
       AbortFetch(fetching, abortController);
       setIsDragging(false);
       const per = seekCal({ sliderRef, e });
       AudioSeeked({ per, duration, dataAudio, sege, segNum, loadNextSegment });
     }
 
-    function handleTouchMove(e: TouchEvent) {
-      const newValue = sliderPositionCal({ sliderRef, e });
-      AudioSeeking({ newValue, duration, setValue, setTimePosition });
-    }
-    function handleTouchEnd(e: TouchEvent) {
-      AbortFetch(fetching, abortController);
-      setIsDragging(false);
-      const per = seekCal({ sliderRef, e });
-      AudioSeeked({ per, duration, dataAudio, sege, segNum, loadNextSegment });
-    }
     function handleTimeUpdate(e: Event) {
       if (!isDragging) {
         const audioElement = e.currentTarget as HTMLAudioElement;
@@ -77,22 +69,27 @@ const useAudioSeek = ({
       }
     }
     if (isDragging) {
-      document.addEventListener("mousemove", handleMouseMove);
-      document.addEventListener("mouseup", handleMouseUp);
-      document.addEventListener("touchmove", handleTouchMove);
-      document.addEventListener("touchend", handleTouchEnd);
-    } else {
-      document.removeEventListener("mousemove", handleMouseMove);
-      document.removeEventListener("mouseup", handleMouseUp);
-      document.removeEventListener("touchmove", handleTouchMove);
-      document.removeEventListener("touchend", handleTouchEnd);
+      if (isPointer) {
+        document.addEventListener("pointermove", handleMove);
+        document.addEventListener("pointerup", handleUp);
+      } else {
+        if (isTouchDevice) {
+          document.addEventListener("touchmove", handleMove);
+          document.addEventListener("touchend", handleUp);
+        } else {
+          document.addEventListener("mousemove", handleMove);
+          document.addEventListener("mouseup", handleUp);
+        }
+      }
     }
     copyDataAudio.addEventListener("timeupdate", throttledHandleTimeUpdate);
     return () => {
-      document.removeEventListener("mousemove", handleMouseMove);
-      document.removeEventListener("mouseup", handleMouseUp);
-      document.removeEventListener("touchmove", handleTouchMove);
-      document.removeEventListener("touchend", handleTouchEnd);
+      document.removeEventListener("pointermove", handleMove);
+      document.removeEventListener("pointerup", handleUp);
+      document.removeEventListener("touchmove", handleMove);
+      document.removeEventListener("touchend", handleUp);
+      document.removeEventListener("mousemove", handleMove);
+      document.removeEventListener("mouseup", handleUp);
       copyDataAudio.removeEventListener(
         "timeupdate",
         throttledHandleTimeUpdate
@@ -108,6 +105,8 @@ const useAudioSeek = ({
     sliderRef,
     abortController,
     fetching,
+    isPointer,
+    isTouchDevice,
   ]);
 
   return [value, setValue, timePosition, setTimePosition, setIsDragging];

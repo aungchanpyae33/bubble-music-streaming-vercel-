@@ -2,7 +2,7 @@ import MediaSessionSeek from "@/lib/MediaSession/MediaSessionSeek";
 import DataContext from "@/lib/MediaSource/ContextMedia";
 import { sliderPositionCal } from "@/lib/MediaSource/SliderPositionCal";
 
-import { RefObject, useContext, useRef } from "react";
+import { RefObject, useContext, useMemo, useRef } from "react";
 import TimeIndicatorCur from "./TimeIndicatorCur";
 import useAudioSeek from "@/lib/CustomHooks/AudioSeek";
 import AudioSeeking from "@/lib/MediaSource/AudioSeeking";
@@ -31,7 +31,11 @@ function AudioSeekBar({ duration }: PropAudioSeek) {
     abortController,
     fetching,
   } = useContext(DataContext);
-
+  const isPointer = useMemo(() => "onpointerdown" in window, []);
+  const isTouchDevice = useMemo(
+    () => "ontouchstart" in window || navigator.maxTouchPoints > 0,
+    []
+  );
   const sliderRef = useRef<HTMLDivElement | null>(null);
   const progressRef = useRef<HTMLDivElement | null>(null);
   const [value, setValue, timePosition, setTimePosition, setIsDragging] =
@@ -44,6 +48,8 @@ function AudioSeekBar({ duration }: PropAudioSeek) {
       abortController,
       fetching,
       loadNextSegment,
+      isPointer,
+      isTouchDevice,
     });
 
   MediaSessionSeek(
@@ -55,6 +61,7 @@ function AudioSeekBar({ duration }: PropAudioSeek) {
     loadNextSegment,
     duration
   );
+
   return (
     <>
       <TimeIndicatorCur timePosition={timePosition} />
@@ -103,20 +110,49 @@ function AudioSeekBar({ duration }: PropAudioSeek) {
         }}
       >
         <div
-          className="flex-1 h-full flex items-center justify-center"
+          className="flex-1 h-full flex items-center justify-center cursor-pointer touch-none "
           ref={sliderRef}
-          onMouseDown={(e) => {
-            if (!sliderRef.current) return;
-            setIsDragging(true);
-            const newValue = sliderPositionCal({ sliderRef, e });
-            AudioSeeking({ newValue, duration, setValue, setTimePosition });
-          }}
-          onTouchStart={(e) => {
-            if (!sliderRef.current) return;
-            setIsDragging(true);
-            const newValue = sliderPositionCal({ sliderRef, e });
-            AudioSeeking({ newValue, duration, setValue, setTimePosition });
-          }}
+          {...(isPointer
+            ? {
+                onPointerDown: (e) => {
+                  if (!sliderRef.current) return;
+                  setIsDragging(true);
+                  const newValue = sliderPositionCal({ sliderRef, e });
+                  AudioSeeking({
+                    newValue,
+                    duration,
+                    setValue,
+                    setTimePosition,
+                  });
+                },
+              }
+            : isTouchDevice
+            ? {
+                onTouchStart: (e) => {
+                  if (!sliderRef.current) return;
+                  setIsDragging(true);
+                  const newValue = sliderPositionCal({ sliderRef, e });
+                  AudioSeeking({
+                    newValue,
+                    duration,
+                    setValue,
+                    setTimePosition,
+                  });
+                },
+              }
+            : {
+                onMouseDown: (e) => {
+                  if (!sliderRef.current) return;
+                  setIsDragging(true);
+                  const newValue = sliderPositionCal({ sliderRef, e });
+                  AudioSeeking({
+                    newValue,
+                    duration,
+                    setValue,
+                    setTimePosition,
+                  });
+                },
+              })}
         >
           <div className=" w-full h-[8px]    bg-blue-700 relative">
             <div
