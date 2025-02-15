@@ -106,11 +106,16 @@ function ToolTip({
   //   }
   // };
   // const debb = debounce(go, 200);
-
+  // in future , used from server data to check window or mobile and use with zustand
+  const isTouchDevice = useMemo(
+    () => "ontouchstart" in window || navigator.maxTouchPoints > 0,
+    []
+  );
   return (
     <div className="group relative w-fit max-w-full cursor-pointer ">
       <div
         onMouseEnter={(e) => {
+          if (isTouchDevice) return;
           isOutsideBeforeShow.current = true;
           const targetElement = e.currentTarget;
           if (!setTimeoutRef.current) {
@@ -128,6 +133,7 @@ function ToolTip({
           }
         }}
         onWheel={(e) => {
+          if (isTouchDevice) return;
           if (isOutsideBeforeShow.current) {
             clearTimeout(setTimeoutRef!.current!);
             setTimeoutRef.current = null;
@@ -140,6 +146,7 @@ function ToolTip({
         //   onWheel: (e) => {
         //  above comment is for the past idea to add onwheel on condition
         onMouseLeave={() => {
+          if (isTouchDevice) return;
           isOutsideBeforeShow.current = true;
           if (setTimeoutRef.current) {
             clearTimeout(setTimeoutRef.current);
