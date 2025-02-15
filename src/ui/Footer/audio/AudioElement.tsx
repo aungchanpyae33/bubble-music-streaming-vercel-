@@ -22,6 +22,7 @@ function AudioElement({ Child, url }: { Child: ReactNode; url: string }) {
         setBottom={setBottom}
         duration={duration}
         dataInput={dataInput}
+        key={url}
       />
       {Child}
     </div>
