@@ -15,6 +15,7 @@ import AudioFunctionPre from "./audio/AudioFunctionPre";
 import AudioFunctionNext from "./audio/AudioFunctionNext";
 import AudioFunctionRepeat from "./audio/AudioFunctionRepeat";
 import AudioFunctionShuffle from "./audio/AudioFunctionShuffle";
+import Volume from "./volume/Volume";
 function AudioPlayer() {
   const { sege, name, duration } = useSong(
     (state: SongState) => state.songCu
@@ -78,8 +79,10 @@ function AudioPlayer() {
             </div>
           </div>
 
-          <div className="w-[20%] md:w-[25%] lg:w-[30%] flex bg-yellow-700">
-            use space
+          <div className="w-[20%] md:w-[25%] hidden  lg:w-[30%] sm:flex bg-yellow-700 gap-1  items-center">
+            <button className="bg-black text-white p-1">lyr</button>
+            <button className="bg-black text-white p-1">que</button>
+            <Volume />
           </div>
         </div>
       }
