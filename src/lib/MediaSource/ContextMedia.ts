@@ -1,11 +1,11 @@
-import React, { createContext, RefObject } from "react";
+import { createContext, RefObject } from "react";
 export interface prop {
-  dataAudio: React.MutableRefObject<HTMLAudioElement | null>;
+  dataAudio: RefObject<HTMLAudioElement | null>;
   duration: number;
-  abortController: React.MutableRefObject<AbortController | null>;
-  fetching: React.MutableRefObject<boolean>;
+  abortController: RefObject<AbortController | null>;
+  fetching: RefObject<boolean>;
   loadNextSegment: () => void;
-  segNum: React.MutableRefObject<number>;
+  segNum: RefObject<number>;
   sege: number | undefined;
 }
 
