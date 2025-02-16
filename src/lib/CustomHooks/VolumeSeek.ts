@@ -16,6 +16,7 @@ interface audioSeekProp {
 type useAudioSeekReturnType = [
   number,
   Dispatch<SetStateAction<number>>,
+  boolean,
   Dispatch<SetStateAction<boolean>>
 ];
 
@@ -65,6 +66,6 @@ const useVolumeSeek = ({
     };
   }, [dataAudio, isDragging, sliderRef, isPointer, isTouchDevice]);
 
-  return [value, setValue, setIsDragging];
+  return [value, setValue, isDragging, setIsDragging];
 };
 export default useVolumeSeek;

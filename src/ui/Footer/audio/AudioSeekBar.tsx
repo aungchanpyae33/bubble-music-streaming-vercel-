@@ -37,7 +37,7 @@ function AudioSeekBar({ duration }: PropAudioSeek) {
   );
   const sliderRef = useRef<HTMLDivElement | null>(null);
   const progressRef = useRef<HTMLDivElement | null>(null);
-  const [value, setValue, setIsDragging] = useAudioSeek({
+  const [value, setValue, isDragging, setIsDragging] = useAudioSeek({
     dataAudio,
     sliderRef,
     duration,
@@ -81,7 +81,7 @@ function AudioSeekBar({ duration }: PropAudioSeek) {
           <div className=" w-full h-[3px]    bg-blue-700 relative">
             <AudioProgressbar value={value} progressRef={progressRef} />
 
-            <AudioThumbSlider value={value} />
+            <AudioThumbSlider isDragging={isDragging} value={value} />
           </div>
         </AudioSliderActionWrapper>
       </AudioSlider>

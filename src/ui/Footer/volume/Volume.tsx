@@ -1,6 +1,7 @@
 import useVolumeSeek from "@/lib/CustomHooks/VolumeSeek";
 import DataContext from "@/lib/MediaSource/ContextMedia";
 import { sliderPositionCal } from "@/lib/MediaSource/SliderPositionCal";
+import clsx from "clsx";
 import { useContext, useMemo, useRef } from "react";
 
 function Volume() {
@@ -12,7 +13,7 @@ function Volume() {
   );
   const sliderRef = useRef<HTMLDivElement | null>(null);
   const progressRef = useRef<HTMLDivElement | null>(null);
-  const [value, setValue, setIsDragging] = useVolumeSeek({
+  const [value, setValue, isDragging, setIsDragging] = useVolumeSeek({
     dataAudio,
     sliderRef,
     isPointer,
@@ -88,7 +89,7 @@ function Volume() {
                 },
               })}
         >
-          <div className=" w-full h-[2px]    bg-blue-700 relative">
+          <div className=" w-full h-[2px]   bg-blue-700 relative">
             <div
               className="bg-red-400  absolute top-0 left-0 h-full"
               style={{
@@ -98,7 +99,13 @@ function Volume() {
             ></div>
 
             <span
-              className="absolute group-hover:inline hidden group-focus:inline    w-[20px] rounded-full h-[20px] top-1/2 -translate-y-1/2 bg-black -translate-x-[10px]"
+              className={clsx(
+                "absolute group-hover:inline  w-[20px] rounded-full h-[20px] top-1/2 -translate-y-1/2 bg-black -translate-x-[10px]",
+                {
+                  hidden: !isDragging,
+                  inline: isDragging,
+                }
+              )}
               style={{ left: `calc(100% - ${value}%)` }}
             ></span>
           </div>
