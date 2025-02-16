@@ -22,7 +22,7 @@ function Volume() {
   return (
     <div className="bg-white flex-1 ">
       <div
-        className="border-2 group  h-[25px] w-full flex items-center select-none no-select"
+        className="border-2   h-[25px] w-full flex items-center select-none no-select"
         tabIndex={0}
         onKeyDown={(e) => {
           if (e.key === "ArrowRight") {
@@ -48,7 +48,7 @@ function Volume() {
         }}
       >
         <div
-          className="flex-1 h-full flex items-center justify-center cursor-pointer touch-none "
+          className="flex-1 h-full group flex items-center justify-center cursor-pointer touch-none "
           ref={sliderRef}
           {...(isPointer
             ? {
