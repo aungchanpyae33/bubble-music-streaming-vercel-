@@ -7,7 +7,6 @@ import {
 } from "react";
 import throttle from "../throttle";
 import { seekCal, sliderPositionCal } from "../MediaSource/SliderPositionCal";
-import AudioSeeking from "../MediaSource/AudioSeeking";
 import AbortFetch from "../MediaSource/AbortFetch";
 import AudioSeeked from "../MediaSource/AudioSeeked";
 
@@ -20,10 +19,10 @@ interface audioSeekProp {
   loadNextSegment: () => void;
   fetching: RefObject<boolean>;
   abortController: RefObject<AbortController | null>;
+  isPointer: boolean;
+  isTouchDevice: boolean;
 }
 type useAudioSeekReturnType = [
-  number,
-  Dispatch<SetStateAction<number>>,
   number,
   Dispatch<SetStateAction<number>>,
   Dispatch<SetStateAction<boolean>>
@@ -42,14 +41,13 @@ const useAudioSeek = ({
   isTouchDevice,
 }: audioSeekProp): useAudioSeekReturnType => {
   const [value, setValue] = useState<number>(100);
-  const [timePosition, setTimePosition] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   useEffect(() => {
     const copyDataAudio = dataAudio!.current!;
     const throttledHandleTimeUpdate = throttle(handleTimeUpdate, 1000);
     function handleMove(e: PointerEvent | TouchEvent | MouseEvent) {
-      const newValue = sliderPositionCal({ sliderRef, e });
-      AudioSeeking({ newValue, duration, setValue, setTimePosition });
+      const { percentage } = sliderPositionCal({ sliderRef, e });
+      setValue(percentage);
     }
     function handleUp(e: PointerEvent | TouchEvent | MouseEvent) {
       AbortFetch(fetching, abortController);
@@ -62,10 +60,8 @@ const useAudioSeek = ({
       if (!isDragging) {
         const audioElement = e.currentTarget as HTMLAudioElement;
         const data = (audioElement.currentTime / audioElement.duration) * 100;
-        const currentTime = audioElement.currentTime;
         const newValue = 100 - data;
         setValue(newValue);
-        setTimePosition(currentTime);
       }
     }
     if (isDragging) {
@@ -109,6 +105,6 @@ const useAudioSeek = ({
     isTouchDevice,
   ]);
 
-  return [value, setValue, timePosition, setTimePosition, setIsDragging];
+  return [value, setValue, setIsDragging];
 };
 export default useAudioSeek;
