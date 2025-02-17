@@ -9,16 +9,11 @@ import throttle from "../throttle";
 import { seekCal, sliderPositionCal } from "../MediaSource/SliderPositionCal";
 import AbortFetch from "../MediaSource/AbortFetch";
 import AudioSeeked from "../MediaSource/AudioSeeked";
+import DataContext from "../MediaSource/ContextMedia";
 
 interface audioSeekProp {
-  dataAudio: RefObject<HTMLAudioElement | null>;
   sliderRef: RefObject<HTMLDivElement | null>;
   duration: number;
-  segNum: RefObject<number>;
-  sege: number | undefined;
-  loadNextSegment: () => void;
-  fetching: RefObject<boolean>;
-  abortController: RefObject<AbortController | null>;
   isPointer: boolean;
   isTouchDevice: boolean;
 }
@@ -30,19 +25,21 @@ type useAudioSeekReturnType = [
 ];
 
 const useAudioSeek = ({
-  dataAudio,
   sliderRef,
   duration,
-  segNum,
-  sege,
-  loadNextSegment,
-  fetching,
-  abortController,
   isPointer,
   isTouchDevice,
 }: audioSeekProp): useAudioSeekReturnType => {
   const [value, setValue] = useState<number>(100);
   const [isDragging, setIsDragging] = useState(false);
+  const {
+    dataAudio,
+    loadNextSegment,
+    segNum,
+    sege,
+    abortController,
+    fetching,
+  } = useContext(DataContext);
   useEffect(() => {
     const copyDataAudio = dataAudio!.current!;
     const throttledHandleTimeUpdate = throttle(handleTimeUpdate, 1000);
