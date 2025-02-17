@@ -10,7 +10,7 @@ function AudioInfoOverFlow({
 }) {
   const [isOverFlow, animate, setanimatie, setIsOverFlow] =
     useOverflowCheck(ofcheckDiv);
-  console.log("render");
+
   return (
     /* w-fit is needed to be get full width when animate */
     <div

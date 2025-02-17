@@ -152,7 +152,7 @@ export const useRepeat = create<
         const fetchOptions: RequestInit = {
           signal: abortController!.current!.signal,
         };
-        console.log("hidd");
+
         // Early return if repeat is enabled
         if (get().isRepeat) return;
 

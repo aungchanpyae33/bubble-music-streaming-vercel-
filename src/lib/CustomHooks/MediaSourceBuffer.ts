@@ -136,7 +136,6 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
   }, [sourceOpen]);
 
   useEffect(() => {
-    console.log("run");
     if (!url) {
       return;
     }

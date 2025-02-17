@@ -20,7 +20,6 @@ function CloseFunctoion(
     }
 
     return () => {
-      console.log("iam only run");
       window.removeEventListener("keydown", closeSearch);
     };
   }, [value, fun, closeElement]);

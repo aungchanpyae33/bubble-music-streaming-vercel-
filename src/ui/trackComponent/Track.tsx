@@ -1,9 +1,5 @@
 import { TimeFormat } from "@/lib/TimeFormat";
-import ToggleElement from "../Footer/audio/ToggleElement";
-import { FocusElement } from "@/lib/Accessibility/FocusElement";
-import ArrowNavi from "@/lib/Accessibility/ArrowNavi";
-import { clsx } from "clsx";
-import { RefObject } from "react";
+import ToggleElement from "../Footer/audio/Toggle/ToggleElement";
 import type { urlProp } from "../albumContainer/AudiosContainer";
 import ToolTip from "../general/ToolTip";
 

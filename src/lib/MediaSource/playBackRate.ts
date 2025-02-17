@@ -1,4 +1,4 @@
-import React, { RefObject } from "react";
+import { RefObject } from "react";
 
 interface prop {
   dataAudio: RefObject<HTMLAudioElement | null>;
@@ -9,7 +9,7 @@ interface prop {
 
 export function playBackRate({ dataAudio, data, sege, duration }: prop) {
   dataAudio.current!.currentTime = data;
-  console.log(data, duration);
+
   const audioPosition = Math.floor((data / duration!) * 100);
   const datatest = [
     10.005, 19.989, 29.995, 40, 50.005, 59.989, 69.995, 80, 90.005, 99.989,
@@ -26,11 +26,7 @@ export function playBackRate({ dataAudio, data, sege, duration }: prop) {
     index > datatest[segPosition - 1];
     datatest[segPosition++]
   ) {
-    console.log(index, datatest[segPosition - 1]);
-    console.log(segPosition);
     final++;
-    console.log(segPosition + 1);
   }
-  console.log(segPosition);
   return final;
 }
