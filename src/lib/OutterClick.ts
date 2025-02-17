@@ -13,7 +13,9 @@ function OutterClick(
     }
     if (value) {
       document.addEventListener("mousedown", OutterClickFunction);
-      document.addEventListener("touchstart", OutterClickFunction);
+      document.addEventListener("touchstart", OutterClickFunction, {
+        passive: true,
+      });
     }
 
     return () => {
