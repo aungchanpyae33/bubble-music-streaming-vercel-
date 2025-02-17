@@ -1,8 +1,8 @@
-import AudioPLayer from "./AudioPLayer";
+import AudioPlayerWrapper from "./AudioPlayerWrapper";
 function FooterBar() {
   return (
     <div className=" w-full h-full bg-red-900">
-      <AudioPLayer />
+      <AudioPlayerWrapper />
     </div>
   );
 }
