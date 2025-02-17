@@ -6,9 +6,14 @@ import { useContext, useMemo, useRef } from "react";
 
 function Volume() {
   const { dataAudio } = useContext(DataContext);
-  const isPointer = useMemo(() => "onpointerdown" in window, []);
+  const isPointer = useMemo(
+    () => typeof window !== "undefined" && "onpointerdown" in window,
+    []
+  );
   const isTouchDevice = useMemo(
-    () => "ontouchstart" in window || navigator.maxTouchPoints > 0,
+    () =>
+      typeof window !== "undefined" &&
+      ("ontouchstart" in window || navigator.maxTouchPoints > 0),
     []
   );
   const sliderRef = useRef<HTMLDivElement | null>(null);
