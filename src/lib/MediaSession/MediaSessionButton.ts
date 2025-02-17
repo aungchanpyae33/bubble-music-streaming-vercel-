@@ -16,10 +16,7 @@ const MediaSessionButton = (url: string) => {
     (state: SongFunctionActions) => state.setPlay
   );
   const updateSongCu = useSong((state: SongActions) => state.updateSongCu);
-  const urlSongs = playListArray.flatMap(({ url }) => url);
-
-  // console.log(urlSongs);
-  const currentIndex = urlSongs.indexOf(url);
+  const currentIndex = playListArray.findIndex((song) => song.url === url);
   useEffect(() => {
     if ("mediaSession" in navigator) {
       navigator.mediaSession.setActionHandler("previoustrack", () => {
@@ -34,7 +31,7 @@ const MediaSessionButton = (url: string) => {
         setPlay(url || "", true);
       });
       navigator.mediaSession.setActionHandler("nexttrack", () => {
-        if (currentIndex >= urlSongs.length - 1) return;
+        if (currentIndex >= playListArray.length - 1) return;
         const url = playListArray[currentIndex + 1].url;
         const sege = playListArray[currentIndex + 1].sege;
         const duration = playListArray[currentIndex + 1].duration;
