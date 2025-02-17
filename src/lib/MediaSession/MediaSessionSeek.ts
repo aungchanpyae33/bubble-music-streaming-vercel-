@@ -30,6 +30,9 @@ const MediaSessionSeek = (
         loadNextSegment();
       });
     }
+    return () => {
+      navigator.mediaSession.setActionHandler("seekto", null);
+    };
   }, [
     fetching,
     abortController,

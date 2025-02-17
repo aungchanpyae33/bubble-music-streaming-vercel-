@@ -42,6 +42,10 @@ const MediaSessionButton = (url: string) => {
         // forSaleInterlude.play();
       });
     }
-  }, [currentIndex, playListArray, setPlay, updateSongCu, urlSongs]);
+    return () => {
+      navigator.mediaSession.setActionHandler("previoustrack", null);
+      navigator.mediaSession.setActionHandler("nexttrack", null);
+    };
+  }, [currentIndex, playListArray, setPlay, updateSongCu]);
 };
 export default MediaSessionButton;

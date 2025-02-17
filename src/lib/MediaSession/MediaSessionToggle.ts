@@ -17,6 +17,10 @@ const MediaSessionToggle = () => {
         setPlay(firstKey, undefined);
       });
     }
+    return () => {
+      navigator.mediaSession.setActionHandler("play", null);
+      navigator.mediaSession.setActionHandler("pause", null);
+    };
   }, [setPlay, firstKey]);
 };
 export default MediaSessionToggle;
