@@ -108,7 +108,9 @@ function ToolTip({
   // const debb = debounce(go, 200);
   // in future , used from server data to check window or mobile and use with zustand
   const isTouchDevice = useMemo(
-    () => "ontouchstart" in window || navigator.maxTouchPoints > 0,
+    () =>
+      typeof window !== "undefined" &&
+      ("ontouchstart" in window || navigator.maxTouchPoints > 0),
     []
   );
   return (
