@@ -36,7 +36,7 @@ function AudioFunctionShuffle({
 
   return (
     <button
-      className="bg-pink-300 p-2 text-sm md:text-base"
+      className="bg-pink-300 p-2 hidden sm:inline-block text-sm md:text-base"
       onClick={() => {
         console.log(shuffleArray);
         setPlayListArray(shuffleArray);

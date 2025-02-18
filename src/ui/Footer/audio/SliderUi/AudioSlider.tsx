@@ -29,7 +29,7 @@ function AudioSlider({
   } = useContext(DataContext);
   return (
     <div
-      className="border-2   h-[25px] w-full flex items-center select-none no-select"
+      className=" h-[3px] hidden  sm:h-[25px] w-full sm:flex items-center select-none no-select"
       tabIndex={0}
       onKeyDown={(e) => {
         if (e.key === "ArrowRight") {

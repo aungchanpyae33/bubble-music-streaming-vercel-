@@ -38,7 +38,10 @@ function AudioSeekBar({ duration }: PropAudioSeek) {
   return (
     <>
       <TimeIndicatorCur value={value} duration={duration} />
-
+      <div className=" w-full h-[3px] sm:hidden    bg-blue-700 relative">
+        <AudioProgressbar value={value} progressRef={progressRef} />
+        <AudioThumbSlider isDragging={isDragging} value={value} />
+      </div>
       <AudioSlider
         sliderRef={sliderRef}
         setIsDragging={setIsDragging}
@@ -54,7 +57,7 @@ function AudioSeekBar({ duration }: PropAudioSeek) {
           setIsDragging={setIsDragging}
           setValue={setValue}
         >
-          <div className=" w-full h-[3px]    bg-blue-700 relative">
+          <div className=" w-full h-full sm:h-[3px]    bg-blue-700 relative">
             <AudioProgressbar value={value} progressRef={progressRef} />
 
             <AudioThumbSlider isDragging={isDragging} value={value} />

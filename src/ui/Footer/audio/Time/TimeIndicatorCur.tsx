@@ -8,7 +8,9 @@ function TimeIndicatorCur({
 }) {
   const data = 100 - value;
   const currentTime = (data / 100) * duration;
-  return <span className="time ">{TimeFormat(currentTime)}</span>;
+  return (
+    <span className="time hidden sm:inline ">{TimeFormat(currentTime)}</span>
+  );
 }
 
 export default TimeIndicatorCur;

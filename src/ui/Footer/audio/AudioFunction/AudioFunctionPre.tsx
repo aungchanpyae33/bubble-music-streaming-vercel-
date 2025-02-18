@@ -26,7 +26,7 @@ function AudioFunctionPre({
   return (
     <button
       onClick={() => songFunctionPre()}
-      className="bg-blue-300 p-2 text-sm md:text-base"
+      className="bg-blue-300 p-2 text-sm hidden sm:inline-block md:text-base"
     >
       pre
     </button>
