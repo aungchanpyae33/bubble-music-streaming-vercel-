@@ -1,8 +1,9 @@
 import useVolumeSeek from "@/lib/CustomHooks/VolumeSeek";
 import DataContext from "@/lib/MediaSource/ContextMedia";
 import { sliderPositionCal } from "@/lib/MediaSource/SliderPositionCal";
-import clsx from "clsx";
 import { useContext, useMemo, useRef } from "react";
+import AudioThumbSlider from "../audio/SliderUi/AudioThumbSlider";
+import AudioProgressbar from "../audio/SliderUi/AudioProgressbar";
 
 function Volume() {
   const { dataAudio } = useContext(DataContext);
@@ -95,24 +96,9 @@ function Volume() {
               })}
         >
           <div className=" w-full h-[2px]   bg-blue-700 relative">
-            <div
-              className="bg-red-400  absolute top-0 left-0 h-full"
-              style={{
-                right: `${value}%`,
-              }}
-              ref={progressRef}
-            ></div>
+            <AudioProgressbar value={value} progressRef={progressRef} />
 
-            <span
-              className={clsx(
-                "absolute group-hover:inline  w-[20px] rounded-full h-[20px] top-1/2 -translate-y-1/2 bg-black -translate-x-[10px]",
-                {
-                  hidden: !isDragging,
-                  inline: isDragging,
-                }
-              )}
-              style={{ left: `calc(100% - ${value}%)` }}
-            ></span>
+            <AudioThumbSlider value={value} isDragging={isDragging} />
           </div>
         </div>
       </div>
