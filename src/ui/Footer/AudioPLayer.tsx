@@ -44,8 +44,8 @@ function AudioPlayer() {
       }}
     >
       {
-        <div className="flex w-full h-full">
-          <div className="w-[20%] md:w-[25%] lg:w-[28%] flex bg-yellow-700">
+        <div className="flex gap-4  sm:gap-0 relative w-full h-full">
+          <div className=" w-full sm:w-[25%]  md:w-[25%] lg:w-[28%] flex items-center bg-yellow-700">
             <AudioDisplayFooter
               urlImage={
                 "https://s3.tebi.io/test1345/timo-volz-ZlFKIG6dApg-unsplash%20%281%29.jpg"
@@ -55,8 +55,8 @@ function AudioPlayer() {
             {name && <AudioInfo name={name} key={name} />}
           </div>
 
-          <div className="flex-1  flex bg-blue-100">
-            <div className="audioFunctionContainer flex  flex-col flex-1 items-center">
+          <div className="flex-1  flex  ">
+            <div className="audioFunctionContainer flex  flex-col flex-1 items-end sm:items-center pr-2 justify-center">
               <div className="upContainer flex gap-2">
                 <MediaSessionButtonWrapper url={url}>
                   <AudioFunctionButton>
@@ -77,7 +77,7 @@ function AudioPlayer() {
                   </AudioFunctionButton>
                 </MediaSessionButtonWrapper>
               </div>
-              <div className="BottomContainer w-full ">
+              <div className="BottomContainer w-full absolute sm:static top-0 left-0 ">
                 <MediaSessionSeekWrapper duration={duration}>
                   <AudioElement
                     url={url}
