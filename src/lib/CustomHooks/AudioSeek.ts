@@ -69,8 +69,8 @@ const useAudioSeek = ({
         document.addEventListener("pointerup", handleUp);
       } else {
         if (isTouchDevice) {
-          document.addEventListener("touchmove", handleMove);
-          document.addEventListener("touchend", handleUp);
+          document.addEventListener("touchmove", handleMove, { passive: true });
+          document.addEventListener("touchend", handleUp, { passive: true });
         } else {
           document.addEventListener("mousemove", handleMove);
           document.addEventListener("mouseup", handleUp);
