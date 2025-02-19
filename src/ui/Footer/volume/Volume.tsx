@@ -56,6 +56,7 @@ function Volume() {
           setIsDragging={setIsDragging}
           sliderRef={sliderRef}
           setValue={setValue}
+          dataAudio={dataAudio}
           value={value}
         >
           <VolumeSliderActionWrapper
