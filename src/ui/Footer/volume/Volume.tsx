@@ -5,6 +5,7 @@ import AudioThumbSlider from "../audio/SliderUi/AudioThumbSlider";
 import AudioProgressbar from "../audio/SliderUi/AudioProgressbar";
 import VolumeSlider from "./VolumeSlider";
 import VolumeSliderActionWrapper from "./VolumeSliderActionWrapper";
+import clsx from "clsx";
 
 function Volume() {
   const { dataAudio } = useContext(DataContext);
@@ -27,8 +28,20 @@ function Volume() {
     isTouchDevice,
   });
   return (
-    <div className="bg-white flex-1 ">
+    <div
+      className={clsx("bg-white md:flex-1 w-fit group hover:flex-1", {
+        "flex-1": isDragging,
+      })}
+    >
+      <button
+        className={clsx("md:hidden group-hover:hidden", {
+          hidden: isDragging,
+        })}
+      >
+        vol
+      </button>
       <VolumeSlider
+        isDragging={isDragging}
         setIsDragging={setIsDragging}
         sliderRef={sliderRef}
         setValue={setValue}

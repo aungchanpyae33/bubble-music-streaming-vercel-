@@ -1,6 +1,8 @@
+import clsx from "clsx";
 import React from "react";
 
 function VolumeSlider({
+  isDragging,
   setIsDragging,
   sliderRef,
   setValue,
@@ -16,7 +18,12 @@ function VolumeSlider({
 }) {
   return (
     <div
-      className="border-2   h-[25px] w-full flex items-center select-none no-select"
+      className={clsx(
+        "group-hover:flex   h-[25px] w-full  md:flex items-center select-none no-select",
+        {
+          hidden: !isDragging,
+        }
+      )}
       tabIndex={0}
       onKeyDown={(e) => {
         if (e.key === "ArrowRight") {
