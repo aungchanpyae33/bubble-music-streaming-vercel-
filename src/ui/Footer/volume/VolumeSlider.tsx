@@ -1,16 +1,18 @@
 import clsx from "clsx";
-import React from "react";
+import React, { RefObject } from "react";
 
 function VolumeSlider({
   isDragging,
   setIsDragging,
   sliderRef,
+  dataAudio,
   setValue,
   value,
   children,
 }: {
   isDragging: boolean;
   setIsDragging: React.Dispatch<React.SetStateAction<boolean>>;
+  dataAudio: RefObject<HTMLAudioElement | null>;
   sliderRef: React.RefObject<HTMLDivElement | null>;
   setValue: React.Dispatch<React.SetStateAction<number>>;
   value: number;
@@ -30,11 +32,15 @@ function VolumeSlider({
           if (!sliderRef.current) return;
           setIsDragging(true);
           const newValue = Math.max(value - 1, 0);
+          const volValue = 1 - newValue / 100;
+          dataAudio.current!.volume = volValue;
           setValue(newValue);
         } else if (e.key === "ArrowLeft") {
           if (!sliderRef.current) return;
           setIsDragging(true);
           const newValue = Math.min(value + 1, 100);
+          const volValue = 1 - newValue / 100;
+          dataAudio.current!.volume = volValue;
           setValue(newValue);
         } else if (e.key !== "Tab") {
           e.preventDefault();
