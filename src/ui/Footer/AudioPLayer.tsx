@@ -44,8 +44,8 @@ function AudioPlayer() {
       }}
     >
       {
-        <div className="flex gap-4  sm:gap-0 relative w-full h-full">
-          <div className=" w-full sm:w-[25%]  md:w-[25%] lg:w-[28%] flex items-center bg-yellow-700">
+        <div className="flex gap-4 sm:gap-5 md:gap-6  lg:gap-10 justify-between    relative w-full h-full">
+          <div className=" w-full sm:w-[25%]   md:w-[25%] max-w-[375px]  flex items-center bg-yellow-700">
             <AudioDisplayFooter
               urlImage={
                 "https://s3.tebi.io/test1345/timo-volz-ZlFKIG6dApg-unsplash%20%281%29.jpg"
@@ -55,8 +55,8 @@ function AudioPlayer() {
             {name && <AudioInfo name={name} key={name} />}
           </div>
 
-          <div className="flex-1  flex  ">
-            <div className="audioFunctionContainer flex  flex-col flex-1 items-end sm:items-center pr-2 justify-center">
+          <div className="max-w-[600px] flex-1  flex bg-red-100  ">
+            <div className="audioFunctionContainer flex  flex-col flex-1 items-end sm:items-center pr-2 sm:pr-0  justify-center">
               <div className="upContainer flex gap-2">
                 <MediaSessionButtonWrapper url={url}>
                   <AudioFunctionButton>
@@ -88,7 +88,7 @@ function AudioPlayer() {
             </div>
           </div>
 
-          <div className="w-[20%] md:w-[25%] hidden  lg:w-[30%] sm:flex bg-yellow-700 gap-1  items-center">
+          <div className="w-[20%] md:w-[25%] hidden max-w-[375px]   sm:flex bg-yellow-700 gap-1  items-center">
             <button className="bg-black text-white p-1">lyr</button>
             <button className="bg-black text-white p-1">que</button>
             <Volume />
