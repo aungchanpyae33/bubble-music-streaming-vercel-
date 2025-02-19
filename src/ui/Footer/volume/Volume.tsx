@@ -29,39 +29,48 @@ function Volume() {
   });
   return (
     <div
-      className={clsx("bg-white md:flex-1 w-fit group hover:flex-1", {
-        "flex-1": isDragging,
-      })}
+      className={clsx(
+        "hover:absolute md:hover:static md:w-full w-fit flex bg-black   hover:left-0 hover:right-0 hover:flex hover:w-full",
+        {
+          "absolute w-full  left-0 right-0 flex md:static": isDragging,
+        }
+      )}
     >
-      <button
-        className={clsx("md:hidden group-hover:hidden", {
-          hidden: isDragging,
+      <div
+        className={clsx("bg-white p-1  md:flex-1 w-fit group hover:flex-1", {
+          "flex-1": isDragging,
         })}
       >
-        vol
-      </button>
-      <VolumeSlider
-        isDragging={isDragging}
-        setIsDragging={setIsDragging}
-        sliderRef={sliderRef}
-        setValue={setValue}
-        value={value}
-      >
-        <VolumeSliderActionWrapper
-          sliderRef={sliderRef}
-          isPointer={isPointer}
-          isTouchDevice={isTouchDevice}
-          setIsDragging={setIsDragging}
-          dataAudio={dataAudio}
-          setValue={setValue}
+        <button
+          className={clsx("md:hidden group-hover:hidden", {
+            hidden: isDragging,
+          })}
         >
-          <div className=" w-full h-[2px]   bg-blue-700 relative">
-            <AudioProgressbar value={value} progressRef={progressRef} />
+          vol
+        </button>
+        <VolumeSlider
+          isDragging={isDragging}
+          setIsDragging={setIsDragging}
+          sliderRef={sliderRef}
+          setValue={setValue}
+          value={value}
+        >
+          <VolumeSliderActionWrapper
+            sliderRef={sliderRef}
+            isPointer={isPointer}
+            isTouchDevice={isTouchDevice}
+            setIsDragging={setIsDragging}
+            dataAudio={dataAudio}
+            setValue={setValue}
+          >
+            <div className=" w-full h-[2px]   bg-blue-700 relative">
+              <AudioProgressbar value={value} progressRef={progressRef} />
 
-            <AudioThumbSlider value={value} isDragging={isDragging} />
-          </div>
-        </VolumeSliderActionWrapper>
-      </VolumeSlider>
+              <AudioThumbSlider value={value} isDragging={isDragging} />
+            </div>
+          </VolumeSliderActionWrapper>
+        </VolumeSlider>
+      </div>
     </div>
   );
 }
