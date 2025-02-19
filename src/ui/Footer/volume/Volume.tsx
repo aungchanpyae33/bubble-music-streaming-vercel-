@@ -1,9 +1,10 @@
 import useVolumeSeek from "@/lib/CustomHooks/VolumeSeek";
 import DataContext from "@/lib/MediaSource/ContextMedia";
-import { sliderPositionCal } from "@/lib/MediaSource/SliderPositionCal";
 import { useContext, useMemo, useRef } from "react";
 import AudioThumbSlider from "../audio/SliderUi/AudioThumbSlider";
 import AudioProgressbar from "../audio/SliderUi/AudioProgressbar";
+import VolumeSlider from "./VolumeSlider";
+import VolumeSliderActionWrapper from "./VolumeSliderActionWrapper";
 
 function Volume() {
   const { dataAudio } = useContext(DataContext);
@@ -27,81 +28,27 @@ function Volume() {
   });
   return (
     <div className="bg-white flex-1 ">
-      <div
-        className="border-2   h-[25px] w-full flex items-center select-none no-select"
-        tabIndex={0}
-        onKeyDown={(e) => {
-          if (e.key === "ArrowRight") {
-            if (!sliderRef.current) return;
-            setIsDragging(true);
-            const newValue = Math.max(value - 1, 0);
-            setValue(newValue);
-          } else if (e.key === "ArrowLeft") {
-            if (!sliderRef.current) return;
-            setIsDragging(true);
-            const newValue = Math.min(value + 1, 100);
-            setValue(newValue);
-          } else if (e.key !== "Tab") {
-            e.preventDefault();
-          }
-        }}
-        onKeyUp={(e) => {
-          if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
-            setIsDragging(false);
-          } else if (e.key !== "Tab") {
-            e.preventDefault();
-          }
-        }}
+      <VolumeSlider
+        setIsDragging={setIsDragging}
+        sliderRef={sliderRef}
+        setValue={setValue}
+        value={value}
       >
-        <div
-          className="flex-1 h-full group flex items-center justify-center cursor-pointer touch-none "
-          ref={sliderRef}
-          {...(isPointer
-            ? {
-                onPointerDown: (e) => {
-                  if (!sliderRef.current) return;
-                  setIsDragging(true);
-                  const { percentage, seekCalReturn } = sliderPositionCal({
-                    sliderRef,
-                    e,
-                  });
-                  dataAudio!.current!.volume = seekCalReturn;
-                  setValue(percentage);
-                },
-              }
-            : isTouchDevice
-            ? {
-                onTouchStart: (e) => {
-                  if (!sliderRef.current) return;
-                  setIsDragging(true);
-                  const { percentage, seekCalReturn } = sliderPositionCal({
-                    sliderRef,
-                    e,
-                  });
-                  dataAudio!.current!.volume = seekCalReturn;
-                  setValue(percentage);
-                },
-              }
-            : {
-                onMouseDown: (e) => {
-                  if (!sliderRef.current) return;
-                  setIsDragging(true);
-                  const { percentage, seekCalReturn } = sliderPositionCal({
-                    sliderRef,
-                    e,
-                  });
-                  dataAudio!.current!.volume = seekCalReturn;
-                  setValue(percentage);
-                },
-              })}
+        <VolumeSliderActionWrapper
+          sliderRef={sliderRef}
+          isPointer={isPointer}
+          isTouchDevice={isTouchDevice}
+          setIsDragging={setIsDragging}
+          dataAudio={dataAudio}
+          setValue={setValue}
         >
           <div className=" w-full h-[2px]   bg-blue-700 relative">
             <AudioProgressbar value={value} progressRef={progressRef} />
 
             <AudioThumbSlider value={value} isDragging={isDragging} />
           </div>
-        </div>
-      </div>
+        </VolumeSliderActionWrapper>
+      </VolumeSlider>
     </div>
   );
 }
