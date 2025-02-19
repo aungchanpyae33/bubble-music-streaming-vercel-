@@ -7,7 +7,8 @@ function VolumeSlider({
   value,
   children,
 }: {
-  setIsDragging: (isDragging: boolean) => void;
+  isDragging: boolean;
+  setIsDragging: React.Dispatch<React.SetStateAction<boolean>>;
   sliderRef: React.RefObject<HTMLDivElement | null>;
   setValue: React.Dispatch<React.SetStateAction<number>>;
   value: number;
