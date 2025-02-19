@@ -88,7 +88,7 @@ function AudioPlayer() {
             </div>
           </div>
 
-          <div className="w-[20%] md:w-[25%] hidden max-w-[375px]   sm:flex bg-yellow-700 gap-1  items-center">
+          <div className="w-[20%] md:w-[25%] hidden max-w-[375px] sm:flex bg-yellow-700 gap-1 relative  items-center justify-around">
             <button className="bg-black text-white p-1">lyr</button>
             <button className="bg-black text-white p-1">que</button>
             <Volume />
