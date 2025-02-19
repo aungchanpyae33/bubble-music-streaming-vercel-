@@ -30,16 +30,19 @@ function Volume() {
   return (
     <div
       className={clsx(
-        "hover:absolute md:hover:static md:w-full w-fit flex bg-black   hover:left-0 hover:right-0 hover:flex hover:w-full",
+        "hover:absolute max-w-[200px] group  md:hover:static md:w-full w-fit flex bg-black   hover:left-0 hover:right-0 hover:flex hover:w-full",
         {
           "absolute w-full  left-0 right-0 flex md:static": isDragging,
         }
       )}
     >
       <div
-        className={clsx("bg-white p-1  md:flex-1 w-fit group hover:flex-1", {
-          "flex-1": isDragging,
-        })}
+        className={clsx(
+          "bg-white p-1 flex  md:flex-1 w-fit group hover:flex-1",
+          {
+            "flex-1": isDragging,
+          }
+        )}
       >
         <button
           className={clsx("md:hidden group-hover:hidden", {
