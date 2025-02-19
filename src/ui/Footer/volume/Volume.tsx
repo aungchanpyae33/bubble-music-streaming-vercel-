@@ -6,6 +6,7 @@ import AudioProgressbar from "../audio/SliderUi/AudioProgressbar";
 import VolumeSlider from "./VolumeSlider";
 import VolumeSliderActionWrapper from "./VolumeSliderActionWrapper";
 import clsx from "clsx";
+import VolumeMuteButton from "./VolumeMuteButton";
 
 function Volume() {
   const { dataAudio } = useContext(DataContext);
@@ -44,6 +45,12 @@ function Volume() {
           }
         )}
       >
+        <VolumeMuteButton
+          isDragging={isDragging}
+          value={value}
+          dataAudio={dataAudio}
+          setValue={setValue}
+        />
         <button
           className={clsx("md:hidden group-hover:hidden", {
             hidden: isDragging,
