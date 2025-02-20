@@ -15,7 +15,7 @@ function NavList({
   childrenPlaylist,
 }: childrenProp) {
   // console.log("render");
-  const [open, setopen] = useBodyScrollLock();
+  const [open, setopen] = useBodyScrollLock({ isCoverScroll: true });
 
   return (
     <div className="">
