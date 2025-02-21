@@ -31,6 +31,7 @@ function AudioSlider({
     <div
       className=" h-[3px] hidden  sm:h-[25px] w-full sm:flex items-center select-none no-select"
       tabIndex={0}
+      onClick={(e) => e.stopPropagation()}
       onKeyDown={(e) => {
         if (e.key === "ArrowRight") {
           if (!sliderRef.current) return;
