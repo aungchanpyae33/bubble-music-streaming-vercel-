@@ -54,7 +54,7 @@ function AudiosContainer({
         //   ArrowNavi(e, dataInc, "ArrowDown", "ArrowUp", url.length, "cell");
         // }}
       >
-        <table className=" w-full border-separate border-spacing-y-4">
+        <table className=" w-full isolate border-separate border-spacing-y-4">
           <thead className=" sticky z-10 text-white top-[50px]  h-[65px] bg-red-300">
             <tr className="text-left">
               <th className=" w-14 p-2  text-center">#</th>
