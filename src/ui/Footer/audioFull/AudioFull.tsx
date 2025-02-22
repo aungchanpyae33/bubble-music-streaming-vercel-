@@ -1,6 +1,7 @@
 import { Context } from "@/lib/MediaSource/ContextMediaAudioFull";
-import clsx from "clsx";
+import Image from "next/image";
 import { useContext } from "react";
+import AudioFullBackGround from "./AudioFullBackGround";
 function AudioFull({
   footerRef,
 }: {
