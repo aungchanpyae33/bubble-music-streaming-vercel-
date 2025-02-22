@@ -9,13 +9,9 @@ function AudioFull({
   const { open, setopenFn } = useContext(Context);
   console.log(open);
   return (
-    <div
-      onClick={(e) => e.stopPropagation()}
-      className={clsx("z-50 bg-red-500 fixed top-0 left-0 bottom-0 right-0", {
-        hidden: !open,
-      })}
-    >
+    <AudioFullBackGround open={open}>
       <button
+        className=" absolute bg-pink-400 top-0 right-2"
         onClick={() => {
           footerRef!.current!.classList.toggle("z-30");
           setopenFn();
@@ -23,8 +19,19 @@ function AudioFull({
       >
         close
       </button>
-      <div className="">facilis necessitatibus voluptas?</div>
-    </div>
+      <Image
+        src={
+          "https://s3.tebi.io/test1345/timo-volz-ZlFKIG6dApg-unsplash%20%281%29.jpg"
+        }
+        alt="this is image element"
+        width={300}
+        className="z-30"
+        height={300}
+        onLoad={(e) => console.log("done loading")}
+      />
+
+      <div className=" h-[20%] min-h-[100px] w-[90%] inset-x-0 mx-auto fixed bottom-0"></div>
+    </AudioFullBackGround>
   );
 }
 
