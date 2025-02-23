@@ -1,3 +1,4 @@
+import { VolumeDraggingActions, VolumeValueActions } from "@/lib/zustand";
 import clsx from "clsx";
 import React, { RefObject } from "react";
 
@@ -11,10 +12,10 @@ function VolumeSlider({
   children,
 }: {
   isDragging: boolean;
-  setIsDragging: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsDragging: VolumeDraggingActions["setIsDragging"];
   dataAudio: RefObject<HTMLAudioElement | null>;
   sliderRef: React.RefObject<HTMLDivElement | null>;
-  setValue: React.Dispatch<React.SetStateAction<number>>;
+  setValue: VolumeValueActions["setValue"];
   value: number;
   children: React.ReactNode;
 }) {

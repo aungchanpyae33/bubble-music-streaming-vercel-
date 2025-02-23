@@ -56,6 +56,33 @@ export interface SongFunctionActions {
   setPlay: (key: string, play: boolean | undefined) => void;
 }
 
+export interface AudioValueState {
+  value: number;
+}
+export interface AudioValueActions {
+  setValue: (newValue: number) => void;
+}
+
+export interface AudioDraggingState {
+  isDragging: boolean;
+}
+export interface AudioDraggingActions {
+  setIsDragging: (newState: boolean) => void;
+}
+
+export interface VolumeValueState {
+  value: number;
+}
+export interface VolumeValueActions {
+  setValue: (newValue: number) => void;
+}
+export interface VolumeDraggingState {
+  isDragging: boolean;
+}
+export interface VolumeDraggingActions {
+  setIsDragging: (newState: boolean) => void;
+}
+
 export const useSong = create<SongState & SongActions>()(
   persist(
     (set) => ({
@@ -187,3 +214,43 @@ export const useRepeat = create<
     }
   )
 );
+
+export const useAudioValue = create<AudioValueState & AudioValueActions>(
+  (set) => ({
+    value: 100,
+    setValue: (newValue: number) =>
+      set(() => ({
+        value: newValue,
+      })),
+  })
+);
+
+export const useAudioDragging = create<
+  AudioDraggingState & AudioDraggingActions
+>((set) => ({
+  isDragging: false,
+  setIsDragging: (newState: boolean) =>
+    set(() => ({
+      isDragging: newState,
+    })),
+}));
+
+export const useVolumeValue = create<VolumeValueState & VolumeValueActions>(
+  (set) => ({
+    value: 100,
+    setValue: (newValue: number) =>
+      set(() => ({
+        value: newValue,
+      })),
+  })
+);
+
+export const useVolumeDragging = create<
+  VolumeDraggingState & VolumeDraggingActions
+>((set) => ({
+  isDragging: false,
+  setIsDragging: (newState: boolean) =>
+    set(() => ({
+      isDragging: newState,
+    })),
+}));

@@ -1,16 +1,17 @@
-import {
-  Dispatch,
-  RefObject,
-  SetStateAction,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { RefObject, useContext, useEffect } from "react";
 import throttle from "../throttle";
 import { seekCal, sliderPositionCal } from "../MediaSource/SliderPositionCal";
 import AbortFetch from "../MediaSource/AbortFetch";
 import AudioSeeked from "../MediaSource/AudioSeeked";
 import DataContext from "../MediaSource/ContextMedia";
+import {
+  AudioDraggingActions,
+  AudioDraggingState,
+  AudioValueActions,
+  AudioValueState,
+  useAudioDragging,
+  useAudioValue,
+} from "../zustand";
 
 interface audioSeekProp {
   sliderRef: RefObject<HTMLDivElement | null>;
@@ -19,10 +20,10 @@ interface audioSeekProp {
   isTouchDevice: boolean;
 }
 type useAudioSeekReturnType = [
-  number,
-  Dispatch<SetStateAction<number>>,
-  boolean,
-  Dispatch<SetStateAction<boolean>>
+  AudioValueState["value"],
+  AudioValueActions["setValue"],
+  AudioDraggingState["isDragging"],
+  AudioDraggingActions["setIsDragging"]
 ];
 
 const useAudioSeek = ({
@@ -31,8 +32,14 @@ const useAudioSeek = ({
   isPointer,
   isTouchDevice,
 }: audioSeekProp): useAudioSeekReturnType => {
-  const [value, setValue] = useState<number>(100);
-  const [isDragging, setIsDragging] = useState(false);
+  const value = useAudioValue((state: AudioValueState) => state.value);
+  const setValue = useAudioValue((state: AudioValueActions) => state.setValue);
+  const isDragging = useAudioDragging(
+    (state: AudioDraggingState) => state.isDragging
+  );
+  const setIsDragging = useAudioDragging(
+    (state: AudioDraggingActions) => state.setIsDragging
+  );
   const {
     dataAudio,
     loadNextSegment,
@@ -102,6 +109,8 @@ const useAudioSeek = ({
     fetching,
     isPointer,
     isTouchDevice,
+    setIsDragging,
+    setValue,
   ]);
 
   return [value, setValue, isDragging, setIsDragging];

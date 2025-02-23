@@ -1,10 +1,11 @@
-import React, { RefObject, SetStateAction } from "react";
+import React, { RefObject } from "react";
 import { sliderPositionCal } from "./SliderPositionCal";
+import { AudioDraggingActions, AudioValueActions } from "../zustand";
 interface AudioSeekHandleDownProp {
   sliderRef: RefObject<HTMLDivElement | null>;
-  setIsDragging: React.Dispatch<SetStateAction<boolean>>;
+  setIsDragging: AudioDraggingActions["setIsDragging"];
   e: React.TouchEvent | React.MouseEvent | React.TouchEvent;
-  setValue: React.Dispatch<SetStateAction<number>>;
+  setValue: AudioValueActions["setValue"];
 }
 const AudioSeekHandleDown = ({
   sliderRef,

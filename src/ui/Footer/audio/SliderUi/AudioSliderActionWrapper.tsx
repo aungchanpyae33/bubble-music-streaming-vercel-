@@ -1,5 +1,7 @@
 import AudioSeekHandleDown from "@/lib/MediaSource/AudioSeekHandleDown";
-import { ReactNode, RefObject, SetStateAction } from "react";
+import { AudioDraggingActions, AudioValueActions } from "@/lib/zustand";
+
+import { ReactNode, RefObject } from "react";
 
 function AudioSliderActionWrapper({
   sliderRef,
@@ -12,8 +14,8 @@ function AudioSliderActionWrapper({
   sliderRef: RefObject<HTMLDivElement | null>;
   isPointer: boolean;
   isTouchDevice: boolean;
-  setIsDragging: React.Dispatch<SetStateAction<boolean>>;
-  setValue: React.Dispatch<SetStateAction<number>>;
+  setIsDragging: AudioDraggingActions["setIsDragging"];
+  setValue: AudioValueActions["setValue"];
   children: ReactNode;
 }) {
   return (

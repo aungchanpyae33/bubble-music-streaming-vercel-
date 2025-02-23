@@ -1,7 +1,8 @@
 import AbortFetch from "@/lib/MediaSource/AbortFetch";
 import AudioSeeked from "@/lib/MediaSource/AudioSeeked";
 import DataContext from "@/lib/MediaSource/ContextMedia";
-import { ReactNode, RefObject, SetStateAction, useContext } from "react";
+import { AudioDraggingActions, AudioValueActions } from "@/lib/zustand";
+import { ReactNode, RefObject, useContext } from "react";
 function AudioSlider({
   sliderRef,
   setIsDragging,
@@ -12,10 +13,10 @@ function AudioSlider({
   children,
 }: {
   sliderRef: RefObject<HTMLDivElement | null>;
-  setIsDragging: React.Dispatch<SetStateAction<boolean>>;
+  setIsDragging: AudioDraggingActions["setIsDragging"];
   duration: number;
   value: number;
-  setValue: React.Dispatch<SetStateAction<number>>;
+  setValue: AudioValueActions["setValue"];
   progressRef: RefObject<HTMLDivElement | null>;
   children: ReactNode;
 }) {

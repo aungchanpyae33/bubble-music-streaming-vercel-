@@ -1,11 +1,13 @@
+import { RefObject, useEffect } from "react";
+import { sliderPositionCal } from "../MediaSource/SliderPositionCal";
 import {
-  Dispatch,
-  RefObject,
-  SetStateAction,
-  useEffect,
-  useState,
-} from "react";
-import { seekCal, sliderPositionCal } from "../MediaSource/SliderPositionCal";
+  useVolumeDragging,
+  useVolumeValue,
+  VolumeDraggingActions,
+  VolumeDraggingState,
+  VolumeValueActions,
+  VolumeValueState,
+} from "../zustand";
 
 interface audioSeekProp {
   dataAudio: RefObject<HTMLAudioElement | null>;
@@ -14,10 +16,10 @@ interface audioSeekProp {
   isTouchDevice: boolean;
 }
 type useAudioSeekReturnType = [
-  number,
-  Dispatch<SetStateAction<number>>,
-  boolean,
-  Dispatch<SetStateAction<boolean>>
+  VolumeValueState["value"],
+  VolumeValueActions["setValue"],
+  VolumeDraggingState["isDragging"],
+  VolumeDraggingActions["setIsDragging"]
 ];
 
 const useVolumeSeek = ({
@@ -26,8 +28,16 @@ const useVolumeSeek = ({
   isPointer,
   isTouchDevice,
 }: audioSeekProp): useAudioSeekReturnType => {
-  const [value, setValue] = useState<number>(50);
-  const [isDragging, setIsDragging] = useState(false);
+  const value = useVolumeValue((state: VolumeValueState) => state.value);
+  const setValue = useVolumeValue(
+    (state: VolumeValueActions) => state.setValue
+  );
+  const isDragging = useVolumeDragging(
+    (state: VolumeDraggingState) => state.isDragging
+  );
+  const setIsDragging = useVolumeDragging(
+    (state: VolumeDraggingActions) => state.setIsDragging
+  );
   useEffect(() => {
     function handleMove(e: PointerEvent | TouchEvent | MouseEvent) {
       const { percentage, seekCalReturn } = sliderPositionCal({
@@ -64,7 +74,15 @@ const useVolumeSeek = ({
       document.removeEventListener("mousemove", handleMove);
       document.removeEventListener("mouseup", handleUp);
     };
-  }, [dataAudio, isDragging, sliderRef, isPointer, isTouchDevice]);
+  }, [
+    dataAudio,
+    isDragging,
+    sliderRef,
+    isPointer,
+    isTouchDevice,
+    setValue,
+    setIsDragging,
+  ]);
 
   return [value, setValue, isDragging, setIsDragging];
 };

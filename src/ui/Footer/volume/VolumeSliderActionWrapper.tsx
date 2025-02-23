@@ -1,4 +1,5 @@
 import { sliderPositionCal } from "@/lib/MediaSource/SliderPositionCal";
+import { VolumeDraggingActions, VolumeValueActions } from "@/lib/zustand";
 import { RefObject } from "react";
 
 function VolumeSliderActionWrapper({
@@ -13,9 +14,9 @@ function VolumeSliderActionWrapper({
   sliderRef: RefObject<HTMLDivElement | null>;
   isPointer: boolean;
   isTouchDevice: boolean;
-  setIsDragging: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsDragging: VolumeDraggingActions["setIsDragging"];
   dataAudio: RefObject<HTMLAudioElement | null>;
-  setValue: React.Dispatch<React.SetStateAction<number>>;
+  setValue: VolumeValueActions["setValue"];
   children: React.ReactNode;
 }) {
   return (
