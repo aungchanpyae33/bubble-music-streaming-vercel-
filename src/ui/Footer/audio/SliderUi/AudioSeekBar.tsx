@@ -5,6 +5,7 @@ import AudioThumbSlider from "./AudioThumbSlider";
 import AudioProgressbar from "./AudioProgressbar";
 import AudioSliderActionWrapper from "./AudioSliderActionWrapper";
 import AudioSlider from "./AudioSlider";
+import clsx from "clsx";
 export interface eventProp {
   e:
     | React.MouseEvent<HTMLInputElement>
@@ -13,9 +14,10 @@ export interface eventProp {
 }
 interface PropAudioSeek {
   duration: number;
+  isForAudioFull: boolean;
 }
 
-function AudioSeekBar({ duration }: PropAudioSeek) {
+function AudioSeekBar({ duration, isForAudioFull }: PropAudioSeek) {
   const isPointer = useMemo(
     () => typeof window !== "undefined" && "onpointerdown" in window,
     []
@@ -34,11 +36,18 @@ function AudioSeekBar({ duration }: PropAudioSeek) {
     isPointer,
     isTouchDevice,
   });
-  // console.log("aus re-render");
   return (
     <>
-      <TimeIndicatorCur value={value} duration={duration} />
-      <div className=" w-full h-[3px] sm:hidden    bg-blue-700 relative">
+      <TimeIndicatorCur
+        value={value}
+        duration={duration}
+        isForAudioFull={isForAudioFull}
+      />
+      <div
+        className={clsx(" w-full h-[3px] sm:hidden    bg-blue-700 relative", {
+          hidden: isForAudioFull,
+        })}
+      >
         <AudioProgressbar value={value} progressRef={progressRef} />
         <AudioThumbSlider isDragging={isDragging} value={value} />
       </div>
@@ -49,6 +58,7 @@ function AudioSeekBar({ duration }: PropAudioSeek) {
         value={value}
         setValue={setValue}
         progressRef={progressRef}
+        isForAudioFull={isForAudioFull}
       >
         <AudioSliderActionWrapper
           sliderRef={sliderRef}

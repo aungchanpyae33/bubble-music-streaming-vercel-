@@ -2,6 +2,7 @@ import { ReactNode, useContext } from "react";
 import DataContext from "@/lib/MediaSource/ContextMedia";
 import AudioSeekBar from "./SliderUi/AudioSeekBar";
 import AudioWrapper from "./AudioWrapper";
+import AudioSeekBarWrapper from "./AudioSeekBarWrapper";
 export interface PropTime {
   cur: number;
   durationTime: number | undefined;
