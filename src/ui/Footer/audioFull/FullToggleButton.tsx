@@ -12,7 +12,7 @@ function FullToggleButton({
       <button
         className="bg-black text-white p-1 hidden md:inline-block"
         onClick={() => {
-          footerRef!.current!.classList.toggle("z-30");
+          footerRef!.current!.classList.toggle("z-50");
           setopenFn();
         }}
       >
