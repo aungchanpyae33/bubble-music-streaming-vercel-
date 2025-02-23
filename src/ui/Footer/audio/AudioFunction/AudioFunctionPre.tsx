@@ -1,13 +1,16 @@
 import { useSong, useSongFunction } from "@/lib/zustand";
 import type { SongActions, SongFunctionActions } from "@/lib/zustand";
 import type { urlProp } from "@/ui/albumContainer/AudiosContainer";
+import clsx from "clsx";
 
 function AudioFunctionPre({
   urlProp,
   url,
+  isForAudioFull,
 }: {
   urlProp: urlProp[];
   url: string;
+  isForAudioFull: boolean;
 }) {
   const updateSongCu = useSong((state: SongActions) => state.updateSongCu);
   const setPlay = useSongFunction(
@@ -26,7 +29,9 @@ function AudioFunctionPre({
   return (
     <button
       onClick={() => songFunctionPre()}
-      className="bg-blue-300 p-2 text-sm hidden sm:inline-block md:text-base"
+      className={clsx("bg-blue-300 p-2 text-sm  sm:inline-block md:text-base", {
+        hidden: !isForAudioFull,
+      })}
     >
       pre
     </button>
