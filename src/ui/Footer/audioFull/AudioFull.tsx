@@ -14,7 +14,7 @@ function AudioFull({
       <button
         className=" absolute bg-pink-400 top-0 right-2"
         onClick={() => {
-          footerRef!.current!.classList.toggle("z-30");
+          footerRef!.current!.classList.toggle("z-50");
           setopenFn();
         }}
       >

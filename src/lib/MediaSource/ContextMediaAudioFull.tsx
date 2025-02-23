@@ -23,7 +23,7 @@ function ContextMediaAudioFull({
       <div
         className="flex gap-4  sm:gap-5 md:gap-6  lg:gap-10 justify-between    relative w-full h-full"
         onClick={() => {
-          footerRef.current?.classList.toggle("z-30");
+          footerRef.current?.classList.toggle("z-50");
           setopenFn();
         }}
       >

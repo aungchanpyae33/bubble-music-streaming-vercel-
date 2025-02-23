@@ -34,7 +34,7 @@ function AudioFullBackGround({
     <div
       onClick={(e) => e.stopPropagation()}
       className={clsx(
-        "z-50   fixed inset-0 bg-no-repeat bg-cover bg-center bg-fixed",
+        "z-50 fixed inset-0 bg-no-repeat bg-cover bg-center bg-fixed",
         {
           hidden: !open,
         }
