@@ -13,28 +13,26 @@ function AudioFullBackGround({
   const [isImageLoaded, setIsImageLoaded] = useState("initial");
 
   useEffect(() => {
-    if (open) {
-      const img = new Image();
-      img.src = bgImageUrl;
+    const img = new Image();
+    img.src = bgImageUrl;
 
-      // When the image loads successfully
-      img.onload = () => {
-        console.log("loaded");
-        setIsImageLoaded("success");
-      };
+    // When the image loads successfully
+    img.onload = () => {
+      console.log("loaded");
+      setIsImageLoaded("success");
+    };
 
-      // If the image fails to load
-      img.onerror = () => {
-        setIsImageLoaded("error");
-      };
-    }
-  }, [bgImageUrl, open]);
+    // If the image fails to load
+    img.onerror = () => {
+      setIsImageLoaded("error");
+    };
+  }, [bgImageUrl]);
   console.log(isImageLoaded);
   return (
     <div
       onClick={(e) => e.stopPropagation()}
       className={clsx(
-        "z-50 fixed inset-0 bg-no-repeat bg-cover bg-center bg-fixed",
+        "z-50   fixed inset-0 bg-no-repeat bg-cover bg-center bg-fixed",
         {
           hidden: !open,
         }
