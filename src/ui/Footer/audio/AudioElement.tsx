@@ -3,6 +3,7 @@ import DataContext from "@/lib/MediaSource/ContextMedia";
 import AudioSeekBar from "./SliderUi/AudioSeekBar";
 import AudioWrapper from "./AudioWrapper";
 import AudioSeekBarWrapper from "./AudioSeekBarWrapper";
+import TimeIndicatorCur from "./Time/TimeIndicatorCur";
 export interface PropTime {
   cur: number;
   durationTime: number | undefined;
