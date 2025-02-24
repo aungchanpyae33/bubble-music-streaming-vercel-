@@ -1,13 +1,16 @@
+import { Context } from "@/lib/MediaSource/ContextMediaAudioFull";
 import clsx from "clsx";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import AudioCurImg from "./AudioCurImg";
 
 function AudioFullBackGround({
   children,
-  open,
+  footerRef,
 }: {
   children: React.ReactNode;
-  open: boolean;
+  footerRef: React.RefObject<HTMLElement | null>;
 }) {
+  const { open, setopenFn } = useContext(Context);
   const bgImageUrl =
     "https://s3.tebi.io/tebi.bubblemusic.us.kg/premium_photo-1690406382383-3827c1397c48.avif";
   const [isImageLoaded, setIsImageLoaded] = useState("initial");
@@ -54,6 +57,16 @@ function AudioFullBackGround({
       {isImageLoaded === "error" && (
         <div className="text-white">Failed to load image</div>
       )}
+      <button
+        className=" absolute bg-pink-400 top-0 right-2"
+        onClick={() => {
+          footerRef!.current!.classList.toggle("z-50");
+          setopenFn();
+        }}
+      >
+        close
+      </button>
+      {open && <AudioCurImg />}
       {children}
     </div>
   );
