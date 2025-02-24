@@ -49,7 +49,7 @@ function AudioPlayer({
         fetching,
       }}
     >
-      <AudioFull footerRef={footerRef} />
+      <AudioFull footerRef={footerRef} url={url} duration={duration} />
       <div className=" w-full sm:w-[25%]   md:w-[25%] max-w-[375px]  flex items-center bg-yellow-700">
         <AudioDisplayFooter
           urlImage={
