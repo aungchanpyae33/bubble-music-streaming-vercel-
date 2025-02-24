@@ -1,18 +1,20 @@
 import { Context } from "@/lib/MediaSource/ContextMediaAudioFull";
-import Image from "next/image";
 import { useContext } from "react";
 import AudioFullBackGround from "./AudioFullBackGround";
 function AudioFull({
   footerRef,
+  url,
+  duration,
 }: {
   footerRef: React.RefObject<HTMLElement | null>;
+  url: string;
+  duration: number;
 }) {
   const { open, setopenFn } = useContext(Context);
-  console.log(open);
   return (
     <>
       {open && (
-        <AudioFullBackGround open={open}>
+        <AudioFullBackGround footerRef={footerRef}>
           <button
             className=" absolute bg-pink-400 top-0 right-2"
             onClick={() => {
