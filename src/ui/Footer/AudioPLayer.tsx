@@ -72,11 +72,26 @@ function AudioPlayer({
                     className="flex gap-2"
                     onClick={(e) => e.stopPropagation()}
                   >
-                    <AudioFunctionShuffle urlProp={playListArray} url={url} />
-                    <AudioFunctionPre url={url} urlProp={playListArray} />
-                    <ToggleButton urlProp={playListArray} />
-                    <AudioFunctionNext url={url} urlProp={playListArray} />
-                    <AudioFunctionRepeat />
+                    <AudioFunctionShuffle
+                      className="bg-pink-300 p-2  sm:inline-block text-sm md:text-base hidden"
+                      urlProp={playListArray}
+                      url={url}
+                    />
+                    <AudioFunctionPre
+                      className="bg-pink-300 p-2  sm:inline-block text-sm md:text-base hidden"
+                      url={url}
+                      urlProp={playListArray}
+                    />
+                    <ToggleButton
+                      className="w-[50px] bg-blue-400"
+                      urlProp={playListArray}
+                    />
+                    <AudioFunctionNext
+                      url={url}
+                      urlProp={playListArray}
+                      className="bg-pink-300 p-2 text-sm md:text-base"
+                    />
+                    <AudioFunctionRepeat className="bg-pink-300 p-2  sm:inline-block text-sm md:text-base hidden" />
                   </div>
                 )}
               </AudioFunctionButton>
@@ -86,7 +101,12 @@ function AudioPlayer({
             <MediaSessionSeekWrapper duration={duration}>
               <AudioElement
                 url={url}
-                Child={<TimeIndicatorDur duration={duration} />}
+                Child={
+                  <TimeIndicatorDur
+                    duration={duration}
+                    className="text-sm md:text-base w-[5rem] text-center hidden sm:inline"
+                  />
+                }
               ></AudioElement>
             </MediaSessionSeekWrapper>
           </div>
