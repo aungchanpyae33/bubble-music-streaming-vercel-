@@ -48,7 +48,7 @@ function AudioFull({
                     )}
                     duration={duration}
                     key={url}
-                    className="w-full h-[3px] sm:hidden bg-blue-700 relative"
+                    className="hidden"
                   />
                   <TimeIndicatorDur
                     duration={duration}
