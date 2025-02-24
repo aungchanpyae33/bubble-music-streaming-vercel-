@@ -3,6 +3,15 @@ import AudioSeeked from "@/lib/MediaSource/AudioSeeked";
 import DataContext from "@/lib/MediaSource/ContextMedia";
 import { AudioDraggingActions, AudioValueActions } from "@/lib/zustand";
 import { ReactNode, RefObject, useContext } from "react";
+interface Props extends React.ComponentProps<"div"> {
+  sliderRef: RefObject<HTMLDivElement | null>;
+  setIsDragging: AudioDraggingActions["setIsDragging"];
+  duration: number;
+  value: number;
+  setValue: AudioValueActions["setValue"];
+  progressRef: RefObject<HTMLDivElement | null>;
+  children: ReactNode;
+}
 function AudioSlider({
   sliderRef,
   setIsDragging,
@@ -11,15 +20,8 @@ function AudioSlider({
   setValue,
   progressRef,
   children,
-}: {
-  sliderRef: RefObject<HTMLDivElement | null>;
-  setIsDragging: AudioDraggingActions["setIsDragging"];
-  duration: number;
-  value: number;
-  setValue: AudioValueActions["setValue"];
-  progressRef: RefObject<HTMLDivElement | null>;
-  children: ReactNode;
-}) {
+  className,
+}: Props) {
   const {
     dataAudio,
     loadNextSegment,
@@ -30,7 +32,7 @@ function AudioSlider({
   } = useContext(DataContext);
   return (
     <div
-      className=" h-[3px] hidden  sm:h-[25px] w-full sm:flex items-center select-none no-select"
+      className={className}
       tabIndex={0}
       onClick={(e) => e.stopPropagation()}
       onKeyDown={(e) => {

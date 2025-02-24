@@ -1,23 +1,21 @@
-import { useMemo, useRef } from "react";
-import TimeIndicatorCur from "../Time/TimeIndicatorCur";
+import { ReactNode, useMemo, useRef } from "react";
 import useAudioSeek from "@/lib/CustomHooks/AudioSeek";
 import AudioThumbSlider from "./AudioThumbSlider";
 import AudioProgressbar from "./AudioProgressbar";
 import AudioSliderActionWrapper from "./AudioSliderActionWrapper";
 import AudioSlider from "./AudioSlider";
-import clsx from "clsx";
 export interface eventProp {
   e:
     | React.MouseEvent<HTMLInputElement>
     | React.TouchEvent<HTMLInputElement>
     | React.KeyboardEvent<HTMLInputElement>;
 }
-interface PropAudioSeek {
+interface PropAudioSeek extends React.ComponentProps<"div"> {
   duration: number;
-  isForAudioFull: boolean;
+  childrenFn: (value: number) => ReactNode;
 }
 
-function AudioSeekBar({ duration, isForAudioFull }: PropAudioSeek) {
+function AudioSeekBar({ duration, childrenFn, className }: PropAudioSeek) {
   const isPointer = useMemo(
     () => typeof window !== "undefined" && "onpointerdown" in window,
     []
@@ -38,16 +36,8 @@ function AudioSeekBar({ duration, isForAudioFull }: PropAudioSeek) {
   });
   return (
     <>
-      <TimeIndicatorCur
-        value={value}
-        duration={duration}
-        isForAudioFull={isForAudioFull}
-      />
-      <div
-        className={clsx(" w-full h-[3px] sm:hidden    bg-blue-700 relative", {
-          hidden: isForAudioFull,
-        })}
-      >
+      {childrenFn(value)}
+      <div className={className}>
         <AudioProgressbar value={value} progressRef={progressRef} />
         <AudioThumbSlider isDragging={isDragging} value={value} />
       </div>

@@ -8,7 +8,10 @@ import type {
   IsRepeatState,
 } from "@/lib/zustand";
 import { urlProp } from "@/ui/albumContainer/AudiosContainer";
-function ToggleButton({ urlProp }: { urlProp: urlProp[] }) {
+interface Props extends React.ComponentProps<"button"> {
+  urlProp: urlProp[];
+}
+function ToggleButton({ urlProp, className }: Props) {
   const { dataAudio } = useContext(DataContext);
   // Get the first key-value pair from Isplay
   const [firstKey, firstIsplay] = useSongFunction(
@@ -75,7 +78,7 @@ function ToggleButton({ urlProp }: { urlProp: urlProp[] }) {
 
   return (
     <button
-      className="w-[50px] bg-red-300"
+      className={className}
       id="play-icon"
       onKeyDown={(e) => {
         e.stopPropagation();

@@ -1,13 +1,11 @@
 import { useSong, useSongFunction } from "@/lib/zustand";
 import type { urlProp } from "@/ui/albumContainer/AudiosContainer";
 import type { SongActions, SongFunctionActions } from "@/lib/zustand";
-function AudioFunctionNext({
-  urlProp,
-  url,
-}: {
+interface Props extends React.ComponentProps<"button"> {
   urlProp: urlProp[];
   url: string;
-}) {
+}
+function AudioFunctionNext({ urlProp, url, className }: Props) {
   const updateSongCu = useSong((state: SongActions) => state.updateSongCu);
 
   const currentIndex = urlProp.findIndex((song) => song.url === url);
@@ -26,10 +24,7 @@ function AudioFunctionNext({
   }
 
   return (
-    <button
-      onClick={() => songFunctionNext()}
-      className="bg-blue-300 p-2 text-sm md:text-base"
-    >
+    <button onClick={() => songFunctionNext()} className={className}>
       nex
     </button>
   );

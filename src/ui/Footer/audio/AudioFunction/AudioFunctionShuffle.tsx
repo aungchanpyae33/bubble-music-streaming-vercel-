@@ -8,16 +8,11 @@ import {
 import { urlProp } from "@/ui/albumContainer/AudiosContainer";
 import clsx from "clsx";
 import { useState } from "react";
-
-function AudioFunctionShuffle({
-  urlProp,
-  url,
-  isForAudioFull,
-}: {
+interface Props extends React.ComponentProps<"button"> {
   urlProp: urlProp[];
   url: string;
-  isForAudioFull: boolean;
-}) {
+}
+function AudioFunctionShuffle({ className, urlProp, url }: Props) {
   // console.log("render");
   const currentIndex = urlProp.findIndex((song) => song.url === url);
   const currentSong = urlProp[currentIndex];
@@ -39,9 +34,7 @@ function AudioFunctionShuffle({
 
   return (
     <button
-      className={clsx("bg-pink-300 p-2  sm:inline-block text-sm md:text-base", {
-        hidden: !isForAudioFull,
-      })}
+      className={className}
       onClick={() => {
         console.log(shuffleArray);
         setPlayListArray(shuffleArray);

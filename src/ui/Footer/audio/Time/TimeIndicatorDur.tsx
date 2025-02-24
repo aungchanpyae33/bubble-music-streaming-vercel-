@@ -1,25 +1,12 @@
 import { TimeFormat } from "@/lib/TimeFormat";
-import clsx from "clsx";
-
-function TimeIndicatorDur({
-  duration,
-  isForAudioFull,
-}: {
+interface Props extends React.ComponentProps<"span"> {
   duration: number | undefined;
-  isForAudioFull: boolean;
-}) {
+}
+function TimeIndicatorDur({ className, duration }: Props) {
   // data: string;
   // dataCur: React.MutableRefObject<HTMLSpanElement | null>;
   // console.log("render timeindicator");
-  return (
-    <span
-      className={clsx("time sm:inline", {
-        hidden: !isForAudioFull,
-      })}
-    >
-      {TimeFormat(duration)}
-    </span>
-  );
+  return <span className={className}>{TimeFormat(duration)}</span>;
 }
 
 export default TimeIndicatorDur;
