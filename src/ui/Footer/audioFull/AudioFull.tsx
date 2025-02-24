@@ -10,6 +10,8 @@ import AudioFunctionRepeat from "../audio/AudioFunction/AudioFunctionRepeat";
 import TimeIndicatorDur from "../audio/Time/TimeIndicatorDur";
 import AudioSeekBar from "../audio/SliderUi/AudioSeekBar";
 import TimeIndicatorCur from "../audio/Time/TimeIndicatorCur";
+import AudioCurImg from "./AudioCurImg";
+import AudioFullInfoWrapper from "./AudioFullInfoWrapper";
 function AudioFull({
   footerRef,
   url,
@@ -33,7 +35,15 @@ function AudioFull({
           >
             close
           </button>
-          <div className=" h-[20%] min-h-[100px] w-full sm:w-[96%] md:w-[95%] lg:w-[90%]  bg-red-800 inset-x-0 mx-auto bg-re fixed bottom-0">
+          <div className=" h-[20%] min-h-[100px] w-[96%] md:w-[95%] lg:w-[90%]  bg-red-800 inset-x-0 mx-auto bg-re fixed bottom-0">
+            <AudioFullInfoWrapper>
+              <AudioCurImg />
+              <div className="text-white flex items-start justify-center flex-col">
+                <p className=" lg:text-5xl md:text-4xl text-2xl">Supanova</p>
+                <p className=" lg:text-3xl md:text-2xl text-xl">Aspea</p>
+              </div>
+            </AudioFullInfoWrapper>
+
             <div className="audioFunctionContainer flex  flex-col flex-1  items-center  justify-center">
               <div className="BottomContainer w-full static top-0 left-0 ">
                 <div className=" w-full flex items-center">

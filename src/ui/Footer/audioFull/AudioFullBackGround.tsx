@@ -66,7 +66,6 @@ function AudioFullBackGround({
       >
         close
       </button>
-      {open && <AudioCurImg />}
       {children}
     </div>
   );
