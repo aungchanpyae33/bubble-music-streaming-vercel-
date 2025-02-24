@@ -48,7 +48,7 @@ function AudioSeekBar({ duration, childrenFn, className }: PropAudioSeek) {
         value={value}
         setValue={setValue}
         progressRef={progressRef}
-        isForAudioFull={isForAudioFull}
+        className="h-[3px]   sm:h-[25px] w-full sm:flex items-center select-none no-select hidden"
       >
         <AudioSliderActionWrapper
           sliderRef={sliderRef}
