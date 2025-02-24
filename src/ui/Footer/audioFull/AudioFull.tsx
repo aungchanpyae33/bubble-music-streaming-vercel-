@@ -46,14 +46,14 @@ function AudioFull({
 
             <div className="audioFunctionContainer flex  flex-col flex-1  items-center  justify-center">
               <div className="BottomContainer w-full static top-0 left-0 ">
-                <div className=" w-full flex items-center">
+                <div className=" w-full flex items-center relative">
                   <AudioSeekBar
                     hideSliderInSmScreen={false}
                     childrenFn={(value) => (
                       <TimeIndicatorCur
                         value={value}
                         duration={duration}
-                        className="text-sm md:text-base w-[5rem] text-center"
+                        className="text-sm md:text-base w-fit md:w-[5rem] text-center md:static md:left-auto md:bottom-auto md:translate-y-0  absolute left-0 bottom-0 translate-y-full"
                       />
                     )}
                     duration={duration}
@@ -62,7 +62,7 @@ function AudioFull({
                   />
                   <TimeIndicatorDur
                     duration={duration}
-                    className="text-sm md:text-base w-[5rem] text-center"
+                    className="text-sm md:text-base w-fit md:w-[5rem] text-center md:static md:right-auto md:bottom-auto md:translate-y-0 absolute right-0 bottom-0 translate-y-full "
                   />
                 </div>
               </div>
