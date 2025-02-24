@@ -16,6 +16,7 @@ function AudioElement({ Child, url }: { Child: ReactNode; url: string }) {
       <AudioWrapper dataAudio={dataAudio} url={url} />
       <AudioSeekBarWrapper>
         <AudioSeekBar
+          hideSliderInSmScreen={true}
           childrenFn={(value) => (
             <TimeIndicatorCur
               value={value}

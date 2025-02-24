@@ -4,6 +4,7 @@ import AudioThumbSlider from "./AudioThumbSlider";
 import AudioProgressbar from "./AudioProgressbar";
 import AudioSliderActionWrapper from "./AudioSliderActionWrapper";
 import AudioSlider from "./AudioSlider";
+import clsx from "clsx";
 export interface eventProp {
   e:
     | React.MouseEvent<HTMLInputElement>
@@ -12,10 +13,16 @@ export interface eventProp {
 }
 interface PropAudioSeek extends React.ComponentProps<"div"> {
   duration: number;
+  hideSliderInSmScreen: boolean;
   childrenFn: (value: number) => ReactNode;
 }
 
-function AudioSeekBar({ duration, childrenFn, className }: PropAudioSeek) {
+function AudioSeekBar({
+  duration,
+  childrenFn,
+  className,
+  hideSliderInSmScreen,
+}: PropAudioSeek) {
   const isPointer = useMemo(
     () => typeof window !== "undefined" && "onpointerdown" in window,
     []
@@ -48,7 +55,10 @@ function AudioSeekBar({ duration, childrenFn, className }: PropAudioSeek) {
         value={value}
         setValue={setValue}
         progressRef={progressRef}
-        className="h-[3px]   sm:h-[25px] w-full sm:flex items-center select-none no-select hidden"
+        className={clsx("h-[25px] w-full  items-center select-none no-select", {
+          "hidden sm:flex": hideSliderInSmScreen,
+          flex: !hideSliderInSmScreen,
+        })}
       >
         <AudioSliderActionWrapper
           sliderRef={sliderRef}
@@ -57,7 +67,7 @@ function AudioSeekBar({ duration, childrenFn, className }: PropAudioSeek) {
           setIsDragging={setIsDragging}
           setValue={setValue}
         >
-          <div className=" w-full h-full sm:h-[3px]    bg-blue-700 relative">
+          <div className=" w-full h-[5px]    bg-blue-700 relative">
             <AudioProgressbar value={value} progressRef={progressRef} />
 
             <AudioThumbSlider isDragging={isDragging} value={value} />
