@@ -58,7 +58,7 @@ function AudioFullBackGround({
         <div className="text-white">Failed to load image</div>
       )}
       <button
-        className=" absolute bg-pink-400 top-0 right-2"
+        className=" absolute z-50 bg-pink-400 top-0 right-2"
         onClick={() => {
           footerRef!.current!.classList.toggle("z-50");
           setOpen(!open);
