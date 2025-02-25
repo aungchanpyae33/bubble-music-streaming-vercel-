@@ -1,12 +1,12 @@
 function OverLay({
-  setopen,
+  setOpen,
 }: {
-  setopen: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   return (
     <div
-      onClick={() => setopen(false)}
-      className=" z-30 bg-overlay fixed top-0 left-0 bottom-0 right-0 "
+      onClick={() => setOpen(false)}
+      className=" z-20 bg-overlay fixed top-0 left-0 bottom-0 right-0 "
     ></div>
   );
 }

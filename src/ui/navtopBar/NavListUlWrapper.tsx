@@ -4,10 +4,10 @@ import NavSidebarToggle from "./NavSideBarToggle";
 
 interface NavListUlWrapperProp {
   open: boolean;
-  setopen: React.Dispatch<SetStateAction<boolean>>;
+  setOpen: React.Dispatch<SetStateAction<boolean>>;
   children: ReactNode;
 }
-function NavListUlWrapper({ open, setopen, children }: NavListUlWrapperProp) {
+function NavListUlWrapper({ open, setOpen, children }: NavListUlWrapperProp) {
   return (
     <>
       <ul
@@ -20,7 +20,7 @@ function NavListUlWrapper({ open, setopen, children }: NavListUlWrapperProp) {
         )}
       >
         <li className="h-[50px]  relative bg-green-500 hover:bg-green-600  flex">
-          <NavSidebarToggle setopen={setopen} open={open} />
+          <NavSidebarToggle setOpen={setOpen} open={open} />
           <button
             className={clsx(
               "px-2   flex  w-[150px] min-w-[150px] max-w-[150px] items-center   justify-start h-[50px]"

@@ -5,7 +5,7 @@ function FullToggleButton({
 }: {
   footerRef: React.RefObject<HTMLElement | null>;
 }) {
-  const { open, setopenFn } = useContext(Context);
+  const { open, setOpen } = useContext(Context);
   console.log(open);
   return (
     <>
@@ -13,7 +13,7 @@ function FullToggleButton({
         className="bg-black text-white p-1 hidden md:inline-block"
         onClick={() => {
           footerRef!.current!.classList.toggle("z-50");
-          setopenFn();
+          setOpen(!open);
         }}
       >
         open

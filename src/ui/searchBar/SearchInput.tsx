@@ -4,7 +4,7 @@ import useSWR from "swr";
 import SearchResult from "./SearchResult";
 import FormWrapper from "./FormWrapper";
 function SearchInput() {
-  const [open, setopen] = useState(false);
+  const [open, setOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const [value, setValue] = useState<string | null>(null);
   const searchAbortController = useRef<AbortController | null>(null);
@@ -32,7 +32,7 @@ function SearchInput() {
     }
   );
   return (
-    <FormWrapper inputRef={inputRef} setopen={setopen} setValue={setValue}>
+    <FormWrapper inputRef={inputRef} setOpen={setOpen} setValue={setValue}>
       {open && data.length > 0 && (
         <SearchResult data={data} inputRef={inputRef} />
       )}

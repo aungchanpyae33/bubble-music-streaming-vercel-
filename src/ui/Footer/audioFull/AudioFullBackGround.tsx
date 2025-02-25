@@ -10,7 +10,7 @@ function AudioFullBackGround({
   children: React.ReactNode;
   footerRef: React.RefObject<HTMLElement | null>;
 }) {
-  const { open, setopenFn } = useContext(Context);
+  const { open, setOpen } = useContext(Context);
   const bgImageUrl =
     "https://s3.tebi.io/tebi.bubblemusic.us.kg/premium_photo-1690406382383-3827c1397c48.avif";
   const [isImageLoaded, setIsImageLoaded] = useState("initial");
@@ -61,7 +61,7 @@ function AudioFullBackGround({
         className=" absolute bg-pink-400 top-0 right-2"
         onClick={() => {
           footerRef!.current!.classList.toggle("z-50");
-          setopenFn();
+          setOpen(!open);
         }}
       >
         close

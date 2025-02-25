@@ -8,17 +8,17 @@ interface LinkProps {
   icon: string;
   desp: string;
   open: boolean;
-  setopen: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   children: ReactNode;
 }
-function NavSideLink({ url, icon, desp, open, setopen, children }: LinkProps) {
+function NavSideLink({ url, icon, desp, open, setOpen, children }: LinkProps) {
   // console.log("render navsidebarlink");
   return (
     <li className=" bg-green-500 hover:bg-green-600">
       <Link
         href={url}
         className="h-[50px]  relative flex"
-        onClick={() => setopen(false)}
+        onClick={() => setOpen(false)}
         tabIndex={open ? 0 : -1}
       >
         {children}

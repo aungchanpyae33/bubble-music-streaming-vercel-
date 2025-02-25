@@ -21,7 +21,8 @@ function AudioFull({
   url: string;
   duration: number;
 }) {
-  const { open, setopenFn } = useContext(Context);
+  const { open, setOpen } = useContext(Context);
+
   return (
     <>
       {open && (
@@ -30,7 +31,7 @@ function AudioFull({
             className=" absolute bg-pink-400 top-0 right-2"
             onClick={() => {
               footerRef!.current!.classList.toggle("z-50");
-              setopenFn();
+              setOpen(!open);
             }}
           >
             close

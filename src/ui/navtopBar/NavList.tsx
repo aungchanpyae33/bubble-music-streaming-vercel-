@@ -15,14 +15,14 @@ function NavList({
   childrenPlaylist,
 }: childrenProp) {
   // console.log("render");
-  const [open, setopen] = useBodyScrollLock({ isCoverScroll: true });
+  const [open, setOpen] = useBodyScrollLock({ isCoverScroll: true });
 
   return (
     <div className="">
       <ul className="fixed  top-0  box-border  left-0 h-[50px] sm:h-[calc(100%-70px)] flex  flex-col gap-1  bg-green-500  rounded-b-sm ">
         <button
           onClick={() => {
-            setopen(!open);
+            setOpen(!open);
           }}
           tabIndex={open ? -1 : 0}
           className=" w-[70px]  cursor-pointer h-[50px] min-h-[50px] bg-green-500 text-white"
@@ -37,14 +37,14 @@ function NavList({
         </div>
       </ul>
 
-      <NavListUlWrapper open={open} setopen={setopen}>
+      <NavListUlWrapper open={open} setOpen={setOpen}>
         <div className="overflow-auto thinScrollbar">
           <NavSideLink
             url="/explore"
             icon="icon"
             desp="Explore"
             open={open}
-            setopen={setopen}
+            setOpen={setOpen}
           >
             {childrenExplore}
           </NavSideLink>
@@ -53,7 +53,7 @@ function NavList({
             icon="icon"
             desp="Live"
             open={open}
-            setopen={setopen}
+            setOpen={setOpen}
           >
             {childrenLive}
           </NavSideLink>
@@ -77,7 +77,7 @@ function NavList({
         </div>
       </NavListUlWrapper>
 
-      {open && <OverLay setopen={setopen} />}
+      {open && <OverLay setOpen={setOpen} />}
     </div>
   );
 }

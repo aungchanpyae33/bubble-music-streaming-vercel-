@@ -3,14 +3,14 @@ import CloseFunctoion from "@/lib/CloseFunction";
 import { useRef, useState } from "react";
 
 function Too() {
-  const [open, setopen] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const closeElement = useRef<HTMLButtonElement | null>(null);
-  CloseFunctoion(open, setopen, closeElement);
+  CloseFunctoion(open, setOpen, closeElement);
 
   return (
     <div>
-      <button onClick={() => setopen(!open)} ref={closeElement}>
+      <button onClick={() => setOpen(!open)} ref={closeElement}>
         open
       </button>
       {open && (

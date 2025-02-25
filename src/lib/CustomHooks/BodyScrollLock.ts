@@ -5,7 +5,7 @@ const useBodyScrollLock = ({
 }: {
   isCoverScroll: boolean;
 }): [boolean, React.Dispatch<React.SetStateAction<boolean>>] => {
-  const [open, setopen] = useState(false);
+  const [open, setOpen] = useState(false);
   const scrollY = useRef(0);
   useEffect(() => {
     if (open && window.document.body.scrollHeight >= window.innerHeight) {
@@ -31,6 +31,6 @@ const useBodyScrollLock = ({
     }
   }, [open, isCoverScroll]);
 
-  return [open, setopen];
+  return [open, setOpen];
 };
 export default useBodyScrollLock;

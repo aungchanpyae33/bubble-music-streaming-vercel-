@@ -6,12 +6,12 @@ import SearchToggleButton from "./SearchToggleButton";
 function FormWrapper({
   children,
   inputRef,
-  setopen,
+  setOpen,
   setValue,
 }: {
   children: React.ReactNode;
   inputRef: React.RefObject<HTMLInputElement | null>;
-  setopen: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setValue: React.Dispatch<React.SetStateAction<string | null>>;
 }) {
   const [show, setShow] = useState(false);
@@ -29,7 +29,7 @@ function FormWrapper({
       <Form
         action="/test"
         onSubmit={() => {
-          setopen(false);
+          setOpen(false);
           inputRef.current?.blur();
         }}
         className={clsx(
@@ -54,11 +54,11 @@ function FormWrapper({
                 spellCheck="false"
                 ref={inputRef}
                 onBlur={() => {
-                  setopen(false);
+                  setOpen(false);
                   setShow(false);
                 }}
                 onFocus={() => {
-                  setopen(true);
+                  setOpen(true);
                   setShow(true);
                 }}
                 onKeyDown={(e) => {
@@ -82,7 +82,7 @@ function FormWrapper({
                   }
                 }}
                 onChange={(e) => {
-                  setopen(true);
+                  setOpen(true);
                   setValue(e.currentTarget.value);
                 }}
               />
