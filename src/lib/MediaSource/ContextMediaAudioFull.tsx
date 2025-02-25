@@ -1,9 +1,12 @@
-import React, { createContext } from "react";
+import React, { createContext, SetStateAction } from "react";
 import useBodyScrollLock from "../CustomHooks/BodyScrollLock";
-
-export const Context = createContext({
+interface contextProps {
+  open: boolean;
+  setOpen: React.Dispatch<SetStateAction<boolean>>;
+}
+export const Context = createContext<contextProps>({
   open: false,
-  setOpen: (_value: boolean) => {},
+  setOpen: () => {},
 });
 function ContextMediaAudioFull({
   children,
