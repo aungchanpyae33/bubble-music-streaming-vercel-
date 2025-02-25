@@ -1,15 +1,11 @@
 import { Context } from "@/lib/MediaSource/ContextMediaAudioFull";
 import clsx from "clsx";
 import { useContext, useEffect, useState } from "react";
-import AudioCurImg from "./AudioCurImg";
-
-function AudioFullBackGround({
-  children,
-  footerRef,
-}: {
+interface Props extends React.ComponentProps<"div"> {
   children: React.ReactNode;
   footerRef: React.RefObject<HTMLElement | null>;
-}) {
+}
+function AudioFullBackGround({ children, footerRef }: Props) {
   const { open, setOpen } = useContext(Context);
   const bgImageUrl =
     "https://s3.tebi.io/tebi.bubblemusic.us.kg/premium_photo-1690406382383-3827c1397c48.avif";

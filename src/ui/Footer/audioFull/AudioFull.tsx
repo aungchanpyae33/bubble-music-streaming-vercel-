@@ -1,5 +1,5 @@
 import { Context } from "@/lib/MediaSource/ContextMediaAudioFull";
-import { useContext } from "react";
+import { useContext, useRef } from "react";
 import AudioFullBackGround from "./AudioFullBackGround";
 import AudioFunctionButton from "../audio/AudioFunction/AudioFunctionButton";
 import AudioFunctionShuffle from "../audio/AudioFunction/AudioFunctionShuffle";
@@ -12,6 +12,8 @@ import AudioSeekBar from "../audio/SliderUi/AudioSeekBar";
 import TimeIndicatorCur from "../audio/Time/TimeIndicatorCur";
 import AudioCurImg from "./AudioCurImg";
 import AudioFullInfoWrapper from "./AudioFullInfoWrapper";
+
+import CloseFunctoionForFull from "@/lib/CloseFunctionForFull";
 function AudioFull({
   footerRef,
   url,
@@ -22,11 +24,12 @@ function AudioFull({
   duration: number;
 }) {
   const { open, setOpen } = useContext(Context);
-
+  const refFocus = useRef<HTMLDivElement | null>(null);
+  CloseFunctoionForFull(open, setOpen, footerRef, refFocus);
   return (
-    <>
+    <div tabIndex={0} ref={refFocus}>
       {open && (
-        <AudioFullBackGround footerRef={footerRef}>
+        <AudioFullBackGround footerRef={footerRef} ref={refFocus}>
           <button
             className=" absolute bg-pink-400 top-0 right-2"
             onClick={() => {
@@ -104,7 +107,7 @@ function AudioFull({
           </div>
         </AudioFullBackGround>
       )}
-    </>
+    </div>
   );
 }
 
