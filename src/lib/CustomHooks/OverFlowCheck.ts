@@ -36,10 +36,13 @@ const useOverflowCheck = (
       for (let entry of entries) {
         const clientWidth = Math.round(entry.contentRect.width);
         if (clientWidth !== previousWidth.current) {
-          setIsOverFlow({
-            duration: 0,
-            clientWidth: 0,
-          });
+          // need to check as it is returing object
+          if (isOverFlow.duration !== 0 && isOverFlow.clientWidth !== 0) {
+            setIsOverFlow({
+              duration: 0,
+              clientWidth: 0,
+            });
+          }
           setanimatie(false);
         }
       }
