@@ -1,4 +1,5 @@
 import React, { RefObject, useEffect, useRef, useState } from "react";
+import debounce from "../debounce";
 interface isOverFlowProp {
   duration: number;
   clientWidth: number;
@@ -32,7 +33,7 @@ const useOverflowCheck = (
       }
     };
     checkOverflow();
-    const observer = new ResizeObserver((entries) => {
+    const debounceResize = debounce((entries) => {
       for (let entry of entries) {
         const clientWidth = Math.round(entry.contentRect.width);
         if (clientWidth !== previousWidth.current) {
@@ -46,7 +47,8 @@ const useOverflowCheck = (
           setanimatie(false);
         }
       }
-    });
+    }, 300);
+    const observer = new ResizeObserver(debounceResize);
     observer.observe(element!.current!);
 
     return () => {
