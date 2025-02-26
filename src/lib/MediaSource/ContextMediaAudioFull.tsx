@@ -13,7 +13,7 @@ function ContextMediaAudioFull({
   footerRef,
 }: {
   children: React.ReactNode;
-  footerRef: React.RefObject<HTMLElement | null>;
+  footerRef: React.RefObject<HTMLDivElement | null>;
 }) {
   const [open, setOpen] = useBodyScrollLock({ isCoverScroll: false });
 
