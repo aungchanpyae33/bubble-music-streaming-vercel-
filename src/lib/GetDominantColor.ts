@@ -11,7 +11,7 @@ const useGetDominantColor = ({
   useEffect(() => {
     const img = imgRef!.current!;
     let isMounted = true;
-    function get() {
+    function getColor() {
       if (!isMounted) return; //early return when click close
       const canvas = document.createElement("canvas");
 
@@ -46,15 +46,21 @@ const useGetDominantColor = ({
       setIsImageLoaded("success");
       setBgValue(avgColor);
     }
-    if (img.complete) {
-      get();
-    } else {
-      img.addEventListener("load", get);
+
+    function handleError() {
+      setIsImageLoaded("error");
     }
+    if (img.complete) {
+      getColor();
+    } else {
+      img.addEventListener("load", getColor);
+    }
+    img.addEventListener("error", handleError);
 
     return () => {
       isMounted = false;
-      img.removeEventListener("load", get);
+      img.removeEventListener("load", getColor);
+      img.removeEventListener("error", handleError);
     };
   }, [imgRef, setBgValue]);
 
