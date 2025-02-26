@@ -15,7 +15,7 @@ const config: Config = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       colors: {
-        overlay: "rgba(43, 43, 41,0.3)",
+        overlay: "rgba(43, 43, 41,0.5)",
       },
       animation: {
         showtextoverflow: "showtextoverflow linear",
