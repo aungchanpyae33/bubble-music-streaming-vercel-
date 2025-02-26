@@ -7,7 +7,7 @@ const useGetDominantColor = ({
   setBgValue: React.Dispatch<SetStateAction<string | undefined>>;
   imgRef: RefObject<HTMLImageElement | null>;
 }) => {
-  const [isImageLoaded, setIsImageLoaded] = useState(false);
+  const [isImageLoaded, setIsImageLoaded] = useState("initial");
   useEffect(() => {
     const img = imgRef!.current!;
     let isMounted = true;
@@ -43,7 +43,7 @@ const useGetDominantColor = ({
       )}, ${Math.round(g / (imageData.length / 4))}, ${Math.round(
         b / (imageData.length / 4)
       )})`;
-      setIsImageLoaded(true);
+      setIsImageLoaded("success");
       setBgValue(avgColor);
     }
     if (img.complete) {
