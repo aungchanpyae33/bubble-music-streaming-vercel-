@@ -1,66 +1,45 @@
-import { Context } from "@/lib/MediaSource/ContextMediaAudioFull";
 import clsx from "clsx";
-import { useContext, useEffect, useState } from "react";
+import { SetStateAction, useState } from "react";
+import { createContext } from "react";
 interface Props extends React.ComponentProps<"div"> {
   children: React.ReactNode;
-  footerRef: React.RefObject<HTMLElement | null>;
 }
-function AudioFullBackGround({ children, footerRef }: Props) {
-  const { open, setOpen } = useContext(Context);
-  const bgImageUrl =
-    "https://s3.tebi.io/tebi.bubblemusic.us.kg/premium_photo-1690406382383-3827c1397c48.avif";
-  const [isImageLoaded, setIsImageLoaded] = useState("initial");
+interface contextProps {
+  bgValue: string | undefined;
+  setBgValue: React.Dispatch<SetStateAction<string | undefined>>;
+}
+export const Context = createContext<contextProps>({
+  bgValue: undefined,
+  setBgValue: () => {},
+});
+function AudioFullBackGround({ children }: Props) {
+  const [bgValue, setBgValue] = useState<string | undefined>(undefined);
 
-  useEffect(() => {
-    const img = new Image();
-    img.src = bgImageUrl;
-
-    // When the image loads successfully
-    img.onload = () => {
-      console.log("loaded");
-      setIsImageLoaded("success");
-    };
-
-    // If the image fails to load
-    img.onerror = () => {
-      setIsImageLoaded("error");
-    };
-  }, [bgImageUrl]);
-  console.log(isImageLoaded);
+  const value = { bgValue, setBgValue };
   return (
-    <div
-      onClick={(e) => e.stopPropagation()}
-      className={clsx(
-        "z-50   fixed inset-0 bg-no-repeat bg-cover bg-center bg-fixed"
-      )}
-      style={{
-        backgroundImage:
-          "url('https://s3.tebi.io/tebi.bubblemusic.us.kg/premium_photo-1690406382383-3827c1397c48.avif')",
-      }}
-    >
-      <div
-        className={clsx(
-          "absolute inset-0 -z-10 transition-opacity duration-[1500ms] bg-black",
-          {
-            "opacity-50": isImageLoaded === "success",
-            "opacity-100": isImageLoaded === "initial",
-          }
-        )}
-      ></div>
-      {isImageLoaded === "error" && (
-        <div className="text-white">Failed to load image</div>
-      )}
-      <button
-        className=" absolute z-50 bg-pink-400 top-0 right-2"
-        onClick={() => {
-          footerRef!.current!.classList.toggle("z-50");
-          setOpen(!open);
-        }}
-      >
-        close
-      </button>
-      {children}
-    </div>
+    <>
+      <Context.Provider value={value}>
+        <div>
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="z-50 flex flex-col gap-1   fixed inset-0 transition-all duration-1000 bg-[#E0E0E0]"
+            style={{
+              background: `linear-gradient(to bottom,${bgValue} 0%,rgb(79, 79, 79) 85%)`,
+            }}
+          >
+            <div
+              className={clsx(
+                "absolute inset-0 -z-10 transition-opacity duration-1000 opacity-0 bg-black",
+                {
+                  "opacity-55": bgValue === undefined,
+                }
+              )}
+            ></div>
+            {children}
+          </div>
+        </div>
+      </Context.Provider>
+    </>
   );
 }
 
