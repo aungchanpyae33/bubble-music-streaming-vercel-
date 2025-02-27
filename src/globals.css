@@ -34,6 +34,31 @@
     --background-end-rgb: 0, 0, 0;
   }
 }
+/* fallback css */
+@supports not (aspect-ratio: 1 / 1) {
+  .fallbackAspect {
+    background: red;
+    width: 100%;
+    max-width: 370px;
+    height: fit-content;
+  }
+  .fallbackAspect::before {
+    content: "";
+    display: block;
+    padding-top: 100%;
+  }
+
+  @media (width >= 48rem) {
+    .fallbackAspect {
+      width: 240px;
+    }
+  }
+  @media (width >= 64rem) {
+    .fallbackAspect {
+      width: 270px;
+    }
+  }
+}
 
 @layer utilities {
   .text-balance {

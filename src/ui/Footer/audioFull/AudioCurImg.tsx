@@ -11,7 +11,7 @@ function AudioCurImg() {
   return (
     <div
       className={clsx(
-        "md:w-[200px] shrink-0 mx-auto md:mx-0   lg:w-[250px] w-[100%] sm:w-[60%] max-w-[485px]   before:block before:pt-[100%] bg-[#E0E0E0] rounded-md overflow-hidden relative"
+        " md:h-[240px] lg:h-[270px] h-[80%] short:hidden max-h-[90vw]  mx-auto md:mx-0 aspect-square shrink-0  fallbackAspect bg-[#E0E0E0]   overflow-hidden relative"
       )}
     >
       <Image
