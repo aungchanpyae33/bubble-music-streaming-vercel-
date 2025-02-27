@@ -30,9 +30,9 @@ function AudioFull({
     <div tabIndex={0} ref={refFocus}>
       {open && (
         <AudioFullBackGround ref={refFocus}>
-          <div className="mx-auto w-[96%] md:w-[95%] lg:w-[90%]">
+          <div className="mx-auto w-[90%] h-[50px]   flex sticky top-0 z-50">
             <button
-              className="  bg-pink-400 top-0 right-2"
+              className=""
               onClick={() => {
                 footerRef!.current!.classList.toggle("z-50");
                 setOpen(!open);
@@ -44,12 +44,12 @@ function AudioFull({
 
           <AudioFullInfoWrapper>
             <AudioCurImg />
-            <div className="text-white flex items-start justify-center flex-col">
+            <div className="text-white h-[20%]   flex items-start justify-center flex-col">
               <p className=" lg:text-5xl md:text-4xl text-2xl">Supanova</p>
               <p className=" lg:text-3xl md:text-2xl text-xl">Aspea</p>
             </div>
           </AudioFullInfoWrapper>
-          <div className=" h-[20%] min-h-[100px]  w-[96%] md:w-[95%] lg:w-[90%]   inset-x-0 mx-auto sticky bottom-0">
+          <div className=" h-[110px] shrink-0  w-[90%]  inset-x-0 mx-auto sticky bottom-0">
             <div className="audioFunctionContainer  flex  flex-col flex-1  items-center  justify-center">
               <div className="BottomContainer w-full static top-0 left-0 ">
                 <div className=" w-full flex items-center relative">
