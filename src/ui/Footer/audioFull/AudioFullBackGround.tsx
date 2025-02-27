@@ -22,9 +22,9 @@ function AudioFullBackGround({ children }: Props) {
         <div>
           <div
             onClick={(e) => e.stopPropagation()}
-            className="z-50 flex flex-col gap-1   fixed inset-0 transition-all duration-1000 bg-[#E0E0E0]"
+            className="z-50 flex flex-col gap-y-2   fixed inset-0 transition-all duration-1000 bg-[#E0E0E0]"
             style={{
-              background: `linear-gradient(to bottom,${bgValue} 0%,rgb(79, 79, 79) 85%)`,
+              background: `linear-gradient(to bottom,${bgValue} 0%,rgb(79, 79, 79) 75%)`,
             }}
           >
             <div
