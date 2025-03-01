@@ -103,6 +103,12 @@ body.scrolllock {
   right: 0;
   bottom: 0;
 }
+body.noScrolllock {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
 /* body scrolllock */
 
 /* hide scrollbar */
