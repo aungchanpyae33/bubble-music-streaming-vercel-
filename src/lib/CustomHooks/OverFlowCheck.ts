@@ -54,7 +54,7 @@ const useOverflowCheck = (
     return () => {
       observer.disconnect();
     };
-  }, [element]);
+  }, [element, isOverFlow.clientWidth, isOverFlow.duration]);
   return [isOverFlow, animate, setanimatie, setIsOverFlow];
 };
 export default useOverflowCheck;
