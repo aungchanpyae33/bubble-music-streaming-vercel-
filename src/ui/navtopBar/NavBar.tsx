@@ -2,12 +2,15 @@ import Link from "next/link";
 import SearchBar from "../searchBar/SearchBar";
 import UserInfo from "../user/UserInfo";
 import NavSideBar from "./NavSideBar";
+import { Suspense } from "react";
 
 function NavBar() {
   return (
-    <nav className="navBarContainer flex w-full sticky  top-0   bg-red-500 h-[50px] z-40 items-center justify-between ">
+    <nav className="navBarContainer flex w-full sticky  top-0   bg-red-500  h-[50px] z-40 items-center justify-between ">
       <div className="w-[70px]">
-        <NavSideBar />
+        <Suspense fallback={<p>lorem500</p>}>
+          <NavSideBar />
+        </Suspense>
       </div>
       <div className="logo  px-2">
         <Link href="/">Bubble</Link>
