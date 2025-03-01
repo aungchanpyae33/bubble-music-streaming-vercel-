@@ -14,6 +14,7 @@ import AudioCurImg from "./AudioCurImg";
 import AudioFullInfoWrapper from "./AudioFullInfoWrapper";
 
 import CloseFunctoionForFull from "@/lib/CloseFunctionForFull";
+import clsx from "clsx";
 function AudioFull({
   footerRef,
   url,
@@ -27,7 +28,13 @@ function AudioFull({
   const refFocus = useRef<HTMLDivElement | null>(null);
   CloseFunctoionForFull(open, setOpen, footerRef, refFocus);
   return (
-    <div tabIndex={0} ref={refFocus}>
+    <div
+      tabIndex={0}
+      ref={refFocus}
+      className={clsx("", {
+        hidden: !open,
+      })}
+    >
       {open && (
         <AudioFullBackGround ref={refFocus}>
           <div className="mx-auto w-[90%] h-[50px]   flex sticky top-0 z-50">
