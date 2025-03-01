@@ -11,7 +11,7 @@
   "dependencies": {
     "@libsql/client": "^0.7.0",
     "clsx": "^2.1.1",
-    "next": "15.0.3",
+    "next": "15.2.1-canary.2",
     "react": "19.0.0-rc-66855b96-20241106",
     "react-dom": "19.0.0-rc-66855b96-20241106",
     "sharp": "^0.33.5",
