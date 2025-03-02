@@ -29,58 +29,54 @@ function Volume() {
     isTouchDevice,
   });
   return (
-    <div
-      className={clsx(
-        "hover:absolute max-w-[200px] group  md:hover:static md:w-full w-fit flex bg-black   hover:left-0 hover:right-0 hover:flex hover:w-full",
-        {
-          "absolute w-full  left-0 right-0 flex md:static": isDragging,
-        }
-      )}
-    >
+    <div className=" flex lg:w-full items-center  group p-1 bg-black">
+      <button className="lg:hidden text-white">vol</button>
       <div
         className={clsx(
-          "bg-white p-1 flex  md:flex-1 w-fit group hover:flex-1",
+          "absolute group-hover:flex lg:static lg:w-full lg:flex  bg-black      right-0  w-full",
           {
-            "flex-1": isDragging,
+            flex: isDragging,
+            hidden: !isDragging,
           }
         )}
       >
-        <VolumeMuteButton
-          isDragging={isDragging}
-          value={value}
-          dataAudio={dataAudio}
-          setValue={setValue}
-        />
-        <button
-          className={clsx("md:hidden group-hover:hidden", {
-            hidden: isDragging,
-          })}
-        >
-          vol
-        </button>
-        <VolumeSlider
-          isDragging={isDragging}
-          setIsDragging={setIsDragging}
-          sliderRef={sliderRef}
-          setValue={setValue}
-          dataAudio={dataAudio}
-          value={value}
-        >
-          <VolumeSliderActionWrapper
-            sliderRef={sliderRef}
-            isPointer={isPointer}
-            isTouchDevice={isTouchDevice}
-            setIsDragging={setIsDragging}
+        <div className=" flex p-1 w-fit  flex-1">
+          <VolumeMuteButton
+            isDragging={isDragging}
+            value={value}
             dataAudio={dataAudio}
             setValue={setValue}
-          >
-            <div className=" w-full h-[2px]   bg-blue-700 relative">
-              <AudioProgressbar value={value} progressRef={progressRef} />
+          />
 
-              <AudioThumbSlider value={value} isDragging={isDragging} />
-            </div>
-          </VolumeSliderActionWrapper>
-        </VolumeSlider>
+          <VolumeSlider
+            className="flex bg-red-900 h-full   w-full  md:flex items-center select-none no-select"
+            setIsDragging={setIsDragging}
+            sliderRef={sliderRef}
+            setValue={setValue}
+            dataAudio={dataAudio}
+            value={value}
+          >
+            <VolumeSliderActionWrapper
+              sliderRef={sliderRef}
+              isPointer={isPointer}
+              isTouchDevice={isTouchDevice}
+              setIsDragging={setIsDragging}
+              dataAudio={dataAudio}
+              setValue={setValue}
+            >
+              <div className=" w-full h-[2px]   bg-blue-700 relative">
+                <AudioProgressbar value={value} progressRef={progressRef} />
+
+                <AudioThumbSlider
+                  value={value}
+                  className={clsx(
+                    "absolute  w-[20px] rounded-full h-[20px] top-1/2 -translate-y-1/2 bg-black -translate-x-[10px]"
+                  )}
+                />
+              </div>
+            </VolumeSliderActionWrapper>
+          </VolumeSlider>
+        </div>
       </div>
     </div>
   );

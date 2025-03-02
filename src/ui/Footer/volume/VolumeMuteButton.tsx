@@ -17,13 +17,7 @@ function VolumeMuteButton({
   console.log(mute);
   return (
     <button
-      className={clsx(
-        "text-white mr-4 w-[50px] bg-black  md:inline-block group-hover:inline-block",
-        {
-          "inline-block": isDragging,
-          hidden: !isDragging,
-        }
-      )}
+      className="text-white  w-[50px] bg-black  lg:inline-block inline-block"
       onClick={() => {
         if (value < 100) {
           dataAudio.current!.volume = 0;
