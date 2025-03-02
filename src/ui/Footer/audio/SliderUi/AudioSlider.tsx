@@ -30,6 +30,7 @@ function AudioSlider({
     abortController,
     fetching,
   } = useContext(DataContext);
+
   return (
     <div
       className={className}

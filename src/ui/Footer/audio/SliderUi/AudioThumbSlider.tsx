@@ -1,21 +1,10 @@
-import clsx from "clsx";
-
-function AudioThumbSlider({
-  value,
-  isDragging,
-}: {
+interface Props extends React.ComponentProps<"span"> {
   value: number;
-  isDragging: boolean;
-}) {
+}
+function AudioThumbSlider({ value, className }: Props) {
   return (
     <span
-      className={clsx(
-        "absolute group-hover:inline  w-[20px] rounded-full h-[20px] top-1/2 -translate-y-1/2 bg-black -translate-x-[10px]",
-        {
-          hidden: !isDragging,
-          inline: isDragging,
-        }
-      )}
+      className={className}
       style={{ left: `calc(100% - ${value}%)` }}
     ></span>
   );

@@ -1,32 +1,26 @@
 import { VolumeDraggingActions, VolumeValueActions } from "@/lib/zustand";
-import clsx from "clsx";
 import React, { RefObject } from "react";
 
-function VolumeSlider({
-  isDragging,
-  setIsDragging,
-  sliderRef,
-  dataAudio,
-  setValue,
-  value,
-  children,
-}: {
-  isDragging: boolean;
+interface Props extends React.ComponentProps<"div"> {
   setIsDragging: VolumeDraggingActions["setIsDragging"];
   dataAudio: RefObject<HTMLAudioElement | null>;
   sliderRef: React.RefObject<HTMLDivElement | null>;
   setValue: VolumeValueActions["setValue"];
   value: number;
   children: React.ReactNode;
-}) {
+}
+function VolumeSlider({
+  setIsDragging,
+  sliderRef,
+  dataAudio,
+  setValue,
+  value,
+  children,
+  className,
+}: Props) {
   return (
     <div
-      className={clsx(
-        "group-hover:flex   h-[25px] w-full  md:flex items-center select-none no-select",
-        {
-          hidden: !isDragging,
-        }
-      )}
+      className={className}
       tabIndex={0}
       onKeyDown={(e) => {
         if (e.key === "ArrowRight") {
