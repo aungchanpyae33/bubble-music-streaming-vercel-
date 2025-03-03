@@ -1,15 +1,26 @@
 import { RefObject } from "react";
+import { getRemainingBufferDuration } from "./getRemainBuffer";
 
 interface prop {
   dataAudio: RefObject<HTMLAudioElement | null>;
   data: number;
   sege: number | undefined;
   duration: number | undefined;
+  bufferThreshold: number;
 }
 
-export function playBackRate({ dataAudio, data, sege, duration }: prop) {
+export function playBackRate({
+  dataAudio,
+  data,
+  sege,
+  duration,
+  bufferThreshold,
+}: prop) {
   dataAudio.current!.currentTime = data;
-
+  const remainingBuffer = getRemainingBufferDuration(dataAudio);
+  // console.log("10", remainingBuffer);
+  //only return updated the segNum with conditional to prevent segment chagne to previous already loaded segment
+  if (bufferThreshold < remainingBuffer) return undefined;
   const audioPosition = Math.floor((data / duration!) * 100);
   const datatest = [
     10.005, 19.989, 29.995, 40, 50.005, 59.989, 69.995, 80, 90.005, 99.989,

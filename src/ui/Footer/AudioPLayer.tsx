@@ -32,9 +32,15 @@ function AudioPlayer({
     (state: SongState) =>
       Object.entries(state.songCu as Record<string, string>)[0] || []
   );
-
-  const { dataAudio, loadNextSegment, segNum, abortController, fetching } =
-    useMediaSourceBuffer(url, sege);
+  console.log("rend");
+  const {
+    dataAudio,
+    loadNextSegment,
+    segNum,
+    abortController,
+    fetching,
+    bufferThreshold,
+  } = useMediaSourceBuffer(url, sege);
 
   console.log("hf", url);
   return (
@@ -47,6 +53,7 @@ function AudioPlayer({
         duration,
         abortController,
         fetching,
+        bufferThreshold,
       }}
     >
       <AudioFull footerRef={footerRef} url={url} duration={duration} />

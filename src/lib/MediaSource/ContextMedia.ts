@@ -7,6 +7,7 @@ export interface prop {
   loadNextSegment: () => void;
   segNum: RefObject<number>;
   sege: number | undefined;
+  bufferThreshold: number;
 }
 
 const DataContext = createContext<prop>({
@@ -17,5 +18,6 @@ const DataContext = createContext<prop>({
   segNum: { current: 1 },
   loadNextSegment: () => {},
   sege: undefined,
+  bufferThreshold: 0,
 });
 export default DataContext;

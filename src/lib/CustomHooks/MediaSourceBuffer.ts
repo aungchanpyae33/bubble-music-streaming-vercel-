@@ -155,6 +155,7 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
     loadNextSegment,
     fetching,
     abortController,
+    bufferThreshold,
   };
 };
 export default useMediaSourceBuffer;

@@ -47,6 +47,7 @@ const useAudioSeek = ({
     sege,
     abortController,
     fetching,
+    bufferThreshold,
   } = useContext(DataContext);
   useEffect(() => {
     const copyDataAudio = dataAudio!.current!;
@@ -59,7 +60,15 @@ const useAudioSeek = ({
       AbortFetch(fetching, abortController);
       setIsDragging(false);
       const per = seekCal({ sliderRef, e });
-      AudioSeeked({ per, duration, dataAudio, sege, segNum, loadNextSegment });
+      AudioSeeked({
+        per,
+        duration,
+        dataAudio,
+        sege,
+        segNum,
+        loadNextSegment,
+        bufferThreshold,
+      });
     }
 
     function handleTimeUpdate(e: Event) {
@@ -111,6 +120,7 @@ const useAudioSeek = ({
     isTouchDevice,
     setIsDragging,
     setValue,
+    bufferThreshold,
   ]);
 
   return [value, setValue, isDragging, setIsDragging];

@@ -7,6 +7,7 @@ interface AudioSeekedProp {
   segNum: RefObject<number>;
   sege: number | undefined;
   loadNextSegment: () => void;
+  bufferThreshold: number;
 }
 const AudioSeeked = ({
   per,
@@ -15,9 +16,20 @@ const AudioSeeked = ({
   sege,
   segNum,
   loadNextSegment,
+  bufferThreshold,
 }: AudioSeekedProp) => {
   const data = per * duration;
-  segNum.current = playBackRate({ dataAudio, data, sege, duration });
-  loadNextSegment();
+  const seekSeg = playBackRate({
+    dataAudio,
+    data,
+    sege,
+    duration,
+    bufferThreshold,
+  });
+  if (seekSeg) {
+    console.log(seekSeg);
+    segNum.current = seekSeg;
+    loadNextSegment();
+  }
 };
 export default AudioSeeked;

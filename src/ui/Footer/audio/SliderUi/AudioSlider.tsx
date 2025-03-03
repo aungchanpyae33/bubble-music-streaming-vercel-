@@ -29,6 +29,7 @@ function AudioSlider({
     sege,
     abortController,
     fetching,
+    bufferThreshold,
   } = useContext(DataContext);
 
   return (
@@ -71,6 +72,7 @@ function AudioSlider({
             sege,
             segNum,
             loadNextSegment,
+            bufferThreshold,
           });
         } else if (e.key !== "Tab") {
           e.preventDefault();
