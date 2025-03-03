@@ -57,17 +57,17 @@ function AudioFull({
               <p className=" lg:text-3xl md:text-2xl text-xl">Aspea</p>
             </div>
           </AudioFullInfoWrapper>
-          <div className=" h-[110px] shrink-0  w-[90%]  inset-x-0 mx-auto sticky bottom-0">
-            <div className="audioFunctionContainer  flex  flex-col flex-1  items-center  justify-center">
-              <div className="BottomContainer w-full static top-0 left-0 ">
-                <div className=" w-full flex items-center relative">
+          <div className=" h-fit py-2  shrink-0  w-[90%]  inset-x-0 mx-auto sticky bottom-0">
+            <div className="audioFunctionContainer  flex  flex-col flex-1 h-full gap-y-10 items-center justify-center">
+              <div className="BottomContainer w-full static top-0 left-0 items-center ">
+                <div className="  w-full flex items-center relative">
                   <AudioSeekBar
                     hideSliderInSmScreen={false}
                     childrenFn={(value) => (
                       <TimeIndicatorCur
                         value={value}
                         duration={duration}
-                        className="text-sm md:text-base w-fit md:w-[5rem] text-center md:static md:left-auto md:bottom-auto md:translate-y-0  absolute left-0 bottom-0 translate-y-full"
+                        className="text-sm md:text-base  w-fit md:w-[5rem] text-start md:static md:left-auto md:bottom-auto md:translate-y-0  absolute left-0 bottom-0 translate-y-full"
                       />
                     )}
                     duration={duration}
@@ -76,39 +76,42 @@ function AudioFull({
                   />
                   <TimeIndicatorDur
                     duration={duration}
-                    className="text-sm md:text-base w-fit md:w-[5rem] text-center md:static md:right-auto md:bottom-auto md:translate-y-0 absolute right-0 bottom-0 translate-y-full "
+                    className="text-sm md:text-base w-fit md:w-[5rem] text-end md:static md:right-auto md:bottom-auto md:translate-y-0 absolute right-0 bottom-0 translate-y-full "
                   />
                 </div>
               </div>
-              <div className="upContainer">
+              <div className="upContainer w-full flex justify-center md:justify-between">
+                <div className="hidden md:flex w-[20%] max-w-[250px]  items-center">
+                  hiello
+                </div>
                 <AudioFunctionButton>
                   {/* in jsx when use arrow and {} , react expect to return elemetn , if it does not have  return ,  implicitly returns void, or undefined, so, react think nothing to render  */}
                   {(playListArray) => (
                     // return element
                     <div
-                      className="flex gap-2"
+                      className="flex flex-1  justify-center gap-5"
                       onClick={(e) => e.stopPropagation()}
                     >
                       <AudioFunctionShuffle
-                        className="bg-pink-300 p-2 text-sm md:text-base"
+                        className="bg-pink-300 p-2  md:text-base text-2xl"
                         urlProp={playListArray}
                         url={url}
                       />
                       <AudioFunctionPre
                         url={url}
                         urlProp={playListArray}
-                        className="bg-pink-300 p-2 text-sm md:text-base"
+                        className="bg-pink-300 p-2  md:text-base text-2xl"
                       />
                       <ToggleButton
-                        className="w-[50px] bg-red-300"
+                        className=" bg-red-300 md:text-base text-2xl "
                         urlProp={playListArray}
                       />
                       <AudioFunctionNext
                         url={url}
                         urlProp={playListArray}
-                        className="bg-pink-300 p-2 text-sm md:text-base"
+                        className="bg-pink-300 p-2  md:text-base text-2xl"
                       />
-                      <AudioFunctionRepeat className="bg-pink-300 p-2 text-sm md:text-base" />
+                      <AudioFunctionRepeat className="bg-pink-300 p-2  md:text-base text-2xl" />
                     </div>
                   )}
                 </AudioFunctionButton>
