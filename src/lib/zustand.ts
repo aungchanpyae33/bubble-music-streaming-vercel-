@@ -237,7 +237,7 @@ export const useAudioDragging = create<
 
 export const useVolumeValue = create<VolumeValueState & VolumeValueActions>(
   (set) => ({
-    value: 100,
+    value: 0,
     setValue: (newValue: number) =>
       set(() => ({
         value: newValue,
