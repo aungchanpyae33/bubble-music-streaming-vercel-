@@ -19,6 +19,7 @@ import AudioFunctionNext from "./audio/AudioFunction/AudioFunctionNext";
 import MediaSessionSeekWrapper from "./audio/MediaSessionWrapper/MediaSessionSeekWrapper";
 import AudioFull from "./audioFull/AudioFull";
 import FullToggleButton from "./audioFull/FullToggleButton";
+import VolumeWrapper from "./volume/VolumeWrapper";
 function AudioPlayer({
   footerRef,
 }: {
@@ -120,13 +121,17 @@ function AudioPlayer({
         </div>
       </div>
       <div
-        className="w-[20%] md:w-[25%] hidden max-w-[375px] sm:flex bg-yellow-700 gap-1 relative  items-center justify-around"
+        className="w-[20%] md:w-[25%] hidden max-w-[375px] sm:flex bg-yellow-700 items-center"
         onClick={(e) => e.stopPropagation()}
       >
-        <button className="bg-black text-white p-1">lyr</button>
-        <button className="bg-black text-white p-1">que</button>
-        <FullToggleButton footerRef={footerRef} />
-        <Volume />
+        <div className="w-full sm:flex  gap-1 relative  items-center justify-around">
+          <button className="bg-black text-white p-1">lyr</button>
+          <button className="bg-black text-white p-1">que</button>
+          <FullToggleButton footerRef={footerRef} />
+          <VolumeWrapper>
+            <Volume />
+          </VolumeWrapper>
+        </div>
       </div>
     </DataContext.Provider>
   );

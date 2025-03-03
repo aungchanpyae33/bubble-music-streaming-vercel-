@@ -15,6 +15,7 @@ import AudioFullInfoWrapper from "./AudioFullInfoWrapper";
 
 import CloseFunctoionForFull from "@/lib/CloseFunctionForFull";
 import clsx from "clsx";
+import Volume from "../volume/Volume";
 function AudioFull({
   footerRef,
   url,
@@ -111,6 +112,10 @@ function AudioFull({
                     </div>
                   )}
                 </AudioFunctionButton>
+                <div className="hidden md:flex  relative w-[20%] max-w-[250px] justify-end">
+                  {" "}
+                  <Volume />
+                </div>
               </div>
             </div>
           </div>

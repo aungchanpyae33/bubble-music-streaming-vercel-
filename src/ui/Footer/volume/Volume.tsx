@@ -22,6 +22,7 @@ function Volume() {
   );
   const sliderRef = useRef<HTMLDivElement | null>(null);
   const progressRef = useRef<HTMLDivElement | null>(null);
+
   const [value, setValue, isDragging, setIsDragging] = useVolumeSeek({
     dataAudio,
     sliderRef,
@@ -29,18 +30,18 @@ function Volume() {
     isTouchDevice,
   });
   return (
-    <div className=" flex lg:w-full items-center  group p-1 bg-black">
+    <div className=" flex lg:w-full items-center  group p-1  bg-black">
       <button className="lg:hidden text-white">vol</button>
       <div
         className={clsx(
-          "absolute group-hover:flex lg:static lg:w-full lg:flex  bg-black      right-0  w-full",
+          "absolute h-full group-hover:flex lg:static lg:w-full lg:flex  bg-black      right-0  w-full",
           {
             flex: isDragging,
             hidden: !isDragging,
           }
         )}
       >
-        <div className=" flex p-1 w-fit  flex-1">
+        <div className="p-1 flex  w-fit  flex-1">
           <VolumeMuteButton
             isDragging={isDragging}
             value={value}
