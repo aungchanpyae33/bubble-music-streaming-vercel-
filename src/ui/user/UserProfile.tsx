@@ -1,10 +1,16 @@
 "use client";
-import { useRef, useState } from "react";
+import { ReactNode, useRef, useState } from "react";
 import { clsx } from "clsx";
 import CloseFunctoion from "@/lib/CloseFunction";
 import OutterClick from "@/lib/OutterClick";
 
-function UserProfile({ name }: { name: string }) {
+function UserProfile({
+  name,
+  children,
+}: {
+  name: string;
+  children: ReactNode;
+}) {
   const userName = name.slice(0, 1);
   const [userOpen, setUserOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
@@ -22,16 +28,14 @@ function UserProfile({ name }: { name: string }) {
       </button>
       <div
         className={clsx(
-          "bg-green-500 absolute bottom-0 translate-y-full  right-0 w-[200px] p-2",
+          "bg-green-500 absolute bottom-0 translate-y-full flex flex-col   right-0 w-[200px]",
           {
             hidden: !userOpen,
             block: userOpen,
           }
         )}
       >
-        <button>hi</button>
-        <button>hi</button>
-        <button>hi</button>
+        {children}
       </div>
     </div>
   );
