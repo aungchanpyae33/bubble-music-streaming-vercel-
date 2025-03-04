@@ -20,6 +20,7 @@ import MediaSessionSeekWrapper from "./audio/MediaSessionWrapper/MediaSessionSee
 import AudioFull from "./audioFull/AudioFull";
 import FullToggleButton from "./audioFull/FullToggleButton";
 import VolumeWrapper from "./volume/VolumeWrapper";
+import QueueButton from "./audio/QueueButton";
 function AudioPlayer({
   footerRef,
 }: {
@@ -125,8 +126,8 @@ function AudioPlayer({
         onClick={(e) => e.stopPropagation()}
       >
         <div className="w-full sm:flex  gap-1 relative  items-center justify-around">
-          <button className="bg-black text-white p-1">lyr</button>
-          <button className="bg-black text-white p-1">que</button>
+          <button className="bg-black text-white p-1 ">lyr</button>
+          <QueueButton />
           <FullToggleButton footerRef={footerRef} />
           <VolumeWrapper>
             <Volume />
