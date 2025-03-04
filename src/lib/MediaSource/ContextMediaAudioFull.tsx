@@ -1,5 +1,4 @@
-import React, { createContext, SetStateAction } from "react";
-import useBodyScrollLock from "../CustomHooks/BodyScrollLock";
+import React, { createContext, SetStateAction, useState } from "react";
 interface contextProps {
   open: boolean;
   setOpen: React.Dispatch<SetStateAction<boolean>>;
@@ -15,10 +14,10 @@ function ContextMediaAudioFull({
   children: React.ReactNode;
   footerRef: React.RefObject<HTMLDivElement | null>;
 }) {
-  const [open, setOpen] = useBodyScrollLock({ isCoverScroll: false });
+  const [open, setOpen] = useState(false);
 
   const value = { open, setOpen };
-  console.log(open);
+  // console.log(open);
   return (
     <Context.Provider value={value}>
       <footer

@@ -1,8 +1,7 @@
 "use client";
-import useBodyScrollLock from "@/lib/CustomHooks/BodyScrollLock";
 import OverLay from "./OverLay";
 import NavSideLink from "./NavSideLink";
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import NavListUlWrapper from "./NavListUlWrapper";
 interface childrenProp {
   childrenExplore: ReactNode;
@@ -15,7 +14,7 @@ function NavList({
   childrenPlaylist,
 }: childrenProp) {
   // console.log("render");
-  const [open, setOpen] = useBodyScrollLock({ isCoverScroll: true });
+  const [open, setOpen] = useState(false);
 
   return (
     <div className="">
