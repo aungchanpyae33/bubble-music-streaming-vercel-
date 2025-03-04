@@ -41,7 +41,7 @@ function Volume() {
           }
         )}
       >
-        <div className="p-1 flex  w-fit  flex-1">
+        <div className="flex  w-fit  flex-1">
           <VolumeMuteButton
             isDragging={isDragging}
             value={value}
