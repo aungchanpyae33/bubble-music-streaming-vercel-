@@ -83,6 +83,14 @@ export interface VolumeDraggingActions {
   setIsDragging: (newState: boolean) => void;
 }
 
+export interface queueState {
+  isQueue: boolean;
+}
+
+export interface queueStateAction {
+  setIsQueue: (value: boolean) => void;
+}
+
 export const useSong = create<SongState & SongActions>()(
   persist(
     (set) => ({
@@ -253,4 +261,9 @@ export const useVolumeDragging = create<
     set(() => ({
       isDragging: newState,
     })),
+}));
+
+export const useOnlyOneSider = create<queueState & queueStateAction>((set) => ({
+  isQueue: false,
+  setIsQueue: (value: boolean) => set(() => ({ isQueue: value })),
 }));
