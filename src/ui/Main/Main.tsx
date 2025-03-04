@@ -6,8 +6,8 @@ async function Main({ children }: { children: ReactNode }) {
   const deviceFromUserAgent = await DeviceCheck();
   return (
     <main
-      className={clsx("px-1   pt-[5px] pb-[70px]", {
-        "sm:pl-[70px]": deviceFromUserAgent === "desktop", //
+      className={clsx("px-1 h-full flex-1 overflow-y-scroll", {
+        "md:pl-[70px]": deviceFromUserAgent === "desktop", //
       })}
     >
       {children}
