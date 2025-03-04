@@ -21,7 +21,7 @@ function ContextMediaAudioFull({
   return (
     <Context.Provider value={value}>
       <footer
-        className="fixed bottom-0 w-full  flex bg-white  items-center  h-[70px]"
+        className="w-full  flex bg-white  items-center  h-[70px]"
         ref={footerRef}
         tabIndex={0}
         onKeyDown={(e) => {
