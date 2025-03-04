@@ -18,7 +18,7 @@ function NavList({
 
   return (
     <div className="">
-      <ul className="fixed  top-0  box-border  left-0 h-[50px] sm:h-[calc(100%-70px)] flex  flex-col gap-1  bg-green-500  rounded-b-sm ">
+      <ul className="fixed  top-0  box-border  left-0 h-[50px] md:h-[calc(100%-70px)] flex  flex-col gap-1  bg-green-500  rounded-b-sm ">
         <button
           onClick={() => {
             setOpen(!open);
@@ -29,10 +29,10 @@ function NavList({
           open
         </button>
         <div className=" overflow-hidden">
-          <div className="hidden sm:block">{childrenExplore}</div>
+          <div className="hidden md:block">{childrenExplore}</div>
 
-          <div className=" hidden sm:block">{childrenLive}</div>
-          <div className="hidden sm:block">{childrenPlaylist}</div>
+          <div className=" hidden md:block">{childrenLive}</div>
+          <div className="hidden md:block">{childrenPlaylist}</div>
         </div>
       </ul>
 
