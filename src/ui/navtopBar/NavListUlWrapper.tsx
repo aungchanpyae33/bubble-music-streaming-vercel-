@@ -12,7 +12,7 @@ function NavListUlWrapper({ open, setOpen, children }: NavListUlWrapperProp) {
     <>
       <ul
         className={clsx(
-          "fixed  top-0 z-30 box-border  left-0 h-[100%] flex duration-200 transition-transform  flex-col gap-1  bg-green-500  rounded-b-sm",
+          "fixed  top-0 z-40 box-border  left-0 h-[100%] flex duration-200 transition-transform  flex-col gap-1  bg-green-500  rounded-b-sm",
           {
             "-translate-x-full  ": !open,
             "translate-x-0 ": open,

@@ -6,7 +6,7 @@ function OverLay({
   return (
     <div
       onClick={() => setOpen(false)}
-      className=" z-20 bg-overlay fixed top-0 left-0 bottom-0 right-0 "
+      className=" z-30 bg-overlay fixed top-0 left-0 bottom-0 right-0 "
     ></div>
   );
 }
