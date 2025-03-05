@@ -35,7 +35,7 @@ function AudioSeekBar({
   );
   const sliderRef = useRef<HTMLDivElement | null>(null);
   const progressRef = useRef<HTMLDivElement | null>(null);
-  const [value, setValue, isDragging, setIsDragging] = useAudioSeek({
+  const { value, setValue, isDragging, setIsDragging } = useAudioSeek({
     sliderRef,
     duration,
     isPointer,

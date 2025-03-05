@@ -23,7 +23,7 @@ function Volume() {
   const sliderRef = useRef<HTMLDivElement | null>(null);
   const progressRef = useRef<HTMLDivElement | null>(null);
 
-  const [value, setValue, isDragging, setIsDragging] = useVolumeSeek({
+  const { value, setValue, isDragging, setIsDragging } = useVolumeSeek({
     dataAudio,
     sliderRef,
     isPointer,

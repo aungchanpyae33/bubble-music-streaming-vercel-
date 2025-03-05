@@ -19,12 +19,12 @@ interface audioSeekProp {
   isPointer: boolean;
   isTouchDevice: boolean;
 }
-type useAudioSeekReturnType = [
-  AudioValueState["value"],
-  AudioValueActions["setValue"],
-  AudioDraggingState["isDragging"],
-  AudioDraggingActions["setIsDragging"]
-];
+interface useAudioSeekReturnType {
+  value: AudioValueState["value"];
+  setValue: AudioValueActions["setValue"];
+  isDragging: AudioDraggingState["isDragging"];
+  setIsDragging: AudioDraggingActions["setIsDragging"];
+}
 
 const useAudioSeek = ({
   sliderRef,
@@ -123,6 +123,6 @@ const useAudioSeek = ({
     bufferThreshold,
   ]);
 
-  return [value, setValue, isDragging, setIsDragging];
+  return { value, setValue, isDragging, setIsDragging };
 };
 export default useAudioSeek;

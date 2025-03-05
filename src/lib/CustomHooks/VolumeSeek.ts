@@ -15,12 +15,12 @@ interface audioSeekProp {
   isPointer: boolean;
   isTouchDevice: boolean;
 }
-type useAudioSeekReturnType = [
-  VolumeValueState["value"],
-  VolumeValueActions["setValue"],
-  VolumeDraggingState["isDragging"],
-  VolumeDraggingActions["setIsDragging"]
-];
+interface useAudioSeekReturnType {
+  value: VolumeValueState["value"];
+  setValue: VolumeValueActions["setValue"];
+  isDragging: VolumeDraggingState["isDragging"];
+  setIsDragging: VolumeDraggingActions["setIsDragging"];
+}
 
 const useVolumeSeek = ({
   dataAudio,
@@ -84,6 +84,6 @@ const useVolumeSeek = ({
     setIsDragging,
   ]);
 
-  return [value, setValue, isDragging, setIsDragging];
+  return { value, setValue, isDragging, setIsDragging };
 };
 export default useVolumeSeek;
