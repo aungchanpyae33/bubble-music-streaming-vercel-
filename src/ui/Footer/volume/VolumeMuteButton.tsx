@@ -1,14 +1,11 @@
 import { VolumeValueActions } from "@/lib/zustand";
-import clsx from "clsx";
 import React, { RefObject, useState } from "react";
 
 function VolumeMuteButton({
-  isDragging,
   value,
   setValue,
   dataAudio,
 }: {
-  isDragging: boolean;
   value: number;
   setValue: VolumeValueActions["setValue"];
   dataAudio: RefObject<HTMLAudioElement | null>;
