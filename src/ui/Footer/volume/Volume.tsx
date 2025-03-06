@@ -31,7 +31,6 @@ function Volume() {
   });
   return (
     <div className=" flex lg:w-full items-center  group p-1  bg-black">
-      <button className="lg:hidden text-white">vol</button>
       <div
         className={clsx(
           "absolute h-full group-hover:flex lg:static lg:w-full lg:flex  bg-black      right-0  w-full",
@@ -79,6 +78,9 @@ function Volume() {
           </VolumeSlider>
         </div>
       </div>
+      <button className="lg:hidden text-white" role="focus">
+        vol
+      </button>
     </div>
   );
 }
