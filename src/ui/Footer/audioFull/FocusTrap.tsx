@@ -3,15 +3,9 @@ type MediaQuery = `(width ${">=" | "<=" | ">" | "<"} ${string})`;
 interface Props extends React.ComponentProps<"div"> {
   refFocus: RefObject<HTMLDivElement | null>;
   children: ReactNode;
-  closeElement: RefObject<HTMLButtonElement | null>;
   mqAffectsChild: MediaQuery[] | null;
 }
-function FocusTrap({
-  children,
-  refFocus,
-  closeElement,
-  mqAffectsChild,
-}: Props) {
+function FocusTrap({ children, refFocus, mqAffectsChild }: Props) {
   const compareElement = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -65,9 +59,8 @@ function FocusTrap({
         // if lastelement is loss focus by resize window, force focus to firstElement
         if (mqAffectsChild && lastClickMustBeToClose && !e.shiftKey) {
           e.preventDefault();
-          console.log("hey");
           lastClickMustBeToClose = false;
-          closeElement!.current!.focus();
+          focusableElements[focusableElements.length - 1].focus();
           return;
         } else {
           lastClickMustBeToClose = false;
@@ -79,7 +72,7 @@ function FocusTrap({
             lastClickMustBeToClose = false;
           }
           e.preventDefault();
-          closeElement!.current!.focus();
+          focusableElements[focusableElements.length - 1].focus();
         }
       }
     }
@@ -97,7 +90,7 @@ function FocusTrap({
         });
       }
     };
-  }, [refFocus, closeElement, mqAffectsChild]);
+  }, [refFocus, mqAffectsChild]);
 
   return children;
 }

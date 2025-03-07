@@ -12,7 +12,6 @@ import AudioSeekBar from "../audio/SliderUi/AudioSeekBar";
 import TimeIndicatorCur from "../audio/Time/TimeIndicatorCur";
 import AudioCurImg from "./AudioCurImg";
 import AudioFullInfoWrapper from "./AudioFullInfoWrapper";
-
 import CloseFunctoionForFull from "@/lib/CloseFunctionForFull";
 import clsx from "clsx";
 import Volume from "../volume/Volume";
@@ -28,13 +27,12 @@ function AudioFull({
 }) {
   const { open, setOpen } = useContext(Context);
   const refFocus = useRef<HTMLDivElement | null>(null);
-  const closElemet = useRef<HTMLButtonElement | null>(null);
+
   CloseFunctoionForFull(open, setOpen, footerRef, refFocus);
 
   return open ? (
     <FocusTrap
       refFocus={refFocus}
-      closeElement={closElemet}
       mqAffectsChild={["(width >= 48rem)", "(width >= 64rem)"]}
     >
       <div
@@ -48,7 +46,6 @@ function AudioFull({
           <div className="mx-auto w-[90%] h-[50px]   flex sticky top-0 z-50">
             <button
               className=""
-              ref={closElemet}
               onClick={() => {
                 footerRef!.current!.classList.toggle("z-50");
                 setOpen(!open);
