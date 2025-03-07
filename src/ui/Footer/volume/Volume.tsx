@@ -42,7 +42,6 @@ function Volume() {
       >
         <div className="flex  w-fit  flex-1">
           <VolumeMuteButton
-            isDragging={isDragging}
             value={value}
             dataAudio={dataAudio}
             setValue={setValue}
@@ -78,9 +77,7 @@ function Volume() {
           </VolumeSlider>
         </div>
       </div>
-      <button className="lg:hidden text-white" role="focus">
-        vol
-      </button>
+      <button className="lg:hidden text-white">vol</button>
     </div>
   );
 }

@@ -1,15 +1,11 @@
 import { VolumeValueActions } from "@/lib/zustand";
 import React, { RefObject, useState } from "react";
-
-function VolumeMuteButton({
-  value,
-  setValue,
-  dataAudio,
-}: {
+interface Props extends React.ComponentProps<"button"> {
   value: number;
   setValue: VolumeValueActions["setValue"];
   dataAudio: RefObject<HTMLAudioElement | null>;
-}) {
+}
+function VolumeMuteButton({ value, setValue, dataAudio }: Props) {
   const [mute, setMute] = useState(100);
   console.log(mute);
   return (
