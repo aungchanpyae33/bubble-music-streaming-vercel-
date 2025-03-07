@@ -8,7 +8,8 @@ const MediaSessionSeek = (
   dataAudio: RefObject<HTMLAudioElement | null>,
   sege: number | undefined,
   loadNextSegment: () => void,
-  duration: number
+  duration: number,
+  bufferThreshold: number
 ) => {
   // Extract the `value` from the event beforehand to avoid issues with `e` in dependencies
 
@@ -25,9 +26,18 @@ const MediaSessionSeek = (
         }
         console.log("media");
         // Use the extracted `data`
-        segNum.current = playBackRate({ dataAudio, data, sege, duration });
-        // Load the next segment
-        loadNextSegment();
+        const seekSeg = playBackRate({
+          dataAudio,
+          data,
+          sege,
+          duration,
+          bufferThreshold,
+        });
+        if (seekSeg) {
+          console.log(seekSeg);
+          segNum.current = seekSeg;
+          loadNextSegment();
+        }
       });
     }
     return () => {
@@ -41,6 +51,7 @@ const MediaSessionSeek = (
     sege,
     loadNextSegment,
     duration,
+    bufferThreshold,
     // Ensure `data` is part of dependencies
   ]);
 };
