@@ -1,7 +1,9 @@
-import { useRef } from "react";
+import { useContext, useRef } from "react";
 import AudioInfoOverFlow from "./AudioInfoOverFlow";
+import { Context } from "@/lib/MediaSource/ContextMediaAudioFull";
 
 function AudioInfo({ name }: { name: string }) {
+  const { open } = useContext(Context);
   const ofcheckDiv = useRef(null);
   return (
     <div
@@ -9,7 +11,7 @@ function AudioInfo({ name }: { name: string }) {
       className=" flex-1
   overflow-hidden"
     >
-      <AudioInfoOverFlow ofcheckDiv={ofcheckDiv} name={name} />
+      {open && <AudioInfoOverFlow ofcheckDiv={ofcheckDiv} name={name} />}
     </div>
   );
 }
