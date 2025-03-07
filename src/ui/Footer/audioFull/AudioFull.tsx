@@ -16,6 +16,7 @@ import AudioFullInfoWrapper from "./AudioFullInfoWrapper";
 import CloseFunctoionForFull from "@/lib/CloseFunctionForFull";
 import clsx from "clsx";
 import Volume from "../volume/Volume";
+import FocusTrap from "./FocusTrap";
 function AudioFull({
   footerRef,
   url,
@@ -27,20 +28,27 @@ function AudioFull({
 }) {
   const { open, setOpen } = useContext(Context);
   const refFocus = useRef<HTMLDivElement | null>(null);
+  const closElemet = useRef<HTMLButtonElement | null>(null);
   CloseFunctoionForFull(open, setOpen, footerRef, refFocus);
-  return (
-    <div
-      tabIndex={0}
-      ref={refFocus}
-      className={clsx("", {
-        hidden: !open,
-      })}
+
+  return open ? (
+    <FocusTrap
+      refFocus={refFocus}
+      closeElement={closElemet}
+      mqAffectsChild={["(width >= 48rem)", "(width >= 64rem)"]}
     >
-      {open && (
-        <AudioFullBackGround ref={refFocus}>
+      <div
+        tabIndex={0}
+        ref={refFocus}
+        className={clsx("", {
+          hidden: !open,
+        })}
+      >
+        <AudioFullBackGround>
           <div className="mx-auto w-[90%] h-[50px]   flex sticky top-0 z-50">
             <button
               className=""
+              ref={closElemet}
               onClick={() => {
                 footerRef!.current!.classList.toggle("z-50");
                 setOpen(!open);
@@ -116,15 +124,16 @@ function AudioFull({
                   )}
                 </AudioFunctionButton>
                 <div className="hidden md:flex  relative w-[20%] max-w-[250px] justify-end">
-                  {" "}
                   <Volume />
                 </div>
               </div>
             </div>
           </div>
         </AudioFullBackGround>
-      )}
-    </div>
+      </div>
+    </FocusTrap>
+  ) : (
+    <div className=" hidden"></div>
   );
 }
 
