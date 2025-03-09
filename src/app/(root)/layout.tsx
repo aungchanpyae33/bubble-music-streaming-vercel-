@@ -25,7 +25,11 @@ export default function RootLayout({
       >
         <NavBar />
         <div className="scr flex flex-1 overflow-hidden relative">
-          <Suspense>
+          <Suspense
+            fallback={
+              <div className="px-1 h-full flex-1 overflow-y-scroll"></div>
+            }
+          >
             <Main>
               {children}
               <h1>this is footer bar</h1>
@@ -35,8 +39,11 @@ export default function RootLayout({
             <Queue />
           </Suspense>
         </div>
-
-        <Suspense>
+        <Suspense
+          fallback={
+            <div className="w-full  flex bg-white  items-center  h-[70px]"></div>
+          }
+        >
           <FooterBar />
         </Suspense>
       </body>
