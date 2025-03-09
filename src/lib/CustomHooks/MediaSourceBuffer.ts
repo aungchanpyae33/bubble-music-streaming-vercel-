@@ -119,6 +119,7 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
       sourceBuffer.current = null;
     }
     if (mediaSource.current) {
+      mediaSource!.current!.endOfStream();
       mediaSource.current!.removeEventListener("sourceopen", sourceOpen);
       mediaSource.current = null;
     }
