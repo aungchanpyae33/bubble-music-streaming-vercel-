@@ -26,10 +26,7 @@ const AudioSeeked = ({
     duration,
     bufferThreshold,
   });
-  if (seekSeg) {
-    console.log(seekSeg);
-    segNum.current = seekSeg;
-    loadNextSegment();
-  }
+  segNum.current = seekSeg;
+  loadNextSegment();
 };
 export default AudioSeeked;
