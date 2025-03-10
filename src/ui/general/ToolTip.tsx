@@ -141,7 +141,7 @@ function ToolTip({
             setTimeoutRef.current = null;
             return;
           }
-          onWheelFunction({ e, tooltipShow, setTooltipShow });
+          // onWheelFunction({ e, tooltipShow, setTooltipShow });
         }}
         //{...} is used to inset js expression ,
         // {...(tooltipShow.show && {
