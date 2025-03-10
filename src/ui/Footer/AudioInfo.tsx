@@ -11,7 +11,7 @@ function AudioInfo({ name }: { name: string }) {
       className=" flex-1
   overflow-hidden"
     >
-      {open && <AudioInfoOverFlow ofcheckDiv={ofcheckDiv} name={name} />}
+      {!open && <AudioInfoOverFlow ofcheckDiv={ofcheckDiv} name={name} />}
     </div>
   );
 }
