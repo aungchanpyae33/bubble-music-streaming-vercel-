@@ -1,4 +1,11 @@
-import React, { createContext, SetStateAction, useState } from "react";
+import clsx from "clsx";
+import React, {
+  createContext,
+  SetStateAction,
+  useContext,
+  useState,
+} from "react";
+import { ContextDevice } from "../DeviceContext/DeviceContextFooter";
 interface contextProps {
   open: boolean;
   setOpen: React.Dispatch<SetStateAction<boolean>>;
@@ -15,27 +22,50 @@ function ContextMediaAudioFull({
   footerRef: React.RefObject<HTMLDivElement | null>;
 }) {
   const [open, setOpen] = useState(false);
-
+  const { device } = useContext(ContextDevice);
   const value = { open, setOpen };
-  // console.log(open);
+  console.log(device);
   return (
     <Context.Provider value={value}>
       <footer
-        className="w-full  flex bg-white  items-center  h-[70px]"
+        className="w-full relative flex bg-black h-[70px]"
         ref={footerRef}
-        tabIndex={0}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === "Space") {
+      >
+        <div
+          className={clsx(
+            "text-white w-full h-full flex short:hidden justify-between items-center",
+            {
+              hidden: device !== "mobile",
+            }
+          )}
+        >
+          <div className="">one</div>
+          <div className="">two</div>
+          <div className="">three</div>
+          <div className="">four</div>
+          <div className="">five</div>
+        </div>
+
+        <div
+          className={clsx(
+            "flex gap-4 sm:gap-5 md:gap-6 bg-white  lg:gap-10 justify-between   w-full h-fit",
+            {
+              "absolute top-0 -translate-y-full left-0":
+                !open && device === "mobile",
+            }
+          )}
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === "Space") {
+              footerRef.current?.classList.toggle("z-50");
+              setOpen(!open);
+            }
+          }}
+          onClick={(e) => {
             footerRef.current?.classList.toggle("z-50");
             setOpen(!open);
-          }
-        }}
-        onClick={() => {
-          footerRef.current?.classList.toggle("z-50");
-          setOpen(!open);
-        }}
-      >
-        <div className="flex gap-4  sm:gap-5 md:gap-6  lg:gap-10 justify-between  relative w-full h-full">
+          }}
+        >
           {children}
         </div>
       </footer>
