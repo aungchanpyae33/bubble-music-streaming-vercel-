@@ -1,7 +1,6 @@
 import { RefObject, useContext, useEffect } from "react";
 import throttle from "../throttle";
 import { seekCal, sliderPositionCal } from "../MediaSource/SliderPositionCal";
-import AbortFetch from "../MediaSource/AbortFetch";
 import AudioSeeked from "../MediaSource/AudioSeeked";
 import DataContext from "../MediaSource/ContextMedia";
 import {
@@ -57,7 +56,6 @@ const useAudioSeek = ({
       setValue(percentage);
     }
     function handleUp(e: PointerEvent | TouchEvent | MouseEvent) {
-      AbortFetch(fetching, abortController);
       setIsDragging(false);
       const per = seekCal({ sliderRef, e });
       AudioSeeked({
@@ -68,6 +66,8 @@ const useAudioSeek = ({
         segNum,
         loadNextSegment,
         bufferThreshold,
+        fetching,
+        abortController,
       });
     }
 

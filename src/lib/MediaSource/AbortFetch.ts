@@ -1,15 +1,17 @@
 import { RefObject } from "react";
 
 const AbortFetch = (
-  fetching: RefObject<boolean>,
-  abortController: RefObject<AbortController | null>
+  fetching: RefObject<{ isFetch: boolean; fetchingseg: number }>,
+  abortController: RefObject<AbortController | null>,
+  seekSeg: number
 ) => {
-  if (fetching.current) {
-    if (abortController.current) {
+  if (fetching.current.isFetch) {
+    if (abortController.current && fetching.current.fetchingseg !== seekSeg) {
+      // console.log(seekSeg, fetching.current.fetchingseg);
       abortController.current.abort();
+      abortController.current = new AbortController();
+      fetching.current.isFetch = false;
     }
-    abortController.current = new AbortController();
-    fetching.current = false;
   }
 };
 export default AbortFetch;

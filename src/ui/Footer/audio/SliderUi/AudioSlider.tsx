@@ -1,4 +1,3 @@
-import AbortFetch from "@/lib/MediaSource/AbortFetch";
 import AudioSeeked from "@/lib/MediaSource/AudioSeeked";
 import DataContext from "@/lib/MediaSource/ContextMedia";
 import { AudioDraggingActions, AudioValueActions } from "@/lib/zustand";
@@ -54,7 +53,6 @@ function AudioSlider({
       }}
       onKeyUp={(e) => {
         if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
-          AbortFetch(fetching, abortController);
           setIsDragging(false);
           const offsetWidth =
             progressRef!.current!.getBoundingClientRect().width;
@@ -73,6 +71,8 @@ function AudioSlider({
             segNum,
             loadNextSegment,
             bufferThreshold,
+            fetching,
+            abortController,
           });
         } else if (e.key !== "Tab") {
           e.preventDefault();

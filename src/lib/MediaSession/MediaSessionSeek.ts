@@ -1,8 +1,9 @@
 import { RefObject, useEffect } from "react";
 import { playBackRate } from "../MediaSource/playBackRate";
+import AbortFetch from "../MediaSource/AbortFetch";
 
 const MediaSessionSeek = (
-  fetching: RefObject<boolean>,
+  fetching: RefObject<{ isFetch: boolean; fetchingseg: number }>,
   abortController: RefObject<AbortController | null>,
   segNum: RefObject<number>,
   dataAudio: RefObject<HTMLAudioElement | null>,
@@ -19,12 +20,7 @@ const MediaSessionSeek = (
         console.log(details.seekTime);
         const data = +details.seekTime!;
         // Abort fetching if necessary
-        if (fetching.current) {
-          abortController.current?.abort();
-          abortController.current = new AbortController(); // Reset abort controller
-          fetching.current = false;
-        }
-        console.log("media");
+
         // Use the extracted `data`
         const seekSeg = playBackRate({
           dataAudio,
@@ -33,8 +29,8 @@ const MediaSessionSeek = (
           duration,
           bufferThreshold,
         });
-        if (seekSeg) {
-          console.log(seekSeg);
+        AbortFetch(fetching, abortController, seekSeg);
+        if (seekSeg !== fetching.current.fetchingseg) {
           segNum.current = seekSeg;
           loadNextSegment();
         }

@@ -6,9 +6,15 @@ const bufferThreshold = 10;
 const mimeType_audio = "audio/mp4";
 const codecs_audio = "mp4a.40.2";
 const mimeCodec_audio = `${mimeType_audio};codecs="${codecs_audio}"`;
-
+export interface FetchingState {
+  isFetch: boolean;
+  fetchingseg: number;
+}
 const useMediaSourceBuffer = (url: string, sege: number) => {
-  const fetching = useRef<boolean>(false);
+  const fetching = useRef<FetchingState>({
+    isFetch: false,
+    fetchingseg: 1,
+  });
   const segNum = useRef(1);
   const dataAudio = useRef<HTMLAudioElement | null>(null);
   const mediaSource = useRef<MediaSource | null>(null);
@@ -46,11 +52,12 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
     // console.log(mediaSource.current?.duration, mediaSource.current?.readyState);
     // console.log(bufferThreshold > remainingBuffer);
     if (
-      !fetching.current &&
+      !fetching.current.isFetch &&
       bufferThreshold > remainingBuffer &&
       segNum.current <= sege
     ) {
-      fetching.current = true;
+      fetching.current.isFetch = true;
+      fetching.current.fetchingseg = segNum.current;
       fetchAudioSegment(segNum.current);
       segNum.current++;
       // console.log(segNum.current);
@@ -82,7 +89,7 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
       }
 
       sourceBuffer.current!.addEventListener("updateend", () => {
-        fetching.current = false;
+        fetching.current.isFetch = false;
         // without endofStream , audio ended can not be trigger
         if (segNum.current <= sege) {
           loadNextSegment();
