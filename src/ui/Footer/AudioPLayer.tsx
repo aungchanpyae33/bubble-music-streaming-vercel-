@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useRef } from "react";
 import { useSong } from "@/lib/zustand";
 import AudioElement from "./audio/AudioElement";
 import DataContext from "@/lib/MediaSource/ContextMedia";
@@ -26,6 +26,7 @@ function AudioPlayer({
 }: {
   footerRef: React.RefObject<HTMLElement | null>;
 }) {
+  const toggleRef = useRef<HTMLButtonElement | null>(null);
   const { sege, name, duration } = useSong(
     (state: SongState) => state.songCu
   ) as SongDetail;
@@ -58,7 +59,12 @@ function AudioPlayer({
         bufferThreshold,
       }}
     >
-      <AudioFull footerRef={footerRef} url={url} duration={duration} />
+      <AudioFull
+        footerRef={footerRef}
+        url={url}
+        duration={duration}
+        toggleRef={toggleRef}
+      />
       <div className=" w-full sm:w-[25%]   md:w-[25%] max-w-[375px]  flex items-center bg-yellow-700">
         <AudioDisplayFooter
           urlImage={
@@ -128,7 +134,7 @@ function AudioPlayer({
         <div className="w-full sm:flex  gap-1 relative  items-center justify-around">
           <button className="bg-black text-white p-1 ">lyr</button>
           <QueueButton />
-          <FullToggleButton footerRef={footerRef} />
+          <FullToggleButton footerRef={footerRef} ref={toggleRef} />
           <VolumeWrapper>
             <Volume />
           </VolumeWrapper>

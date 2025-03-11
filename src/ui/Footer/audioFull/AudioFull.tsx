@@ -20,15 +20,17 @@ function AudioFull({
   footerRef,
   url,
   duration,
+  toggleRef,
 }: {
   footerRef: React.RefObject<HTMLElement | null>;
   url: string;
   duration: number;
+  toggleRef: React.RefObject<HTMLButtonElement | null>;
 }) {
   const { open, setOpen } = useContext(Context);
   const refFocus = useRef<HTMLDivElement | null>(null);
 
-  CloseFunctoionForFull(open, setOpen, footerRef, refFocus);
+  CloseFunctoionForFull(open, setOpen, toggleRef, refFocus);
 
   return open ? (
     <FocusTrap
