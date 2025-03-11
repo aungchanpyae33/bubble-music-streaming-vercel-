@@ -1,16 +1,32 @@
 "use client";
 import { createContext, ReactNode } from "react";
 interface contextProps {
-  device: string | undefined;
+  device:
+    | "mobile"
+    | "tablet"
+    | "console"
+    | "smarttv"
+    | "wearable"
+    | "xr"
+    | "embedded"
+    | "desktop";
 }
 export const ContextDevice = createContext<contextProps>({
-  device: undefined,
+  device: "mobile",
 });
 function DeviceContextFooter({
   device,
   children,
 }: {
-  device: string | undefined;
+  device:
+    | "mobile"
+    | "tablet"
+    | "console"
+    | "smarttv"
+    | "wearable"
+    | "xr"
+    | "embedded"
+    | "desktop";
   children: ReactNode;
 }) {
   const value = { device };
