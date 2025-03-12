@@ -8,6 +8,7 @@ async function Main({ children }: { children: ReactNode }) {
     <main
       className={clsx("px-1 h-full flex-1 overflow-y-scroll", {
         "md:pl-[70px]": deviceFromUserAgent === "desktop", //
+        "pb-[70px]": deviceFromUserAgent === "mobile",
       })}
     >
       {children}
