@@ -6,6 +6,7 @@ import React, {
   useState,
 } from "react";
 import { ContextDevice } from "../DeviceContext/DeviceContextFooter";
+import Link from "next/link";
 interface contextProps {
   open: boolean;
   setOpen: React.Dispatch<SetStateAction<boolean>>;
@@ -33,24 +34,31 @@ function ContextMediaAudioFull({
       >
         <div
           className={clsx(
-            "text-white w-full h-full flex short:hidden justify-between items-center",
+            "text-white w-full h-full flex overShort:hidden justify-around items-center",
             {
               hidden: device !== "mobile",
             }
           )}
         >
-          <div className="">one</div>
-          <div className="">two</div>
-          <div className="">three</div>
-          <div className="">four</div>
-          <div className="">five</div>
+          <Link href={"/setting"} className="bg-red-950 p-2">
+            Search
+          </Link>
+          <Link href={"/setting"} className="bg-red-950 p-2">
+            Library
+          </Link>
+          <Link href={"/setting"} className="bg-red-950 p-2">
+            Genre
+          </Link>
+          <Link href={"/setting"} className="bg-red-950 p-2">
+            Live
+          </Link>
         </div>
 
         <div
           className={clsx(
-            "flex gap-4 sm:gap-5 md:gap-6 bg-white  lg:gap-10 justify-between   w-full h-fit",
+            "flex gap-4 sm:gap-5 md:gap-6 bg-white  lg:gap-10 justify-between w-full h-fit",
             {
-              "absolute top-0 -translate-y-full left-0":
+              "absolute top-0 -translate-y-full left-0 overShort:static overShort:-translate-y-0 overShort:top-auto overShort:left-auto":
                 !open && device === "mobile",
             }
           )}

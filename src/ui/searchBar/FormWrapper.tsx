@@ -21,7 +21,7 @@ function FormWrapper({
       setShow(false);
     }
   }, [isSmallScreen, inputRef]);
-
+  // console.log(isSmallScreen);
   return (
     <div>
       <SearchToggleButton show={show} setShow={setShow} />
@@ -33,7 +33,7 @@ function FormWrapper({
           inputRef.current?.blur();
         }}
         className={clsx(
-          "w-full hidden sm:flex h-[50px] bg-black top-0 left-0  absolute  items-center  sm:w-auto md:bg-transparent sm:h-auto sm:static  sm:flex-none sm:items-start",
+          "w-full hidden sm:flex h-[50px]  top-0 left-0  absolute  items-center  sm:w-auto md:bg-transparent sm:h-auto sm:static  sm:flex-none sm:items-start",
           {
             unhide: show,
           }

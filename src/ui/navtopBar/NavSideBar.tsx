@@ -9,7 +9,7 @@ async function NavSideBar() {
   const deviceFromUserAgent = await DeviceCheck();
   return (
     <div
-      className={clsx("w-[300px]", {
+      className={clsx("w-[70px]", {
         hidden: deviceFromUserAgent !== "desktop",
       })}
     >

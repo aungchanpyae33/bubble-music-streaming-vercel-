@@ -7,11 +7,10 @@ import { Suspense } from "react";
 function NavBar() {
   return (
     <nav className="navBarContainer flex w-full    bg-red-500  h-[50px]  items-center justify-between ">
-      <div className="w-[70px]">
-        <Suspense fallback={<p>lorem500</p>}>
-          <NavSideBar />
-        </Suspense>
-      </div>
+      <Suspense fallback={<p>lorem500</p>}>
+        <NavSideBar />
+      </Suspense>
+
       <div className="logo  px-2">
         <Link href="/">Bubble</Link>
       </div>
