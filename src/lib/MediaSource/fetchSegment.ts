@@ -10,9 +10,14 @@ export const fetchSegment = (
     signal: abortController!.current!.signal,
   };
 
-  const outputUrl = segNum ? url.replace("init.mp4", `seg-${segNum}.m4s`) : url;
+  // https://bubbleapideno.netlify.app
+  // fetch(`https://bubblemusicapi.vercel.app/api?with=${outputUrl}`, fetchOptions)
 
-  fetch(`${outputUrl}`, fetchOptions)
+  // `https://jolly-sun-bbad.bubblemusic990.workers.dev/api?with=${outputUrl}`,
+  const outputUrl =
+    segNum !== undefined ? url.replace("init.mp4", `seg-${segNum}.m4s`) : url;
+  //  `${segNum ? videoSegments[segNum] : videoSegments[0]}`
+  fetch(outputUrl, fetchOptions)
     .then((response) => {
       if (!response.ok) {
         throw new Error(`failed to fetch the song segements sege-${segNum}`);
