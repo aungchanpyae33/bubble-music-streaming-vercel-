@@ -67,6 +67,29 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
     }
   }, [fetchAudioSegment, sege]);
 
+  const updateendLoadNextSegment = useCallback(() => {
+    fetching.current.isFetch = false;
+    // without endofStream , audio ended can not be trigger
+    console.log("i got nothing call");
+    if (segNum.current < sege) {
+      loadNextSegment();
+    } else if (
+      mediaSource!.current!.readyState === "open" &&
+      !sourceBuffer!.current!.updating
+    ) {
+      mediaSource!.current!.endOfStream();
+      prefetchSegment({
+        url: "https://njjvikpbvsfomrpyxnta.supabase.co/storage/v1/object/public/sdk/music/init.mp4",
+        sourceBuffer,
+        mediaSource,
+        segNum: undefined, // start point
+        abortController,
+        audioInitBufferRef,
+        audioSeg1BufferRef,
+      });
+    }
+  }, [loadNextSegment, sege, prefetchSegment]);
+
   const sourceOpen = useCallback(() => {
     if (sourceBuffer.current === null) {
       sourceBuffer.current =
@@ -91,31 +114,13 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
         );
       }
 
-      sourceBuffer.current!.addEventListener("updateend", () => {
-        fetching.current.isFetch = false;
-        // without endofStream , audio ended can not be trigger
-        if (segNum.current <= sege) {
-          loadNextSegment();
-        } else if (
-          mediaSource!.current!.readyState === "open" &&
-          !sourceBuffer!.current!.updating
-        ) {
-          mediaSource!.current!.endOfStream();
-
-          prefetchSegment({
-            url: "https://tebi.bubblemusic.us.kg/init.mp4",
-            sourceBuffer,
-            mediaSource,
-            segNum: undefined, // start point
-            abortController,
-            audioInitBufferRef,
-            audioSeg1BufferRef,
-          });
-        }
-      });
+      sourceBuffer.current!.addEventListener(
+        "updateend",
+        updateendLoadNextSegment
+      );
       dataAudio.current!.addEventListener("timeupdate", loadNextSegment);
     }
-  }, [loadNextSegment, prefetchSegment, sege, url]);
+  }, [loadNextSegment, url, dab, updateendLoadNextSegment]);
 
   const clearUpPreviousSong = useCallback(() => {
     const audio = dataAudio.current;
@@ -125,7 +130,10 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
       audio!.removeEventListener("timeupdate", loadNextSegment);
     }
     if (sourceBuffer.current) {
-      sourceBuffer.current.removeEventListener("updateend", loadNextSegment);
+      sourceBuffer.current.removeEventListener(
+        "updateend",
+        updateendLoadNextSegment
+      );
       sourceBuffer.current = null;
     }
     if (mediaSource.current) {
@@ -145,7 +153,7 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
       abortController.current = null;
     }
     segNum.current = 1;
-  }, [loadNextSegment, sourceOpen]);
+  }, [loadNextSegment, sourceOpen, updateendLoadNextSegment]);
 
   const startUp = useCallback(() => {
     dataAudio.current!.src = URL.createObjectURL(mediaSource.current!);
