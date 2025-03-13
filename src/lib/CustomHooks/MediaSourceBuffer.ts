@@ -46,9 +46,10 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
     },
     [url]
   );
+
   const loadNextSegment = useCallback(() => {
-    const { remainingBuffer } = getRemainingBufferDuration(dataAudio);
-    // console.log("run twice?");
+    const { remainingBuffer, segData } = getRemainingBufferDuration(dataAudio);
+    console.log(segNum.current);
     // console.log(mediaSource.current?.duration, mediaSource.current?.readyState);
     // console.log(bufferThreshold > remainingBuffer);
     if (
@@ -61,6 +62,8 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
       fetchAudioSegment(segNum.current);
       segNum.current++;
       // console.log(segNum.current);
+    } else {
+      segNum.current = segData;
     }
   }, [fetchAudioSegment, sege]);
 
