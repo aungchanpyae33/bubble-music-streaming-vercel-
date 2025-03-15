@@ -2,8 +2,8 @@ import shufflePlaylistArray from "@/lib/shufflePlaylistArray";
 import {
   currentSongPlaylistAction,
   previousSongPlaylist,
-  useCurrentPlayList,
   usePreviousPlayList,
+  useRepeatAndCurrentPlayList,
 } from "@/lib/zustand";
 import { urlProp } from "@/ui/albumContainer/AudiosContainer";
 import clsx from "clsx";
@@ -28,7 +28,7 @@ function AudioFunctionShuffle({ className, urlProp, url }: Props) {
   const shuffleArray = !isShuffle
     ? [currentSong, ...shufflePlaylistArray(excludeCurrentSong)]
     : previousPlayListArray;
-  const setPlayListArray = useCurrentPlayList(
+  const setPlayListArray = useRepeatAndCurrentPlayList(
     (state: currentSongPlaylistAction) => state.setPlayListArray
   );
 

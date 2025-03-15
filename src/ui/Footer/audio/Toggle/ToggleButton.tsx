@@ -1,5 +1,9 @@
 import DataContext from "@/lib/MediaSource/ContextMedia";
-import { useRepeat, useSong, useSongFunction } from "@/lib/zustand";
+import {
+  useRepeatAndCurrentPlayList,
+  useSong,
+  useSongFunction,
+} from "@/lib/zustand";
 import { useContext, useEffect } from "react";
 import type {
   SongFunctionState,
@@ -23,7 +27,9 @@ function ToggleButton({ urlProp, className }: Props) {
     (state: SongFunctionActions) => state.setPlay
   );
   const updateSongCu = useSong((state: SongActions) => state.updateSongCu);
-  const isRepeat = useRepeat((state: IsRepeatState) => state.isRepeat);
+  const isRepeat = useRepeatAndCurrentPlayList(
+    (state: IsRepeatState) => state.isRepeat
+  );
 
   // console.log("render togglebutton");
   useEffect(() => {

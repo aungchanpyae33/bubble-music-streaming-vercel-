@@ -1,7 +1,7 @@
 "use client";
 import {
-  useCurrentPlayList,
   usePreviousPlayList,
+  useRepeatAndCurrentPlayList,
   useSong,
   useSongFunction,
 } from "@/lib/zustand";
@@ -29,7 +29,7 @@ const ToggleElement = ({
   name,
   playlistUrl,
 }: toggleElementProp) => {
-  const setPlayListArray = useCurrentPlayList(
+  const setPlayListArray = useRepeatAndCurrentPlayList(
     (state: currentSongPlaylistAction) => state.setPlayListArray
   );
   const Isplay = useSongFunction(

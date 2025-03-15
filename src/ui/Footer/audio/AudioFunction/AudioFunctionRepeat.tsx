@@ -1,8 +1,16 @@
-import { IsRepeatState, RepeatAction, useRepeat } from "@/lib/zustand";
+import {
+  IsRepeatState,
+  RepeatAction,
+  useRepeatAndCurrentPlayList,
+} from "@/lib/zustand";
 
 function AudioFunctionRepeat({ className }: React.ComponentProps<"button">) {
-  const isRepeat = useRepeat((state: IsRepeatState) => state.isRepeat);
-  const setRepeat = useRepeat((state: RepeatAction) => state.setRepeat);
+  const isRepeat = useRepeatAndCurrentPlayList(
+    (state: IsRepeatState) => state.isRepeat
+  );
+  const setRepeat = useRepeatAndCurrentPlayList(
+    (state: RepeatAction) => state.setRepeat
+  );
   return (
     <button className={className} onClick={() => setRepeat()}>
       {isRepeat ? "unre" : "repe"}

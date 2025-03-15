@@ -18,7 +18,7 @@ export interface PrefetchAction {
   prefetchSegment: (params: PrefetchParams) => Promise<void>;
 }
 export interface PrefetchParams {
-  url: string;
+  currentUrl: string;
   sourceBuffer: RefObject<SourceBuffer | null>;
   mediaSource: RefObject<MediaSource | null>;
   segNum: number | undefined;
@@ -106,30 +106,30 @@ export const useSong = create<SongState & SongActions>()(
   )
 );
 
-export const useCurrentPlayList = create<
-  currentSongPlaylist & currentSongPlaylistAction
->()(
-  persist(
-    (set) => ({
-      playListArray: [
-        {
-          url: "https://s3.tebi.io/test1345/hello/init.mp4",
-          sege: 27,
-          name: "gone",
-          duration: 52.199,
-        },
-      ],
+// export const useCurrentPlayList = create<
+//   currentSongPlaylist & currentSongPlaylistAction
+// >()(
+//   persist(
+//     (set) => ({
+//       playListArray: [
+//         {
+//           url: "https://s3.tebi.io/test1345/hello/init.mp4",
+//           sege: 27,
+//           name: "gone",
+//           duration: 52.199,
+//         },
+//       ],
 
-      setPlayListArray: (newList: SongDetail[]) =>
-        set((state) => ({
-          playListArray: newList,
-        })),
-    }),
-    {
-      name: "playlist-storage",
-    }
-  )
-);
+//       setPlayListArray: (newList: SongDetail[]) =>
+//         set((state) => ({
+//           playListArray: newList,
+//         })),
+//     }),
+//     {
+//       name: "playlist-storage",
+//     }
+//   )
+// );
 
 export const usePreviousPlayList = create<
   previousSongPlaylist & previousSongPlaylistAction
@@ -167,16 +167,32 @@ export const useSongFunction = create<SongFunctionState & SongFunctionActions>(
   })
 );
 
-export const useRepeat = create<
-  IsRepeatState & RepeatAction & PrefetchAction
+export const useRepeatAndCurrentPlayList = create<
+  currentSongPlaylist &
+    currentSongPlaylistAction &
+    IsRepeatState &
+    RepeatAction &
+    PrefetchAction
 >()(
   persist(
     (set, get) => ({
+      playListArray: [
+        {
+          url: "https://s3.tebi.io/test1345/hello/init.mp4",
+          sege: 27,
+          name: "gone",
+          duration: 52.199,
+        },
+      ],
+      setPlayListArray: (newList: SongDetail[]) =>
+        set((state) => ({
+          playListArray: newList,
+        })),
       isRepeat: false,
       setRepeat: () => set((state) => ({ isRepeat: !state.isRepeat })),
       // if it check as isRepeat in function component, it will re-render entrire component
       prefetchSegment: async ({
-        url,
+        currentUrl,
         sourceBuffer,
         mediaSource,
         segNum,
@@ -187,7 +203,9 @@ export const useRepeat = create<
         const fetchOptions: RequestInit = {
           signal: abortController!.current!.signal,
         };
-
+        const urlSongs = get().playListArray.flatMap(({ url }) => url);
+        const currentIndex = urlSongs.indexOf(currentUrl);
+        const url = urlSongs[currentIndex + 1];
         // Early return if repeat is enabled
         if (get().isRepeat) return;
 
@@ -218,7 +236,7 @@ export const useRepeat = create<
       },
     }),
     {
-      name: "repeat-storage",
+      name: "repeatAndPlaylistArray-storage",
     }
   )
 );

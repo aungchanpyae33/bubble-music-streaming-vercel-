@@ -1,5 +1,9 @@
 import { useEffect } from "react";
-import { useCurrentPlayList, useSong, useSongFunction } from "../zustand";
+import {
+  useRepeatAndCurrentPlayList,
+  useSong,
+  useSongFunction,
+} from "../zustand";
 import type { urlProp } from "@/ui/albumContainer/AudiosContainer";
 import type {
   SongFunctionActions,
@@ -8,7 +12,7 @@ import type {
 } from "../zustand";
 
 const MediaSessionButton = (url: string) => {
-  const playListArray = useCurrentPlayList(
+  const playListArray = useRepeatAndCurrentPlayList(
     (state: currentSongPlaylist) => state.playListArray
   ) as urlProp[];
   console.log(playListArray, "playListArray");

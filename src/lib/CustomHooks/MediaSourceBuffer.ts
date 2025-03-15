@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef } from "react";
 import { fetchSegment } from "../MediaSource/fetchSegment";
 import { getRemainingBufferDuration } from "../MediaSource/getRemainBuffer";
-import { useRepeat } from "../zustand";
+import { useRepeatAndCurrentPlayList } from "../zustand";
 const bufferThreshold = 10;
 const mimeType_audio = "audio/mp4";
 const codecs_audio = "mp4a.40.2";
@@ -22,7 +22,9 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
   const audioInitBufferRef = useRef<ArrayBuffer | null>(null);
   const audioSeg1BufferRef = useRef<ArrayBuffer | null>(null);
   const abortController = useRef<AbortController | null>(null);
-  const prefetchSegment = useRepeat((state) => state.prefetchSegment);
+  const prefetchSegment = useRepeatAndCurrentPlayList(
+    (state) => state.prefetchSegment
+  );
   const fetchAudioSegment = useCallback(
     (segNum: number) => {
       if (abortController.current === null) {
@@ -76,7 +78,7 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
       loadNextSegment();
     } else {
       prefetchSegment({
-        url: "https://njjvikpbvsfomrpyxnta.supabase.co/storage/v1/object/public/sdk/music/init.mp4",
+        currentUrl: url,
         sourceBuffer,
         mediaSource,
         segNum: undefined, // start point
@@ -85,7 +87,7 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
         audioSeg1BufferRef,
       });
     }
-  }, [loadNextSegment, sege, prefetchSegment]);
+  }, [loadNextSegment, sege, prefetchSegment, url]);
 
   const sourceOpen = useCallback(() => {
     if (sourceBuffer.current === null) {
