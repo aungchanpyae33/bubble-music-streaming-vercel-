@@ -49,9 +49,10 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
 
   const loadNextSegment = useCallback(() => {
     const { remainingBuffer, segData } = getRemainingBufferDuration(dataAudio);
-    console.log(segNum.current);
-    // console.log(mediaSource.current?.duration, mediaSource.current?.readyState);
-    // console.log(bufferThreshold > remainingBuffer);
+    // without endofStream , audio ended can not be trigger
+    if (segNum.current > sege && mediaSource.current?.readyState === "open") {
+      mediaSource!.current!.endOfStream();
+    }
     if (
       !fetching.current.isFetch &&
       bufferThreshold > remainingBuffer &&
@@ -73,11 +74,7 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
     console.log("i got nothing call");
     if (segNum.current < sege) {
       loadNextSegment();
-    } else if (
-      mediaSource!.current!.readyState === "open" &&
-      !sourceBuffer!.current!.updating
-    ) {
-      mediaSource!.current!.endOfStream();
+    } else {
       prefetchSegment({
         url: "https://njjvikpbvsfomrpyxnta.supabase.co/storage/v1/object/public/sdk/music/init.mp4",
         sourceBuffer,
