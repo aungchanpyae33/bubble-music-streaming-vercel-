@@ -1,7 +1,8 @@
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 import { fetchSegment } from "../MediaSource/fetchSegment";
 import { getRemainingBufferDuration } from "../MediaSource/getRemainBuffer";
 import { useRepeatAndCurrentPlayList } from "../zustand";
+import throttle from "../throttle";
 const bufferThreshold = 10;
 const mimeType_audio = "audio/mp4";
 const codecs_audio = "mp4a.40.2";
@@ -70,7 +71,10 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
       segNum.current = segData;
     }
   }, [fetchAudioSegment, sege]);
-
+  const throttleLoadNextSegment = useMemo(
+    () => throttle(loadNextSegment, 1000),
+    [loadNextSegment]
+  );
   const updateendLoadNextSegment = useCallback(() => {
     fetching.current.isFetch = false;
     // without endofStream , audio ended can not be trigger
@@ -119,16 +123,19 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
         "updateend",
         updateendLoadNextSegment
       );
-      dataAudio.current!.addEventListener("timeupdate", loadNextSegment);
+      dataAudio.current!.addEventListener(
+        "timeupdate",
+        throttleLoadNextSegment
+      );
     }
-  }, [loadNextSegment, url, updateendLoadNextSegment]);
+  }, [url, updateendLoadNextSegment, throttleLoadNextSegment]);
 
   const clearUpPreviousSong = useCallback(() => {
     const audio = dataAudio.current;
     if (audio) {
       audio!.pause();
       audio!.src = "";
-      audio!.removeEventListener("timeupdate", loadNextSegment);
+      audio!.removeEventListener("timeupdate", throttleLoadNextSegment);
     }
     if (sourceBuffer.current) {
       sourceBuffer.current.removeEventListener(
@@ -154,7 +161,7 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
       abortController.current = null;
     }
     segNum.current = 1;
-  }, [loadNextSegment, sourceOpen, updateendLoadNextSegment]);
+  }, [throttleLoadNextSegment, sourceOpen, updateendLoadNextSegment]);
 
   const startUp = useCallback(() => {
     dataAudio.current!.src = URL.createObjectURL(mediaSource.current!);
