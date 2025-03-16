@@ -16,7 +16,7 @@ interface Props extends React.ComponentProps<"button"> {
   urlProp: urlProp[];
 }
 function ToggleButton({ urlProp, className }: Props) {
-  const { dataAudio } = useContext(DataContext);
+  const { dataAudio, segNum, loadNextSegment } = useContext(DataContext);
   // Get the first key-value pair from Isplay
   const [firstKey, firstIsplay] = useSongFunction(
     (state: SongFunctionState) => Object.entries(state.Isplay)[0] || []
@@ -55,6 +55,7 @@ function ToggleButton({ urlProp, className }: Props) {
         setPlay(url || "", true);
       } else {
         dataAudio!.current!.currentTime = 0;
+        segNum.current = 1;
         dataAudio!.current!.play();
       }
     }
@@ -80,6 +81,8 @@ function ToggleButton({ urlProp, className }: Props) {
     urlSongs.length,
     updateSongCu,
     isRepeat,
+    segNum,
+    loadNextSegment,
   ]);
 
   return (
