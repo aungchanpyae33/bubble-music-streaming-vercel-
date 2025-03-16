@@ -74,7 +74,7 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
     fetching.current.isFetch = false;
     // without endofStream , audio ended can not be trigger
     console.log("i got nothing call");
-    if (segNum.current < sege) {
+    if (segNum.current <= sege) {
       loadNextSegment();
     } else {
       prefetchSegment({
