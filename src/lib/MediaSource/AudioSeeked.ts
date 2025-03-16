@@ -35,11 +35,7 @@ const AudioSeeked = ({
   AbortFetch(fetching, abortController, seekSeg);
   if (seekSeg !== fetching.current.fetchingseg) {
     // segments are start with 1 , change to 1 if 0
-    if (segNum.current === 0) {
-      segNum.current = 1;
-    } else {
-      segNum.current = seekSeg;
-    }
+    segNum.current = seekSeg === 0 ? 1 : seekSeg;
 
     loadNextSegment();
   }
