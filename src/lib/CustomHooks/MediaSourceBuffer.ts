@@ -19,6 +19,7 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
   const dataAudio = useRef<HTMLAudioElement | null>(null);
   const mediaSource = useRef<MediaSource | null>(null);
   const sourceBuffer = useRef<SourceBuffer | null>(null);
+  const prefetchedUrl = useRef("");
   const audioInitBufferRef = useRef<ArrayBuffer | null>(null);
   const audioSeg1BufferRef = useRef<ArrayBuffer | null>(null);
   const abortController = useRef<AbortController | null>(null);
@@ -32,7 +33,7 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
         // return when no initialized
         return;
       }
-      if (audioSeg1BufferRef.current) {
+      if (audioSeg1BufferRef.current && url === prefetchedUrl.current) {
         if (
           sourceBuffer.current?.buffered &&
           !sourceBuffer.current.updating &&
@@ -85,6 +86,7 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
         abortController,
         audioInitBufferRef,
         audioSeg1BufferRef,
+        prefetchedUrl,
       });
     }
   }, [loadNextSegment, sege, prefetchSegment, url]);
@@ -93,7 +95,7 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
     if (sourceBuffer.current === null) {
       sourceBuffer.current =
         mediaSource.current!.addSourceBuffer(mimeCodec_audio);
-      if (audioInitBufferRef.current) {
+      if (audioInitBufferRef.current && url === prefetchedUrl.current) {
         if (
           sourceBuffer.current?.buffered &&
           !sourceBuffer.current.updating &&
@@ -119,7 +121,7 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
       );
       dataAudio.current!.addEventListener("timeupdate", loadNextSegment);
     }
-  }, [loadNextSegment, url, dab, updateendLoadNextSegment]);
+  }, [loadNextSegment, url, updateendLoadNextSegment]);
 
   const clearUpPreviousSong = useCallback(() => {
     const audio = dataAudio.current;

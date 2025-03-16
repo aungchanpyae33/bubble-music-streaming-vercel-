@@ -25,6 +25,7 @@ export interface PrefetchParams {
   abortController: RefObject<AbortController | null>;
   audioInitBufferRef: RefObject<ArrayBuffer | null>;
   audioSeg1BufferRef: RefObject<ArrayBuffer | null>;
+  prefetchedUrl: RefObject<string>;
 }
 export interface SongState {
   songCu: SongDetail | {};
@@ -199,6 +200,7 @@ export const useRepeatAndCurrentPlayList = create<
         abortController,
         audioInitBufferRef,
         audioSeg1BufferRef,
+        prefetchedUrl,
       }: PrefetchParams) => {
         const fetchOptions: RequestInit = {
           signal: abortController!.current!.signal,
@@ -225,6 +227,7 @@ export const useRepeatAndCurrentPlayList = create<
           ) {
             audioInitBufferRef.current = initBuffer;
             audioSeg1BufferRef.current = seg1Buffer;
+            prefetchedUrl.current = url;
           }
         } catch (err: any) {
           if (err.name === "AbortError") {
