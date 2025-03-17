@@ -15,7 +15,7 @@ export interface RepeatAction {
   setRepeat: () => void;
 }
 export interface PrefetchAction {
-  prefetchSegment: (params: PrefetchParams) => Promise<void>;
+  prefetchSegment: (params: PrefetchParams) => Promise<ArrayBuffer[] | null>;
 }
 export interface PrefetchParams {
   currentUrl: string;
@@ -26,6 +26,7 @@ export interface PrefetchParams {
   audioInitBufferRef: RefObject<ArrayBuffer | null>;
   audioSeg1BufferRef: RefObject<ArrayBuffer | null>;
   prefetchedUrl: RefObject<string>;
+  prefetchPromiseRef: RefObject<Promise<ArrayBuffer[]> | null>;
 }
 export interface SongState {
   songCu: SongDetail | {};
@@ -209,31 +210,27 @@ export const useRepeatAndCurrentPlayList = create<
         const currentIndex = urlSongs.indexOf(currentUrl);
         const url = urlSongs[currentIndex + 1];
         // Early return if repeat is enabled
-        if (get().isRepeat) return;
-
+        if (get().isRepeat) return null;
+        // if (url !== currentUrl) {
         const initUrl = url;
         const seg1Url = url.replace("init.mp4", "seg-1.m4s");
 
         try {
-          const [initBuffer, seg1Buffer] = await Promise.all([
-            fetch(initUrl, fetchOptions).then((res) => res.arrayBuffer()),
-            fetch(seg1Url, fetchOptions).then((res) => res.arrayBuffer()),
-          ]);
-
-          if (
-            sourceBuffer.current?.buffered &&
-            !sourceBuffer.current.updating &&
-            mediaSource.current?.readyState
-          ) {
-            audioInitBufferRef.current = initBuffer;
-            audioSeg1BufferRef.current = seg1Buffer;
+          // if prefetch promise is not null , means they are waiting some promise, if then return this promise to receive the data
+          if (!prefetchPromiseRef.current) {
+            // immediate update url to inform there is a prefetch call
             prefetchedUrl.current = url;
+            prefetchPromiseRef.current = Promise.all([
+              fetch(initUrl).then((res) => res.arrayBuffer()),
+              fetch(seg1Url).then((res) => res.arrayBuffer()),
+            ]);
           }
+          return prefetchPromiseRef.current;
         } catch (err: any) {
           if (err.name === "AbortError") {
-            console.log(`the song segments sege-${segNum} fetching is aborted`);
+            return null;
           } else {
-            console.error(`Error fetching segments sege-${segNum}`, err);
+            return null;
           }
         }
       },
