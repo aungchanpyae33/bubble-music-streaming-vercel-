@@ -16,39 +16,54 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
     isFetch: false,
     fetchingseg: 1,
   });
+  // to track fetching promise in prefetchSegment to avoid fetchagain nor abort
+  const prefetchPromiseRef = useRef<Promise<ArrayBuffer[]> | null>(null);
   const segNum = useRef(1);
   const dataAudio = useRef<HTMLAudioElement | null>(null);
   const mediaSource = useRef<MediaSource | null>(null);
   const sourceBuffer = useRef<SourceBuffer | null>(null);
   const prefetchedUrl = useRef("");
-  const audioInitBufferRef = useRef<ArrayBuffer | null>(null);
-  const audioSeg1BufferRef = useRef<ArrayBuffer | null>(null);
   const abortController = useRef<AbortController | null>(null);
   const prefetchSegment = useRepeatAndCurrentPlayList(
     (state) => state.prefetchSegment
   );
+
+  // function to wait data from prefetchSegment
+  const checkFeching = useCallback(async () => {
+    return prefetchSegment({
+      currentUrl: url,
+      abortController,
+      prefetchedUrl,
+      prefetchPromiseRef,
+    });
+  }, [prefetchSegment, url]);
+
   const fetchAudioSegment = useCallback(
-    (segNum: number) => {
+    async (segNum: number) => {
       if (abortController.current === null) {
         console.log("abort");
         // return when no initialized
         return;
       }
-      if (audioSeg1BufferRef.current && url === prefetchedUrl.current) {
+      // url === prefetchedUrl.current if true mean , there is alaredy fetch call for prefetchSegment and if has use it , or if it does not have , wait it
+      //  restricted to init segment
+      if (url === prefetchedUrl.current && segNum === 1) {
         if (
           sourceBuffer.current?.buffered &&
           !sourceBuffer.current.updating &&
           mediaSource.current?.readyState
         ) {
-          // console.log(segNum, "it got buffend");
-          sourceBuffer.current!.appendBuffer(audioSeg1BufferRef.current);
-          audioSeg1BufferRef.current = null;
+          const data = await checkFeching();
+
+          sourceBuffer.current!.appendBuffer(data![1]);
+          // reset prmoise
+          prefetchPromiseRef.current = null;
         }
       } else {
         fetchSegment(url, sourceBuffer, mediaSource, segNum, abortController);
       }
     },
-    [url]
+    [url, checkFeching]
   );
 
   const loadNextSegment = useCallback(() => {
@@ -66,11 +81,11 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
       fetching.current.fetchingseg = segNum.current;
       fetchAudioSegment(segNum.current);
       segNum.current++;
-      // console.log(segNum.current);
     } else {
       segNum.current = segData;
     }
   }, [fetchAudioSegment, sege]);
+
   const throttleLoadNextSegment = useMemo(
     () => throttle(loadNextSegment, 1000),
     [loadNextSegment]
@@ -78,36 +93,27 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
   const updateendLoadNextSegment = useCallback(() => {
     fetching.current.isFetch = false;
     // without endofStream , audio ended can not be trigger
-    console.log("i got nothing call");
-    if (segNum.current <= sege) {
+
+    if (segNum.current < sege) {
       loadNextSegment();
     } else {
-      prefetchSegment({
-        currentUrl: url,
-        sourceBuffer,
-        mediaSource,
-        segNum: undefined, // start point
-        abortController,
-        audioInitBufferRef,
-        audioSeg1BufferRef,
-        prefetchedUrl,
-      });
+      checkFeching(); //
     }
-  }, [loadNextSegment, sege, prefetchSegment, url]);
+  }, [loadNextSegment, sege, checkFeching]);
 
-  const sourceOpen = useCallback(() => {
+  const sourceOpen = useCallback(async () => {
     if (sourceBuffer.current === null) {
       sourceBuffer.current =
         mediaSource.current!.addSourceBuffer(mimeCodec_audio);
-      if (audioInitBufferRef.current && url === prefetchedUrl.current) {
+      // url === prefetchedUrl.current if true mean , there is alaredy fetch call for prefetchSegment and if has use it , or if it does not have , wait it
+      if (url === prefetchedUrl.current) {
         if (
           sourceBuffer.current?.buffered &&
           !sourceBuffer.current.updating &&
           mediaSource.current?.readyState
         ) {
-          // console.log(segNum, "it got buffend");
-          sourceBuffer.current!.appendBuffer(audioInitBufferRef.current);
-          audioInitBufferRef.current = null;
+          const data = await checkFeching();
+          sourceBuffer.current!.appendBuffer(data![0]);
         }
       } else {
         fetchSegment(
@@ -128,7 +134,7 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
         throttleLoadNextSegment
       );
     }
-  }, [url, updateendLoadNextSegment, throttleLoadNextSegment]);
+  }, [url, updateendLoadNextSegment, throttleLoadNextSegment, checkFeching]);
 
   const clearUpPreviousSong = useCallback(() => {
     const audio = dataAudio.current;
