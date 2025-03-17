@@ -19,12 +19,7 @@ export interface PrefetchAction {
 }
 export interface PrefetchParams {
   currentUrl: string;
-  sourceBuffer: RefObject<SourceBuffer | null>;
-  mediaSource: RefObject<MediaSource | null>;
-  segNum: number | undefined;
   abortController: RefObject<AbortController | null>;
-  audioInitBufferRef: RefObject<ArrayBuffer | null>;
-  audioSeg1BufferRef: RefObject<ArrayBuffer | null>;
   prefetchedUrl: RefObject<string>;
   prefetchPromiseRef: RefObject<Promise<ArrayBuffer[]> | null>;
 }
@@ -195,14 +190,11 @@ export const useRepeatAndCurrentPlayList = create<
       // if it check as isRepeat in function component, it will re-render entrire component
       prefetchSegment: async ({
         currentUrl,
-        sourceBuffer,
-        mediaSource,
-        segNum,
         abortController,
-        audioInitBufferRef,
-        audioSeg1BufferRef,
         prefetchedUrl,
+        prefetchPromiseRef,
       }: PrefetchParams) => {
+        // later need to change another abort
         const fetchOptions: RequestInit = {
           signal: abortController!.current!.signal,
         };
