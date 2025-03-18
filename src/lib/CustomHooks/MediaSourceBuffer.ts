@@ -24,6 +24,7 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
   const sourceBuffer = useRef<SourceBuffer | null>(null);
   const prefetchedUrl = useRef("");
   const abortController = useRef<AbortController | null>(null);
+  const isCalled = useRef(false);
   const prefetchSegment = useRepeatAndCurrentPlayList(
     (state) => state.prefetchSegment
   );
@@ -47,7 +48,11 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
       }
       // url === prefetchedUrl.current if true mean , there is alaredy fetch call for prefetchSegment and if has use it , or if it does not have , wait it
       //  restricted to init segment
-      if (url === prefetchedUrl.current && segNum === 1) {
+      if (
+        url === prefetchedUrl.current &&
+        Num === 1 &&
+        prefetchPromiseRef.current
+      ) {
         if (
           sourceBuffer.current?.buffered &&
           !sourceBuffer.current.updating &&
@@ -58,6 +63,7 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
           sourceBuffer.current!.appendBuffer(data![1]);
           // reset prmoise
           prefetchPromiseRef.current = null;
+          segNum.current++;
         }
       } else {
         await fetchSegment(
@@ -73,11 +79,31 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
     [url, checkFeching]
   );
 
-  const loadNextSegment = useCallback(() => {
+  const loadNextSegment = useCallback(async () => {
     const { remainingBuffer, segData } = getRemainingBufferDuration(dataAudio);
+    console.log(
+      segNum.current
+      // segNum.current >= sege,
+      // mediaSource.current?.readyState === "open",
+      // isCalled.current
+    );
     // without endofStream , audio ended can not be trigger
-    if (segNum.current > sege && mediaSource.current?.readyState === "open") {
+    if (
+      segNum.current > sege &&
+      mediaSource.current?.readyState === "open" &&
+      isCalled.current
+    ) {
+      console.log("called");
       mediaSource!.current!.endOfStream();
+      isCalled.current = false;
+    }
+    if (
+      segNum.current < sege &&
+      !isCalled.current &&
+      sourceBuffer.current?.buffered &&
+      !sourceBuffer.current.updating
+    ) {
+      isCalled.current = true;
     }
     if (
       !fetching.current.isFetch &&
@@ -87,8 +113,7 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
       fetching.current.isFetch = true;
       fetching.current.fetchingseg = segNum.current;
       fetchAudioSegment(segNum.current);
-      segNum.current++;
-    } else {
+    } else if (bufferThreshold < remainingBuffer) {
       segNum.current = segData;
     }
   }, [fetchAudioSegment, sege]);
@@ -113,7 +138,7 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
       sourceBuffer.current =
         mediaSource.current!.addSourceBuffer(mimeCodec_audio);
       // url === prefetchedUrl.current if true mean , there is alaredy fetch call for prefetchSegment and if has use it , or if it does not have , wait it
-      if (url === prefetchedUrl.current) {
+      if (url === prefetchedUrl.current && prefetchPromiseRef.current) {
         if (
           sourceBuffer.current?.buffered &&
           !sourceBuffer.current.updating &&
