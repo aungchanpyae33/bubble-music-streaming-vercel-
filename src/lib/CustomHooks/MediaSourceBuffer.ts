@@ -39,7 +39,7 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
   }, [prefetchSegment, url]);
 
   const fetchAudioSegment = useCallback(
-    async (segNum: number) => {
+    async (Num: number) => {
       if (abortController.current === null) {
         console.log("abort");
         // return when no initialized
@@ -60,7 +60,14 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
           prefetchPromiseRef.current = null;
         }
       } else {
-        fetchSegment(url, sourceBuffer, mediaSource, segNum, abortController);
+        await fetchSegment(
+          url,
+          sourceBuffer,
+          mediaSource,
+          Num,
+          abortController,
+          segNum
+        );
       }
     },
     [url, checkFeching]
@@ -121,7 +128,8 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
           sourceBuffer,
           mediaSource,
           undefined, // start point
-          abortController
+          abortController,
+          segNum
         );
       }
 

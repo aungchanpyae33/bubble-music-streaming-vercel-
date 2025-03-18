@@ -4,20 +4,21 @@ export const fetchSegment = async (
   url: string,
   sourceBuffer: RefObject<SourceBuffer | null>,
   mediaSource: RefObject<MediaSource | null>,
-  segNum: number | undefined = undefined,
-  abortController: RefObject<AbortController | null>
+  Num: number | undefined = undefined,
+  abortController: RefObject<AbortController | null>,
+  segNum: RefObject<number>
 ) => {
   const fetchOptions: RequestInit = {
     signal: abortController!.current!.signal,
   };
 
   const outputUrl =
-    segNum !== undefined ? url.replace("init.mp4", `seg-${segNum}.m4s`) : url;
+    Num !== undefined ? url.replace("init.mp4", `seg-${Num}.m4s`) : url;
 
   try {
     const response = await fetch(outputUrl, fetchOptions);
     if (!response.ok) {
-      throw new Error(`Failed to fetch the song segment seg-${segNum}`);
+      throw new Error(`Failed to fetch the song segment seg-${Num}`);
     }
     const buf = await response.arrayBuffer();
     if (
@@ -26,15 +27,19 @@ export const fetchSegment = async (
       mediaSource.current?.readyState
     ) {
       sourceBuffer.current!.appendBuffer(buf);
+      if (Num !== undefined) {
+        segNum.current++;
+      }
+      // segNum.current++;
     }
 
     return buf;
   } catch (err) {
     const error = err as Error;
     if (error.name === "AbortError") {
-      console.log(`The song segment seg-${segNum} fetching was aborted`);
+      console.log(`The song segment seg-${Num} fetching was aborted`);
     } else {
-      console.error(`Error fetching segment seg-${segNum}:`, err);
+      console.error(`Error fetching segment seg-${Num}:`, err);
     }
   }
 };
