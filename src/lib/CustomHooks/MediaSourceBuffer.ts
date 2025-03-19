@@ -73,7 +73,8 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
           mediaSource,
           Num,
           abortController,
-          segNum
+          segNum,
+          fetching
         );
       }
     },
@@ -131,9 +132,6 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
     [loadNextSegment]
   );
   const updateendLoadNextSegment = useCallback(() => {
-    fetching.current.isFetch = false;
-    // without endofStream , audio ended can not be trigger
-
     if (segNum.current <= sege) {
       loadNextSegment();
     }

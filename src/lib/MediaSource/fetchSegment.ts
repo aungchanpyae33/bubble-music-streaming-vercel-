@@ -27,10 +27,8 @@ export const fetchSegment = async (
       mediaSource.current?.readyState
     ) {
       sourceBuffer.current!.appendBuffer(buf);
-      if (Num !== undefined) {
-        segNum.current++;
-      }
-      // segNum.current++;
+      segNum.current++;
+      fetching.current.isFetch = false;
     }
 
     return buf;
