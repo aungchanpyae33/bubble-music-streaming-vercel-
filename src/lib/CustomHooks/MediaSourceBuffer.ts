@@ -25,6 +25,7 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
   const prefetchedUrl = useRef("");
   const abortController = useRef<AbortController | null>(null);
   const isCalled = useRef(false);
+  const isCalledPrefetch = useRef(false);
   const prefetchSegment = useRepeatAndCurrentPlayList(
     (state) => state.prefetchSegment
   );
@@ -81,22 +82,27 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
 
   const loadNextSegment = useCallback(async () => {
     const { remainingBuffer, segData } = getRemainingBufferDuration(dataAudio);
-    console.log(
-      segNum.current
-      // segNum.current >= sege,
-      // mediaSource.current?.readyState === "open",
-      // isCalled.current
-    );
-    // without endofStream , audio ended can not be trigger
+
+    // condition 1 : if current segment is greater than total segment and mediaSource is open and isCalled is true
     if (
       segNum.current > sege &&
       mediaSource.current?.readyState === "open" &&
       isCalled.current
     ) {
-      console.log("called");
       mediaSource!.current!.endOfStream();
       isCalled.current = false;
     }
+
+    // condition 2 : if current segment is greater than total segment and isCalledPrefetch is true and prefetchPromiseRef is null
+    if (
+      segNum.current > sege &&
+      isCalledPrefetch.current &&
+      !prefetchPromiseRef.current
+    ) {
+      checkFeching();
+      isCalled.current = false;
+    }
+    // condition 3 : if current segment is less than total segment and isCalled is false and sourceBuffer is not updating and sourceBuffer is buffered for reset buffer if it backs to the  less part of  24 segment
     if (
       segNum.current < sege &&
       !isCalled.current &&
@@ -104,7 +110,9 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
       !sourceBuffer.current.updating
     ) {
       isCalled.current = true;
+      isCalledPrefetch.current = true;
     }
+    // note : need to ues <= as it need to fetch 24 segment
     if (
       !fetching.current.isFetch &&
       bufferThreshold > remainingBuffer &&
@@ -112,11 +120,11 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
     ) {
       fetching.current.isFetch = true;
       fetching.current.fetchingseg = segNum.current;
-      fetchAudioSegment(segNum.current);
+      await fetchAudioSegment(segNum.current);
     } else if (bufferThreshold < remainingBuffer) {
       segNum.current = segData;
     }
-  }, [fetchAudioSegment, sege]);
+  }, [fetchAudioSegment, sege, checkFeching]);
 
   const throttleLoadNextSegment = useMemo(
     () => throttle(loadNextSegment, 1000),
@@ -126,12 +134,10 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
     fetching.current.isFetch = false;
     // without endofStream , audio ended can not be trigger
 
-    if (segNum.current < sege) {
+    if (segNum.current <= sege) {
       loadNextSegment();
-    } else {
-      checkFeching(); //
     }
-  }, [loadNextSegment, sege, checkFeching]);
+  }, [loadNextSegment, sege]);
 
   const sourceOpen = useCallback(async () => {
     if (sourceBuffer.current === null) {
