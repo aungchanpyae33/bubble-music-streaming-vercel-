@@ -100,7 +100,7 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
       !prefetchPromiseRef.current
     ) {
       checkFeching();
-      isCalled.current = false;
+      isCalledPrefetch.current = false;
     }
     // condition 3 : if current segment is less than total segment and isCalled is false and sourceBuffer is not updating and sourceBuffer is buffered for reset buffer if it backs to the  less part of  24 segment
     if (
