@@ -37,7 +37,7 @@ function NavList({
       </ul>
 
       <NavListUlWrapper open={open} setOpen={setOpen}>
-        <div className="overflow-auto thinScrollbar">
+        <div className="overflow-auto">
           <NavSideLink
             url="/explore"
             icon="icon"

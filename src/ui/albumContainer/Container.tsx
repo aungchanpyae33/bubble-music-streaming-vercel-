@@ -11,7 +11,7 @@ function Container({
   // const dataInc = useRef(0);
   return (
     <div
-      className="thinScrollbar border-2 overflow-auto  max-w-full
+      className="border-2 overflow-auto  max-w-full
        "
       role="row"
       // tabIndex={0}

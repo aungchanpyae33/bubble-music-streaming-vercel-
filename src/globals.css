@@ -74,15 +74,18 @@
     @apply flex;
   }
 }
+
+/* hide for now , use browser default scrollbar */
+
 /* body scrolllock */
 /* Firefox */
-.thinScrollbar {
+/* .thinScrollbar {
   scrollbar-width: thin;
   scrollbar-color: var(--secondary) var(--primary);
-}
+} */
 
 /* Chrome, Edge, and Safari */
-.thinScrollbar::-webkit-scrollbar {
+/* .thinScrollbar::-webkit-scrollbar {
   width: 15px;
 }
 
@@ -95,8 +98,8 @@
   background-color: var(--secondary);
   border-radius: 14px;
   border: 3px solid var(--primary);
-}
-body.scrolllock {
+} */
+/* body.scrolllock {
   overflow-y: scroll !important;
   position: fixed;
   left: 0;
@@ -108,18 +111,18 @@ body.noScrolllock {
   left: 0;
   right: 0;
   bottom: 0;
-}
+} */
 /* body scrolllock */
 
 /* hide scrollbar */
-.no-scrollbar::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, and Opera */
-}
+/* .no-scrollbar::-webkit-scrollbar { */
+/* display: none; Chrome, Safari, and Opera */
+/* } */
 
-.no-scrollbar {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
-}
+/* .no-scrollbar { */
+/* -ms-overflow-style: none; IE and Edge */
+/* scrollbar-width: none; Firefox */
+/* } */
 .no-select {
   -webkit-user-select: none; /* Safari, Chrome, Opera */
   -moz-user-select: none; /* Firefox */
