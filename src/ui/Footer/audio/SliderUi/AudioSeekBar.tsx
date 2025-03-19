@@ -15,6 +15,7 @@ interface PropAudioSeek extends React.ComponentProps<"div"> {
   duration: number;
   hideSliderInSmScreen: boolean;
   childrenFn: (value: number) => ReactNode;
+  url: string;
 }
 
 function AudioSeekBar({
@@ -22,6 +23,7 @@ function AudioSeekBar({
   childrenFn,
   className,
   hideSliderInSmScreen,
+  url,
 }: PropAudioSeek) {
   const isPointer = useMemo(
     () => typeof window !== "undefined" && "onpointerdown" in window,
@@ -40,6 +42,7 @@ function AudioSeekBar({
     duration,
     isPointer,
     isTouchDevice,
+    url,
   });
   return (
     <>
