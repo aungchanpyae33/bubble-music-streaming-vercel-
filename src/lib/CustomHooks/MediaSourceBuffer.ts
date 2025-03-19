@@ -3,6 +3,7 @@ import { fetchSegment } from "../MediaSource/fetchSegment";
 import { getRemainingBufferDuration } from "../MediaSource/getRemainBuffer";
 import { useRepeatAndCurrentPlayList } from "../zustand";
 import throttle from "../throttle";
+import { fetchInitSegment } from "../MediaSource/fetchInitSegment";
 const bufferThreshold = 10;
 const mimeType_audio = "audio/mp4";
 const codecs_audio = "mp4a.40.2";
@@ -152,14 +153,7 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
           sourceBuffer.current!.appendBuffer(data![0]);
         }
       } else {
-        fetchSegment(
-          url,
-          sourceBuffer,
-          mediaSource,
-          undefined, // start point
-          abortController,
-          segNum
-        );
+        await fetchInitSegment(url, sourceBuffer, mediaSource);
       }
 
       sourceBuffer.current!.addEventListener(
