@@ -1,19 +1,20 @@
 import { RefObject } from "react";
+import { FetchingState } from "../CustomHooks/MediaSourceBuffer";
 
 export const fetchSegment = async (
   url: string,
   sourceBuffer: RefObject<SourceBuffer | null>,
   mediaSource: RefObject<MediaSource | null>,
-  Num: number | undefined = undefined,
+  Num: number,
   abortController: RefObject<AbortController | null>,
-  segNum: RefObject<number>
+  segNum: RefObject<number>,
+  fetching: RefObject<FetchingState>
 ) => {
   const fetchOptions: RequestInit = {
     signal: abortController!.current!.signal,
   };
 
-  const outputUrl =
-    Num !== undefined ? url.replace("init.mp4", `seg-${Num}.m4s`) : url;
+  const outputUrl = url.replace("init.mp4", `seg-${Num}.m4s`);
 
   try {
     const response = await fetch(outputUrl, fetchOptions);
