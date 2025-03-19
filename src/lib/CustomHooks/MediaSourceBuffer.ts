@@ -217,11 +217,16 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
     if (!url) {
       return;
     }
+    //  if there is a prefetchFetching and the currentSong is not for this , set back to null
+    if (url !== prefetchedUrl.current) {
+      prefetchPromiseRef.current = null;
+    }
     if (typeof window !== "undefined") {
       const MediaSource = window.MediaSource || null;
       mediaSource.current = new MediaSource();
       startUp();
     }
+
     abortController.current = new AbortController();
     return () => {
       clearUpPreviousSong();
