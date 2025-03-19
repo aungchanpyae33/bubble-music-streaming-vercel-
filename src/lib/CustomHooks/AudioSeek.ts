@@ -17,6 +17,7 @@ interface audioSeekProp {
   duration: number;
   isPointer: boolean;
   isTouchDevice: boolean;
+  url: string;
 }
 interface useAudioSeekReturnType {
   value: AudioValueState["value"];
@@ -30,6 +31,7 @@ const useAudioSeek = ({
   duration,
   isPointer,
   isTouchDevice,
+  url,
 }: audioSeekProp): useAudioSeekReturnType => {
   const value = useAudioValue((state: AudioValueState) => state.value);
   const setValue = useAudioValue((state: AudioValueActions) => state.setValue);
@@ -123,6 +125,9 @@ const useAudioSeek = ({
     bufferThreshold,
   ]);
 
+  useEffect(() => {
+    setValue(100);
+  }, [url, setValue]);
   return { value, setValue, isDragging, setIsDragging };
 };
 export default useAudioSeek;
