@@ -69,6 +69,7 @@ function AudioFull({
               <div className="BottomContainer w-full static top-0 left-0 items-center ">
                 <div className="  w-full flex items-center relative">
                   <AudioSeekBar
+                    url={url}
                     hideSliderInSmScreen={false}
                     childrenFn={(value) => (
                       <TimeIndicatorCur
