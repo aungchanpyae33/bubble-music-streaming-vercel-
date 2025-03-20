@@ -16,7 +16,7 @@ function AudioCurImg() {
     >
       <Image
         ref={imgRef}
-        className={clsx("transition-opacity duration-1000", {
+        className={clsx("transition-opacity duration-300", {
           "opacity-0": isImageLoaded === "initial",
           "opacity-100": isImageLoaded === "success",
         })}
