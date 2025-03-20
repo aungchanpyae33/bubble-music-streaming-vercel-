@@ -4,6 +4,11 @@ import Track from "../trackComponent/Track";
 // import { useEffect, useRef } from "react";
 import Image from "next/image";
 import SongContainer from "./SongContainer";
+import { Suspense } from "react";
+import AlbumUpperContainer from "./AlbumUpperContainer";
+import AlbumUpperBackground from "./AlbumUpperBackground";
+import TableHeadBgChange from "./TableHeadBgChange";
+import TableHead from "./TableHead";
 // import type { currentSongPlaylistAction } from "@/lib/zustand";
 // import { useCurrentPlayList } from "@/lib/zustand";
 export interface urlProp {
@@ -26,36 +31,24 @@ function AudiosContainer({
   // const rowCell = useRef(1);
 
   return (
-    <div className="">
-      <div className="Container w-full flex p-2 ">
-        <Image
-          src={
-            "https://s3.tebi.io/test1345/timo-volz-ZlFKIG6dApg-unsplash%20%281%29.jpg"
-          }
-          sizes="(min-width: 1940px) 250px, (min-width: 1040px) calc(12.61vw + 8px), (min-width: 780px) calc(18.33vw - 12px), (min-width: 700px) calc(20vw - 10px), 115px"
-          priority={false}
-          className="w-[20%] md:w-[18%] lg:w-[14%] min-w-[120px] max-w-[250px] h-full object-cover"
-          width={300}
-          height={300}
-          alt="singer song"
-        />
+    <div className=" bg-[rgb(43,42,43)] text-white">
+      <AlbumUpperBackground>
+        <Suspense>
+          <AlbumUpperContainer description={description} />
+        </Suspense>
+      </AlbumUpperBackground>
 
-        <div className=" pt-2 flex-1 pl-10 ">
-          <h1 className="text-blue-500">playlist</h1>
-          <h1 className="text-3xl">{description}</h1>
-          <span className="text-white">by Bubble</span>
-        </div>
-      </div>
-      <div
-        className=" bg-red-300 p-2"
-        //for accessbility
-        // tabIndex={0}
-        // onKeyDown={(e) => {
-        //   ArrowNavi(e, dataInc, "ArrowDown", "ArrowUp", url.length, "cell");
-        // }}
-      >
-        <table className=" w-full isolate border-separate border-spacing-y-4">
-          <thead className=" sticky z-10 text-white top-0  h-[65px] bg-red-300">
+      {/* <div
+        className=""
+        for accessbility
+        tabIndex={0}
+        onKeyDown={(e) => {
+          ArrowNavi(e, dataInc, "ArrowDown", "ArrowUp", url.length, "cell");
+        }}
+      > */}
+      <TableHeadBgChange>
+        <table className=" w-full isolate">
+          <TableHead>
             <tr className="text-left">
               <th className=" w-14 p-2  text-center">#</th>
               <th className="p-2">song</th>
@@ -65,7 +58,7 @@ function AudiosContainer({
               <th className=" p-2 hidden sm:table-cell text-right ">Time</th>
               <th className=" p-2 sm:hidden table-cell"></th>
             </tr>
-          </thead>
+          </TableHead>
 
           <SongContainer url={url}>
             {url.map((_, index) => (
@@ -85,7 +78,9 @@ function AudiosContainer({
             ))}
           </SongContainer>
         </table>
-      </div>
+      </TableHeadBgChange>
+
+      {/* </div> */}
     </div>
   );
 }
