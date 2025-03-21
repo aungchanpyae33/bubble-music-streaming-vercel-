@@ -65,7 +65,7 @@ function ContextMediaAudioFull({
           )}
           tabIndex={0}
           onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === "Space") {
+            if (e.key === "Enter") {
               footerRef.current?.classList.toggle("z-50");
               setOpen(!open);
             }
