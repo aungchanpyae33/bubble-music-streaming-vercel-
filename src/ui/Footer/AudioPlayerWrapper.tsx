@@ -2,13 +2,13 @@
 import ContextMediaAudioFull from "@/lib/MediaSource/ContextMediaAudioFull";
 import MediaSessionDesWrapper from "./audio/MediaSessionWrapper/MediaSessionDesWrapper";
 import AudioPlayer from "./AudioPLayer";
-import { useRef } from "react";
+import React, { useRef } from "react";
 
-function AudioPlayerWrapper() {
+function AudioPlayerWrapper({ children }: { children: React.ReactNode }) {
   const footerRef = useRef<HTMLDivElement | null>(null);
   return (
     <MediaSessionDesWrapper>
-      <ContextMediaAudioFull footerRef={footerRef}>
+      <ContextMediaAudioFull footerRef={footerRef} footerNaviRef={children}>
         <AudioPlayer footerRef={footerRef} />
       </ContextMediaAudioFull>
     </MediaSessionDesWrapper>

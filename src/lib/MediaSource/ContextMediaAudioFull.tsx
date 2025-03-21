@@ -7,7 +7,6 @@ import React, {
   useState,
 } from "react";
 import { ContextDevice } from "../DeviceContext/DeviceContextFooter";
-import Link from "next/link";
 interface contextProps {
   open: boolean;
   setOpen: React.Dispatch<SetStateAction<boolean>>;
@@ -19,9 +18,11 @@ export const Context = createContext<contextProps>({
 function ContextMediaAudioFull({
   children,
   footerRef,
+  footerNaviRef,
 }: {
   children: React.ReactNode;
   footerRef: React.RefObject<HTMLDivElement | null>;
+  footerNaviRef: React.ReactNode;
 }) {
   const [open, setOpen] = useState(false);
   const { device } = useContext(ContextDevice);
@@ -33,27 +34,7 @@ function ContextMediaAudioFull({
         className="w-full relative flex bg-black h-[70px]"
         ref={footerRef}
       >
-        <div
-          className={clsx(
-            "text-white w-full h-full flex overShort:hidden justify-around items-center",
-            {
-              hidden: device !== "mobile",
-            }
-          )}
-        >
-          <Link href={"/setting"} className="bg-red-950 p-2">
-            Search
-          </Link>
-          <Link href={"/setting"} className="bg-red-950 p-2">
-            Library
-          </Link>
-          <Link href={"/setting"} className="bg-red-950 p-2">
-            Genre
-          </Link>
-          <Link href={"/setting"} className="bg-red-950 p-2">
-            Live
-          </Link>
-        </div>
+        {footerNaviRef}
 
         <div
           className={clsx(
