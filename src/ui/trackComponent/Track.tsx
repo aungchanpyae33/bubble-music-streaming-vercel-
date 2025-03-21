@@ -25,7 +25,7 @@ function Track({
   console.log("trackelemnt", name);
   return (
     <tr
-      className="focus-within:bg-red-200  [&:has(:focus-visible)]:ring-4  hover:bg-black"
+      className="focus-within:bg-red-200  [&:has(:focus-visible)]:ring-4 h-[72px]  hover:bg-black"
       // tabIndex={0}
       id="uni1"
       role={`cell${index + 1}`}
@@ -45,7 +45,7 @@ function Track({
         name={name}
         // playlistUrl={playlistUrl}
       />
-      <td className=" max-w-[100px] p-2 py-6   ">
+      <td className=" max-w-[100px] px-2 ">
         <ToolTip
           tooltipContent="Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit blanditiis, amet voluptate quibusdam incidunt est illum vel ipsam nesciunt porro!"
           tooltipPosition="top"
@@ -62,19 +62,19 @@ function Track({
           {sege}
         </div>
       </td>
-      <td className=" text-left hidden p-2 py-6 sm:table-cell   max-w-[100px] break-words truncate">
+      <td className=" text-left hidden px-2  sm:table-cell   max-w-[100px] break-words truncate">
         {name}
         {sege}
       </td>
 
-      <td className=" max-w-[100px] p-2 py-6 hidden md:table-cell  truncate">
+      <td className=" max-w-[100px] px-2  hidden md:table-cell  truncate">
         aung {index}
       </td>
 
-      <td className=" text-right p-2 py-6 hidden sm:table-cell  max-w-[100px] truncate">
+      <td className=" text-right px-2  hidden sm:table-cell  max-w-[100px] truncate">
         {TimeFormat(duration)}
       </td>
-      <td className=" w-14 text-center p-2 py-6 sm:hidden table-cell"> dot</td>
+      <td className=" w-14 text-center px-2  sm:hidden table-cell"> dot</td>
     </tr>
   );
 }

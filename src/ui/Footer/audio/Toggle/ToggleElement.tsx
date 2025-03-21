@@ -47,7 +47,7 @@ const ToggleElement = ({
   );
   // console.log("render toggleElement");
   return (
-    <td className="  p-2 py-6 max-w-[10px] ">
+    <td className="  px-2 max-w-[10px] ">
       <button
         role="rowCell1"
         // tabIndex={-1}
