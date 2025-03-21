@@ -3,6 +3,7 @@ import React, {
   createContext,
   SetStateAction,
   useContext,
+  useRef,
   useState,
 } from "react";
 import { ContextDevice } from "../DeviceContext/DeviceContextFooter";
@@ -25,7 +26,7 @@ function ContextMediaAudioFull({
   const [open, setOpen] = useState(false);
   const { device } = useContext(ContextDevice);
   const value = { open, setOpen };
-  console.log(device);
+  const initialRef = useRef<HTMLElement | null>(null);
   return (
     <Context.Provider value={value}>
       <footer
@@ -69,9 +70,16 @@ function ContextMediaAudioFull({
               setOpen(!open);
             }
           }}
+          // to track initial click elemet , without this  check , if user click the button then hold and release the container that does not have e.stopP will trigger the parent onClick ,
+          onMouseDown={(e) => {
+            console.log(e.target);
+            initialRef!.current! = e.target as HTMLElement;
+          }}
           onClick={(e) => {
-            footerRef.current?.classList.toggle("z-50");
-            setOpen(!open);
+            if (e.target === initialRef.current) {
+              footerRef.current?.classList.toggle("z-50");
+              setOpen(!open);
+            }
           }}
         >
           {children}
