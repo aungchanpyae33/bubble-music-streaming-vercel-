@@ -40,7 +40,7 @@ function Volume() {
           }
         )}
       >
-        <div className="flex  w-fit  flex-1">
+        <div className="flex  w-fit gap-1  flex-1">
           <VolumeMuteButton
             value={value}
             dataAudio={dataAudio}
@@ -48,7 +48,7 @@ function Volume() {
           />
 
           <VolumeSlider
-            className="flex bg-red-900 h-full   w-full  md:flex items-center select-none no-select"
+            className="flex bg-red-900 h-full   w-full px-[10px]  md:flex items-center select-none no-select"
             setIsDragging={setIsDragging}
             sliderRef={sliderRef}
             setValue={setValue}
