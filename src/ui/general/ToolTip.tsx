@@ -58,13 +58,12 @@ function ToolTip({
           }
         }}
         onWheel={(e) => {
-          if (isTouchDevice) return;
-          if (isOutsideBeforeShow.current) {
-            clearTimeout(setTimeoutRef!.current!);
-            setTimeoutRef.current = null;
-            return;
+          if (tooltipShow.show) {
+            setTooltipShow((pre) => ({
+              ...pre,
+              show: false,
+            }));
           }
-          // onWheelFunction({ e, tooltipShow, setTooltipShow });
         }}
         //{...} is used to inset js expression ,
         // {...(tooltipShow.show && {
