@@ -27,7 +27,11 @@ function ToolTip({
   tooltipPosition: "top" | "bottom" | "right" | "left";
 }) {
   const toolTipRef = useRef<HTMLDivElement | null>(null);
-  const [tooltipShow, setTooltipShow] = useTooltipOverflow({ toolTipRef });
+  const tooltipTargetRef = useRef<HTMLDivElement | null>(null);
+  const [tooltipShow, setTooltipShow] = useTooltipOverflow({
+    toolTipRef,
+    tooltipTargetRef,
+  });
   const setTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isOutsideBeforeShow = useRef<boolean>(false);
   const isTouchDevice = useMemo(
@@ -37,7 +41,11 @@ function ToolTip({
     []
   );
   return (
-    <div className="group relative w-fit max-w-full cursor-pointer ">
+    <div
+      className="group relative w-fit max-w-full cursor-pointer
+    "
+      ref={tooltipTargetRef}
+    >
       <div
         onMouseEnter={(e) => {
           if (isTouchDevice) return;
@@ -94,8 +102,8 @@ function ToolTip({
             hidden: !tooltipShow.show,
           }
         )}
-        style={tooltipShow.toolTipLeft}
         ref={toolTipRef}
+        style={tooltipShow.toolTipPosition}
       >
         {tooltipContent}
       </div>
