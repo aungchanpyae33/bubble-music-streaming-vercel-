@@ -2,16 +2,10 @@
 import useTooltipOverflow, {
   tooltipState,
 } from "@/lib/CustomHooks/TooltipOverflow";
-import debounce from "@/lib/debounce";
-import {
-  isInsideForOnWheel,
-  showToolTipCheck,
-} from "@/lib/ToolTip/showToolTipCheck";
-
+import { showToolTipCheck } from "@/lib/ToolTip/showToolTipCheck";
 import clsx from "clsx";
 import { ReactNode, SetStateAction, useCallback, useMemo, useRef } from "react";
 
-//[todo] : in mobile , tooltip  is trigger , need to prevent it
 interface onWheelCallbackprop {
   e: React.WheelEvent<HTMLDivElement> | React.MouseEvent<HTMLDivElement>;
   tooltipShow: tooltipState;
@@ -52,7 +46,6 @@ function ToolTip({
           isOutsideBeforeShow.current = true;
           const targetElement = e.currentTarget;
           if (!setTimeoutRef.current) {
-            // console.log("runtoo", setTimeoutRef.current);
             showToolTipCheck({
               setTimeoutRef,
               tooltipShow,
