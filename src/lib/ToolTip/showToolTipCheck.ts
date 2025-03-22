@@ -10,17 +10,6 @@ export function isInsideForEnter(
     x >= rect.left || x <= rect.right || y >= rect.top || y <= rect.bottom;
   return isPointerInsideForEnter;
 }
-export function isInsideForOnWheel(
-  targetElement: HTMLDivElement,
-  e: React.WheelEvent<HTMLDivElement> | React.MouseEvent<HTMLDivElement>
-) {
-  const { clientX: x, clientY: y } = e;
-  const rect = targetElement.getBoundingClientRect();
-  const isPointerInsideForEnter =
-    x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
-  return isPointerInsideForEnter;
-}
-
 interface closeTooltipProp {
   setTimeoutRef: RefObject<ReturnType<typeof setTimeout> | null>;
   tooltipShow: tooltipState;
@@ -71,11 +60,8 @@ export const showToolTipCheck = ({
   isOutsideBeforeShow,
 }: TooltipProps) => {
   setTimeoutRef.current = setTimeout(() => {
-    const isPointerInside = isEnterEvent
-      ? isInsideForEnter(targetElement, e)
-      : isInsideForOnWheel(targetElement, e);
-    // console.log(isPointerInside);
-    if (isPointerInside && !tooltipShow.show) {
+    const isPointerInside = isInsideForEnter(targetElement, e);
+    if (isPointerInside && !tooltipShow.show && isOutsideBeforeShow.current) {
       setTooltipShow((pre) => ({
         ...pre,
         show: true,
