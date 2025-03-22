@@ -21,7 +21,7 @@ function ContextMediaAudioFull({
   footerNaviRef,
 }: {
   children: React.ReactNode;
-  footerRef: React.RefObject<HTMLDivElement | null>;
+  footerRef: React.RefObject<HTMLElement | null>;
   footerNaviRef: React.ReactNode;
 }) {
   const [open, setOpen] = useState(false);
