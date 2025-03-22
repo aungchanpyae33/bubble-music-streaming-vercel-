@@ -21,6 +21,34 @@ export function isInsideForOnWheel(
   return isPointerInsideForEnter;
 }
 
+interface closeTooltipProp {
+  setTimeoutRef: RefObject<ReturnType<typeof setTimeout> | null>;
+  tooltipShow: tooltipState;
+  setTooltipShow: React.Dispatch<React.SetStateAction<tooltipState>>;
+  isOutsideBeforeShow: RefObject<boolean>;
+  isTouchDevice: boolean;
+}
+export function closeTooltip({
+  isTouchDevice,
+  isOutsideBeforeShow,
+  setTimeoutRef,
+  tooltipShow,
+  setTooltipShow,
+}: closeTooltipProp) {
+  if (isTouchDevice) return;
+  isOutsideBeforeShow.current = false;
+  if (setTimeoutRef.current) {
+    clearTimeout(setTimeoutRef.current);
+    setTimeoutRef.current = null;
+  }
+  if (tooltipShow.show) {
+    setTooltipShow((pre) => ({
+      ...pre,
+      show: false,
+    }));
+  }
+}
+
 interface TooltipProps {
   setTimeoutRef: RefObject<ReturnType<typeof setTimeout> | null>;
   tooltipShow: tooltipState;

@@ -2,7 +2,7 @@
 import useTooltipOverflow, {
   tooltipState,
 } from "@/lib/CustomHooks/TooltipOverflow";
-import { showToolTipCheck } from "@/lib/ToolTip/showToolTipCheck";
+import { closeTooltip, showToolTipCheck } from "@/lib/ToolTip/showToolTipCheck";
 import clsx from "clsx";
 import { ReactNode, SetStateAction, useCallback, useMemo, useRef } from "react";
 
@@ -58,32 +58,28 @@ function ToolTip({
             });
           }
         }}
-        onWheel={(e) => {
-          if (tooltipShow.show) {
-            setTooltipShow((pre) => ({
-              ...pre,
-              show: false,
-            }));
-          }
-        }}
+        onWheel={() =>
+          closeTooltip({
+            isTouchDevice,
+            isOutsideBeforeShow,
+            setTimeoutRef,
+            tooltipShow,
+            setTooltipShow,
+          })
+        }
         //{...} is used to inset js expression ,
         // {...(tooltipShow.show && {
         //   onWheel: (e) => {
         //  above comment is for the past idea to add onwheel on condition
-        onMouseLeave={() => {
-          if (isTouchDevice) return;
-          isOutsideBeforeShow.current = true;
-          if (setTimeoutRef.current) {
-            clearTimeout(setTimeoutRef.current);
-            setTimeoutRef.current = null;
-          }
-          if (tooltipShow.show) {
-            setTooltipShow((pre) => ({
-              ...pre,
-              show: false,
-            }));
-          }
-        }}
+        onMouseLeave={() =>
+          closeTooltip({
+            isTouchDevice,
+            isOutsideBeforeShow,
+            setTimeoutRef,
+            tooltipShow,
+            setTooltipShow,
+          })
+        }
       >
         {children}
       </div>
