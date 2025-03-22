@@ -44,7 +44,6 @@ interface TooltipProps {
   setTooltipShow: React.Dispatch<React.SetStateAction<tooltipState>>;
   targetElement: HTMLDivElement;
   e: React.WheelEvent<HTMLDivElement> | React.MouseEvent<HTMLDivElement>;
-  isEnterEvent: boolean;
   delay: number;
   isOutsideBeforeShow: RefObject<boolean>;
 }
@@ -55,7 +54,6 @@ export const showToolTipCheck = ({
   setTooltipShow,
   targetElement,
   e,
-  isEnterEvent,
   delay,
   isOutsideBeforeShow,
 }: TooltipProps) => {

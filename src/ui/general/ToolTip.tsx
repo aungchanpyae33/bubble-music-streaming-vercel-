@@ -14,11 +14,9 @@ interface onWheelCallbackprop {
 function ToolTip({
   children,
   tooltipContent,
-  tooltipPosition,
 }: {
   children: ReactNode;
   tooltipContent: string;
-  tooltipPosition: "top" | "bottom" | "right" | "left";
 }) {
   const toolTipRef = useRef<HTMLDivElement | null>(null);
   const tooltipTargetRef = useRef<HTMLDivElement | null>(null);
@@ -52,7 +50,6 @@ function ToolTip({
               setTooltipShow,
               targetElement,
               e,
-              isEnterEvent: true,
               delay: 1000,
               isOutsideBeforeShow,
             });
