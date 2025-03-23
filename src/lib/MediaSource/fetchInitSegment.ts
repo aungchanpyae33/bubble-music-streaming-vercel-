@@ -1,9 +1,11 @@
 import { RefObject } from "react";
+import { FetchingState } from "../CustomHooks/MediaSourceBuffer";
 
 export const fetchInitSegment = async (
   url: string,
   sourceBuffer: RefObject<SourceBuffer | null>,
-  mediaSource: RefObject<MediaSource | null>
+  mediaSource: RefObject<MediaSource | null>,
+  fetching: RefObject<FetchingState>
 ) => {
   const outputUrl = url;
 
@@ -19,6 +21,7 @@ export const fetchInitSegment = async (
       mediaSource.current?.readyState
     ) {
       sourceBuffer.current!.appendBuffer(buf);
+      fetching.current.isFetch = false;
     }
 
     return buf;

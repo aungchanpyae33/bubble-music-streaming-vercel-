@@ -65,6 +65,8 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
           sourceBuffer.current!.appendBuffer(data![1]);
           // reset prmoise
           prefetchPromiseRef.current = null;
+
+          fetching.current.isFetch = false;
           segNum.current++;
         }
       } else {
@@ -153,7 +155,7 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
           sourceBuffer.current!.appendBuffer(data![0]);
         }
       } else {
-        await fetchInitSegment(url, sourceBuffer, mediaSource);
+        await fetchInitSegment(url, sourceBuffer, mediaSource, fetching);
       }
 
       sourceBuffer.current!.addEventListener(
