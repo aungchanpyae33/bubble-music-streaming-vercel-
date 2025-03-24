@@ -1,31 +1,19 @@
 import React, { RefObject } from "react";
 import type { tooltipState } from "../CustomHooks/TooltipOverflow";
-export function isInsideForEnter(
-  targetElement: HTMLDivElement,
-  e: React.WheelEvent<HTMLDivElement> | React.MouseEvent<HTMLDivElement>
-) {
-  const { clientX: x, clientY: y } = e;
-  const rect = targetElement.getBoundingClientRect();
-  const isPointerInsideForEnter =
-    x >= rect.left || x <= rect.right || y >= rect.top || y <= rect.bottom;
-  return isPointerInsideForEnter;
-}
+import { pointerPosition } from "@/ui/general/ToolTip";
 interface closeTooltipProp {
   setTimeoutRef: RefObject<ReturnType<typeof setTimeout> | null>;
   tooltipShow: tooltipState;
   setTooltipShow: React.Dispatch<React.SetStateAction<tooltipState>>;
-  isOutsideBeforeShow: RefObject<boolean>;
   isTouchDevice: boolean;
 }
 export function closeTooltip({
   isTouchDevice,
-  isOutsideBeforeShow,
   setTimeoutRef,
   tooltipShow,
   setTooltipShow,
 }: closeTooltipProp) {
   if (isTouchDevice) return;
-  isOutsideBeforeShow.current = false;
   if (setTimeoutRef.current) {
     clearTimeout(setTimeoutRef.current);
     setTimeoutRef.current = null;
@@ -45,7 +33,20 @@ interface TooltipProps {
   targetElement: HTMLDivElement;
   e: React.WheelEvent<HTMLDivElement> | React.MouseEvent<HTMLDivElement>;
   delay: number;
-  isOutsideBeforeShow: RefObject<boolean>;
+  pointerPosition: RefObject<pointerPosition>;
+}
+
+export function isInside(
+  targetElement: HTMLDivElement,
+  pointerPosition: RefObject<pointerPosition>
+) {
+  const x = pointerPosition!.current!.clientX;
+  const y = pointerPosition!.current!.clientY;
+  const rect = targetElement.getBoundingClientRect();
+  // need to use updated value from mouemove event , using e will give stale x and stale y
+  const isPointerInsideForEnter =
+    x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
+  return isPointerInsideForEnter;
 }
 
 export const showToolTipCheck = ({
@@ -55,16 +56,23 @@ export const showToolTipCheck = ({
   targetElement,
   e,
   delay,
-  isOutsideBeforeShow,
+  pointerPosition,
 }: TooltipProps) => {
+  const { clientX: x, clientY: y } = e;
+  pointerPosition.current.clientX = x;
+  pointerPosition.current.clientY = y;
   setTimeoutRef.current = setTimeout(() => {
-    const isPointerInside = isInsideForEnter(targetElement, e);
-    if (isPointerInside && !tooltipShow.show && isOutsideBeforeShow.current) {
+    const isPointerInside = isInside(targetElement, pointerPosition);
+    if (isPointerInside && !tooltipShow.show) {
       setTooltipShow((pre) => ({
         ...pre,
         show: true,
       }));
-      isOutsideBeforeShow.current = false;
+    } else {
+      if (setTimeoutRef.current) {
+        clearTimeout(setTimeoutRef.current);
+        setTimeoutRef.current = null;
+      }
     }
   }, delay);
 };

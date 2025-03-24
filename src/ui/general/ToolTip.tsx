@@ -4,12 +4,11 @@ import useTooltipOverflow, {
 } from "@/lib/CustomHooks/TooltipOverflow";
 import { closeTooltip, showToolTipCheck } from "@/lib/ToolTip/showToolTipCheck";
 import clsx from "clsx";
-import { ReactNode, SetStateAction, useCallback, useMemo, useRef } from "react";
+import { ReactNode, useEffect, useMemo, useRef } from "react";
 
-interface onWheelCallbackprop {
-  e: React.WheelEvent<HTMLDivElement> | React.MouseEvent<HTMLDivElement>;
-  tooltipShow: tooltipState;
-  setTooltipShow: React.Dispatch<SetStateAction<tooltipState>>;
+export interface pointerPosition {
+  clientX: number;
+  clientY: number;
 }
 function ToolTip({
   children,
@@ -20,28 +19,46 @@ function ToolTip({
 }) {
   const toolTipRef = useRef<HTMLDivElement | null>(null);
   const tooltipTargetRef = useRef<HTMLDivElement | null>(null);
+  const pointerPosition = useRef<pointerPosition>({
+    clientX: 0,
+    clientY: 0,
+  });
   const [tooltipShow, setTooltipShow] = useTooltipOverflow({
     toolTipRef,
     tooltipTargetRef,
   });
   const setTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const isOutsideBeforeShow = useRef<boolean>(false);
   const isTouchDevice = useMemo(
     () =>
       typeof window !== "undefined" &&
       ("ontouchstart" in window || navigator.maxTouchPoints > 0),
     []
   );
+  // onWheel in ReactComponent is not trigger in sometimes as it is passive true by default. so use addeventlistener
+  useEffect(() => {
+    function closeTooltipFn() {
+      closeTooltip({
+        isTouchDevice,
+        setTimeoutRef,
+        tooltipShow,
+        setTooltipShow,
+      });
+    }
+    const toolTipRefCopy = tooltipTargetRef!.current!;
+    toolTipRefCopy.addEventListener("wheel", closeTooltipFn, {
+      passive: false,
+    });
+    return () => {
+      toolTipRefCopy.removeEventListener("wheel", closeTooltipFn);
+    };
+  }, [isTouchDevice, setTooltipShow, tooltipShow]);
+
   return (
-    <div
-      className="group relative w-fit max-w-full cursor-pointer
-    "
-      ref={tooltipTargetRef}
-    >
+    <div className="group relative w-fit max-w-full cursor-pointer bg-red-800">
       <div
+        ref={tooltipTargetRef}
         onMouseEnter={(e) => {
           if (isTouchDevice) return;
-          isOutsideBeforeShow.current = true;
           const targetElement = e.currentTarget;
           if (!setTimeoutRef.current) {
             showToolTipCheck({
@@ -51,19 +68,17 @@ function ToolTip({
               targetElement,
               e,
               delay: 1000,
-              isOutsideBeforeShow,
+              pointerPosition,
             });
           }
         }}
-        onWheel={() =>
-          closeTooltip({
-            isTouchDevice,
-            isOutsideBeforeShow,
-            setTimeoutRef,
-            tooltipShow,
-            setTooltipShow,
-          })
-        }
+        // need to update pointePosition to use for  the function setTimeout
+        onMouseMove={(e) => {
+          if (isTouchDevice) return;
+          const { clientX: x, clientY: y } = e;
+          pointerPosition.current.clientX = x;
+          pointerPosition.current.clientY = y;
+        }}
         //{...} is used to inset js expression ,
         // {...(tooltipShow.show && {
         //   onWheel: (e) => {
@@ -71,7 +86,6 @@ function ToolTip({
         onMouseLeave={() =>
           closeTooltip({
             isTouchDevice,
-            isOutsideBeforeShow,
             setTimeoutRef,
             tooltipShow,
             setTooltipShow,
