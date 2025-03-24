@@ -39,4 +39,9 @@ next-env.d.ts
 .qodo
 
 # Bundle analyzer output
+<<<<<<< HEAD
 .analyze
+=======
+analyze/
+*.html
+>>>>>>> c37e88fe15eb78e0b6c995e1b672309d90922800
