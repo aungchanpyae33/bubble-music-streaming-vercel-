@@ -135,7 +135,7 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
     [loadNextSegment]
   );
   const updateendLoadNextSegment = useCallback(() => {
-    if (segNum.current <= sege) {
+    if (segNum.current !== 1 && segNum.current <= sege) {
       loadNextSegment();
     }
   }, [loadNextSegment, sege]);
@@ -155,7 +155,7 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
           sourceBuffer.current!.appendBuffer(data![0]);
         }
       } else {
-        await fetchInitSegment(url, sourceBuffer, mediaSource, fetching);
+        await fetchInitSegment(url, sourceBuffer, mediaSource, fetching,segNum,abortController);
       }
 
       sourceBuffer.current!.addEventListener(
