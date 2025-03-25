@@ -1,10 +1,10 @@
 "use client";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import useSWR from "swr";
 import SearchResult from "./SearchResult";
-import FormWrapper from "./FormWrapper";
+import FormContainer from "./FormContainer";
+import SearchResultWrapper from "./SearchResultWrapper";
 function SearchInput() {
-  const [open, setOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const [value, setValue] = useState<string | null>(null);
   const searchAbortController = useRef<AbortController | null>(null);
@@ -32,11 +32,13 @@ function SearchInput() {
     }
   );
   return (
-    <FormWrapper inputRef={inputRef} setOpen={setOpen} setValue={setValue}>
-      {open && data.length > 0 && (
-        <SearchResult data={data} inputRef={inputRef} />
+    <FormContainer inputRef={inputRef} setValue={setValue}>
+      {data.length > 0 && (
+        <SearchResultWrapper>
+          <SearchResult data={data} inputRef={inputRef} />
+        </SearchResultWrapper>
       )}
-    </FormWrapper>
+    </FormContainer>
   );
 }
 

@@ -1,9 +1,12 @@
 import SearchInput from "./SearchInput";
+import ToggleContext from "./ToggleContext";
 
 function SearchBar() {
   return (
-    <div>
-      <SearchInput />
+    <div className="">
+      <ToggleContext>
+        <SearchInput />
+      </ToggleContext>
     </div>
   );
 }
