@@ -39,7 +39,7 @@ const useTooltipOverflow = ({
       const tooltipRectTop = tooltipRect.top;
       // conditional check run
       if (
-        previousValue.current!.x !== innerWidth &&
+        previousValue.current!.x !== innerWidth ||
         previousValue.current!.y !== tooltipRectTop
       ) {
         const goRect = tooltipEle.getBoundingClientRect();
