@@ -1,6 +1,6 @@
 "use client";
 import { createContext, ReactNode } from "react";
-interface contextProps {
+export interface contextProps {
   device:
     | "mobile"
     | "tablet"
@@ -18,15 +18,7 @@ function DeviceContextFooter({
   device,
   children,
 }: {
-  device:
-    | "mobile"
-    | "tablet"
-    | "console"
-    | "smarttv"
-    | "wearable"
-    | "xr"
-    | "embedded"
-    | "desktop";
+  device: contextProps["device"];
   children: ReactNode;
 }) {
   const value = { device };
