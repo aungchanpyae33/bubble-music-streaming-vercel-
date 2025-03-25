@@ -43,17 +43,18 @@ function Track({
         sege={sege}
         duration={duration}
         name={name}
-        // playlistUrl={playlistUrl}
+        playlistUrl={playlistUrl}
       />
       <td className=" max-w-[100px] px-2 ">
         <ToolTip
-          tooltipContent="Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit blanditiis, amet voluptate quibusdam incidunt est illum vel ipsam nesciunt porro!"
-          tooltipPosition="top"
+          tooltipContent="Lorem df Lorem ipsum dolo Lorem ipsum dolor sit amet Lorem ipsum dolor sit
+            amet consectetur adipisicing elit. Alias a consectetur voluptatem
+            atque totam nostrum eos culpa minus quia!"
         >
-          <div className="text-ellipsis overflow-x-hidden whitespace-nowrap">
-            Lorem ipsum dolo Lorem ipsum dolor sit amet consectetur adipisicing
-            elit. Impedit, molestias distinctio aspernatur repellat dolor
-            tempore ducimus doloremque quibusdam velit perferendis.
+          <div className="text-ellipsis  overflow-x-hidden whitespace-nowrap pointer-events-none">
+            Lorem ipsum dolo Lorem ipsum dolor sit amet Lorem ipsum dolor sit
+            amet consectetur adipisicing elit. Alias a consectetur voluptatem
+            atque totam nostrum eos culpa minus quia!
           </div>
         </ToolTip>
         <div className="sm:hidden">
