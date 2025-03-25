@@ -14,6 +14,10 @@ export interface tooltipState {
   show: boolean;
   toolTipPosition: {};
 }
+interface previousValueProp {
+  x: number;
+  y: number;
+}
 const useTooltipOverflow = ({
   toolTipRef,
   tooltipTargetRef,
@@ -22,7 +26,10 @@ const useTooltipOverflow = ({
     show: false,
     toolTipPosition: {},
   });
-  const previousValue = useRef<number>(null);
+  const previousValue = useRef<previousValueProp>({
+    x: 0,
+    y: 0,
+  });
   useLayoutEffect(() => {
     const tooltipTargetEle = tooltipTargetRef.current;
     const tooltipEle = toolTipRef.current;
@@ -31,9 +38,13 @@ const useTooltipOverflow = ({
       const innerWidth = window.innerWidth;
       const tooltipRectTop = tooltipRect.top;
       // conditional check run
-      if (previousValue.current !== innerWidth + tooltipRectTop) {
+      if (
+        previousValue.current!.x !== innerWidth &&
+        previousValue.current!.y !== tooltipRectTop
+      ) {
         const goRect = tooltipEle.getBoundingClientRect();
-        previousValue.current = innerWidth + tooltipRectTop;
+        previousValue.current!.x = innerWidth;
+        previousValue.current!.y = tooltipRectTop;
         const data =
           tooltipRect.left + tooltipRect.width / 2 - goRect.width / 2;
         const positionX = Math.max(
