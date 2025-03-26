@@ -18,18 +18,13 @@ function AlbumUpperBackground({ children }: Props) {
   const R = bgValue ? bgValue[0] : "";
   const G = bgValue ? bgValue[1] : "";
   const B = bgValue ? bgValue[2] : "";
-  const bottomR = bgValue ? Math.round(Number(R) * 0.8) : "";
-  const bottomG = bgValue ? Math.round(Number(G) * 0.8) : "";
-  const bottomB = bgValue ? Math.round(Number(B) * 0.8) : "";
-
-  const bottomoverlayR = bgValue ? Math.round(Number(R) * 0.6) : "";
-  const bottomoverlayG = bgValue ? Math.round(Number(G) * 0.6) : "";
-  const bottomoverlayB = bgValue ? Math.round(Number(B) * 0.6) : "";
+  const bottomR = bgValue ? Math.round(Number(R) * 0.9) : "";
+  const bottomG = bgValue ? Math.round(Number(G) * 0.9) : "";
+  const bottomB = bgValue ? Math.round(Number(B) * 0.9) : "";
 
   const mainColor = bgValue ? `rgb(${R},${G},${B})` : "";
   const bottomColor = `rgb(${bottomR},${bottomG},${bottomB})`;
-  const bottomoverlayColor = `rgba(${bottomoverlayR},${bottomoverlayG},${bottomoverlayB},0.9)`;
-  console.log(mainColor, bottomColor);
+
   const value = { bgValue, setBgValue };
   return (
     <>
@@ -46,11 +41,11 @@ function AlbumUpperBackground({ children }: Props) {
         >
           {children}
           <div
-            className=" absolute bottom-0 translate-y-full   w-full  left-0 h-[150px]"
+            className=" absolute bottom-0 translate-y-full opacity-55  w-full  left-0 h-[250px]"
             style={
               bgValue
                 ? {
-                    background: `linear-gradient(to bottom,${bottomoverlayColor}0%,rgb(43,42,43)80%)`,
+                    background: `linear-gradient(to bottom,${bottomColor}0%,rgb(43,42,43)70%)`,
                   }
                 : {}
             }
