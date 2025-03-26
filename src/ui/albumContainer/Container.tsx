@@ -11,15 +11,14 @@ function Container({
   // const dataInc = useRef(0);
   return (
     <div
-      className="border-2 overflow-auto  max-w-full
-       "
+      className="overflow-auto mt-8  max-w-full"
       role="row"
       // tabIndex={0}
       // onKeyDown={(e) => {
       //   ArrowNavi(e, dataInc, "ArrowRight", "ArrowLeft", 6, "cell");
       // }}
     >
-      <h1 aria-label="song  name is" className="pl-4 sticky left-0">
+      <h1 aria-label="song  name is" className=" mb-2">
         {description}
       </h1>
 
