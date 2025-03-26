@@ -17,8 +17,8 @@ function NavList({
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="">
-      <ul className="fixed  top-0  box-border  left-0 h-[50px] md:h-[calc(100%-70px)] flex  flex-col gap-1  bg-green-500  rounded-b-sm ">
+    <div className=" w-full">
+      <ul className="fixed w-[70px]  top-0  box-border  left-0 h-[50px] md:h-[calc(100%-70px)] flex  flex-col gap-1  bg-green-500  rounded-b-sm ">
         <button
           onClick={() => {
             setOpen(!open);
@@ -59,17 +59,21 @@ function NavList({
           <div>
             <div className=" border-t-2  border-black text-white h-[50px] flex items-center justify-between px-2 ">
               <span>playlist</span>
-              <span>
+              <span className="">
                 <button>add icon</button>
               </span>
             </div>
-            {[...Array(20)].map((item) => (
+            {[...Array(20)].map((item, index) => (
               <div
-                className=" mt-2  h-[50px] hover:bg-green-600  flex items-center px-2"
-                key={crypto.randomUUID()}
+                className=" mt-2  h-[50px] hover:bg-green-600  flex items-center"
+                key={index}
               >
-                <div className="w-[70px]  cursor-pointer  text-white">icon</div>
-                <div>test for playlist folder</div>
+                <div className="w-[70px]  cursor-pointer text-center  text-white">
+                  icon
+                </div>
+                <div className=" flex-1  truncate px-2">
+                  testforplaylis xdgopsdgo oihggoihsd
+                </div>
               </div>
             ))}
           </div>
