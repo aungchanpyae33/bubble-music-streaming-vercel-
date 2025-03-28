@@ -53,6 +53,15 @@ export interface SongFunctionActions {
   setPlay: (key: string, play: boolean | undefined) => void;
 }
 
+export interface DirectPlayBackState {
+  IsPlayList: Record<string, boolean | undefined>;
+}
+export interface DirectPlayBackAction {
+  setPlayList: (key: string, play: boolean | undefined) => void;
+}
+export interface DirectPlayBackStorePlayListId {
+  playListIdZu: { current: string };
+}
 export interface AudioValueState {
   value: number;
 }
@@ -167,6 +176,23 @@ export const useSongFunction = create<SongFunctionState & SongFunctionActions>(
       })),
   })
 );
+
+export const useDirectPlayBack = create<
+  DirectPlayBackState & DirectPlayBackAction & DirectPlayBackStorePlayListId
+>((set) => ({
+  IsPlayList: {},
+  setPlayList: (key: string, play: boolean | undefined) =>
+    set((state) => ({
+      IsPlayList: {
+        [key === "unknown" ? Object.keys(state.IsPlayList)[0] : key]:
+          play ||
+          !state.IsPlayList[
+            key === "unknown" ? Object.keys(state.IsPlayList)[0] : key
+          ],
+      },
+    })),
+  playListIdZu: { current: "" },
+}));
 
 export const useRepeatAndCurrentPlayList = create<
   currentSongPlaylist &

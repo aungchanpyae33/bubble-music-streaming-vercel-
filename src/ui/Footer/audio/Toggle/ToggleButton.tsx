@@ -1,5 +1,6 @@
 import DataContext from "@/lib/MediaSource/ContextMedia";
 import {
+  useDirectPlayBack,
   useRepeatAndCurrentPlayList,
   useSong,
   useSongFunction,
@@ -10,6 +11,7 @@ import type {
   SongFunctionActions,
   SongActions,
   IsRepeatState,
+  DirectPlayBackAction,
 } from "@/lib/zustand";
 import { urlProp } from "@/ui/albumContainer/AudiosContainer";
 interface Props extends React.ComponentProps<"button"> {
@@ -26,6 +28,9 @@ function ToggleButton({ urlProp, className }: Props) {
   const setPlay = useSongFunction(
     (state: SongFunctionActions) => state.setPlay
   );
+  const setPlayList = useDirectPlayBack(
+    (state: DirectPlayBackAction) => state.setPlayList
+  );
   const updateSongCu = useSong((state: SongActions) => state.updateSongCu);
   const isRepeat = useRepeatAndCurrentPlayList(
     (state: IsRepeatState) => state.isRepeat
@@ -34,7 +39,6 @@ function ToggleButton({ urlProp, className }: Props) {
   // console.log("render togglebutton");
   useEffect(() => {
     const copyDataAudio = dataAudio!.current!;
-
     function handlePlay() {
       if (dataAudio.current?.readyState) {
         if (firstIsplay) {
@@ -62,6 +66,7 @@ function ToggleButton({ urlProp, className }: Props) {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === " " || e.code === "Space") {
         setPlay(firstKey, undefined);
+        setPlayList("unknown", undefined);
       }
     };
     window.addEventListener("keydown", handleKeyDown);
@@ -83,6 +88,7 @@ function ToggleButton({ urlProp, className }: Props) {
     isRepeat,
     segNum,
     loadNextSegment,
+    setPlayList,
   ]);
 
   return (
@@ -94,6 +100,7 @@ function ToggleButton({ urlProp, className }: Props) {
       }}
       onClick={() => {
         setPlay(firstKey, undefined);
+        setPlayList("unknown", undefined);
         // Use the first key to toggle the state
       }}
     >{`${firstIsplay ? "pause" : "play"}`}</button>

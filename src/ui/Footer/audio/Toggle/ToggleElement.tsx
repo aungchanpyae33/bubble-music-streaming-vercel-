@@ -1,5 +1,6 @@
 "use client";
 import {
+  useDirectPlayBack,
   usePreviousPlayList,
   useRepeatAndCurrentPlayList,
   useSong,
@@ -14,6 +15,7 @@ import type {
   SongFunctionActions,
   currentSongPlaylistAction,
   previousSongPlaylistAction,
+  DirectPlayBackAction,
 } from "@/lib/zustand";
 import { playlistProp } from "@/ui/albumContainer/AudiosContainer";
 interface toggleElementProp {
@@ -30,11 +32,12 @@ const ToggleElement = ({
   name,
   playlistUrl,
 }: toggleElementProp) => {
+  const uniUrl = `${url},${playlistUrl.playlistId}`;
   const setPlayListArray = useRepeatAndCurrentPlayList(
     (state: currentSongPlaylistAction) => state.setPlayListArray
   );
   const Isplay = useSongFunction(
-    (state: SongFunctionState) => state.Isplay[url || ""]
+    (state: SongFunctionState) => state.Isplay[uniUrl || ""]
   );
   const songCuUrl = useSong(
     (state: SongState) => (state.songCu as Record<string, string>)[url || ""]
@@ -46,6 +49,11 @@ const ToggleElement = ({
   const setPreviousPlayListArray = usePreviousPlayList(
     (state: previousSongPlaylistAction) => state.setPreviousPlayListArray
   );
+  const setPlayList = useDirectPlayBack(
+    (state: DirectPlayBackAction) => state.setPlayList
+  );
+
+  console.log(uniUrl);
   // console.log("render toggleElement");
   return (
     <td className="  px-2 max-w-[10px] ">
@@ -66,10 +74,11 @@ const ToggleElement = ({
           setPlayListArray(playlistUrl.song);
           setPreviousPlayListArray(playlistUrl.song);
           if (url === songCuUrl) {
-            setPlay(url || "", undefined);
+            setPlay(uniUrl || "", undefined);
           } else {
             updateSongCu({ [url || ""]: url, sege, duration, name });
-            setPlay(url || "", true);
+            setPlayList(playlistUrl.playlistId || "", true);
+            setPlay(uniUrl || "", true);
           }
         }}
         className="w-full "
