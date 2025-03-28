@@ -1,6 +1,6 @@
 import { TimeFormat } from "@/lib/TimeFormat";
 import ToggleElement from "../Footer/audio/Toggle/ToggleElement";
-import type { urlProp } from "../albumContainer/AudiosContainer";
+import type { playlistProp, urlProp } from "../albumContainer/AudiosContainer";
 import ToolTip from "../general/ToolTip";
 
 function Track({
@@ -14,7 +14,7 @@ function Track({
 // dataInc,
 {
   name: string;
-  playlistUrl: urlProp[];
+  playlistUrl: playlistProp;
   duration: number;
   url: string;
   sege: number;
@@ -22,7 +22,6 @@ function Track({
   // roleCell: RefObject<number>;
   // dataInc: RefObject<number>;
 }) {
-  console.log("trackelemnt", name);
   return (
     <tr
       className="focus-within:bg-red-200  [&:has(:focus-visible)]:ring-4 h-[72px]  hover:bg-black"
@@ -75,6 +74,7 @@ function Track({
       <td className=" text-right px-2  hidden sm:table-cell  max-w-[100px] truncate">
         {TimeFormat(duration)}
       </td>
+
       <td className=" w-14 text-center px-2  sm:hidden table-cell"> dot</td>
     </tr>
   );

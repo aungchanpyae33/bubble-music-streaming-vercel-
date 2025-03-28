@@ -15,12 +15,13 @@ import type {
   currentSongPlaylistAction,
   previousSongPlaylistAction,
 } from "@/lib/zustand";
+import { playlistProp } from "@/ui/albumContainer/AudiosContainer";
 interface toggleElementProp {
   url: string;
   sege: number;
   duration: number;
   name: string;
-  playlistUrl: SongDetail[];
+  playlistUrl: playlistProp;
 }
 const ToggleElement = ({
   url,
@@ -62,8 +63,8 @@ const ToggleElement = ({
         //   e.stopPropagation();
         // }}
         onClick={() => {
-          setPlayListArray(playlistUrl);
-          setPreviousPlayListArray(playlistUrl);
+          setPlayListArray(playlistUrl.song);
+          setPreviousPlayListArray(playlistUrl.song);
           if (url === songCuUrl) {
             setPlay(url || "", undefined);
           } else {

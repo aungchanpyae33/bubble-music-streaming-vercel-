@@ -17,21 +17,23 @@ export interface urlProp {
   sege: number;
   name: string;
 }
+export interface playlistProp {
+  playlistId: string;
+  song: urlProp[];
+}
 function AudiosContainer({
   url,
   description,
 }: {
-  url: urlProp[];
+  url: playlistProp;
   description: string;
 }) {
-  console.log("album");
-
   //for accessbility
   // const dataInc = useRef(0);
   // const rowCell = useRef(1);
 
   return (
-    <div className=" bg-[rgb(43,42,43)] text-white">
+    <div className=" w-full bg-[rgb(43,42,43)]">
       <AlbumUpperBackground>
         <Suspense>
           <AlbumUpperContainer description={description} />
@@ -60,20 +62,20 @@ function AudiosContainer({
             </tr>
           </TableHead>
 
-          <SongContainer url={url}>
-            {url.map((_, index) => (
+          <SongContainer url={url.song}>
+            {url.song.map((_, index) => (
               //need to test playlist url when click track of toggleElement
               <Track
                 key={index}
                 playlistUrl={url}
-                name={url[index].name}
-                duration={url[index].duration}
+                name={url.song[index].name}
+                duration={url.song[index].duration}
                 index={index}
                 //for accessbility
                 // roleCell={rowCell}
                 // dataInc={dataInc}
-                sege={url[index].sege}
-                url={url[index].url}
+                sege={url.song[index].sege}
+                url={url.song[index].url}
               />
             ))}
           </SongContainer>
