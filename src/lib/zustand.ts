@@ -158,7 +158,11 @@ export const useSongFunction = create<SongFunctionState & SongFunctionActions>(
     setPlay: (key: string, play: boolean | undefined) =>
       set((state) => ({
         Isplay: {
-          [key]: play || !state.Isplay[key],
+          [key === "unknown" ? Object.keys(state.Isplay)[0] : key]:
+            play ||
+            !state.Isplay[
+              key === "unknown" ? Object.keys(state.Isplay)[0] : key
+            ],
         },
       })),
   })
