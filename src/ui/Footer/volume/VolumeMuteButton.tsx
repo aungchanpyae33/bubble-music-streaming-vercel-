@@ -7,10 +7,10 @@ interface Props extends React.ComponentProps<"button"> {
 }
 function VolumeMuteButton({ value, setValue, dataAudio }: Props) {
   const [mute, setMute] = useState(100);
-  console.log(mute);
+  // console.log(mute);
   return (
     <button
-      className="text-white  w-[50px] bg-black  lg:inline-block inline-block"
+      className="w-[50px]"
       onClick={() => {
         if (value < 100) {
           dataAudio.current!.volume = 0;

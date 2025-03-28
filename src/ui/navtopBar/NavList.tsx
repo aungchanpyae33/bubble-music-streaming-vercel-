@@ -24,7 +24,7 @@ function NavList({
             setOpen(!open);
           }}
           tabIndex={open ? -1 : 0}
-          className=" w-[70px]  cursor-pointer h-[50px] min-h-[50px] bg-green-500 text-white"
+          className=" w-[70px]  cursor-pointer h-[50px] min-h-[50px] bg-green-500 "
         >
           open
         </button>
@@ -57,7 +57,7 @@ function NavList({
             {childrenLive}
           </NavSideLink>
           <div>
-            <div className=" border-t-2  border-black text-white h-[50px] flex items-center justify-between px-2 ">
+            <div className=" border-t-2  border-black  h-[50px] flex items-center justify-between px-2 ">
               <span>playlist</span>
               <span className="">
                 <button>add icon</button>
@@ -68,7 +68,7 @@ function NavList({
                 className=" mt-2  h-[50px] hover:bg-green-600  flex items-center"
                 key={index}
               >
-                <div className="w-[70px]  cursor-pointer text-center  text-white">
+                <div className="w-[70px]  cursor-pointer text-center  ">
                   icon
                 </div>
                 <div className=" flex-1  truncate px-2">

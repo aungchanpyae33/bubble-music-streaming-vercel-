@@ -8,7 +8,7 @@ function QueueButton() {
   console.log("queue", isQueue);
   return (
     <button
-      className="bg-black text-white p-1 hidden md:inline-block"
+      className=" p-1 hidden md:inline-block"
       onClick={() => setIsQueue(!isQueue)}
     >
       que

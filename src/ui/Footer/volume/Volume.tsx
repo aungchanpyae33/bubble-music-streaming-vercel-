@@ -30,10 +30,10 @@ function Volume() {
     isTouchDevice,
   });
   return (
-    <div className=" flex lg:w-full items-center  group p-1  bg-black">
+    <div className=" flex lg:w-full items-center  group p-1  ">
       <div
         className={clsx(
-          "absolute h-full group-hover:flex lg:static lg:w-full lg:flex  bg-black      right-0  w-full",
+          "absolute h-full group-hover:flex lg:static lg:w-full lg:flex right-0  w-full",
           {
             flex: isDragging,
             hidden: !isDragging,
@@ -69,7 +69,7 @@ function Volume() {
                 <AudioThumbSlider
                   value={value}
                   className={clsx(
-                    "absolute  w-[20px] rounded-full h-[20px] top-1/2 -translate-y-1/2 bg-black -translate-x-[10px]"
+                    "absolute  w-[20px] rounded-full h-[20px] top-1/2 -translate-y-1/2  -translate-x-[10px]"
                   )}
                 />
               </div>
@@ -77,7 +77,7 @@ function Volume() {
           </VolumeSlider>
         </div>
       </div>
-      <button className="lg:hidden text-white">vol</button>
+      <button className="lg:hidden ">vol</button>
     </div>
   );
 }

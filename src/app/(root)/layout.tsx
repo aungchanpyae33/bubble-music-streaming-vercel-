@@ -18,7 +18,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className=" h-full">
+    <html lang="en" className=" h-full bg-slate-950 text-white">
       <body
         className={`${inter.className} overflow-hidden relative h-full   flex flex-col`}
         style={{}}

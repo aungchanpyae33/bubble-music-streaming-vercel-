@@ -6,7 +6,7 @@ function FooterNavi({ device }: { device: contextProps["device"] }) {
   return (
     <div
       className={clsx(
-        "text-white w-full h-full flex overShort:hidden justify-around items-center",
+        "w-full h-full flex overShort:hidden justify-around items-center",
         {
           hidden: device !== "mobile",
         }

@@ -29,10 +29,7 @@ function ContextMediaAudioFull({
 
   return (
     <Context.Provider value={value}>
-      <footer
-        className="w-full relative flex bg-black h-[70px]"
-        ref={footerRef}
-      >
+      <footer className="w-full relative flex  h-[70px]" ref={footerRef}>
         {footerNaviRef}
         {children}
       </footer>

@@ -59,7 +59,7 @@ function AudioFull({
 
           <AudioFullInfoWrapper>
             <AudioCurImg />
-            <div className="text-white h-[20%]   flex items-start justify-center flex-col">
+            <div className=" h-[20%]   flex items-start justify-center flex-col">
               <p className=" lg:text-5xl md:text-4xl text-2xl">Supanova</p>
               <p className=" lg:text-3xl md:text-2xl text-xl">Aspea</p>
             </div>

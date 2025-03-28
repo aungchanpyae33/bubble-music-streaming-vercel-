@@ -7,7 +7,7 @@ function Queue() {
   return (
     <div
       className={clsx(
-        "  bg-black  h-full text-white w-[20%] md:w-[25%] min-w-[250px] flex flex-col  max-w-[375px] overflow-y-auto",
+        "h-full  w-[20%] md:w-[25%] min-w-[250px] flex flex-col  max-w-[375px] overflow-y-auto",
         {
           hidden: !isQueue,
           "hidden md:block": isQueue,

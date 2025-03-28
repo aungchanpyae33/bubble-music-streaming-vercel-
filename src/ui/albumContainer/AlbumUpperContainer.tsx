@@ -23,9 +23,18 @@ async function AlbumUpperContainer({ description }: { description: string }) {
             deviceFromUserAgent === "tablet",
         })}
       >
-        <h1 className="text-blue-500">playlist</h1>
-        <h1 className="text-3xl text-white">{description}</h1>
-        <span className="text-white">by Bubble</span>
+        <h1 className="">playlist</h1>
+        <h1
+          className={clsx("", {
+            "text-3xl": deviceFromUserAgent === "desktop",
+            "text-2xl":
+              deviceFromUserAgent === "mobile" ||
+              deviceFromUserAgent === "tablet",
+          })}
+        >
+          {description}
+        </h1>
+        <span className="">by Bubble</span>
       </div>
     </div>
   );

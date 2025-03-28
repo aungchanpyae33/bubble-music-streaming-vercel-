@@ -9,7 +9,7 @@ function FullToggleButton({ footerRef, ref }: Props) {
   return (
     <button
       ref={ref}
-      className="bg-black  text-white p-1"
+      className=" p-1"
       onClick={() => {
         footerRef!.current!.classList.toggle("z-50");
         setOpen(!open);
