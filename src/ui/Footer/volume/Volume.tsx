@@ -69,7 +69,7 @@ function Volume() {
                 <AudioThumbSlider
                   value={value}
                   className={clsx(
-                    "absolute  w-[20px] rounded-full h-[20px] top-1/2 -translate-y-1/2  -translate-x-[10px]"
+                    "absolute  w-[20px] rounded-full h-[20px] top-1/2 -translate-y-1/2  -translate-x-[10px] bg-black"
                   )}
                 />
               </div>

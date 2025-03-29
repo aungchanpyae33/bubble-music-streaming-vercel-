@@ -84,7 +84,7 @@ function AudioSeekBar({
 
             <AudioThumbSlider
               className={clsx(
-                "absolute group-hover:inline  w-[20px] rounded-full h-[20px] top-1/2 -translate-y-1/2 -translate-x-[10px]",
+                "absolute group-hover:inline  w-[20px] rounded-full h-[20px] top-1/2 -translate-y-1/2 -translate-x-[10px] bg-black",
                 {
                   hidden: !isDragging,
                   inline: isDragging,
