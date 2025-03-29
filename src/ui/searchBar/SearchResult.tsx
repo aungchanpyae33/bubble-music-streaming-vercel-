@@ -14,14 +14,13 @@ function SearchResult({ data, inputRef }: prop) {
   const [arrow] = useTest({ run: false, number: -1 }, inputRef, data);
 
   return (
-    <div className="SearchResult w-full absolute bg-white rounded-b-md border-none shadow-md shadow-overlay text-start">
+    <div className="SearchResult w-full absolute bg-black rounded-b-md border-none shadow-md shadow-overlay text-start">
       {data?.map((item: Movie, index: number) => (
         <SearchResultItem
           key={item.title}
           title={item.title}
           index={index}
           show={index === arrow.number && !arrow.run}
-          // arrow={arrow}
         />
       ))}
     </div>

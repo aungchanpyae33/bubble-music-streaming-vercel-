@@ -21,13 +21,13 @@ function FormContainer({
   }, [isSmallScreen, inputRef]);
 
   return (
-    <div>
+    <div className="w-[100%] sm:max-w-[500px] lg:max-w-[600px] mx-auto">
       <SearchToggleButton show={show} setShow={setShow} />
       <FormWrapper show={show} inputRef={inputRef}>
-        <div className="w-[100%] sm:max-w-[500px] lg:max-w-[600px] relative mx-auto ">
+        <div className=" relative  w-full  ">
           <label>
             <span className="sr-only">Search</span>
-            <div className="flex items-stretch gap-1 bg-white">
+            <div className="flex items-stretch">
               <SearchToggleButton show={show} setShow={setShow} />
               <InputComponent
                 inputRef={inputRef}
@@ -35,7 +35,7 @@ function FormContainer({
                 setShow={setShow}
               />
               <button
-                className="border-l border-gray-300 px-2"
+                className=" bg-black px-2"
                 type="reset"
                 onTouchStart={(e) => {
                   e.preventDefault(); // Prevent focus loss
