@@ -10,7 +10,10 @@ function SearchToggleButton({
 }) {
   return (
     <button
-      className="sm:hidden  h-[40px] px-3"
+      type="button"
+      className="sm:hidden bg-black  h-[40px] px-3"
+      onMouseDown={(e) => e.preventDefault()}
+      onTouchStart={(e) => e.preventDefault()}
       onClick={() => {
         setShow(!show);
       }}
