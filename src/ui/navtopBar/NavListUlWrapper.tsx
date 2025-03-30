@@ -11,18 +11,18 @@ function NavListUlWrapper({ open, setOpen, children }: NavListUlWrapperProp) {
   return (
     <ul
       className={clsx(
-        "fixed  top-0 z-40 box-border w-[280px] max-w-[280px]  left-0 h-[100%] flex duration-200 transition-transform  flex-col gap-1  bg-green-500  rounded-b-sm",
+        "fixed bg-[#0A0A0A] border-r border-opacity-15 border-neutral-200  top-0 z-40 box-border w-[280px] pr-2 max-w-[280px]  left-0 h-full flex duration-200 transition-transform  flex-col gap-1  rounded-b-sm",
         {
           "-translate-x-full  ": !open,
           "translate-x-0 ": open,
         }
       )}
     >
-      <li className="h-[50px]  relative bg-green-500 hover:bg-green-600  flex">
+      <li className="h-[70px]  relative   flex">
         <NavSidebarToggle setOpen={setOpen} open={open} />
         <button
           className={clsx(
-            "px-2   flex flex-1 items-center   justify-start h-[50px]"
+            "px-2   flex flex-1 items-center   justify-start h-[70px]"
           )}
           aria-hidden={true}
           tabIndex={open ? 0 : -1}

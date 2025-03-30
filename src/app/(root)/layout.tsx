@@ -18,7 +18,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className=" h-full bg-slate-950 text-white">
+    <html lang="en" className=" h-full bg-[#111111] text-white">
       <body
         className={`${inter.className} overflow-hidden relative h-full   flex flex-col`}
         style={{}}
@@ -27,7 +27,7 @@ export default function RootLayout({
         <div className="scr flex flex-1 overflow-hidden relative">
           <Suspense
             fallback={
-              <div className="px-1 h-full flex-1 overflow-y-scroll"></div>
+              <div className="px-1 h-full flex-1 overflow-y-scroll bg-green-700"></div>
             }
           >
             <Main>
@@ -41,7 +41,7 @@ export default function RootLayout({
         </div>
         <Suspense
           fallback={
-            <div className="w-full  flex bg-white  items-center  h-[70px]"></div>
+            <div className="w-full  flex   items-center  h-[70px] bg-red-950"></div>
           }
         >
           <FooterBar />

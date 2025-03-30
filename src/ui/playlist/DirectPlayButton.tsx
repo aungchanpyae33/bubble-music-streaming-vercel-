@@ -75,7 +75,7 @@ function DirectPlayButton({ playListId }: { playListId: string }) {
 
   return (
     <button
-      className=" absolute pointer-events-auto bottom-[33%] right-6 transition-[transform,opacity,background-color] duration-150 group-hover:-translate-y-2 opacity-0 group-hover:opacity-100  bg-black hover:bg-slate-900 p-2"
+      className=" absolute pointer-events-auto bottom-[33%] right-6 transition-[transform,opacity,background-color] duration-150 group-hover:-translate-y-2 opacity-0 group-hover:opacity-100  p-2 bg-gradient-to-r from-[#AAAAAA] to-[#CCCCCC]"
       onClick={() => handlePlayClick()}
     >
       {IsPlayList ? "pause" : "play"}

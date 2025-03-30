@@ -18,7 +18,7 @@ function NavSidebarToggle({
       onClick={() => {
         setOpen(!open);
       }}
-      className=" w-[70px] cursor-pointer h-[50px] "
+      className=" w-[70px] cursor-pointer h-[70px] "
       ref={closeElement}
       tabIndex={open ? 0 : -1}
     >

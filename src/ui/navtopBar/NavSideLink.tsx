@@ -14,7 +14,7 @@ interface LinkProps {
 function NavSideLink({ url, icon, desp, open, setOpen, children }: LinkProps) {
   // console.log("render navsidebarlink");
   return (
-    <li className=" bg-green-500 hover:bg-green-600">
+    <li className=" ">
       <Link
         href={url}
         className="h-[50px]  relative flex"

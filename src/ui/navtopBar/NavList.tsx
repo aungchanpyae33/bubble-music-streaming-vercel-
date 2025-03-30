@@ -17,18 +17,18 @@ function NavList({
   const [open, setOpen] = useState(false);
 
   return (
-    <div className=" w-full">
-      <ul className="fixed w-[70px]  top-0  box-border  left-0 h-[50px] md:h-[calc(100%-70px)] flex  flex-col gap-1  bg-green-500  rounded-b-sm ">
+    <div className=" w-full ">
+      <ul className="fixed   w-[70px]  top-0  box-border  left-0 h-[70px] md:h-[calc(100%-70px)] flex  flex-col gap-x-1   rounded-b-sm ">
         <button
           onClick={() => {
             setOpen(!open);
           }}
           tabIndex={open ? -1 : 0}
-          className=" w-[70px]  cursor-pointer h-[50px] min-h-[50px] bg-green-500 "
+          className=" w-[70px]  cursor-pointer h-[70px] min-h-[70px]  "
         >
           open
         </button>
-        <div className=" overflow-hidden">
+        <div className=" overflow-hidden h-full border-r border-opacity-15 border-neutral-200">
           <div className="hidden md:block">{childrenExplore}</div>
 
           <div className=" hidden md:block">{childrenLive}</div>
@@ -65,7 +65,7 @@ function NavList({
             </div>
             {[...Array(20)].map((item, index) => (
               <div
-                className=" mt-2  h-[50px] hover:bg-green-600  flex items-center"
+                className=" mt-2  h-[50px] hover:bg-[#333333]  flex items-center"
                 key={index}
               >
                 <div className="w-[70px]  cursor-pointer text-center  ">

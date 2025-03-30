@@ -14,13 +14,13 @@ function FormContainer({
   const [show, setShow] = useState(false);
 
   return (
-    <div className="w-[100%] sm:max-w-[500px] lg:max-w-[600px] mx-auto">
+    <div className="w-[100%] sm:max-w-[500px] lg:max-w-[600px] mx-auto ">
       <SearchToggleButton show={show} setShow={setShow} />
       <FormWrapper show={show} inputRef={inputRef}>
         <div className=" relative  w-full  ">
           <label>
             <span className="sr-only">Search</span>
-            <div className="flex items-stretch">
+            <div className="flex items-stretch border border-neutral-200 border-opacity-25">
               <SearchToggleButton show={show} setShow={setShow} />
               <InputComponent
                 inputRef={inputRef}
@@ -28,7 +28,7 @@ function FormContainer({
                 setShow={setShow}
               />
               <button
-                className=" bg-black px-2"
+                className="bg-[#222222]   px-2"
                 type="reset"
                 onTouchStart={(e) => {
                   e.preventDefault(); // Prevent focus loss
