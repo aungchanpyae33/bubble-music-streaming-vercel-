@@ -27,7 +27,7 @@ function AudioElement({ Child, url }: { Child: ReactNode; url: string }) {
           )}
           duration={duration}
           key={url}
-          className="w-full h-[3px] sm:hidden bg-blue-700 relative"
+          className="w-full h-[3px] sm:hidden bg-[rgba(255,255,255,0.2)] relative"
         />
       </AudioSeekBarWrapper>
       {Child}

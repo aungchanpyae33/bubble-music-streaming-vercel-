@@ -45,7 +45,7 @@ function AlbumUpperBackground({ children }: Props) {
             style={
               bgValue
                 ? {
-                    background: `linear-gradient(to bottom,${bottomColor}0%,rgb(43,42,43)70%)`,
+                    background: `linear-gradient(to bottom,${bottomColor}0%,rgb(17 17 17)70%)`,
                   }
                 : {}
             }

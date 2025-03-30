@@ -33,7 +33,7 @@ function AudiosContainer({
   // const rowCell = useRef(1);
 
   return (
-    <div className=" w-full bg-[rgb(43,42,43)]">
+    <div className=" w-full">
       <AlbumUpperBackground>
         <Suspense>
           <AlbumUpperContainer description={description} />

@@ -24,7 +24,7 @@ function Track({
 }) {
   return (
     <tr
-      className="focus-within:bg-red-200  [&:has(:focus-visible)]:ring-4 h-[72px]  hover:bg-black"
+      className="focus-within:bg-red-200  [&:has(:focus-visible)]:ring-4 h-[72px]  hover:bg-[#333333]"
       // tabIndex={0}
       id="uni1"
       role={`cell${index + 1}`}
