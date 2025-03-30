@@ -18,7 +18,7 @@ function NavListUlWrapper({ open, setOpen, children }: NavListUlWrapperProp) {
         }
       )}
     >
-      <li className="h-[70px]  relative   flex">
+      <li className="h-[70px] relative   flex border-b border-opacity-15 border-neutral-200">
         <NavSidebarToggle setOpen={setOpen} open={open} />
         <button
           className={clsx(
