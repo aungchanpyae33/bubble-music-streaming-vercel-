@@ -67,10 +67,13 @@ function AudioSeekBar({
         value={value}
         setValue={setValue}
         progressRef={progressRef}
-        className={clsx("h-[25px] w-full  items-center select-none no-select", {
-          "hidden sm:flex": hideSliderInSmScreen,
-          flex: !hideSliderInSmScreen,
-        })}
+        className={clsx(
+          "h-[25px] w-full  items-center px-[7px] select-none no-select",
+          {
+            "hidden sm:flex": hideSliderInSmScreen,
+            flex: !hideSliderInSmScreen,
+          }
+        )}
       >
         <AudioSliderActionWrapper
           sliderRef={sliderRef}
@@ -79,12 +82,12 @@ function AudioSeekBar({
           setIsDragging={setIsDragging}
           setValue={setValue}
         >
-          <div className=" w-full h-[5px]    bg-blue-700 relative">
+          <div className=" w-full h-[2.5px]    bg-[rgba(255,255,255,0.2)] relative">
             <AudioProgressbar value={value} progressRef={progressRef} />
 
             <AudioThumbSlider
               className={clsx(
-                "absolute group-hover:inline  w-[20px] rounded-full h-[20px] top-1/2 -translate-y-1/2 -translate-x-[10px] bg-black",
+                "absolute group-hover:inline  w-[14px] rounded-full h-[14px] top-1/2 -translate-y-1/2 -translate-x-[7px] bg-white",
                 {
                   hidden: !isDragging,
                   inline: isDragging,

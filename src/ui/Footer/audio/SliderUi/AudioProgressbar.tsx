@@ -9,7 +9,7 @@ function AudioProgressbar({
 }) {
   return (
     <div
-      className="bg-red-400  absolute top-0 left-0 h-full"
+      className="bg-white  absolute top-0 left-0 h-full"
       style={{
         right: `${value}%`,
       }}

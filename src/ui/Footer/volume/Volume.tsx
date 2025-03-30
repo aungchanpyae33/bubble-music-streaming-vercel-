@@ -48,7 +48,7 @@ function Volume() {
           />
 
           <VolumeSlider
-            className="flex bg-red-900 h-full   w-full px-[10px]  md:flex items-center select-none no-select"
+            className="flex  h-full   w-full px-[7px]  md:flex items-center select-none no-select"
             setIsDragging={setIsDragging}
             sliderRef={sliderRef}
             setValue={setValue}
@@ -63,13 +63,13 @@ function Volume() {
               dataAudio={dataAudio}
               setValue={setValue}
             >
-              <div className=" w-full h-[2px]   bg-blue-700 relative">
+              <div className=" w-full h-[2px] bg-[rgba(255,255,255,0.2)] relative">
                 <AudioProgressbar value={value} progressRef={progressRef} />
 
                 <AudioThumbSlider
                   value={value}
                   className={clsx(
-                    "absolute  w-[20px] rounded-full h-[20px] top-1/2 -translate-y-1/2  -translate-x-[10px] bg-black"
+                    "absolute  w-[14px] rounded-full h-[14px] top-1/2 -translate-y-1/2  -translate-x-[7px] bg-white"
                   )}
                 />
               </div>
