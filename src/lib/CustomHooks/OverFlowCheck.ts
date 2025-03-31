@@ -10,12 +10,14 @@ const useOverflowCheck = (
   isOverFlowProp,
   boolean,
   React.Dispatch<React.SetStateAction<boolean>>,
-  React.Dispatch<React.SetStateAction<isOverFlowProp>>
+  React.Dispatch<React.SetStateAction<isOverFlowProp>>,
+  RefObject<number>
 ] => {
   const [isOverFlow, setIsOverFlow] = useState({
     duration: 0,
     clientWidth: 0,
   });
+  const animateItterate = useRef(1);
   const [animate, setanimatie] = useState(true);
   const previousWidth = useRef(0);
   useEffect(() => {
@@ -23,7 +25,7 @@ const useOverflowCheck = (
       const fullWidth = element.current!.scrollWidth;
       const showWidth = element.current!.clientWidth;
       if (fullWidth > showWidth) {
-        const overFlowWidth = (fullWidth - showWidth) * showWidth;
+        const overFlowWidth = ((fullWidth - showWidth) * showWidth) / 2;
         previousWidth.current = showWidth;
         setIsOverFlow({
           duration: overFlowWidth,
@@ -37,17 +39,20 @@ const useOverflowCheck = (
       for (let entry of entries) {
         const clientWidth = Math.round(entry.contentRect.width);
         if (clientWidth !== previousWidth.current) {
+          //reset two animation track ref
+          animateItterate.current = 1;
           setanimatie(false);
         }
       }
-    }, 300);
+    }, 150);
     const observer = new ResizeObserver(debounceResize);
     observer.observe(element!.current!);
 
     return () => {
+      console.log("nahh man");
       observer.disconnect();
     };
   }, [element, isOverFlow.clientWidth, isOverFlow.duration]);
-  return [isOverFlow, animate, setanimatie, setIsOverFlow];
+  return [isOverFlow, animate, setanimatie, setIsOverFlow, animateItterate];
 };
 export default useOverflowCheck;

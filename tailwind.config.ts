@@ -24,15 +24,23 @@ const config: Config = {
         overlay: "rgba(43, 43, 41,0.5)",
       },
       animation: {
-        showtextoverflow: "showtextoverflow linear",
+        showtextoverflow:
+          "showtextoverflowF var(--animate-translate-duration) linear 500ms forwards, showtextoverflowB var(--animate-translate-duration) linear calc(1000ms + var(--animate-translate-duration)) forwards",
       },
       keyframes: {
-        showtextoverflow: {
-          "0%,2%,100%": { transform: "translateX(0)" },
-          "50%,55%": {
+        showtextoverflowF: {
+          from: { transform: "translateX(0)" },
+          to: {
             transform:
-              "translateX(calc(-100% +  var( --animate-translate-info)))",
+              "translateX(calc(-100% + var(--animate-translate-info)))",
           },
+        },
+        showtextoverflowB: {
+          from: {
+            transform:
+              "translateX(calc(-100% + var(--animate-translate-info)))",
+          },
+          to: { transform: "translateX(0)" },
         },
       },
     },

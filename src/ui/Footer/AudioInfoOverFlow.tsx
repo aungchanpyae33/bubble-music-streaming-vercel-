@@ -8,25 +8,32 @@ function AudioInfoOverFlow({
   ofcheckDiv: RefObject<HTMLDivElement | null>;
   name: string;
 }) {
-  const [isOverFlow, animate, setanimatie, setIsOverFlow] =
+  const [isOverFlow, animate, setanimatie, setIsOverFlow, animateItterate] =
     useOverflowCheck(ofcheckDiv);
-
   return (
     /* w-fit is needed to be get full width when animate */
     <div
-      className={clsx("w-fit hover:ease-linear truncate hover:text-clip ", {
-        "animate-showtextoverflow": animate && isOverFlow.duration > 0,
-      })}
+      className={clsx(
+        "w-fit  hover:ease-linear truncate hover:text-clip will-change-transform",
+        {
+          "animate-showtextoverflow": animate && isOverFlow.duration > 0,
+        }
+      )}
       style={
         isOverFlow.duration > 0
           ? ({
-              animationDuration: `${isOverFlow.duration}ms`,
+              "--animate-translate-duration": `${isOverFlow.duration}ms`,
               "--animate-translate-info": `${isOverFlow.clientWidth}px`,
             } as React.CSSProperties)
           : {}
       }
       onAnimationEnd={() => {
-        isOverFlow.duration > 0 && setanimatie(false);
+        if (animateItterate.current === 2) {
+          isOverFlow.duration > 0 && setanimatie(false);
+          animateItterate.current = 1;
+        } else {
+          animateItterate.current++;
+        }
       }}
       onMouseEnter={() => {
         //even same anitmate value would make still twice render even though prop is not change
@@ -37,7 +44,7 @@ function AudioInfoOverFlow({
         const fullWidth = ofcheckDiv.current!.scrollWidth;
         const showWidth = ofcheckDiv.current!.clientWidth;
         if (fullWidth > showWidth) {
-          const overFlowWidth = (fullWidth - showWidth) * showWidth;
+          const overFlowWidth = ((fullWidth - showWidth) * showWidth) / 2;
 
           if (isOverFlow.duration !== overFlowWidth) {
             setIsOverFlow({
@@ -46,13 +53,13 @@ function AudioInfoOverFlow({
             });
           }
           if (!animate) {
-            console.log(animate);
+            // console.log(animate);
             setanimatie(true);
           }
         }
       }}
     >
-      {name}
+      {name} osfh oih d
     </div>
   );
 }
