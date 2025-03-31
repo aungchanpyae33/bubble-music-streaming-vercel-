@@ -19,7 +19,7 @@ function PlaylistContainer({ songs, description, index, testId }: prop) {
         // tabIndex={0}
         role={`cell${index + 1}`}
         prefetch={false}
-        className={clsx("pointer-events-auto block p-3 md:p-4 lg:p-5")}
+        className={clsx("pointer-events-auto block peer p-3 md:p-4 lg:p-5")}
       >
         <div className="flex  imageContainer  rounded-md w-[145px] md:w-[155px] lg:w-[175px] before:block before:pb-[100%]">
           <Image
@@ -33,10 +33,8 @@ function PlaylistContainer({ songs, description, index, testId }: prop) {
         </div>
         <p>{description}</p>
       </Link>
-      <div className=" pointer-events-none">
-        {" "}
-        <DirectPlayButton playListId={testId} />
-      </div>
+
+      <DirectPlayButton playListId={testId} />
     </div>
   );
 }
