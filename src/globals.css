@@ -8,6 +8,7 @@
   --background-end-rgb: 255, 255, 255;
   --animate-translate-info: 0px;
   --border: red;
+  --animate-translate-duration: 0ms;
   input[type="search"]::-webkit-search-cancel-button,
   input[type="search"]::-webkit-search-decoration,
   input[type="search"]::-webkit-search-results-button,
