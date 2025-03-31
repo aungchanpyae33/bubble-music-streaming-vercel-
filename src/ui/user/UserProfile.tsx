@@ -28,14 +28,21 @@ function UserProfile({
       </button>
       <div
         className={clsx(
-          "bg-[#222222]  absolute bottom-0 translate-y-full flex flex-col   right-0 w-[200px]",
+          "bg-[#222222]  absolute -bottom-4 border-opacity-15 border border-neutral-200 translate-y-full rounded-sm flex flex-col   right-0 w-[250px]",
           {
             hidden: !userOpen,
             block: userOpen,
           }
         )}
       >
-        {children}
+        <div className="p-2 flex  gap-x-3  border-b-[1px] border-gray-700">
+          <div>icon</div>
+          <div className="truncate">
+            <div className=" truncate select-all"> aung chan pyae</div>
+            <div className=" select-all truncate">@aungchanpyae3304</div>
+          </div>
+        </div>
+        <div onClick={() => setUserOpen(false)}>{children}</div>
       </div>
     </div>
   );
