@@ -12,18 +12,18 @@ function Container({
   // const dataInc = useRef(0);
   return (
     <div
-      className="overflow-auto mt-8  max-w-full"
+      className=" max-w-full  pb-3"
       role="row"
       // tabIndex={0}
       // onKeyDown={(e) => {
       //   ArrowNavi(e, dataInc, "ArrowRight", "ArrowLeft", 6, "cell");
       // }}
     >
-      <h1 aria-label="song  name is" className=" mb-2">
+      <h1 aria-label="song name is" className=" px-4 ">
         {description}
       </h1>
 
-      <div className=" w-fit gap-2 md:gap-3 lg:gap-4 flex p-4">
+      <div className=" w-full p-4  gap-4 md:gap-6 lg:gap-8 flex overflow-x-auto   no-scrollbar">
         {[...Array(6)].map((_, index) => (
           <PlaylistContainer
             key={index}

@@ -11,30 +11,39 @@ interface prop {
 }
 
 function PlaylistContainer({ songs, description, index, testId }: prop) {
-  // extra div to prevent trigger link click from button click
   return (
-    <div className="containerPlaylist group hover:bg-overlay pointer-events-none relative">
+    <div
+      role={`cell${index + 1}`}
+      className={clsx("peer space-y-3 w-[165px] md:w-[175px] lg:w-[185px]  ")}
+    >
       <Link
         href={"album/supanova"}
-        // tabIndex={0}
-        role={`cell${index + 1}`}
         prefetch={false}
-        className={clsx("pointer-events-auto block peer p-3 md:p-4 lg:p-5")}
+        className="flex relative w-full imageContainer rounded-sm  before:block before:pb-[100%] group"
       >
-        <div className="flex  imageContainer  rounded-md w-[145px] md:w-[155px] lg:w-[175px] before:block before:pb-[100%]">
-          <Image
-            src="https://s3.tebi.io/test1345/timo-volz-ZlFKIG6dApg-unsplash%20%281%29.jpg"
-            width={300}
-            height={300}
-            alt="this is image element"
-            priority={true}
-            className="w-full h-full rounded-md"
-          />
-        </div>
-        <p>{description}</p>
+        <Image
+          src="https://s3.tebi.io/test1345/timo-volz-ZlFKIG6dApg-unsplash%20%281%29.jpg"
+          width={300}
+          height={300}
+          alt="this is image element"
+          priority={true}
+          className="w-full h-full rounded-md"
+        />
+        <DirectPlayButton playListId={testId} />
+        <span className=" group-hover:backdrop-brightness-75 absolute inset-0  "></span>
       </Link>
-
-      <DirectPlayButton playListId={testId} />
+      <div className=" w-full">
+        <Link
+          href={"album/supanova"}
+          prefetch={false}
+          className=" leading-relaxed w-full truncate text-start  "
+        >
+          let&apos;s go song {index}
+        </Link>
+        <span className=" block leading-relaxed w-full truncate text-start text-sm text-zinc-400">
+          aspea,baby monster,bts,newjeans
+        </span>
+      </div>
     </div>
   );
 }
