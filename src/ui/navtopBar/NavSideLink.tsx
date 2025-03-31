@@ -24,10 +24,10 @@ function NavSideLink({ url, icon, desp, open, setOpen, children }: LinkProps) {
         {children}
         <div
           className={clsx(
-            "px-2 flex  w-[150px] min-w-[150px] max-w-[150px] items-center   justify-start h-full     "
+            "px-2 flex  w-[150px] min-w-[150px] max-w-[150px] items-center    justify-start h-full"
           )}
         >
-          <div className=" truncate">{desp}</div>
+          <div className=" truncate leading-relaxed ">{desp}</div>
         </div>
       </Link>
     </li>

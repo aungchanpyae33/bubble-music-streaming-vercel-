@@ -11,7 +11,7 @@ function NavListUlWrapper({ open, setOpen, children }: NavListUlWrapperProp) {
   return (
     <ul
       className={clsx(
-        "fixed bg-[#0A0A0A] border-r border-opacity-15 border-neutral-200  top-0 z-40 box-border w-[280px] pr-2 max-w-[280px]  left-0 h-full flex duration-200 transition-transform  flex-col gap-1  rounded-b-sm",
+        "fixed bg-[#0A0A0A] border-r border-opacity-15 border-neutral-200  top-0 z-40 box-border w-[280px]  max-w-[280px]  left-0 h-full flex duration-200 transition-transform  flex-col gap-1  rounded-b-sm",
         {
           "-translate-x-full  ": !open,
           "translate-x-0 ": open,
