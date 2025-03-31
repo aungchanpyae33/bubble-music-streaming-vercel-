@@ -11,7 +11,7 @@ function SearchToggleButton({
   return (
     <button
       type="button"
-      className="sm:hidden bg-black  h-[40px] px-3"
+      className="sm:hidden bg-[#222222]  h-[40px] px-3"
       onMouseDown={(e) => e.preventDefault()}
       onTouchStart={(e) => e.preventDefault()}
       onClick={() => {

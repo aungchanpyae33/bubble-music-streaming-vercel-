@@ -17,7 +17,7 @@ const SearchResultItem = memo(({ title, index, show }: prop) => {
   return (
     <div
       className={clsx(
-        "hover:bg-red-600  pl-20 sm:pl-2 h-[40px] flex items-center cursor-pointer",
+        "hover:bg-red-600 pl-[85px] sm:pl-4  pr-2 h-[40px] flex items-center cursor-pointer",
         {
           "bg-red-600": show,
         }
