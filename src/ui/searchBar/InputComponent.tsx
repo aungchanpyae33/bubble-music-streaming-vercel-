@@ -9,8 +9,8 @@ function InputComponent({ inputRef, setShow, setValue }: InputComponentProps) {
   const { setOpen } = useContext(ContextToggle);
   return (
     <input
-      className="placeholder:text-slate-400 block bg-blue w-full h-[40px]  pl-4 shadow-sm focus:outline-none sm:text-sm  bg-[#222222] "
-      placeholder="Search for song and artist"
+      className="placeholder:text-slate-400 placeholder:leading-relaxed block bg-blue w-full h-[40px]  pl-4 shadow-sm focus:outline-none text-base bg-[#222222]"
+      placeholder="ရှာဖွေမည်"
       type="search"
       name="query"
       required
