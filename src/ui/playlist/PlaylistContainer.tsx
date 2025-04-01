@@ -2,6 +2,7 @@ import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
 import DirectPlayButton from "./DirectPlayButton";
+import UnderLineLinkHover from "../general/UnderLineLinkHover";
 
 interface prop {
   songs: string[];
@@ -14,7 +15,9 @@ function PlaylistContainer({ songs, description, index, testId }: prop) {
   return (
     <div
       role={`cell${index + 1}`}
-      className={clsx("peer space-y-3 w-[165px] md:w-[175px] lg:w-[185px]  ")}
+      className={clsx(
+        "peer space-y-3 min-w-[165px] md:min-w-[175px] lg:min-w-[185px] "
+      )}
     >
       <Link
         href={"album/supanova"}
@@ -33,13 +36,13 @@ function PlaylistContainer({ songs, description, index, testId }: prop) {
         <span className=" group-hover:backdrop-brightness-75 absolute inset-0  "></span>
       </Link>
       <div className=" w-full">
-        <Link
+        <UnderLineLinkHover
           href={"album/supanova"}
           prefetch={false}
-          className=" leading-relaxed w-full truncate text-start  "
+          className=" block leading-relaxed w-full truncate text-start  "
         >
           let&apos;s go song {index}
-        </Link>
+        </UnderLineLinkHover>
         <span className=" block leading-relaxed w-full truncate text-start text-sm text-zinc-400">
           aspea,baby monster,bts,newjeans
         </span>
