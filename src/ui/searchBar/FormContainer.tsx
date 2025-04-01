@@ -20,7 +20,10 @@ function FormContainer({
         <div className=" relative  w-full  ">
           <label>
             <span className="sr-only">Search</span>
-            <div className="flex items-stretch border border-neutral-200 border-opacity-25 focus-within:border-[3px] focus-within:border-opacity-100 focus-within:border-neutral-200 rounded-md overflow-hidden  ">
+            <div
+              className="flex items-stretch border border-neutral-200 border-opacity-25 focus-within:outline
+            focus-within:outline-2 focus-within:outline-neutral-200 rounded-md overflow-hidden"
+            >
               <SearchToggleButton show={show} setShow={setShow} />
               <InputComponent
                 inputRef={inputRef}
