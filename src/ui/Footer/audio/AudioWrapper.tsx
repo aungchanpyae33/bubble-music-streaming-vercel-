@@ -8,9 +8,11 @@ function AudioWrapper({
   dataAudio: RefObject<HTMLAudioElement | null>;
   url: string;
 }) {
-  const Isplay = useSongFunction(
-    (state: SongFunctionState) => state.Isplay[url || ""]
+  const [, Isplay] = useSongFunction(
+    (state: SongFunctionState) =>
+      Object.entries(state.Isplay as Record<string, boolean>)[0] || []
   );
+  // );
   return (
     <audio
       ref={dataAudio}
