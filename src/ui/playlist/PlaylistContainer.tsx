@@ -16,13 +16,13 @@ function PlaylistContainer({ songs, description, index, testId }: prop) {
     <div
       role={`cell${index + 1}`}
       className={clsx(
-        "peer space-y-3 min-w-[165px] md:min-w-[175px] lg:min-w-[185px] "
+        "peer space-y-3 w-[165px] md:w-[175px] lg:w-[185px] shrink-0 grow-0 "
       )}
     >
       <Link
         href={"album/supanova"}
         prefetch={false}
-        className="flex relative w-full imageContainer rounded-sm  before:block before:pb-[100%] group"
+        className="flex relative w-full imageContainer rounded-[4.5px] overflow-hidden   before:block before:pb-[100%] group"
       >
         <Image
           src="https://s3.tebi.io/test1345/timo-volz-ZlFKIG6dApg-unsplash%20%281%29.jpg"
@@ -30,7 +30,7 @@ function PlaylistContainer({ songs, description, index, testId }: prop) {
           height={300}
           alt="this is image element"
           priority={true}
-          className="w-full h-full rounded-md"
+          className="w-full h-full"
         />
         <DirectPlayButton playListId={testId} />
         <span className=" group-hover:backdrop-brightness-75 absolute inset-0  "></span>
