@@ -22,6 +22,7 @@ import FullToggleButton from "./audioFull/FullToggleButton";
 import VolumeWrapper from "./volume/VolumeWrapper";
 import QueueButton from "./audio/QueueButton";
 import AudioFooterContainer from "./AudioFooterContainer";
+import UnderLineLinkHover from "../general/UnderLineLinkHover";
 function AudioPlayer({
   footerRef,
 }: {
@@ -74,7 +75,17 @@ function AudioPlayer({
             }
           />
           {/* without it will just changing data for audioinfo */}
-          {name && <AudioInfo name={name} key={name} />}
+          {name && (
+            <div
+              className="flex flex-col overflow-hidden will-change-transform"
+              key={name}
+            >
+              <AudioInfo name={name} />
+              <UnderLineLinkHover href={"some/test"}>
+                <AudioInfo name={"aspea"} />
+              </UnderLineLinkHover>
+            </div>
+          )}
         </div>
 
         <div className="max-w-[600px] sm:flex-1 w-fit  flex    ">
