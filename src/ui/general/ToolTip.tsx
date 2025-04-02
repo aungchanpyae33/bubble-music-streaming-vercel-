@@ -54,7 +54,7 @@ function ToolTip({
   }, [isTouchDevice, setTooltipShow, tooltipShow]);
 
   return (
-    <div className="group relative w-fit max-w-full cursor-pointer bg-red-800">
+    <div className="group relative w-fit max-w-full cursor-pointer">
       <div
         ref={tooltipTargetRef}
         onMouseEnter={(e) => {
@@ -97,7 +97,7 @@ function ToolTip({
 
       <div
         className={clsx(
-          " fixed max-w-[450px] md:max-w-[550px] w-max z-20 pointer-events-none px-2 p-1 outline-2 outline-blue-300  text-sm bg-blue-500",
+          " fixed max-w-[450px] md:max-w-[550px] w-max z-20 pointer-events-none px-2 p-1 text-sm bg-[#2A2A2A] border border-[#444444] shadow-[0_4px_8px_rgba(0,0,0,0.3)] ",
           {
             hidden: !tooltipShow.show,
           }
