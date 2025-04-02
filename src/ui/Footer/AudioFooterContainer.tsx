@@ -17,9 +17,10 @@ function AudioFooterContainer({
   const { open, setOpen } = useContext(Context);
   return (
     // <div className="cursor-not-allowed">
+    // in chrome , when use top-0 and -translate-x- that is close and bigger the parent height make a little edge between , not found in firefox , use -top parent height
     <div
-      className={clsx("w-full h-full", {
-        "absolute top-0 -translate-y-full left-0 overShort:static overShort:-translate-y-0 overShort:top-auto overShort:left-auto":
+      className={clsx("w-full h-full  bg-green-800", {
+        "absolute -top-[70px]  left-0 overShort:static overShort:-translate-y-0 overShort:top-auto overShort:left-auto":
           !open && device === "mobile",
         " cursor-not-allowed": !url,
       })}
