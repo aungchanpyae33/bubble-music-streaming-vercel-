@@ -80,10 +80,8 @@ function AudioPlayer({
               className="flex flex-col overflow-hidden will-change-transform"
               key={name}
             >
-              <AudioInfo name={name} />
-              <UnderLineLinkHover href={"some/test"}>
-                <AudioInfo name={"aspea"} />
-              </UnderLineLinkHover>
+              <AudioInfo name={name} isLink={false} />
+              <AudioInfo name={"aspea"} isLink={true} />
             </div>
           )}
         </div>

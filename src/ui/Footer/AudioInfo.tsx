@@ -8,10 +8,20 @@ function AudioInfo({ name }: { name: string }) {
   return (
     <div
       ref={ofcheckDiv}
-      className=" flex-1
-  overflow-hidden"
+      className=" flex-1 
+  overflow-hidden will-change-transform"
     >
-      {!open && <AudioInfoOverFlow ofcheckDiv={ofcheckDiv} name={name} />}
+      {/* <div className=" w-full whitespace-nowrap showtextoverflow">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit
+        expedita consectetur quam, aut consequatur harum!
+      </div> */}
+      {!open && (
+        <AudioInfoOverFlow
+          ofcheckDiv={ofcheckDiv}
+          name={name}
+          isLink={isLink}
+        />
+      )}
     </div>
   );
 }
