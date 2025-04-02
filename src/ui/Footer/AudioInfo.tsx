@@ -2,7 +2,7 @@ import { useContext, useRef } from "react";
 import AudioInfoOverFlow from "./AudioInfoOverFlow";
 import { Context } from "@/lib/MediaSource/ContextMediaAudioFull";
 
-function AudioInfo({ name }: { name: string }) {
+function AudioInfo({ name, isLink }: { name: string; isLink: boolean }) {
   const { open } = useContext(Context);
   const ofcheckDiv = useRef(null);
   return (
