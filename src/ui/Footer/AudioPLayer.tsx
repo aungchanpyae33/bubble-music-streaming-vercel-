@@ -145,9 +145,7 @@ function AudioPlayer({
           onKeyDown={(e) => e.stopPropagation()}
         >
           <div className="w-full sm:flex  gap-3 relative  items-center justify-around">
-            <button className="  p-1 ">lyr</button>
             <QueueButton />
-
             <VolumeWrapper>
               <Volume />
             </VolumeWrapper>
