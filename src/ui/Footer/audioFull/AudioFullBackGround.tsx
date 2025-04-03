@@ -8,11 +8,12 @@ interface contextProps {
   bgValue: number[] | undefined;
   setBgValue: React.Dispatch<SetStateAction<number[] | undefined>>;
 }
+
 export const Context = createContext<contextProps>({
   bgValue: undefined,
   setBgValue: () => {},
 });
-function AudioFullBackGround({ children }: Props) {
+function AudioFullBackGround({ children, className, ref }: Props) {
   const [bgValue, setBgValue] = useState<number[] | undefined>(undefined);
   const value = { bgValue, setBgValue };
   const R = bgValue ? bgValue[0] : "";
@@ -24,33 +25,31 @@ function AudioFullBackGround({ children }: Props) {
   const mainColor = bgValue ? `rgb(${R},${G},${B})` : "";
   const bottomColor = `rgb(${bottomR},${bottomG},${bottomB})`;
   return (
-    <>
-      <Context.Provider value={value}>
-        <div>
-          <div
-            onClick={(e) => e.stopPropagation()}
-            className="z-50 flex flex-col gap-y-2   fixed inset-0 transition-all duration-1000 bg-[#4F4F4F]"
-            style={
-              bgValue
-                ? {
-                    background: `linear-gradient(to bottom,${mainColor}0%,${bottomColor}75%)`,
-                  }
-                : {}
+    <Context.Provider value={value}>
+      <div
+        onClick={(e) => e.stopPropagation()}
+        onKeyDown={(e) => e.stopPropagation()}
+        className={className}
+        ref={ref}
+        style={
+          bgValue
+            ? {
+                background: `linear-gradient(to bottom,${mainColor}0%,${bottomColor}75%)`,
+              }
+            : {}
+        }
+      >
+        <div
+          className={clsx(
+            "absolute inset-0 -z-10 transition-opacity duration-1000 opacity-0 bg-black",
+            {
+              "opacity-55": bgValue === undefined,
             }
-          >
-            <div
-              className={clsx(
-                "absolute inset-0 -z-10 transition-opacity duration-1000 opacity-0 bg-black",
-                {
-                  "opacity-55": bgValue === undefined,
-                }
-              )}
-            ></div>
-            {children}
-          </div>
-        </div>
-      </Context.Provider>
-    </>
+          )}
+        ></div>
+        {children}
+      </div>
+    </Context.Provider>
   );
 }
 
