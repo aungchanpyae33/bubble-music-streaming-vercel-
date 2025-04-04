@@ -155,7 +155,14 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
           sourceBuffer.current!.appendBuffer(data![0]);
         }
       } else {
-        await fetchInitSegment(url, sourceBuffer, mediaSource, fetching,segNum,abortController);
+        await fetchInitSegment(
+          url,
+          sourceBuffer,
+          mediaSource,
+          fetching,
+          segNum,
+          abortController
+        );
       }
 
       sourceBuffer.current!.addEventListener(
