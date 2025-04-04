@@ -16,7 +16,7 @@ function PlaylistContainer({ songs, description, index, testId }: prop) {
     <div
       role={`cell${index + 1}`}
       className={clsx(
-        "peer space-y-3 w-[165px] md:w-[175px] lg:w-[185px] shrink-0 grow-0 "
+        "peer space-y-3 w-[165px] isolate md:w-[175px] lg:w-[185px] shrink-0 grow-0 "
       )}
     >
       <Link
