@@ -4,6 +4,7 @@ import { createContext } from "react";
 interface Props extends React.ComponentProps<"div"> {
   children: React.ReactNode;
 }
+import { motion } from "motion/react";
 interface contextProps {
   bgValue: number[] | undefined;
   setBgValue: React.Dispatch<SetStateAction<number[] | undefined>>;
@@ -26,7 +27,11 @@ function AudioFullBackGround({ children, className, ref }: Props) {
   const bottomColor = `rgb(${bottomR},${bottomG},${bottomB})`;
   return (
     <Context.Provider value={value}>
-      <div
+      <motion.div
+        initial={{ y: "100%" }}
+        animate={{ y: "0" }}
+        exit={{ y: "100%" }}
+        transition={{ duration: 0.3 }}
         onClick={(e) => e.stopPropagation()}
         onKeyDown={(e) => e.stopPropagation()}
         className={className}
@@ -48,7 +53,7 @@ function AudioFullBackGround({ children, className, ref }: Props) {
           )}
         ></div>
         {children}
-      </div>
+      </motion.div>
     </Context.Provider>
   );
 }
