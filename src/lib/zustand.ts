@@ -179,20 +179,27 @@ export const useSongFunction = create<SongFunctionState & SongFunctionActions>(
 
 export const useDirectPlayBack = create<
   DirectPlayBackState & DirectPlayBackAction & DirectPlayBackStorePlayListId
->((set) => ({
-  IsPlayList: {},
-  setPlayList: (key: string, play: boolean | undefined) =>
-    set((state) => ({
-      IsPlayList: {
-        [key === "unknown" ? Object.keys(state.IsPlayList)[0] : key]:
-          play ||
-          !state.IsPlayList[
-            key === "unknown" ? Object.keys(state.IsPlayList)[0] : key
-          ],
-      },
-    })),
-  playListIdZu: { current: "" },
-}));
+>()(
+  persist(
+    (set) => ({
+      IsPlayList: {},
+      setPlayList: (key: string, play: boolean | undefined) =>
+        set((state) => ({
+          IsPlayList: {
+            [key === "unknown" ? Object.keys(state.IsPlayList)[0] : key]:
+              play ||
+              !state.IsPlayList[
+                key === "unknown" ? Object.keys(state.IsPlayList)[0] : key
+              ],
+          },
+        })),
+      playListIdZu: { current: "" },
+    }),
+    {
+      name: "directPlayBack-storage",
+    }
+  )
+);
 
 export const useRepeatAndCurrentPlayList = create<
   currentSongPlaylist &
