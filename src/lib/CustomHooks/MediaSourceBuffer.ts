@@ -135,7 +135,7 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
     [loadNextSegment]
   );
   const updateendLoadNextSegment = useCallback(() => {
-    if (segNum.current !== 1 && segNum.current <= sege) {
+    if (segNum.current <= sege) {
       loadNextSegment();
     }
   }, [loadNextSegment, sege]);
