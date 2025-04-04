@@ -26,6 +26,7 @@ function AudioFooterContainer({
       })}
       tabIndex={0}
       onKeyDown={(e) => {
+        if (!url || open) return;
         if (e.key === "Enter") {
           footerRef.current?.classList.toggle("z-50");
           setOpen(!open);
@@ -33,12 +34,12 @@ function AudioFooterContainer({
       }}
       // to track initial click elemet , without this  check , if user click the button then hold and release the container that does not have e.stopP will trigger the parent onClick ,
       onMouseDown={(e) => {
-        if (!url) return;
+        if (!url || open) return;
         console.log(e.target);
         initialRef!.current! = e.target as HTMLElement;
       }}
       onClick={(e) => {
-        if (!url) return;
+        if (!url || open) return;
         if (e.target === initialRef.current) {
           footerRef.current?.classList.toggle("z-50");
           setOpen(!open);
