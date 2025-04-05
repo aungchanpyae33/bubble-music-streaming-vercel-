@@ -18,6 +18,7 @@
     "react-dom": "19.0.0-rc-66855b96-20241106",
     "sharp": "^0.33.5",
     "swr": "^2.2.5",
+    "tailwind-merge": "^3.1.0",
     "ua-parser-js": "^2.0.2",
     "zustand": "^5.0.1"
   },
