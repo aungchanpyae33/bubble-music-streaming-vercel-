@@ -3,6 +3,9 @@ import {
   RepeatAction,
   useRepeatAndCurrentPlayList,
 } from "@/lib/zustand";
+import IconWrapper from "@/ui/general/IconWrapper";
+import clsx from "clsx";
+import { Repeat } from "lucide-react";
 
 function AudioFunctionRepeat({ className }: React.ComponentProps<"button">) {
   const isRepeat = useRepeatAndCurrentPlayList(
@@ -13,7 +16,13 @@ function AudioFunctionRepeat({ className }: React.ComponentProps<"button">) {
   );
   return (
     <button className={className} onClick={() => setRepeat()}>
-      {isRepeat ? "unre" : "repe"}
+      <IconWrapper
+        Icon={Repeat}
+        size="small"
+        className={clsx("", {
+          "text-orange-300": isRepeat,
+        })}
+      />
     </button>
   );
 }

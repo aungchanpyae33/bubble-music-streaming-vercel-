@@ -6,7 +6,9 @@ import {
   useRepeatAndCurrentPlayList,
 } from "@/lib/zustand";
 import { urlProp } from "@/ui/albumContainer/AudiosContainer";
+import IconWrapper from "@/ui/general/IconWrapper";
 import clsx from "clsx";
+import { Shuffle } from "lucide-react";
 import { useState } from "react";
 interface Props extends React.ComponentProps<"button"> {
   urlProp: urlProp[];
@@ -36,12 +38,18 @@ function AudioFunctionShuffle({ className, urlProp, url }: Props) {
     <button
       className={className}
       onClick={() => {
-        console.log(shuffleArray);
         setPlayListArray(shuffleArray);
         setIsShuffle(!isShuffle);
       }}
     >
-      {isShuffle ? "unSh" : "Shu"}
+      {/* {isShuffle ? "unSh" : "Shu"} */}
+      <IconWrapper
+        Icon={Shuffle}
+        size="small"
+        className={clsx("", {
+          "text-orange-300": isShuffle,
+        })}
+      />
     </button>
   );
 }

@@ -3,6 +3,9 @@ import OverLay from "./OverLay";
 import NavSideLink from "./NavSideLink";
 import { ReactNode, useState } from "react";
 import NavListUlWrapper from "./NavListUlWrapper";
+import { ListMusic, Menu, Plus } from "lucide-react";
+import IconWrapper from "../general/IconWrapper";
+
 interface childrenProp {
   childrenExplore: ReactNode;
   childrenLive: ReactNode;
@@ -24,9 +27,10 @@ function NavList({
             setOpen(!open);
           }}
           tabIndex={open ? -1 : 0}
-          className=" w-[70px]  cursor-pointer h-[70px] min-h-[70px]  "
+          className=" w-[70px]  cursor-pointer h-[70px] min-h-[70px]  flex items-center justify-center "
         >
-          open
+          {/* open */}
+          <IconWrapper size="large" Icon={Menu} />
         </button>
         <div className=" overflow-hidden h-full border-r border-opacity-15 border-neutral-200">
           <div className="hidden md:block">{childrenExplore}</div>
@@ -57,10 +61,15 @@ function NavList({
             {childrenLive}
           </NavSideLink>
           <div>
-            <div className=" border-t-2  border-black  h-[50px] flex items-center justify-between px-2 ">
-              <span>playlist</span>
+            <div className=" border-t-2  border-black  h-[50px] flex items-center justify-between  ">
+              <div className=" w-[70px] flex items-center  justify-center">
+                <IconWrapper size="large" Icon={ListMusic} />
+              </div>
+
               <span className="">
-                <button>add icon</button>
+                <button className="">
+                  <IconWrapper size="large" Icon={Plus} />
+                </button>
               </span>
             </div>
             {[...Array(20)].map((item, index) => (

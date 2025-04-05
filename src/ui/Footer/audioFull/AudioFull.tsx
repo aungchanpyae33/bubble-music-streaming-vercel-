@@ -17,6 +17,7 @@ import FocusTrap from "./FocusTrap";
 import { AnimatePresence } from "motion/react";
 import AudioCurImg from "./AudioCurImg";
 import { X } from "lucide-react";
+import IconWrapper from "@/ui/general/IconWrapper";
 function AudioFull({
   footerRef,
   url,
@@ -54,7 +55,7 @@ function AudioFull({
                   setOpen(!open);
                 }}
               >
-                <X strokeWidth={0.8} className=" w-8 h-8  " />
+                <IconWrapper size="large" Icon={X} />
               </button>
             </div>
 

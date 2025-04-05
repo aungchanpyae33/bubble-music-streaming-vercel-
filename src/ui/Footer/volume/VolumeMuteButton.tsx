@@ -1,4 +1,6 @@
 import { VolumeValueActions } from "@/lib/zustand";
+import IconWrapper from "@/ui/general/IconWrapper";
+import { Volume2, VolumeX } from "lucide-react";
 import React, { RefObject, useState } from "react";
 interface Props extends React.ComponentProps<"button"> {
   value: number;
@@ -10,7 +12,7 @@ function VolumeMuteButton({ value, setValue, dataAudio }: Props) {
   // console.log(mute);
   return (
     <button
-      className="w-[50px]"
+      className="w-[50px]  flex items-center justify-center"
       onClick={() => {
         if (value < 100) {
           dataAudio.current!.volume = 0;
@@ -30,7 +32,11 @@ function VolumeMuteButton({ value, setValue, dataAudio }: Props) {
         }
       }}
     >
-      {value === 100 ? "Un" : "Mu"}
+      {value === 100 ? (
+        <IconWrapper size="small" Icon={VolumeX} />
+      ) : (
+        <IconWrapper size="small" Icon={Volume2} />
+      )}
     </button>
   );
 }

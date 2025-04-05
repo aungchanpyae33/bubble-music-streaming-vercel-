@@ -15,6 +15,9 @@ import type {
   DirectPlayBackState,
 } from "@/lib/zustand";
 import { urlProp } from "@/ui/albumContainer/AudiosContainer";
+import { Pause, Play } from "lucide-react";
+import IconWrapper from "@/ui/general/IconWrapper";
+
 interface Props extends React.ComponentProps<"button"> {
   urlProp: urlProp[];
 }
@@ -41,7 +44,6 @@ function ToggleButton({ urlProp, className }: Props) {
     (state: IsRepeatState) => state.isRepeat
   );
 
-  // console.log("render togglebutton");
   useEffect(() => {
     const copyDataAudio = dataAudio!.current!;
     function handlePlay() {
@@ -111,7 +113,13 @@ function ToggleButton({ urlProp, className }: Props) {
         setPlayList("unknown", undefined);
         // Use the first key to toggle the state
       }}
-    >{`${firstIsplay ? "pause" : "play"}`}</button>
+    >
+      {firstIsplay ? (
+        <IconWrapper size="large" Icon={Pause} />
+      ) : (
+        <IconWrapper size="large" Icon={Play} />
+      )}
+    </button>
   );
 }
 

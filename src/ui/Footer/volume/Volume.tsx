@@ -7,6 +7,8 @@ import VolumeSlider from "./VolumeSlider";
 import VolumeSliderActionWrapper from "./VolumeSliderActionWrapper";
 import clsx from "clsx";
 import VolumeMuteButton from "./VolumeMuteButton";
+import { Volume2, VolumeX } from "lucide-react";
+import IconWrapper from "@/ui/general/IconWrapper";
 
 function Volume() {
   const { dataAudio } = useContext(DataContext);
@@ -77,7 +79,14 @@ function Volume() {
           </VolumeSlider>
         </div>
       </div>
-      <button className="lg:hidden ">vol</button>
+      <button className="lg:hidden ">
+        {" "}
+        {value === 100 ? (
+          <IconWrapper size="small" Icon={VolumeX} />
+        ) : (
+          <IconWrapper size="small" Icon={Volume2} />
+        )}
+      </button>
     </div>
   );
 }

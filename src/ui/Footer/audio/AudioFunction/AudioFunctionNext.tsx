@@ -1,6 +1,8 @@
 import { useSong, useSongFunction } from "@/lib/zustand";
 import type { urlProp } from "@/ui/albumContainer/AudiosContainer";
 import type { SongActions, SongFunctionActions } from "@/lib/zustand";
+import { SkipForward } from "lucide-react";
+import IconWrapper from "@/ui/general/IconWrapper";
 interface Props extends React.ComponentProps<"button"> {
   urlProp: urlProp[];
   url: string;
@@ -25,7 +27,7 @@ function AudioFunctionNext({ urlProp, url, className }: Props) {
 
   return (
     <button onClick={() => songFunctionNext()} className={className}>
-      nex
+      <IconWrapper Icon={SkipForward} size="small" />
     </button>
   );
 }

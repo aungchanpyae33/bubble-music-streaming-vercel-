@@ -2,6 +2,8 @@ import { useState } from "react";
 import SearchToggleButton from "./SearchToggleButton";
 import FormWrapper from "./FormWrapper";
 import InputComponent from "./InputComponent";
+import { X } from "lucide-react";
+import IconWrapper from "../general/IconWrapper";
 function FormContainer({
   children,
   inputRef,
@@ -43,7 +45,11 @@ function FormContainer({
                   setValue("");
                 }}
               >
-                Reset
+                <IconWrapper
+                  size="large"
+                  Icon={X}
+                  className="rounded-full scale-100 text-zinc-400 hover:text-white hover:scale-105  active:bg-[#333333]"
+                />
               </button>
             </div>
             {children}

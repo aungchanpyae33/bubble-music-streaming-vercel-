@@ -1,12 +1,14 @@
 import { useSong, useSongFunction } from "@/lib/zustand";
 import type { SongActions, SongFunctionActions } from "@/lib/zustand";
 import type { urlProp } from "@/ui/albumContainer/AudiosContainer";
-import clsx from "clsx";
+import IconWrapper from "@/ui/general/IconWrapper";
+import { SkipBack } from "lucide-react";
 interface Props extends React.ComponentProps<"button"> {
   urlProp: urlProp[];
   url: string;
 }
 function AudioFunctionPre({ urlProp, url, className }: Props) {
+  // console.log("thats a dope");
   const updateSongCu = useSong((state: SongActions) => state.updateSongCu);
   const setPlay = useSongFunction(
     (state: SongFunctionActions) => state.setPlay
@@ -23,7 +25,7 @@ function AudioFunctionPre({ urlProp, url, className }: Props) {
   }
   return (
     <button onClick={() => songFunctionPre()} className={className}>
-      pre
+      <IconWrapper size="small" Icon={SkipBack} />
     </button>
   );
 }
