@@ -12,7 +12,7 @@ function AlbumImg() {
   const [isImageLoaded] = useGetDominantColor({ setBgValue, imgRef });
   return (
     <div
-      className=" lg:w-[250px] md:w-[200px] w-[180px]  aspect-square  object-cover relative bg-[#343333]
+      className=" lg:w-[250px] rounded-md overflow-hidden md:w-[200px] w-[180px]  aspect-square  object-cover relative bg-[#343333]
     "
     >
       <Image
