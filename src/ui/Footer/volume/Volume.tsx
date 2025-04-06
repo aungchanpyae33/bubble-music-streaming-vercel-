@@ -32,7 +32,7 @@ function Volume() {
     isTouchDevice,
   });
   return (
-    <div className=" flex lg:w-full items-center  group p-1  ">
+    <div className=" flex max-w-[250px] lg:w-full items-center  group p-1  ">
       <div
         className={clsx(
           "absolute group-hover:bg-[#222222]  group-hover:lg:bg-inherit  h-full group-hover:flex lg:static lg:w-full lg:flex right-0  w-full",
