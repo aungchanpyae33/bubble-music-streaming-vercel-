@@ -1,23 +1,30 @@
 "use client";
 import {
+  currentSongPlaylist,
   currentSongPlaylistAction,
   DirectPlayBackAction,
   DirectPlayBackState,
-  DirectPlayBackStorePlayListId,
   previousSongPlaylistAction,
   SongActions,
   SongDetail,
   SongFunctionActions,
   SongFunctionState,
+  StorePlayListIdState,
+  StorePlayListIdStateAction,
+  // StorePlayListIdState,
+  // StorePlayListIdStateAction,
   useDirectPlayBack,
   usePreviousPlayList,
   useRepeatAndCurrentPlayList,
   useSong,
   useSongFunction,
+  useStorePlayListId,
+  // useStorePlayListId,
 } from "@/lib/zustand";
 import { playlistProp } from "../albumContainer/AudiosContainer";
 import { RefObject, useRef } from "react";
-
+import IconWrapper from "../general/IconWrapper";
+import { Pause, Play } from "lucide-react";
 const hasData = async (
   dataFromFetch: RefObject<Promise<playlistProp> | null>
 ) => {
@@ -29,44 +36,73 @@ const hasData = async (
   return dataFromFetch.current;
 };
 function DirectPlayButton({ playListId }: { playListId: string }) {
+  console.log("i am trigger", playListId);
   const dataFromFetch = useRef<Promise<playlistProp> | null>(null);
+
+  // toggle playlistfolder
   const IsPlayList = useDirectPlayBack(
     (state: DirectPlayBackState) => state.IsPlayList[playListId || ""]
+  );
+  // current playlist id and current song
+  const playlistId = useStorePlayListId(
+    (state: StorePlayListIdState) =>
+      (state.playlistId as Record<string, string[]>)[playListId || ""]
+  );
+  const playListArray = useRepeatAndCurrentPlayList(
+    (state: currentSongPlaylist) =>
+      (state.playListArray as Record<string, SongDetail[]>)[playListId || ""]
+  );
+
+  const setPlaylistId = useStorePlayListId(
+    (state: StorePlayListIdStateAction) => state.setPlaylistId
+  );
+
+  const setPlay = useSongFunction(
+    (state: SongFunctionActions) => state.setPlay
   );
   const setPlayList = useDirectPlayBack(
     (state: DirectPlayBackAction) => state.setPlayList
   );
-  const setPlay = useSongFunction(
-    (state: SongFunctionActions) => state.setPlay
-  );
   const updateSongCu = useSong((state: SongActions) => state.updateSongCu);
+
   const setPlayListArray = useRepeatAndCurrentPlayList(
     (state: currentSongPlaylistAction) => state.setPlayListArray
   );
-  const playListIdZu = useDirectPlayBack(
-    (state: DirectPlayBackStorePlayListId) => state.playListIdZu
-  );
+
   const setPreviousPlayListArray = usePreviousPlayList(
     (state: previousSongPlaylistAction) => state.setPreviousPlayListArray
   );
-  const handlePlayClick = async () => {
-    console.log(dataFromFetch.current);
-    const playlistData = await hasData(dataFromFetch);
 
+  const handlePlayClick = async () => {
+    const playlistData =
+      playListId !== playlistId[0]
+        ? await hasData(dataFromFetch)
+        : { playlistId: playListId, song: playListArray };
     if (playlistData) {
-      const { url, sege, duration, name } = playlistData.song[0];
+      const currentIndex = playlistData.song.findIndex(
+        (song) => song.url === playlistId[1]
+      );
+      const { url, sege, duration, name } =
+        playListId !== playlistId[0]
+          ? playlistData.song[0]
+          : playlistData.song[currentIndex];
       const uniUrl = `${url},${playListId}`;
-      setPreviousPlayListArray(playlistData.song);
-      setPlayListArray(playlistData.song);
-      console.log("wh");
-      console.log(playListId, playListIdZu.current);
-      if (playListId === playListIdZu.current) {
-        console.log("i got toggle");
-        setPlay("unknown", undefined);
+
+      setPreviousPlayListArray({
+        [playListId || ""]: playlistData.song,
+      });
+      setPlayListArray({
+        [playListId || ""]: playlistData.song,
+      });
+
+      if (playListId === playlistId[0]) {
+        setPlay(uniUrl || "", undefined);
         setPlayList(playListId || "", undefined);
       } else {
-        playListIdZu.current = playlistData.playlistId.toString();
         updateSongCu({ [url || ""]: url, sege, duration, name });
+        setPlaylistId({
+          [playListId || ""]: playListId,
+        });
         setPlayList(playListId || "", true);
         setPlay(uniUrl || "", true);
       }
@@ -82,7 +118,11 @@ function DirectPlayButton({ playListId }: { playListId: string }) {
         handlePlayClick();
       }}
     >
-      {IsPlayList ? "pause" : "play"}
+      {IsPlayList ? (
+        <IconWrapper className="w-5 h-5 fill-white" Icon={Pause} />
+      ) : (
+        <IconWrapper className="w-5 h-5 fill-white" Icon={Play} />
+      )}
     </button>
   );
 }

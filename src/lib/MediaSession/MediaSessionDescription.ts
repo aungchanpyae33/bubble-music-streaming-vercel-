@@ -19,6 +19,6 @@ const MediaSessionDes = (name: string, url: string) => {
     return () => {
       navigator.mediaSession.metadata = null;
     };
-  }, [name]);
+  }, [name, url]);
 };
 export default MediaSessionDes;

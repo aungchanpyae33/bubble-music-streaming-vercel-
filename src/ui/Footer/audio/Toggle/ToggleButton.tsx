@@ -4,6 +4,8 @@ import {
   useRepeatAndCurrentPlayList,
   useSong,
   useSongFunction,
+  useStorePlayListId,
+  // useStorePlayListId,
 } from "@/lib/zustand";
 import { useContext, useEffect } from "react";
 import type {
@@ -13,6 +15,10 @@ import type {
   IsRepeatState,
   DirectPlayBackAction,
   DirectPlayBackState,
+  // StorePlayListIdState,
+  SongState,
+  StorePlayListIdState,
+  StorePlayListIdStateAction,
 } from "@/lib/zustand";
 import { urlProp } from "@/ui/albumContainer/AudiosContainer";
 import { Pause, Play } from "lucide-react";
@@ -23,18 +29,23 @@ interface Props extends React.ComponentProps<"button"> {
 }
 function ToggleButton({ urlProp, className }: Props) {
   const { dataAudio, segNum, loadNextSegment } = useContext(DataContext);
-  // Get the first key-value pair from Isplay
-  const [firstIsplayKey, firstIsplay] = useSongFunction(
-    (state: SongFunctionState) => Object.entries(state.Isplay)[0] || []
-  );
-  const [firstIsplayListKey, _] = useDirectPlayBack(
-    (state: DirectPlayBackState) => Object.entries(state.IsPlayList)[0] || []
-  );
-  const urlSongs = urlProp.flatMap(({ url }) => `${url},${firstIsplayListKey}`);
 
-  const currentIndex = urlSongs.indexOf(firstIsplayKey);
+  const Isplay = useSongFunction(
+    (state: SongFunctionState) => Object.values(state.Isplay)[0]
+  );
+  const songCuUrl = useSong(
+    (state: SongState) => Object.values(state.songCu)[0]
+  );
+  const playlistId = useStorePlayListId(
+    (state: StorePlayListIdState) => Object.values(state.playlistId)[0] || []
+  ) as string[];
+
   const setPlay = useSongFunction(
     (state: SongFunctionActions) => state.setPlay
+  );
+
+  const setPlaylistId = useStorePlayListId(
+    (state: StorePlayListIdStateAction) => state.setPlaylistId
   );
   const setPlayList = useDirectPlayBack(
     (state: DirectPlayBackAction) => state.setPlayList
@@ -43,26 +54,30 @@ function ToggleButton({ urlProp, className }: Props) {
   const isRepeat = useRepeatAndCurrentPlayList(
     (state: IsRepeatState) => state.isRepeat
   );
-
   useEffect(() => {
     const copyDataAudio = dataAudio!.current!;
     function handlePlay() {
       if (dataAudio.current?.readyState) {
-        if (firstIsplay) {
+        if (Isplay) {
           dataAudio.current.play();
         } else {
           dataAudio.current.pause();
         }
       }
     }
+
     function playNext() {
+      const urlSongs = urlProp.flatMap(({ url }) => `${url},${playlistId[0]}`);
+      const currentIndex = urlSongs.indexOf(`${songCuUrl},${playlistId[0]}`);
       if (!isRepeat) {
         const songList = urlProp;
         if (currentIndex >= urlSongs.length - 1) return;
-
         const { url, sege, duration, name } = songList[currentIndex + 1];
-        const uniUrl = `${url},${firstIsplayListKey}`;
+        const uniUrl = `${url},${playlistId[0]}`;
         updateSongCu({ [url || ""]: url, sege, duration, name });
+        setPlaylistId({
+          [playlistId[0] || ""]: [playlistId[0], url],
+        });
         setPlay(uniUrl || "", true);
         // [todo] need to check if there is a new playlist or not
         setPlayList("unknown", undefined);
@@ -74,8 +89,8 @@ function ToggleButton({ urlProp, className }: Props) {
     }
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === " " || e.code === "Space") {
-        setPlay(firstIsplayKey, undefined);
-        setPlayList("unknown", undefined);
+        setPlay(`${songCuUrl},${playlistId[0]}`, undefined);
+        setPlayList(playlistId[0], undefined);
       }
     };
     window.addEventListener("keydown", handleKeyDown);
@@ -86,19 +101,18 @@ function ToggleButton({ urlProp, className }: Props) {
       copyDataAudio.removeEventListener("ended", playNext);
     };
   }, [
-    firstIsplay,
+    Isplay,
     dataAudio,
     setPlay,
-    firstIsplayKey,
     urlProp,
-    currentIndex,
-    urlSongs.length,
     updateSongCu,
     isRepeat,
     segNum,
     loadNextSegment,
     setPlayList,
-    firstIsplayListKey,
+    playlistId,
+    songCuUrl,
+    setPlaylistId,
   ]);
 
   return (
@@ -109,12 +123,12 @@ function ToggleButton({ urlProp, className }: Props) {
         e.stopPropagation();
       }}
       onClick={() => {
-        setPlay(firstIsplayKey, undefined);
-        setPlayList("unknown", undefined);
-        // Use the first key to toggle the state
+        // need to use with key value not undefined as firsetkey that get from isplay preversin is undefined and it will not trigger to the toggleElement
+        setPlay(`${songCuUrl},${playlistId[0]}`, undefined);
+        setPlayList(playlistId[0], undefined);
       }}
     >
-      {firstIsplay ? (
+      {Isplay ? (
         <IconWrapper size="large" Icon={Pause} />
       ) : (
         <IconWrapper size="large" Icon={Play} />

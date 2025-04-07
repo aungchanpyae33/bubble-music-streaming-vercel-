@@ -9,22 +9,23 @@ import type {
   SongFunctionActions,
   SongActions,
   currentSongPlaylist,
+  SongDetail,
 } from "../zustand";
 
 const MediaSessionButton = (url: string) => {
+  //[todo] need to add more code to align with audiofunction pre and next but can safe remove some code as there will be no ui when page refresh
   const playListArray = useRepeatAndCurrentPlayList(
-    (state: currentSongPlaylist) => state.playListArray
+    (state: currentSongPlaylist) => Object.values(state.playListArray)[0]
   ) as urlProp[];
-  console.log(playListArray, "playListArray");
+
   const setPlay = useSongFunction(
     (state: SongFunctionActions) => state.setPlay
   );
   const updateSongCu = useSong((state: SongActions) => state.updateSongCu);
-  const currentIndex = playListArray.findIndex((song) => song.url === url);
+  const currentIndex = 0;
   useEffect(() => {
     if ("mediaSession" in navigator) {
       navigator.mediaSession.setActionHandler("previoustrack", () => {
-        // u.play();
         if (currentIndex <= 0) return;
         const url = playListArray[currentIndex - 1].url;
         const sege = playListArray[currentIndex - 1].sege;

@@ -33,11 +33,10 @@ function AudioPlayer({
     (state: SongState) => state.songCu
   ) as SongDetail;
 
-  const [, url] = useSong(
+  const url = useSong(
     (state: SongState) =>
-      Object.entries(state.songCu as Record<string, string>)[0] || []
+      Object.values(state.songCu as Record<string, string>)[0]
   );
-
   const {
     dataAudio,
     loadNextSegment,

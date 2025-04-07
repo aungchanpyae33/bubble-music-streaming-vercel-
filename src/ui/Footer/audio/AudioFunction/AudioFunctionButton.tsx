@@ -7,7 +7,7 @@ interface AudioFunctionButtonProps {
 }
 function AudioFunctionButton({ children }: AudioFunctionButtonProps) {
   const playListArray = useRepeatAndCurrentPlayList(
-    (state: currentSongPlaylist) => state.playListArray
+    (state: currentSongPlaylist) => Object.values(state.playListArray)[0] || []
   ) as urlProp[];
 
   // console.log("audiofuntionButton", playListArray);

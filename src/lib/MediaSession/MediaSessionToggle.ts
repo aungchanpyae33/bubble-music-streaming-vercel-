@@ -5,8 +5,8 @@ const MediaSessionToggle = () => {
   const setPlay = useSongFunction(
     (state: SongFunctionActions) => state.setPlay
   );
-  const [firstKey] = useSongFunction(
-    (state: SongFunctionState) => Object.entries(state.Isplay)[0] || []
+  const firstKey = useSongFunction(
+    (state: SongFunctionState) => Object.keys(state.Isplay)[0]
   );
   useEffect(() => {
     if ("mediaSession" in navigator) {

@@ -29,21 +29,28 @@ export interface SongState {
 export interface SongActions {
   updateSongCu: (newSong: SongState["songCu"]) => void;
 }
-
+export interface StorePlayListIdState {
+  playlistId: {};
+}
+export interface StorePlayListIdStateAction {
+  setPlaylistId: (id: StorePlayListIdState["playlistId"]) => void;
+}
 export interface currentSongPlaylist {
-  playListArray: SongDetail[];
+  playListArray: {};
 }
 
 export interface currentSongPlaylistAction {
-  setPlayListArray: (newList: SongDetail[]) => void;
+  setPlayListArray: (newList: currentSongPlaylist["playListArray"]) => void;
 }
 
 export interface previousSongPlaylist {
-  previousPlayListArray: SongDetail[];
+  previousPlayListArray: {};
 }
 
 export interface previousSongPlaylistAction {
-  setPreviousPlayListArray: (newList: SongDetail[]) => void;
+  setPreviousPlayListArray: (
+    newList: previousSongPlaylist["previousPlayListArray"]
+  ) => void;
 }
 
 export interface SongFunctionState {
@@ -58,9 +65,6 @@ export interface DirectPlayBackState {
 }
 export interface DirectPlayBackAction {
   setPlayList: (key: string, play: boolean | undefined) => void;
-}
-export interface DirectPlayBackStorePlayListId {
-  playListIdZu: { current: string };
 }
 export interface AudioValueState {
   value: number;
@@ -97,6 +101,7 @@ export interface queueStateAction {
   setIsQueue: (value: boolean) => void;
 }
 
+// need to select them with object key as there will be used for many component
 export const useSong = create<SongState & SongActions>()(
   persist(
     (set) => ({
@@ -112,47 +117,15 @@ export const useSong = create<SongState & SongActions>()(
   )
 );
 
-// export const useCurrentPlayList = create<
-//   currentSongPlaylist & currentSongPlaylistAction
-// >()(
-//   persist(
-//     (set) => ({
-//       playListArray: [
-//         {
-//           url: "https://s3.tebi.io/test1345/hello/init.mp4",
-//           sege: 27,
-//           name: "gone",
-//           duration: 52.199,
-//         },
-//       ],
-
-//       setPlayListArray: (newList: SongDetail[]) =>
-//         set((state) => ({
-//           playListArray: newList,
-//         })),
-//     }),
-//     {
-//       name: "playlist-storage",
-//     }
-//   )
-// );
-
 export const usePreviousPlayList = create<
   previousSongPlaylist & previousSongPlaylistAction
 >()(
   persist(
     (set) => ({
-      previousPlayListArray: [
-        {
-          url: "https://s3.tebi.io/test1345/hello/init.mp4",
-          sege: 27,
-          name: "gone",
-          duration: 52.199,
-        },
-      ],
-      setPreviousPlayListArray: (newList: SongDetail[]) =>
+      previousPlayListArray: {},
+      setPreviousPlayListArray: (newList) =>
         set(() => ({
-          previousPlayListArray: newList,
+          previousPlayListArray: { ...newList },
         })),
     }),
     {
@@ -177,29 +150,38 @@ export const useSongFunction = create<SongFunctionState & SongFunctionActions>(
   })
 );
 
-export const useDirectPlayBack = create<
-  DirectPlayBackState & DirectPlayBackAction & DirectPlayBackStorePlayListId
+export const useStorePlayListId = create<
+  StorePlayListIdState & StorePlayListIdStateAction
 >()(
   persist(
     (set) => ({
-      IsPlayList: {},
-      setPlayList: (key: string, play: boolean | undefined) =>
+      playlistId: {},
+      setPlaylistId: (id) =>
         set((state) => ({
-          IsPlayList: {
-            [key === "unknown" ? Object.keys(state.IsPlayList)[0] : key]:
-              play ||
-              !state.IsPlayList[
-                key === "unknown" ? Object.keys(state.IsPlayList)[0] : key
-              ],
-          },
+          playlistId: { ...id },
         })),
-      playListIdZu: { current: "" },
     }),
     {
-      name: "directPlayBack-storage",
+      name: "playlistIdStorage-1",
     }
   )
 );
+
+export const useDirectPlayBack = create<
+  DirectPlayBackState & DirectPlayBackAction
+>((set) => ({
+  IsPlayList: {},
+  setPlayList: (key: string, play: boolean | undefined) =>
+    set((state) => ({
+      IsPlayList: {
+        [key === "unknown" ? Object.keys(state.IsPlayList)[0] : key]:
+          play ||
+          !state.IsPlayList[
+            key === "unknown" ? Object.keys(state.IsPlayList)[0] : key
+          ],
+      },
+    })),
+}));
 
 export const useRepeatAndCurrentPlayList = create<
   currentSongPlaylist &
@@ -210,17 +192,10 @@ export const useRepeatAndCurrentPlayList = create<
 >()(
   persist(
     (set, get) => ({
-      playListArray: [
-        {
-          url: "https://s3.tebi.io/test1345/hello/init.mp4",
-          sege: 27,
-          name: "gone",
-          duration: 52.199,
-        },
-      ],
-      setPlayListArray: (newList: SongDetail[]) =>
+      playListArray: {},
+      setPlayListArray: (newList) =>
         set((state) => ({
-          playListArray: newList,
+          playListArray: { ...newList },
         })),
       isRepeat: false,
       setRepeat: () => set((state) => ({ isRepeat: !state.isRepeat })),
@@ -235,7 +210,10 @@ export const useRepeatAndCurrentPlayList = create<
         const fetchOptions: RequestInit = {
           signal: abortController!.current!.signal,
         };
-        const urlSongs = get().playListArray.flatMap(({ url }) => url);
+        const playlistArray = Object.values(
+          get().playListArray
+        )[0] as SongDetail[];
+        const urlSongs = playlistArray.flatMap(({ url }) => url);
         const currentIndex = urlSongs.indexOf(currentUrl);
         const url = urlSongs[currentIndex + 1];
         // Early return if repeat is enabled
@@ -280,6 +258,7 @@ export const useAudioValue = create<AudioValueState & AudioValueActions>(
   })
 );
 
+// no need to select with object key
 export const useAudioDragging = create<
   AudioDraggingState & AudioDraggingActions
 >((set) => ({
