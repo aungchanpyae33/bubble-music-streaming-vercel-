@@ -36,7 +36,6 @@ const hasData = async (
   return dataFromFetch.current;
 };
 function DirectPlayButton({ playListId }: { playListId: string }) {
-  console.log("i am trigger", playListId);
   const dataFromFetch = useRef<Promise<playlistProp> | null>(null);
 
   // toggle playlistfolder
@@ -46,7 +45,7 @@ function DirectPlayButton({ playListId }: { playListId: string }) {
   // current playlist id and current song
   const playlistId = useStorePlayListId(
     (state: StorePlayListIdState) =>
-      (state.playlistId as Record<string, string[]>)[playListId || ""]
+      (state.playlistId as Record<string, Array<string>>)[playListId || ""]
   );
   const playListArray = useRepeatAndCurrentPlayList(
     (state: currentSongPlaylist) =>
@@ -74,18 +73,25 @@ function DirectPlayButton({ playListId }: { playListId: string }) {
   );
 
   const handlePlayClick = async () => {
-    const playlistData =
-      playListId !== playlistId[0]
-        ? await hasData(dataFromFetch)
-        : { playlistId: playListId, song: playListArray };
+    const playlistData = !playlistId
+      ? await hasData(dataFromFetch)
+      : { playlistId: playListId, song: playListArray };
+
     if (playlistData) {
-      const currentIndex = playlistData.song.findIndex(
-        (song) => song.url === playlistId[1]
-      );
-      const { url, sege, duration, name } =
-        playListId !== playlistId[0]
-          ? playlistData.song[0]
-          : playlistData.song[currentIndex];
+      const currentIndex = (() => {
+        if (playlistId) {
+          return playlistData.song.findIndex(
+            (song: SongDetail) => song.url === playlistId[1]
+          );
+        }
+        return 0;
+      })();
+      const { url, sege, name, duration } = (() => {
+        if (playlistId) {
+          return playlistData.song[currentIndex];
+        }
+        return playlistData.song[0];
+      })();
       const uniUrl = `${url},${playListId}`;
 
       setPreviousPlayListArray({
@@ -94,14 +100,13 @@ function DirectPlayButton({ playListId }: { playListId: string }) {
       setPlayListArray({
         [playListId || ""]: playlistData.song,
       });
-
-      if (playListId === playlistId[0]) {
+      if (playlistId) {
         setPlay(uniUrl || "", undefined);
         setPlayList(playListId || "", undefined);
       } else {
         updateSongCu({ [url || ""]: url, sege, duration, name });
         setPlaylistId({
-          [playListId || ""]: playListId,
+          [playListId || ""]: [playListId, url],
         });
         setPlayList(playListId || "", true);
         setPlay(uniUrl || "", true);
