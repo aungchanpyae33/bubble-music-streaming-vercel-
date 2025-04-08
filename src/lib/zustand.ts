@@ -213,9 +213,10 @@ export const useRepeatAndCurrentPlayList = create<
         const playlistArray = Object.values(
           get().playListArray
         )[0] as SongDetail[];
-        const urlSongs = playlistArray.flatMap(({ url }) => url);
-        const currentIndex = urlSongs.indexOf(currentUrl);
-        const url = urlSongs[currentIndex + 1];
+        const currentIndex = playlistArray.findIndex(
+          (song) => song.url === currentUrl
+        );
+        const url = playlistArray[currentIndex + 1].url;
         // Early return if repeat is enabled
         if (get().isRepeat) return null;
         // if (url !== currentUrl) {

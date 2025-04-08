@@ -67,20 +67,22 @@ function ToggleButton({ urlProp, className }: Props) {
     }
 
     function playNext() {
-      const urlSongs = urlProp.flatMap(({ url }) => `${url},${playlistId[0]}`);
-      const currentIndex = urlSongs.indexOf(`${songCuUrl},${playlistId[0]}`);
+      // const urlSongs = urlProp.flatMap(({ url }) => `${url},${playlistId[0]}`);
+      // const currentIndex = urlSongs.indexOf(`${songCuUrl},${playlistId[0]}`);
+      const currentIndex = urlProp.findIndex((song) => song.url === songCuUrl);
+
       if (!isRepeat) {
         const songList = urlProp;
-        if (currentIndex >= urlSongs.length - 1) return;
+        if (currentIndex >= urlProp.length - 1) return;
         const { url, sege, duration, name } = songList[currentIndex + 1];
         const uniUrl = `${url},${playlistId[0]}`;
         updateSongCu({ [url || ""]: url, sege, duration, name });
         setPlaylistId({
           [playlistId[0] || ""]: [playlistId[0], url],
         });
-        setPlay(uniUrl || "", true);
+        setPlay(uniUrl || "unknown", true);
         // [todo] need to check if there is a new playlist or not
-        setPlayList("unknown", undefined);
+        setPlayList(playlistId[0] || "unknown", true);
       } else {
         dataAudio!.current!.currentTime = 0;
         segNum.current = 1;
