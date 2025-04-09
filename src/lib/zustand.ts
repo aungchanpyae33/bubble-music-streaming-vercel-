@@ -216,7 +216,8 @@ export const useRepeatAndCurrentPlayList = create<
         const currentIndex = playlistArray.findIndex(
           (song) => song.url === currentUrl
         );
-        const url = playlistArray[currentIndex + 1].url;
+        const extract = Math.min(currentIndex + 1, playlistArray.length - 1);
+        const url = playlistArray[extract].url;
         // Early return if repeat is enabled
         if (get().isRepeat) return null;
         // if (url !== currentUrl) {
