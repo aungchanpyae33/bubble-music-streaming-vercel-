@@ -37,13 +37,17 @@ function Track({
       //   FocusElement(e.currentTarget, "rowCell", roleCell);
       // }}
     >
-      <ToggleElement
-        url={url}
-        sege={sege}
-        duration={duration}
-        name={name}
-        playlistUrl={playlistUrl}
-      />
+      <td className="px-2 max-w-[10px] ">
+        <ToggleElement
+          url={url}
+          sege={sege}
+          duration={duration}
+          name={name}
+          playlistUrl={playlistUrl}
+          className="w-full"
+        />
+      </td>
+
       <td className=" max-w-[100px] px-2 ">
         <ToolTip
           tooltipContent="Lorem df Lorem ipsum dolo Lorem ipsum dolor sit amet Lorem ipsum dolor sit

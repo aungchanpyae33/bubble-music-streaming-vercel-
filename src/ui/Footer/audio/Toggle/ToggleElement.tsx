@@ -24,7 +24,7 @@ import type {
 import { playlistProp } from "@/ui/albumContainer/AudiosContainer";
 import IconWrapper from "@/ui/general/IconWrapper";
 import { Pause, Play } from "lucide-react";
-interface toggleElementProp {
+interface toggleElementProp extends React.ComponentProps<"button"> {
   url: string;
   sege: number;
   duration: number;
@@ -37,6 +37,7 @@ const ToggleElement = ({
   duration,
   name,
   playlistUrl,
+  className,
 }: toggleElementProp) => {
   const uniUrl = `${url},${playlistUrl.playlistId}`;
   // for toggle audio
@@ -68,51 +69,49 @@ const ToggleElement = ({
   // console.log(Isplay, url === songCuUrl, songCuUrl, url);
   // console.log("render toggleElement");
   return (
-    <td className="px-2 max-w-[10px] ">
-      <button
-        role="rowCell1"
-        // tabIndex={-1}
-        aria-label="Play or Pause Audio"
-        onKeyDown={(e) => {
-          if (e.key === " " || e.code === "Space") {
-            e.stopPropagation();
-          }
-        }}
-        // onMouseDown={(e) => {
-        //   e.preventDefault();
-        //   e.stopPropagation();
-        // }}
-        onClick={() => {
-          setPlayListArray({
-            [playlistUrl.playlistId || ""]: playlistUrl.song,
+    <button
+      role="rowCell1"
+      // tabIndex={-1}
+      aria-label="Play or Pause Audio"
+      onKeyDown={(e) => {
+        if (e.key === " " || e.code === "Space") {
+          e.stopPropagation();
+        }
+      }}
+      // onMouseDown={(e) => {
+      //   e.preventDefault();
+      //   e.stopPropagation();
+      // }}
+      onClick={() => {
+        setPlayListArray({
+          [playlistUrl.playlistId || ""]: playlistUrl.song,
+        });
+        setPreviousPlayListArray({
+          [playlistUrl.playlistId || ""]: playlistUrl.song,
+        });
+        if (url === songCuUrl) {
+          setPlay(uniUrl || "", undefined);
+          setPlayList(playlistUrl.playlistId || "", undefined);
+        } else {
+          updateSongCu({ [url || ""]: url, sege, duration, name });
+          setPlaylistId({
+            [playlistUrl.playlistId || ""]: [playlistUrl.playlistId, url],
           });
-          setPreviousPlayListArray({
-            [playlistUrl.playlistId || ""]: playlistUrl.song,
-          });
-          if (url === songCuUrl) {
-            setPlay(uniUrl || "", undefined);
-            setPlayList(playlistUrl.playlistId || "", undefined);
-          } else {
-            updateSongCu({ [url || ""]: url, sege, duration, name });
-            setPlaylistId({
-              [playlistUrl.playlistId || ""]: [playlistUrl.playlistId, url],
-            });
-            setPlayList(playlistUrl.playlistId || "", true);
-            setPlay(uniUrl || "", true);
-          }
-        }}
-        className="w-full"
-        id="play-icon"
-      >
-        <span className=" flex justify-center">
-          {url === songCuUrl && Isplay ? (
-            <IconWrapper className="w-5 h-5 fill-white" Icon={Pause} />
-          ) : (
-            <IconWrapper className="w-5 h-5 fill-white" Icon={Play} />
-          )}
-        </span>
-      </button>
-    </td>
+          setPlayList(playlistUrl.playlistId || "", true);
+          setPlay(uniUrl || "", true);
+        }
+      }}
+      className={className}
+      id="play-icon"
+    >
+      <span className=" flex justify-center">
+        {url === songCuUrl && Isplay ? (
+          <IconWrapper className="w-5 h-5 fill-white" Icon={Pause} />
+        ) : (
+          <IconWrapper className="w-5 h-5 fill-white" Icon={Play} />
+        )}
+      </span>
+    </button>
   );
 };
 
