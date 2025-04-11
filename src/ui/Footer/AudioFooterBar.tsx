@@ -2,7 +2,7 @@ import { DeviceCheck } from "@/lib/DeviceCheck";
 import AudioPlayerWrapper from "./AudioPlayerWrapper";
 import DeviceContextFooter from "@/lib/DeviceContext/DeviceContextFooter";
 import FooterNavi from "./FooterNavi";
-async function FooterBar() {
+async function AudioFooterBar() {
   // get cache from cache api
   const deviceFromUserAgent = await DeviceCheck();
   return (
@@ -14,4 +14,4 @@ async function FooterBar() {
   );
 }
 
-export default FooterBar;
+export default AudioFooterBar;

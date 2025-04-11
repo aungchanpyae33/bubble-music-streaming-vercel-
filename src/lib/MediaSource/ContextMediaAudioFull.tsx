@@ -21,7 +21,7 @@ function ContextMediaAudioFull({
   footerNaviRef,
 }: {
   children: React.ReactNode;
-  footerRef: React.RefObject<HTMLElement | null>;
+  footerRef: React.RefObject<HTMLDivElement | null>;
   footerNaviRef: React.ReactNode;
 }) {
   const [open, setOpen] = useState(false);
@@ -29,10 +29,10 @@ function ContextMediaAudioFull({
 
   return (
     <Context.Provider value={value}>
-      <footer className="w-full relative flex  h-[70px]" ref={footerRef}>
+      <div className="w-full relative flex  h-[70px]" ref={footerRef}>
         {footerNaviRef}
         {children}
-      </footer>
+      </div>
     </Context.Provider>
   );
 }

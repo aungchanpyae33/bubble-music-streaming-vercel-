@@ -24,7 +24,7 @@ function AudioFull({
   duration,
   toggleRef,
 }: {
-  footerRef: React.RefObject<HTMLElement | null>;
+  footerRef: React.RefObject<HTMLDivElement | null>;
   url: string;
   duration: number;
   toggleRef: React.RefObject<HTMLButtonElement | null>;

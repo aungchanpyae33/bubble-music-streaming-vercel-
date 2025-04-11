@@ -9,7 +9,7 @@ function AudioFooterContainer({
   url,
 }: {
   children: React.ReactNode;
-  footerRef: RefObject<HTMLElement | null>;
+  footerRef: RefObject<HTMLDivElement | null>;
   url: string;
 }) {
   const initialRef = useRef<HTMLElement | null>(null);

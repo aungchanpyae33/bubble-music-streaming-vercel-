@@ -26,7 +26,7 @@ import UnderLineLinkHover from "../general/UnderLineLinkHover";
 function AudioPlayer({
   footerRef,
 }: {
-  footerRef: React.RefObject<HTMLElement | null>;
+  footerRef: React.RefObject<HTMLDivElement | null>;
 }) {
   const toggleRef = useRef<HTMLButtonElement | null>(null);
   const { sege, name, duration } = useSong(
