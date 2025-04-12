@@ -11,7 +11,7 @@ function NavSidebarToggle({
   open: boolean;
 }) {
   const closeElement = useRef<HTMLButtonElement | null>(null);
-  CloseFunctoion(open, setOpen, closeElement);
+  CloseFunctoion(open, setOpen, closeElement, true);
   useEffect(() => {
     open && closeElement.current?.focus();
   }, [open, closeElement]);
