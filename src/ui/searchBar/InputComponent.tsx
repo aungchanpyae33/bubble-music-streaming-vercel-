@@ -8,43 +8,48 @@ interface InputComponentProps {
 function InputComponent({ inputRef, setShow, setValue }: InputComponentProps) {
   const { setOpen } = useContext(ContextToggle);
   return (
-    <input
-      className="placeholder:text-slate-400 placeholder:leading-relaxed block bg-blue w-full h-[40px]  pl-4 shadow-sm focus:outline-none text-base bg-[#222222]"
-      placeholder="ရှာဖွေမည်"
-      type="search"
-      name="query"
-      required
-      autoComplete="off"
-      spellCheck="false"
-      ref={inputRef}
-      onBlur={() => {
-        setOpen(false);
-        setShow(false);
-      }}
-      onFocus={() => {
-        setOpen(true);
-        setShow(true);
-      }}
-      onKeyDown={(e) => {
-        if (e.key === "Escape") {
-          const inputElement = e.currentTarget;
-          e.preventDefault();
-          if (inputElement.selectionStart !== inputElement.value.length) {
-            const goToEndValue = inputElement.value.length;
-            inputElement.setSelectionRange(goToEndValue, goToEndValue);
-            return;
+    <>
+      <label htmlFor="search">
+        <span className="sr-only">Search</span>
+      </label>
+      <input
+        className="placeholder:text-slate-400 placeholder:leading-relaxed block bg-blue w-full h-[40px]  pl-4 shadow-sm focus:outline-none text-base bg-[#222222]"
+        placeholder="ရှာဖွေမည်"
+        type="search"
+        name="query"
+        required
+        autoComplete="off"
+        spellCheck="false"
+        ref={inputRef}
+        onBlur={() => {
+          setOpen(false);
+          setShow(false);
+        }}
+        onFocus={() => {
+          setOpen(true);
+          setShow(true);
+        }}
+        onKeyDown={(e) => {
+          if (e.key === "Escape") {
+            const inputElement = e.currentTarget;
+            e.preventDefault();
+            if (inputElement.selectionStart !== inputElement.value.length) {
+              const goToEndValue = inputElement.value.length;
+              inputElement.setSelectionRange(goToEndValue, goToEndValue);
+              return;
+            }
+            e.currentTarget.blur();
           }
-          e.currentTarget.blur();
-        }
-        if (e.key === "ArrowUp") {
-          e.preventDefault();
-        }
-      }}
-      onChange={(e) => {
-        setOpen(true);
-        setValue(e.currentTarget.value);
-      }}
-    />
+          if (e.key === "ArrowUp") {
+            e.preventDefault();
+          }
+        }}
+        onChange={(e) => {
+          setOpen(true);
+          setValue(e.currentTarget.value);
+        }}
+      />
+    </>
   );
 }
 
