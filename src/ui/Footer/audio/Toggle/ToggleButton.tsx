@@ -23,6 +23,7 @@ import type {
 import { urlProp } from "@/ui/albumContainer/AudiosContainer";
 import { Pause, Play } from "lucide-react";
 import IconWrapper from "@/ui/general/IconWrapper";
+import ToggleButtonSpaceKey from "./ToggleButtonSpaceKey";
 
 interface Props extends React.ComponentProps<"button"> {
   urlProp: urlProp[];
@@ -67,16 +68,14 @@ function ToggleButton({ urlProp, className }: Props) {
     }
 
     function playNext() {
-      // const urlSongs = urlProp.flatMap(({ url }) => `${url},${playlistId[0]}`);
-      // const currentIndex = urlSongs.indexOf(`${songCuUrl},${playlistId[0]}`);
       const currentIndex = urlProp.findIndex((song) => song.url === songCuUrl);
-
       if (!isRepeat) {
         const songList = urlProp;
         if (currentIndex >= urlProp.length - 1) return;
         const { url, sege, duration, name } = songList[currentIndex + 1];
         const uniUrl = `${url},${playlistId[0]}`;
         updateSongCu({ [url || ""]: url, sege, duration, name });
+        // [todo] need to check if there is a new playlist or not
         setPlaylistId({
           [playlistId[0] || ""]: [playlistId[0], url],
         });
@@ -89,17 +88,10 @@ function ToggleButton({ urlProp, className }: Props) {
         dataAudio!.current!.play();
       }
     }
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === " " || e.code === "Space") {
-        setPlay(`${songCuUrl},${playlistId[0]}`, undefined);
-        setPlayList(playlistId[0], undefined);
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
+
     handlePlay();
     copyDataAudio.addEventListener("ended", playNext);
     return () => {
-      window.removeEventListener("keydown", handleKeyDown);
       copyDataAudio.removeEventListener("ended", playNext);
     };
   }, [
@@ -118,24 +110,31 @@ function ToggleButton({ urlProp, className }: Props) {
   ]);
 
   return (
-    <button
-      className={className}
-      id="play-icon"
-      onKeyDown={(e) => {
-        e.stopPropagation();
-      }}
-      onClick={() => {
-        // need to use with key value not undefined as firsetkey that get from isplay preversin is undefined and it will not trigger to the toggleElement
-        setPlay(`${songCuUrl},${playlistId[0]}`, undefined);
-        setPlayList(playlistId[0], undefined);
-      }}
+    <ToggleButtonSpaceKey
+      setPlay={setPlay}
+      setPlayList={setPlayList}
+      songCuUrl={songCuUrl}
+      playlistIdString={playlistId[0]}
     >
-      {Isplay ? (
-        <IconWrapper size="large" Icon={Pause} />
-      ) : (
-        <IconWrapper size="large" Icon={Play} />
-      )}
-    </button>
+      <button
+        className={className}
+        id="play-icon"
+        onKeyDown={(e) => {
+          e.stopPropagation();
+        }}
+        onClick={() => {
+          // need to use with key value not undefined as firsetkey that get from isplay preversin is undefined and it will not trigger to the toggleElement
+          setPlay(`${songCuUrl},${playlistId[0]}`, undefined);
+          setPlayList(playlistId[0], undefined);
+        }}
+      >
+        {Isplay ? (
+          <IconWrapper size="large" Icon={Pause} />
+        ) : (
+          <IconWrapper size="large" Icon={Play} />
+        )}
+      </button>
+    </ToggleButtonSpaceKey>
   );
 }
 

@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { ContextToggle } from "./ToggleContext";
+import { focusStateAction, useNotInputFocus } from "@/lib/zustand";
 interface InputComponentProps {
   inputRef: React.RefObject<HTMLInputElement | null>;
   setValue: React.Dispatch<React.SetStateAction<string | null>>;
@@ -7,6 +8,9 @@ interface InputComponentProps {
 }
 function InputComponent({ inputRef, setShow, setValue }: InputComponentProps) {
   const { setOpen } = useContext(ContextToggle);
+  const setIsInputFocus = useNotInputFocus(
+    (state: focusStateAction) => state.setIsInputFocus
+  );
   return (
     <>
       <label htmlFor="search">
@@ -24,10 +28,12 @@ function InputComponent({ inputRef, setShow, setValue }: InputComponentProps) {
         onBlur={() => {
           setOpen(false);
           setShow(false);
+          setIsInputFocus(false);
         }}
         onFocus={() => {
           setOpen(true);
           setShow(true);
+          setIsInputFocus(true);
         }}
         onKeyDown={(e) => {
           if (e.key === "Escape") {

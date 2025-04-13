@@ -100,6 +100,15 @@ export interface queueState {
 export interface queueStateAction {
   setIsQueue: (value: boolean) => void;
 }
+
+export interface focusState {
+  isInputFocus: boolean;
+}
+
+export interface focusStateAction {
+  setIsInputFocus: (value: boolean) => void;
+}
+
 export interface isChildOpen {
   isChildOpen: Record<string, boolean>;
 }
@@ -309,3 +318,10 @@ export const useIsChildOpenCloseFunction = create<
   isChildOpen: {},
   setIsChildOpen: (value) => set(() => ({ isChildOpen: { ...value } })),
 }));
+
+export const useNotInputFocus = create<focusState & focusStateAction>(
+  (set) => ({
+    isInputFocus: false,
+    setIsInputFocus: (value: boolean) => set(() => ({ isInputFocus: value })),
+  })
+);

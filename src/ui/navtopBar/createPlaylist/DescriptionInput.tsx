@@ -1,7 +1,11 @@
+import { focusStateAction, useNotInputFocus } from "@/lib/zustand";
 import { useState } from "react";
 
 function DescriptionInput() {
   const [textValue, setTextValue] = useState("");
+  const setIsInputFocus = useNotInputFocus(
+    (state: focusStateAction) => state.setIsInputFocus
+  );
   return (
     <>
       <label htmlFor="playlistDescription" className="leading-relaxed">
@@ -11,6 +15,8 @@ function DescriptionInput() {
         <textarea
           value={textValue}
           onChange={(e) => setTextValue(e.currentTarget.value)}
+          onFocus={() => setIsInputFocus(true)}
+          onBlur={() => setIsInputFocus(false)}
           maxLength={300}
           className="p-2 bg-blue w-full h-[150px] resize-none text-base bg-[#222222]
                           invalid:outline invalid:outline-red-900  border border-neutral-200 border-opacity-25 rounded"
