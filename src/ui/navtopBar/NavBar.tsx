@@ -11,7 +11,9 @@ function NavBar() {
         <div className=" flex  w-[160px]">
           <NavSideBar />
           <div className="logo relative   w-[90px] h-[70px] flex items-center    bg-gradient-to-r">
-            <Image src={"/bubblelogo.svg"} fill alt="logo" className="" />
+            <Link href={"/"}>
+              <Image src={"/bubblelogo.svg"} fill alt="logo" className="" />
+            </Link>
           </div>
         </div>
       </Suspense>
