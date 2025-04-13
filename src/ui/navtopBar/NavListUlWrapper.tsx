@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import { ReactNode, SetStateAction } from "react";
 import NavSidebarToggle from "./NavSideBarToggle";
+import Image from "next/image";
 
 interface NavListUlWrapperProp {
   open: boolean;
@@ -27,7 +28,9 @@ function NavListUlWrapper({ open, setOpen, children }: NavListUlWrapperProp) {
           aria-hidden={true}
           tabIndex={open ? 0 : -1}
         >
-          <span className="">Bubble</span>
+          <div className="logo relative   w-[90px] h-[70px]    bg-gradient-to-r">
+            <Image src={"/bubblelogo.svg"} fill alt="logo" className="" />
+          </div>
         </button>
       </li>
       {children}
