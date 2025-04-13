@@ -12,7 +12,7 @@ function GenreContainer({ description }: { description: string }) {
         width={300}
         height={300}
         priority={false}
-        sizes="(min-width: 1040px) calc(25vw - 37px), (min-width: 780px) calc(33.33vw - 43px), calc(48.91vw - 47px)"
+        // sizes="(min-width: 1040px) calc(25vw - 37px), (min-width: 780px) calc(33.33vw - 43px), calc(48.91vw - 47px)"
         alt="this is image element"
         className="object-cover w-[50%]"
       />

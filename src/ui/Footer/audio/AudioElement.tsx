@@ -22,7 +22,7 @@ function AudioElement({ Child, url }: { Child: ReactNode; url: string }) {
             <TimeIndicatorCur
               value={value}
               duration={duration}
-              className="text-sm md:text-base w-[5rem] text-center hidden sm:inline"
+              className="text-sm  w-[5rem] text-center hidden sm:inline"
             />
           )}
           duration={duration}

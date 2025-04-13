@@ -9,6 +9,8 @@ import AlbumUpperContainer from "./AlbumUpperContainer";
 import AlbumUpperBackground from "./AlbumUpperBackground";
 import TableHeadBgChange from "./TableHeadBgChange";
 import TableHead from "./TableHead";
+import IconWrapper from "../general/IconWrapper";
+import { Clock } from "lucide-react";
 // import type { currentSongPlaylistAction } from "@/lib/zustand";
 // import { useCurrentPlayList } from "@/lib/zustand";
 export interface urlProp {
@@ -53,11 +55,20 @@ function AudiosContainer({
           <TableHead>
             <tr className="text-left">
               <th className=" w-14 p-2  text-center">#</th>
-              <th className="p-2">song</th>
-              <th className="hidden p-2 sm:table-cell  ">artist</th>
-              {/* need to use table-cell */}
-              <th className=" p-2 hidden md:table-cell ">album</th>
-              <th className=" p-2 hidden sm:table-cell text-right ">Time</th>
+              <th className="p-2">ခေါင်းစဉ်</th>
+              <th className="hidden p-2 sm:table-cell  ">အဆိုတော်</th>
+
+              <th className=" p-2 hidden md:table-cell ">အယ်လ်ဘမ်</th>
+              <th className=" p-2"></th>
+              <th className=" p-2 w-20 hidden sm:table-cell  text-center">
+                <span className="flex justify-center">
+                  <IconWrapper
+                    Icon={Clock}
+                    size="small"
+                    className=" text-right"
+                  />
+                </span>
+              </th>
               <th className=" p-2 sm:hidden table-cell"></th>
             </tr>
           </TableHead>

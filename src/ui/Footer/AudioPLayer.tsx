@@ -22,7 +22,7 @@ import FullToggleButton from "./audioFull/FullToggleButton";
 import VolumeWrapper from "./volume/VolumeWrapper";
 import QueueButton from "./audio/QueueButton";
 import AudioFooterContainer from "./AudioFooterContainer";
-import UnderLineLinkHover from "../general/UnderLineLinkHover";
+
 function AudioPlayer({
   footerRef,
 }: {
@@ -99,25 +99,22 @@ function AudioPlayer({
                       onKeyDown={(e) => e.stopPropagation()}
                     >
                       <AudioFunctionShuffle
-                        className="text-white/70 hover:text-white hover:bg-white/10 p-1  sm:inline-block text-sm md:text-base hidden"
+                        className="text-white/70 hover:text-white  p-1  sm:inline-block text-sm md:text-base hidden"
                         urlProp={playListArray}
                         url={url}
                       />
                       <AudioFunctionPre
-                        className="text-white/70 hover:text-white hover:bg-white/10 p-1  sm:inline-block text-sm md:text-base hidden"
+                        className="text-white/70 hover:text-white  p-1  sm:inline-block text-sm md:text-base hidden"
                         url={url}
                         urlProp={playListArray}
                       />
-                      <ToggleButton
-                        className="p-1 bg-[#CCCCCC] hover:bg-[#DDDDDD] text-black font-medium"
-                        urlProp={playListArray}
-                      />
+                      <ToggleButton className="p-1" urlProp={playListArray} />
                       <AudioFunctionNext
                         url={url}
                         urlProp={playListArray}
-                        className="text-white/70 hover:text-white hover:bg-white/10 p-1 text-sm md:text-base"
+                        className="text-white/70 hover:text-white  p-1 text-sm md:text-base"
                       />
-                      <AudioFunctionRepeat className="text-white/70 hover:text-white hover:bg-white/10 p-1  sm:inline-block text-sm md:text-base hidden" />
+                      <AudioFunctionRepeat className="text-white/70 hover:text-white  p-1  sm:inline-block text-sm md:text-base hidden" />
                     </div>
                   )}
                 </AudioFunctionButton>
@@ -130,7 +127,7 @@ function AudioPlayer({
                   Child={
                     <TimeIndicatorDur
                       duration={duration}
-                      className="text-sm md:text-base w-[5rem] text-center hidden sm:inline"
+                      className="text-sm  w-[5rem] text-center hidden sm:inline"
                     />
                   }
                 ></AudioElement>
@@ -139,7 +136,7 @@ function AudioPlayer({
           </div>
         </div>
         <div
-          className="w-[20%] md:w-[25%] hidden max-w-[375px] sm:flex  items-center"
+          className="w-[20%] px-2 md:w-[25%] hidden max-w-[375px] sm:flex  items-center"
           onClick={(e) => e.stopPropagation()}
           onKeyDown={(e) => e.stopPropagation()}
         >

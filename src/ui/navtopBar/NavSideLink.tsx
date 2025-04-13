@@ -27,7 +27,9 @@ function NavSideLink({ url, icon, desp, open, setOpen, children }: LinkProps) {
             "px-2 flex  w-[150px] min-w-[150px] max-w-[150px] items-center    justify-start h-full"
           )}
         >
-          <div className=" truncate leading-relaxed ">{desp}</div>
+          {desp !== "" && (
+            <div className=" truncate leading-relaxed ">{desp}</div>
+          )}
         </div>
       </Link>
     </li>

@@ -12,7 +12,7 @@ function Container({
   // const dataInc = useRef(0);
   return (
     <div
-      className=" max-w-full  pb-3"
+      className=" max-w-full pb-3"
       role="row"
       // tabIndex={0}
       // onKeyDown={(e) => {
@@ -22,17 +22,21 @@ function Container({
       <h1 aria-label="song name is" className=" px-4 ">
         {description}
       </h1>
-
-      <div className=" w-full p-4  gap-4 md:gap-6 lg:gap-8 flex overflow-x-auto   no-scrollbar">
-        {[...Array(6)].map((_, index) => (
-          <PlaylistContainer
-            key={index}
-            index={index}
-            songs={songs}
-            testId={testId[index]}
-            description={index + description}
-          />
-        ))}
+      <div className=" p-4 relative max-w-fit">
+        <div className=" max-w-fit    gap-4 md:gap-6 lg:gap-8 flex  no-scrollbar overflow-y-visible overflow-x-auto">
+          {[...Array(10)].map((_, index) => (
+            <PlaylistContainer
+              key={index}
+              index={index}
+              songs={songs}
+              testId={testId[index]}
+              description={index + description}
+            />
+          ))}
+        </div>
+        <span className=" absolute top-0 right-0 -translate-y-6 pr-4">
+          see more
+        </span>
       </div>
     </div>
   );

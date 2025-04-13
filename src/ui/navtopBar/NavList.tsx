@@ -5,23 +5,30 @@ import { ReactNode, useState } from "react";
 import NavListUlWrapper from "./NavListUlWrapper";
 import { ListMusic, Menu, Plus } from "lucide-react";
 import IconWrapper from "../general/IconWrapper";
+import Link from "next/link";
+import PlaylistFolderContainer from "./PlaylistFolderContainer";
 
+export interface songsProp {
+  songs: Record<"title", string>[] | null;
+}
 interface childrenProp {
   childrenExplore: ReactNode;
   childrenLive: ReactNode;
   childrenPlaylist: ReactNode;
+  songs: songsProp["songs"];
 }
 function NavList({
   childrenExplore,
   childrenLive,
   childrenPlaylist,
+  songs,
 }: childrenProp) {
   // console.log("render");
   const [open, setOpen] = useState(false);
 
   return (
     <div className=" w-full ">
-      <ul className="fixed   w-[70px]  top-0  box-border  left-0 h-[70px] md:h-[calc(100%-70px)] flex  flex-col gap-x-1   rounded-b-sm ">
+      <ul className="fixed z-10 isolate   w-[70px]  top-0  box-border  left-0 h-[70px] md:h-[calc(100%-70px)] flex  flex-col gap-x-1   rounded-b-sm ">
         <button
           onClick={() => {
             setOpen(!open);
@@ -32,11 +39,17 @@ function NavList({
           {/* open */}
           <IconWrapper size="large" Icon={Menu} />
         </button>
-        <div className=" overflow-hidden h-full border-r border-opacity-15 border-neutral-200">
-          <div className="hidden md:block">{childrenExplore}</div>
 
-          <div className=" hidden md:block">{childrenLive}</div>
-          <div className="hidden md:block">{childrenPlaylist}</div>
+        <div className=" overflow-hidden h-full border-r border-opacity-15 border-neutral-200">
+          <Link href={"/explore"} className="hidden md:block">
+            {childrenExplore}
+          </Link>
+          <Link href={"/live"} className=" hidden md:block">
+            {childrenLive}
+          </Link>
+          <Link href={"/library"} className="hidden md:block">
+            {childrenPlaylist}
+          </Link>
         </div>
       </ul>
 
@@ -45,7 +58,7 @@ function NavList({
           <NavSideLink
             url="/explore"
             icon="icon"
-            desp="Explore"
+            desp="စုံလင်စွာရှာဖွေရန်"
             open={open}
             setOpen={setOpen}
           >
@@ -54,42 +67,21 @@ function NavList({
           <NavSideLink
             url="/live"
             icon="icon"
-            desp="Live"
+            desp="တိုက်ရိုက်လိုက်ဖ်"
             open={open}
             setOpen={setOpen}
           >
             {childrenLive}
           </NavSideLink>
-          <div>
-            <div className=" border-t-2  border-black  h-[50px] flex items-center justify-between  ">
-              <div className=" w-[70px] flex items-center  justify-center">
-                <IconWrapper size="large" Icon={ListMusic} />
-              </div>
-
-              <span className="">
-                <button className="">
-                  <IconWrapper size="large" Icon={Plus} />
-                </button>
-              </span>
-            </div>
-            {[...Array(20)].map((item, index) => (
-              <div
-                className=" mt-2  h-[50px] hover:bg-[#333333]  flex items-center"
-                key={index}
-              >
-                <div className="w-[70px]  cursor-pointer text-center  ">
-                  icon
-                </div>
-                <div className=" flex-1  truncate px-2">
-                  testforplaylis xdgopsdgo oihggoihsd
-                </div>
-              </div>
-            ))}
-          </div>
+          <PlaylistFolderContainer
+            open={open}
+            setOpen={setOpen}
+            songs={songs}
+          />
         </div>
       </NavListUlWrapper>
 
-      {open && <OverLay setOpen={setOpen} />}
+      {open && <OverLay setOpen={setOpen} className="bg-black/50" />}
     </div>
   );
 }

@@ -21,7 +21,7 @@ function AudioCurImg() {
           "opacity-100": isImageLoaded === "success",
         })}
         src={
-          "https://s3.tebi.io/test1345/premium_photo-1690406382383-3827c1397c48%20%281%29%20%285%29.jpg"
+          "https://s3.tebi.io/test1345/photo-1739467372234-2aba33f6b7ee.avif"
         }
         alt="this is image element"
         fill

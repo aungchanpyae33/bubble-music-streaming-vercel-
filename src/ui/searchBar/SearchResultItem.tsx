@@ -26,7 +26,7 @@ const SearchResultItem = memo(({ title, index, show }: prop) => {
       onMouseDown={() => router.push(`/setting?query=${title}`)}
       onTouchStart={() => router.push(`/setting?query=${title}`)}
     >
-      <div className=" truncate">{title}</div>
+      <div className=" leading-relaxed truncate">{title}</div>
     </div>
   );
 });

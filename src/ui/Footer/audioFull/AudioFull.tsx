@@ -33,7 +33,6 @@ function AudioFull({
   const refFocus = useRef<HTMLDivElement | null>(null);
 
   CloseFunctoionForFull(open, setOpen, toggleRef, refFocus);
-
   return (
     <AnimatePresence>
       {open && (
@@ -44,9 +43,8 @@ function AudioFull({
           <AudioFullBackGround
             className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#0A0A0A] translate-y-[50%]"
             ref={refFocus}
-            tabIndex={0}
           >
-            <div className="mx-auto w-[90%] h-[50px]   flex items-center sticky top-0 z-50">
+            <div className="mx-auto w-[90%] h-[50px]   flex items-center sticky top-0">
               <button
                 className=" bg-transparent transition-colors  duration-200 hover:bg-[#333333] p-1 rounded-full flex items-center justify-center"
                 onClick={() => {
