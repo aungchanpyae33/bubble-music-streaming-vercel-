@@ -7,8 +7,9 @@ import VolumeSlider from "./VolumeSlider";
 import VolumeSliderActionWrapper from "./VolumeSliderActionWrapper";
 import clsx from "clsx";
 import VolumeMuteButton from "./VolumeMuteButton";
-import { Volume2, VolumeX } from "lucide-react";
-import IconWrapper from "@/ui/general/IconWrapper";
+import ContextVolume from "./ContextVolume";
+import VolumeContainer from "./VolumeContainer";
+import VolumeToggleButton from "./VolumeToggleButton";
 
 function Volume() {
   const { dataAudio } = useContext(DataContext);
@@ -31,17 +32,10 @@ function Volume() {
     isPointer,
     isTouchDevice,
   });
+
   return (
-    <div className=" flex max-w-[250px] lg:w-full items-center  group p-1  ">
-      <div
-        className={clsx(
-          "absolute group-hover:bg-[#222222]  group-hover:lg:bg-inherit  h-full group-hover:flex lg:static lg:w-full lg:flex right-0  w-full",
-          {
-            "flex bg-[#222222] lg:bg-inherit": isDragging,
-            hidden: !isDragging,
-          }
-        )}
-      >
+    <ContextVolume>
+      <VolumeContainer isDragging={isDragging}>
         <div className="flex  w-fit gap-1  flex-1">
           <VolumeMuteButton
             value={value}
@@ -78,16 +72,10 @@ function Volume() {
             </VolumeSliderActionWrapper>
           </VolumeSlider>
         </div>
-      </div>
-      <button className="lg:hidden ">
-        {" "}
-        {value === 100 ? (
-          <IconWrapper size="small" Icon={VolumeX} />
-        ) : (
-          <IconWrapper size="small" Icon={Volume2} />
-        )}
-      </button>
-    </div>
+      </VolumeContainer>
+
+      <VolumeToggleButton value={value} />
+    </ContextVolume>
   );
 }
 
