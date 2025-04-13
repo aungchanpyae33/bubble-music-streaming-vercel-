@@ -3,18 +3,20 @@ import SearchBar from "../searchBar/SearchBar";
 import UserInfo from "../user/UserInfo";
 import NavSideBar from "./NavSideBar";
 import { Suspense } from "react";
-
+import Image from "next/image";
 function NavBar() {
   return (
     <nav className="navBarContainer flex w-full   h-[70px]   items-center justify-between border-opacity-15 bg-[#0A0A0A] border-b border-neutral-200 ">
-      <Suspense fallback={<p>lorem500</p>}>
-        <NavSideBar />
+      <Suspense fallback={<div className=" w-[160px] h-[70px]"></div>}>
+        <div className=" flex  w-[160px]">
+          <NavSideBar />
+          <div className="logo relative   w-[90px] h-[70px] flex items-center    bg-gradient-to-r">
+            <Image src={"/bubblelogo.svg"} fill alt="logo" className="" />
+          </div>
+        </div>
       </Suspense>
 
-      <div className="logo  p-2 bg-gradient-to-r from-[#AAAAAA]  to-[#CCCCCC] ">
-        <Link href="/">Bubble</Link>
-      </div>
-      <div className=" flex-1 z-20  text-end">
+      <div className=" flex-1  z-20  text-end">
         <SearchBar />
       </div>
 
