@@ -25,9 +25,9 @@ function ToggleButtonSpaceKey({
   );
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      // to prevent scroll
-      e.preventDefault();
       if (e.code === "Space" && !isInputFocus) {
+        // to prevent scroll
+        e.preventDefault();
         setPlay(`${songCuUrl},${playlistIdString}`, undefined);
         setPlayList(playlistIdString, undefined);
       }
