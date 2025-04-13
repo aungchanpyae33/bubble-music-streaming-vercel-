@@ -3,7 +3,7 @@ type MediaQuery = `(width ${">=" | "<=" | ">" | "<"} ${string})`;
 interface Props extends React.ComponentProps<"div"> {
   refFocus: RefObject<HTMLDivElement | null>;
   children: ReactNode;
-  mqAffectsChild: MediaQuery[] | null;
+  mqAffectsChild?: MediaQuery[];
 }
 function FocusTrap({ children, refFocus, mqAffectsChild }: Props) {
   const compareElement = useRef<HTMLElement>(null);
@@ -26,10 +26,11 @@ function FocusTrap({ children, refFocus, mqAffectsChild }: Props) {
     }
     findLastElement(); //initialize in audiofull load
     //to handle tailwind change hidden style
-    mqAffectsChild!.forEach((item, index) => {
-      mediaQueries[index] = window.matchMedia(item);
-      mediaQueries[index].addEventListener("change", findLastElement);
-    });
+    mqAffectsChild &&
+      mqAffectsChild.forEach((item, index) => {
+        mediaQueries[index] = window.matchMedia(item);
+        mediaQueries[index].addEventListener("change", findLastElement);
+      });
 
     // to handle when lastElement is focus and then resize the window to some breakpoint , and it loss focus state which can lead to break focus trap
     function handleOut(e: FocusEvent) {
@@ -37,7 +38,8 @@ function FocusTrap({ children, refFocus, mqAffectsChild }: Props) {
       if (e.relatedTarget) {
         return;
       }
-      if (e.target === focusableElements[0]) {
+      // check if last element is on the screen or not
+      if (compareElement.current !== focusableElements[0]) {
         lastClickMustBeToClose = true;
       }
     }
