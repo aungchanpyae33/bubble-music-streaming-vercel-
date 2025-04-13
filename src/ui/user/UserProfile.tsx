@@ -15,7 +15,7 @@ function UserProfile({
   const [userOpen, setUserOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const parentRef = useRef<HTMLDivElement | null>(null);
-  CloseFunctoion(userOpen, setUserOpen, buttonRef);
+  CloseFunctoion(userOpen, setUserOpen, buttonRef, false);
   OutterClick(userOpen, setUserOpen, parentRef);
   return (
     <div className=" relative z-10" ref={parentRef}>
