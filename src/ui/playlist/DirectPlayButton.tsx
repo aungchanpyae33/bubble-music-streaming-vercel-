@@ -119,7 +119,10 @@ function DirectPlayButton({
 
   return (
     <button
-      className=" absolute z-10 bottom-4 right-2 transition-[transform,opacity,background-color] duration-150 group-hover:-translate-y-2 opacity-0 peer-focus:-translate-y-2  peer-focus:opacity-100 focus:-translate-y-2 focus:opacity-100 group-hover:opacity-100  p-2 bg-[#222222]"
+      className=" absolute z-10 bottom-4 right-2  has-hover:transition-[transform,opacity,background-color] has-hover:duration-150 has-hover:group-hover:-translate-y-2 has-hover:opacity-0 has-hover:peer-focus:-translate-y-2  has-hover:peer-focus:opacity-100 
+      has-hover:focus:-translate-y-2 
+      has-hover:focus:opacity-100 
+      has-hover:group-hover:opacity-100  p-2 bg-[#222222]"
       onClick={(e) => {
         e.preventDefault();
         e.stopPropagation();

@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import plugin from "tailwindcss/plugin";
 const config: Config = {
   // in version 4 there is no need to do that
   future: {
@@ -46,6 +47,11 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    plugin(function ({ addVariant }) {
+      addVariant("has-hover", "@media(hover : hover)");
+      addVariant("no-hover", "@media not all and (hover: hover)");
+    }),
+  ],
 };
 export default config;
