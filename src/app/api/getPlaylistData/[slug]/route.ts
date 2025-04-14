@@ -1,14 +1,14 @@
 export const runtime = "edge";
+import { NextRequest, NextResponse } from "next/server";
 
-import { urlProp } from "@/ui/albumContainer/AudiosContainer";
-import { NextResponse } from "next/server";
-
-export async function GET() {
-  await new Promise((resolve) => setTimeout(resolve, 500)); // Simulate network delay
-
-  // Mock data
-  // it should be playlistLId : {[]}
-  const playListMock = {
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ slug: string }> }
+) {
+  const { slug } = await params;
+  console.log(slug, "hello are you here");
+  await new Promise((resolve) => setTimeout(resolve, 500));
+  const playListMock1 = {
     playlistId: "one",
     song: [
       {
@@ -31,10 +31,15 @@ export async function GET() {
         name: "paper lady",
         duration: 239.467,
       },
+    ],
+  };
+  const playListMock2 = {
+    playlistId: "two",
+    song: [
       {
         url: "https://kokopop.vercel.app/assets/init.mp4",
         sege: 24,
-        name: "paper lady",
+        name: "paper lady33",
         duration: 239.467,
       },
       {
@@ -58,6 +63,7 @@ export async function GET() {
       },
     ],
   };
+  const playListMock = slug === "one0" ? playListMock1 : playListMock2;
   return NextResponse.json(playListMock, {
     headers: {
       "CDN-Cahche-Control": "public,max-age=0,smax-age=360000",
