@@ -1,10 +1,11 @@
-import { ReactNode, useMemo, useRef } from "react";
+import { ReactNode, useContext, useMemo, useRef } from "react";
 import useAudioSeek from "@/lib/CustomHooks/AudioSeek";
 import AudioThumbSlider from "./AudioThumbSlider";
 import AudioProgressbar from "./AudioProgressbar";
 import AudioSliderActionWrapper from "./AudioSliderActionWrapper";
 import AudioSlider from "./AudioSlider";
 import clsx from "clsx";
+import { Context } from "@/lib/MediaSource/ContextMediaAudioFull";
 export interface eventProp {
   e:
     | React.MouseEvent<HTMLInputElement>
@@ -16,6 +17,7 @@ interface PropAudioSeek extends React.ComponentProps<"div"> {
   hideSliderInSmScreen: boolean;
   childrenFn: (value: number) => ReactNode;
   url: string;
+  isFull: boolean;
 }
 
 function AudioSeekBar({
@@ -24,11 +26,14 @@ function AudioSeekBar({
   className,
   hideSliderInSmScreen,
   url,
+  isFull,
 }: PropAudioSeek) {
+  const { open } = useContext(Context);
   const isPointer = useMemo(
     () => typeof window !== "undefined" && "onpointerdown" in window,
     []
   );
+  const shouldRun = useMemo(() => (isFull ? open : !open), [isFull, open]);
   const isTouchDevice = useMemo(
     () =>
       typeof window !== "undefined" &&
@@ -43,6 +48,7 @@ function AudioSeekBar({
     isPointer,
     isTouchDevice,
     url,
+    shouldRun,
   });
   return (
     <>

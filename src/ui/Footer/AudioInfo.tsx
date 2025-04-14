@@ -3,7 +3,6 @@ import AudioInfoOverFlow from "./AudioInfoOverFlow";
 import { Context } from "@/lib/MediaSource/ContextMediaAudioFull";
 
 function AudioInfo({ name, isLink }: { name: string; isLink: boolean }) {
-  const { open } = useContext(Context);
   const ofcheckDiv = useRef(null);
   return (
     <div
@@ -15,13 +14,7 @@ function AudioInfo({ name, isLink }: { name: string; isLink: boolean }) {
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit
         expedita consectetur quam, aut consequatur harum!
       </div> */}
-      {!open && (
-        <AudioInfoOverFlow
-          ofcheckDiv={ofcheckDiv}
-          name={name}
-          isLink={isLink}
-        />
-      )}
+      <AudioInfoOverFlow ofcheckDiv={ofcheckDiv} name={name} isLink={isLink} />
     </div>
   );
 }

@@ -122,15 +122,12 @@ function AudioPlayer({
             </div>
             <div className="BottomContainer  w-full absolute sm:static top-0 left-0 ">
               <MediaSessionSeekWrapper duration={duration}>
-                <AudioElement
-                  url={url}
-                  Child={
-                    <TimeIndicatorDur
-                      duration={duration}
-                      className="text-sm  w-[5rem] text-center hidden sm:inline"
-                    />
-                  }
-                ></AudioElement>
+                <AudioElement url={url} isFull={false}>
+                  <TimeIndicatorDur
+                    duration={duration}
+                    className="text-sm  w-[5rem] text-center hidden sm:inline"
+                  />
+                </AudioElement>
               </MediaSessionSeekWrapper>
             </div>
           </div>
@@ -142,9 +139,7 @@ function AudioPlayer({
         >
           <div className="w-full sm:flex  gap-3 relative  items-center justify-around">
             <QueueButton />
-            <VolumeWrapper>
-              <Volume />
-            </VolumeWrapper>
+            <Volume isFull={false} />
             <FullToggleButton footerRef={footerRef} ref={toggleRef} />
           </div>
         </div>

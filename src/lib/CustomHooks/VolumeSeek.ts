@@ -14,6 +14,7 @@ interface audioSeekProp {
   sliderRef: RefObject<HTMLDivElement | null>;
   isPointer: boolean;
   isTouchDevice: boolean;
+  shouldRun: boolean;
 }
 interface useAudioSeekReturnType {
   value: VolumeValueState["value"];
@@ -27,6 +28,7 @@ const useVolumeSeek = ({
   sliderRef,
   isPointer,
   isTouchDevice,
+  shouldRun,
 }: audioSeekProp): useAudioSeekReturnType => {
   const value = useVolumeValue((state: VolumeValueState) => state.value);
   const setValue = useVolumeValue(
@@ -40,6 +42,7 @@ const useVolumeSeek = ({
   );
   useEffect(() => {
     function handleMove(e: PointerEvent | TouchEvent | MouseEvent) {
+      if (!shouldRun) return;
       const { percentage, seekCalReturn } = sliderPositionCal({
         sliderRef,
         e,
@@ -48,6 +51,7 @@ const useVolumeSeek = ({
       setValue(percentage);
     }
     function handleUp() {
+      if (!shouldRun) return;
       setIsDragging(false);
     }
 
@@ -82,6 +86,7 @@ const useVolumeSeek = ({
     isTouchDevice,
     setValue,
     setIsDragging,
+    shouldRun,
   ]);
 
   return { value, setValue, isDragging, setIsDragging };

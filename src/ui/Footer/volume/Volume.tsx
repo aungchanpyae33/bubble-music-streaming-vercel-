@@ -10,13 +10,16 @@ import VolumeMuteButton from "./VolumeMuteButton";
 import ContextVolume from "./ContextVolume";
 import VolumeContainer from "./VolumeContainer";
 import VolumeToggleButton from "./VolumeToggleButton";
+import { Context } from "@/lib/MediaSource/ContextMediaAudioFull";
 
-function Volume() {
+function Volume({ isFull }: { isFull: boolean }) {
   const { dataAudio } = useContext(DataContext);
+  const { open } = useContext(Context);
   const isPointer = useMemo(
     () => typeof window !== "undefined" && "onpointerdown" in window,
     []
   );
+  const shouldRun = useMemo(() => (isFull ? open : !open), [isFull, open]);
   const isTouchDevice = useMemo(
     () =>
       typeof window !== "undefined" &&
@@ -31,6 +34,7 @@ function Volume() {
     sliderRef,
     isPointer,
     isTouchDevice,
+    shouldRun,
   });
 
   return (

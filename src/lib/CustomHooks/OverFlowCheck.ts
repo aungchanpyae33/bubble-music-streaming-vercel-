@@ -1,5 +1,12 @@
-import React, { RefObject, useEffect, useRef, useState } from "react";
+import React, {
+  RefObject,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import debounce from "../debounce";
+import { Context } from "../MediaSource/ContextMediaAudioFull";
 interface isOverFlowProp {
   duration: number;
   clientWidth: number;
@@ -17,11 +24,13 @@ const useOverflowCheck = (
     duration: 0,
     clientWidth: 0,
   });
+  const { open } = useContext(Context);
   const animateItterate = useRef(1);
   const [animate, setanimatie] = useState(true);
   const previousWidth = useRef(0);
   useEffect(() => {
     const checkOverflow = () => {
+      if (open) return;
       const fullWidth = element.current!.scrollWidth;
       const showWidth = element.current!.clientWidth;
       if (fullWidth > showWidth) {
@@ -36,6 +45,7 @@ const useOverflowCheck = (
     };
     checkOverflow();
     const debounceResize = debounce((entries) => {
+      if (open) return;
       for (let entry of entries) {
         const clientWidth = Math.round(entry.contentRect.width);
         if (clientWidth !== previousWidth.current) {
@@ -52,7 +62,7 @@ const useOverflowCheck = (
       console.log("nahh man");
       observer.disconnect();
     };
-  }, [element, isOverFlow.clientWidth, isOverFlow.duration]);
+  }, [element, isOverFlow.clientWidth, isOverFlow.duration, open]);
   return [isOverFlow, animate, setanimatie, setIsOverFlow, animateItterate];
 };
 export default useOverflowCheck;

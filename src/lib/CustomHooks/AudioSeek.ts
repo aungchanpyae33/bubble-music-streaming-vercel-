@@ -18,6 +18,7 @@ interface audioSeekProp {
   isPointer: boolean;
   isTouchDevice: boolean;
   url: string;
+  shouldRun: boolean;
 }
 interface useAudioSeekReturnType {
   value: AudioValueState["value"];
@@ -32,6 +33,7 @@ const useAudioSeek = ({
   isPointer,
   isTouchDevice,
   url,
+  shouldRun,
 }: audioSeekProp): useAudioSeekReturnType => {
   const value = useAudioValue((state: AudioValueState) => state.value);
   const setValue = useAudioValue((state: AudioValueActions) => state.setValue);
@@ -54,10 +56,12 @@ const useAudioSeek = ({
     const copyDataAudio = dataAudio!.current!;
     const throttledHandleTimeUpdate = throttle(handleTimeUpdate, 1000);
     function handleMove(e: PointerEvent | TouchEvent | MouseEvent) {
+      if (!shouldRun) return;
       const { percentage } = sliderPositionCal({ sliderRef, e });
       setValue(percentage);
     }
     function handleUp(e: PointerEvent | TouchEvent | MouseEvent) {
+      if (!shouldRun) return;
       setIsDragging(false);
       const per = seekCal({ sliderRef, e });
       AudioSeeked({
@@ -74,6 +78,7 @@ const useAudioSeek = ({
     }
 
     function handleTimeUpdate(e: Event) {
+      if (!shouldRun) return;
       if (!isDragging) {
         const audioElement = e.currentTarget as HTMLAudioElement;
         const data = (audioElement.currentTime / audioElement.duration) * 100;
@@ -123,6 +128,7 @@ const useAudioSeek = ({
     setIsDragging,
     setValue,
     bufferThreshold,
+    shouldRun,
   ]);
 
   useEffect(() => {
