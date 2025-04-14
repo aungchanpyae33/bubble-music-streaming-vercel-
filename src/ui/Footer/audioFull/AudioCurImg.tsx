@@ -1,36 +1,18 @@
+import { Context } from "@/lib/MediaSource/ContextMediaAudioFull";
 import clsx from "clsx";
-import { useContext, useRef } from "react";
-import { Context } from "./AudioFullBackGround";
-import useGetDominantColor from "@/lib/GetDominantColor";
-import Image from "next/image";
+import { useContext } from "react";
+import AudioCu from "./AudioCu";
+import { AnimatePresence } from "motion/react";
 
 function AudioCurImg() {
-  const imgRef = useRef<HTMLImageElement | null>(null);
-  const { setBgValue } = useContext(Context);
-  const [isImageLoaded] = useGetDominantColor({ setBgValue, imgRef });
+  const { open } = useContext(Context);
   return (
     <div
       className={clsx(
         " lg:h-[270px] h-[100%]  mx-auto lg:mx-0 aspect-square shrink-0 grow-0 fallbackAspect bg-[#343333] short:opacity-0 short:absolute  overflow-hidden relative"
       )}
     >
-      <Image
-        ref={imgRef}
-        className={clsx("transition-opacity duration-300", {
-          "opacity-0": isImageLoaded === "initial",
-          "opacity-100": isImageLoaded === "success",
-        })}
-        src={
-          "https://s3.tebi.io/test1345/photo-1739467372234-2aba33f6b7ee.avif"
-        }
-        alt="this is image element"
-        fill
-      />
-      {isImageLoaded === "error" && (
-        <div className="absolute top-1/2 left-1/2 -translate-y-1/2 whitespace-nowrap    -translate-x-1/2">
-          some image to show image
-        </div>
-      )}
+      <AnimatePresence>{open && <AudioCu />}</AnimatePresence>
     </div>
   );
 }
