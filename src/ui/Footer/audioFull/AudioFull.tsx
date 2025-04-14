@@ -44,7 +44,7 @@ function AudioFull({
             className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#0A0A0A] translate-y-[50%]"
             ref={refFocus}
           >
-            <div className="mx-auto w-[90%] h-[50px]   flex items-center sticky top-0">
+            <div className="mx-auto w-[90%] h-[55px] min-h-[55px] max-h-[55px]  flex items-center sticky top-0">
               <button
                 className=" bg-transparent transition-colors  duration-200 hover:bg-[#333333] p-1 rounded-full flex items-center justify-center"
                 onClick={() => {
@@ -60,7 +60,7 @@ function AudioFull({
             <AudioFullInfoWrapper>
               <AudioCurImg />
             </AudioFullInfoWrapper>
-            <div className=" h-fit py-2  shrink-0  w-[90%]  inset-x-0 mx-auto sticky bottom-0">
+            <div className=" h-[20%] py-2  shrink-0  w-[90%]  inset-x-0 mx-auto sticky bottom-0">
               <div className="audioFunctionContainer  flex  flex-col flex-1 h-full gap-y-10 items-center justify-center">
                 <div className="BottomContainer w-full static top-0 left-0 items-center ">
                   <div className="  w-full flex items-center relative">

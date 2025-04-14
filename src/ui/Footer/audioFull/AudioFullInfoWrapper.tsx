@@ -10,20 +10,23 @@ function AudioFullInfoWrapper({ children }: { children: React.ReactNode }) {
       <motion.div
         layout
         className={clsx(
-          "lg:items-end relative lg:w-[50%]  gap-2 lg:gap-4 lg:justify-start overflow-hidden  flex   lg:flex-row   w-full",
+          "lg:items-end relative lg:w-[50%]  gap-2 lg:gap-4 lg:justify-start overflow-hidden   flex   lg:flex-row   w-full",
           {
             "flex-col": !change,
             "justify-start items-start": change,
-            "items-center justify-between": !change,
+            "items-center justify-center": !change,
           }
         )}
       >
         <motion.div
           layout
-          className={clsx(" flex items-end lg:h-auto", {
-            "h-[80%] ": !change,
-            "h-[50px] ": change,
-          })}
+          className={clsx(
+            " flex items-center shrink-0 grow-0  overflow-hidden  lg:h-auto",
+            {
+              "h-[80%] max-h-[90vw] rounded-md": !change,
+              "h-[50px] rounded-none": change,
+            }
+          )}
         >
           {children}
         </motion.div>
