@@ -1,51 +1,58 @@
-import { unstable_cache } from "next/cache";
-import { turso } from "./turso";
-
+import { supabase } from "./supabase";
 export interface Movie {
   title: string;
 }
 export interface MovieRe {
   title: string;
 }
+
+export const get = async () => {
+  const { data: songs, error } = await supabase.from("song").select("title");
+  return { data: songs, error };
+};
 export const getData = async (query: string) => {
-  const { rows } = await turso.execute(
-    `SELECT title FROM movieB WHERE title LIKE '${query}%'`
-  );
-  const data: Movie[] =
-    rows.length > 0
-      ? rows.map((row: any) => ({
-          title: row.title,
-        }))
-      : [{ title: `we do not found the result` }];
-  return data;
+  const { data: song, error } = await supabase
+    .from("song")
+    .select("title")
+    .ilike("title", `${query}%`);
+  console.log(song);
+  return song;
 };
 
-export async function getRecom(query: string) {
-  console.log(query);
+export const insertData = async (formData: FormDataEntryValue) => {
+  const { data: song, error } = await supabase
+    .from("song")
+    .insert([{ title: formData }])
+    .select("title");
+  return { data: song, error };
+};
 
-  if (query.length > 0) {
-    console.time("Execution");
+// export async function getRecom(query: string) {
+//   console.log(query);
 
-    const { rows } = await turso.execute(`
-      WITH extracted_vector AS (
-        SELECT vector_extract(embedding) AS embedding_vector 
-        FROM movieB 
-        WHERE title = '${query}'
-      )
-      SELECT title 
-      FROM movieB, extracted_vector
-      ORDER BY vector_distance_cos(embedding, extracted_vector.embedding_vector) 
-      LIMIT 3
-    `);
+//   if (query.length > 0) {
+//     // console.time("Execution");
 
-    console.timeEnd("Execution");
+//     const { rows } = await turso.execute(`
+//       WITH extracted_vector AS (
+//         SELECT vector_extract(embedding) AS embedding_vector
+//         FROM movieB
+//         WHERE title = '${query}'
+//       )
+//       SELECT title
+//       FROM movieB, extracted_vector
+//       ORDER BY vector_distance_cos(embedding, extracted_vector.embedding_vector)
+//       LIMIT 3
+//     `);
 
-    const data: MovieRe[] = rows.map((row: any) => ({
-      title: row.title,
-    }));
+//     // console.timeEnd("Execution");
 
-    return data;
-  }
+//     const data: MovieRe[] = rows.map((row: any) => ({
+//       title: row.title,
+//     }));
 
-  return [];
-}
+//     return data;
+//   }
+
+//   return [];
+// }
