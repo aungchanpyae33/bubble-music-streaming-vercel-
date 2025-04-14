@@ -1,7 +1,7 @@
 import { ReactNode, RefObject, useEffect, useRef } from "react";
 type MediaQuery = `(width ${">=" | "<=" | ">" | "<"} ${string})`;
 interface Props extends React.ComponentProps<"div"> {
-  refFocus: RefObject<HTMLDivElement | null>;
+  refFocus: RefObject<HTMLElement | null>;
   children: ReactNode;
   mqAffectsChild?: MediaQuery[];
 }
