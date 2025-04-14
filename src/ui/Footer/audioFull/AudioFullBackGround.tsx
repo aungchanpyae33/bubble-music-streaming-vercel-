@@ -28,6 +28,7 @@ function AudioFullBackGround({ children, className, ref }: Props) {
   return (
     <Context.Provider value={value}>
       <motion.div
+        tabIndex={0}
         initial={{ y: "100%" }}
         animate={{ y: "0" }}
         exit={{ y: "100%" }}

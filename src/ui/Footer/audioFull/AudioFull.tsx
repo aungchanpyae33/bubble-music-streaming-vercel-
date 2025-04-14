@@ -48,8 +48,8 @@ function AudioFull({
               <button
                 className=" bg-transparent transition-colors  duration-200 hover:bg-[#333333] p-1 rounded-full flex items-center justify-center"
                 onClick={() => {
-                  console.log("what happen man");
                   footerRef!.current!.classList.toggle("z-50");
+                  toggleRef.current?.focus();
                   setOpen(!open);
                 }}
               >

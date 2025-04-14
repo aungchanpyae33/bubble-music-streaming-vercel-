@@ -7,11 +7,12 @@ function CloseFunctoionForFull(
   refFocus: RefObject<HTMLDivElement | null>
 ) {
   useEffect(() => {
+    const copyRef = refFocus!.current!;
     function closeSearch(e: KeyboardEvent) {
       if (e.key === "Escape" && value === true) {
         console.log("hi");
         fun(false);
-        closeElement!.current!.classList.toggle("z-50");
+        copyRef.classList.toggle("z-50");
         closeElement.current!.focus();
       }
       if (e.key === "Tab") {
@@ -19,12 +20,14 @@ function CloseFunctoionForFull(
       }
     }
     if (value) {
-      refFocus!.current!.focus();
-      window.addEventListener("keydown", closeSearch);
+      copyRef.focus();
+      copyRef.addEventListener("keydown", closeSearch);
     }
 
     return () => {
-      window.removeEventListener("keydown", closeSearch);
+      if (copyRef) {
+        copyRef.removeEventListener("keydown", closeSearch);
+      }
     };
   }, [value, fun, closeElement, refFocus]);
 }
