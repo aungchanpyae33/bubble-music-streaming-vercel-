@@ -1,14 +1,17 @@
+import { get } from "@/database/data";
 import Container from "@/ui/albumContainer/Container";
 import TapNavi from "@/ui/Home/TapNavi";
 
-function page() {
+async function page() {
+  console.log("hey");
+  const songs = await get();
   return (
-    <div className="p-4">
+    <div className="space-y-3">
       <TapNavi />
-      <Container songs={["hi"]} description="Request song of the week" />
-      <Container songs={["hi"]} description="Hit Song of the week" />
-      <Container songs={["hi"]} description="Hit Song of the week" />
-      <Container songs={["hi"]} description="Hit Song of the week" />
+      <Container
+        songs={["hi"]}
+        description="နားထောင်လေ့ရှိသော သီချင်းများ စာရင်း"
+      />
     </div>
   );
 }
