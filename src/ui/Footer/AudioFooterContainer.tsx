@@ -21,7 +21,7 @@ function AudioFooterContainer({
     <div
       className={clsx("w-full h-full  bg-green-800", {
         "absolute -top-[70px]  left-0 overShort:static overShort:-translate-y-0 overShort:top-auto overShort:left-auto":
-          !open && device === "mobile",
+          device === "mobile",
         " cursor-not-allowed": !url,
       })}
       tabIndex={0}
