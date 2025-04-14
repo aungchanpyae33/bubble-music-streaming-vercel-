@@ -8,34 +8,37 @@ import {
   SongActions,
   SongDetail,
   SongFunctionActions,
-  SongFunctionState,
   StorePlayListIdState,
   StorePlayListIdStateAction,
-  // StorePlayListIdState,
-  // StorePlayListIdStateAction,
   useDirectPlayBack,
   usePreviousPlayList,
   useRepeatAndCurrentPlayList,
   useSong,
   useSongFunction,
   useStorePlayListId,
-  // useStorePlayListId,
 } from "@/lib/zustand";
-import { playlistProp } from "../albumContainer/AudiosContainer";
+import { playlistProp, urlProp } from "../albumContainer/AudiosContainer";
 import { RefObject, useRef } from "react";
 import IconWrapper from "../general/IconWrapper";
 import { Pause, Play } from "lucide-react";
 const hasData = async (
-  dataFromFetch: RefObject<Promise<playlistProp> | null>
+  dataFromFetch: RefObject<Promise<playlistProp> | null>,
+  index: number
 ) => {
   if (!dataFromFetch.current) {
-    dataFromFetch.current = fetch("/api/getPlaylistData").then((res) =>
-      res.json()
+    dataFromFetch.current = fetch(`/api/getPlaylistData/one${index}`).then(
+      (res) => res.json()
     );
   }
   return dataFromFetch.current;
 };
-function DirectPlayButton({ playListId }: { playListId: string }) {
+function DirectPlayButton({
+  playListId,
+  index,
+}: {
+  playListId: string;
+  index: number;
+}) {
   const dataFromFetch = useRef<Promise<playlistProp> | null>(null);
 
   // toggle playlistfolder
@@ -72,11 +75,11 @@ function DirectPlayButton({ playListId }: { playListId: string }) {
     (state: previousSongPlaylistAction) => state.setPreviousPlayListArray
   );
 
-  const handlePlayClick = async () => {
+  const handlePlayClick = async (index: number) => {
     const playlistData = !playlistId
-      ? await hasData(dataFromFetch)
+      ? await hasData(dataFromFetch, index)
       : { playlistId: playListId, song: playListArray };
-
+    console.log(playlistData);
     if (playlistData) {
       const currentIndex = (() => {
         if (playlistId) {
@@ -116,11 +119,11 @@ function DirectPlayButton({ playListId }: { playListId: string }) {
 
   return (
     <button
-      className=" absolute z-10 bottom-4 right-2 transition-[transform,opacity,background-color] duration-150 group-hover:-translate-y-2 opacity-0 peer-focus:-translate-y-2 peer-focus:opacity-100 focus:-translate-y-2 focus:opacity-100 group-hover:opacity-100  p-2 bg-[#222222]"
+      className=" absolute z-10 bottom-4 right-2 transition-[transform,opacity,background-color] duration-150 group-hover:-translate-y-2 opacity-0 peer-focus:-translate-y-2  peer-focus:opacity-100 focus:-translate-y-2 focus:opacity-100 group-hover:opacity-100  p-2 bg-[#222222]"
       onClick={(e) => {
         e.preventDefault();
         e.stopPropagation();
-        handlePlayClick();
+        handlePlayClick(index);
       }}
     >
       {IsPlayList ? (

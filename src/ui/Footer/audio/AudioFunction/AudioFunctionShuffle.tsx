@@ -2,8 +2,10 @@ import shufflePlaylistArray from "@/lib/shufflePlaylistArray";
 import {
   currentSongPlaylistAction,
   previousSongPlaylist,
+  StorePlayListIdState,
   usePreviousPlayList,
   useRepeatAndCurrentPlayList,
+  useStorePlayListId,
 } from "@/lib/zustand";
 import { urlProp } from "@/ui/albumContainer/AudiosContainer";
 import IconWrapper from "@/ui/general/IconWrapper";
@@ -15,6 +17,7 @@ interface Props extends React.ComponentProps<"button"> {
   url: string;
 }
 function AudioFunctionShuffle({ className, urlProp, url }: Props) {
+  console.log(urlProp);
   // console.log("render");
   const currentIndex = urlProp.findIndex((song) => song.url === url);
   const currentSong = urlProp[currentIndex];
@@ -24,9 +27,13 @@ function AudioFunctionShuffle({ className, urlProp, url }: Props) {
   ];
   const [isShuffle, setIsShuffle] = useState(false);
   const previousPlayListArray = usePreviousPlayList(
-    (state: previousSongPlaylist) => state.previousPlayListArray
-  );
+    (state: previousSongPlaylist) =>
+      Object.values(state.previousPlayListArray)[0] || []
+  ) as urlProp[];
 
+  const playlistId = useStorePlayListId(
+    (state: StorePlayListIdState) => Object.values(state.playlistId)[0] || []
+  ) as string[];
   const shuffleArray = !isShuffle
     ? [currentSong, ...shufflePlaylistArray(excludeCurrentSong)]
     : previousPlayListArray;
@@ -38,7 +45,9 @@ function AudioFunctionShuffle({ className, urlProp, url }: Props) {
     <button
       className={className}
       onClick={() => {
-        setPlayListArray(shuffleArray);
+        setPlayListArray({
+          [playlistId[0] || ""]: shuffleArray,
+        });
         setIsShuffle(!isShuffle);
       }}
     >
