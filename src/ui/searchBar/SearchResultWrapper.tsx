@@ -1,6 +1,5 @@
 import { ReactNode, useContext } from "react";
-import ToggleContext, { ContextToggle } from "./ToggleContext";
-import SearchResult from "./SearchResult";
+import { ContextToggle } from "./ToggleContext";
 
 function SearchResultWrapper({ children }: { children: ReactNode }) {
   const { open } = useContext(ContextToggle);

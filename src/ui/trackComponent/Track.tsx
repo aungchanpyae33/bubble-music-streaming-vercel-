@@ -2,6 +2,9 @@ import { TimeFormat } from "@/lib/TimeFormat";
 import ToggleElement from "../Footer/audio/Toggle/ToggleElement";
 import type { playlistProp, urlProp } from "../albumContainer/AudiosContainer";
 import ToolTip from "../general/ToolTip";
+import IconWrapper from "../general/IconWrapper";
+import { EllipsisVertical } from "lucide-react";
+import ToggleHeartButton from "./ToggleHeartButton";
 
 function Track({
   name,
@@ -22,15 +25,25 @@ function Track({
   // roleCell: RefObject<number>;
   // dataInc: RefObject<number>;
 }) {
+  const tooltipContent = [
+    "dfdkjbf jkbfibdfiub uidf",
+    "fdisgiruwr",
+    "dfldfkiweri w ieweeiu wiu i wuehwieurg uig wiuer iugr wiugr g iuwirhwr wrg iwug iwr fh iuh igug ishd ishg wht9w hu highs ih sidgh weihetwiuhwuerewirhw ihr iwhr iwhriwhrwiehr wbriwehrwiurh h iewri hwirh wirhweiur wuh",
+    " ewjroiwj rwe",
+    "w erweroih  wier woierh wer ",
+    "dfknoiwnroiwhw e",
+  ];
   return (
     <tr
-      className="focus-within:bg-red-200  [&:has(:focus-visible)]:ring-4 h-[72px]  hover:bg-[#333333]"
+      className=" transition-colors duration-150  [&:has(:focus-visible)]:ring-4 h-[72px]  hover:bg-[#1E2328] group focus-within:bg-[#333333]
+      focus-within:hover:bg-[#333333]
+      "
       // tabIndex={0}
       id="uni1"
       role={`cell${index + 1}`}
       //for accessbility
       // onKeyDown={(e) => {
-      //   ArrowNavi(e, roleCell, "ArrowRight", "ArrowLeft", 1, "rowCell");
+      //   ArrowNavi(e, roleCell, p"ArrowRight", "ArrowLeft", 1, "rowCell");
       // }}
       // onFocus={(e) => {
       //   dataInc.current = index + 1;
@@ -49,15 +62,9 @@ function Track({
       </td>
 
       <td className=" max-w-[100px] px-2 ">
-        <ToolTip
-          tooltipContent="Lorem df Lorem ipsum dolo Lorem ipsum dolor sit amet Lorem ipsum dolor sit
-            amet consectetur adipisicing elit. Alias a consectetur voluptatem
-            atque totam nostrum eos culpa minus quia!"
-        >
+        <ToolTip tooltipContent={tooltipContent[index]}>
           <div className="text-ellipsis  overflow-x-hidden whitespace-nowrap pointer-events-none">
-            Lorem ipsum dolo Lorem ipsum dolor sit amet Lorem ipsum dolor sit
-            amet consectetur adipisicing elit. Alias a consectetur voluptatem
-            atque totam nostrum eos culpa minus quia!
+            Lorem ipsum dolo Lorem ipsum
           </div>
         </ToolTip>
         <div className="sm:hidden">
@@ -74,12 +81,16 @@ function Track({
       <td className=" max-w-[100px] px-2  hidden md:table-cell  truncate">
         aung {index}
       </td>
-
-      <td className=" text-right px-2  hidden sm:table-cell  max-w-[100px] truncate">
+      <td>
+        <ToggleHeartButton />
+      </td>
+      <td className="px-2  hidden sm:table-cell   max-w-20 truncate text-center">
         {TimeFormat(duration)}
       </td>
 
-      <td className=" w-14 text-center px-2  sm:hidden table-cell"> dot</td>
+      <td className=" w-14 text-center px-2  sm:hidden table-cell">
+        <IconWrapper Icon={EllipsisVertical} size="small" />
+      </td>
     </tr>
   );
 }

@@ -20,19 +20,18 @@ function PlaylistContainer({ songs, description, index, testId }: prop) {
       )}
     >
       <Link
-        href={"album/supanova"}
+        href={`album/one${index}`}
         prefetch={false}
-        className="flex relative w-full imageContainer rounded-[4.5px] overflow-hidden   before:block before:pb-[100%] group"
+        className="flex relative w-full imageContainer rounded-[4.5px] overflow-hidden    before:block before:pb-[100%] group"
       >
         <Image
-          src="https://s3.tebi.io/test1345/timo-volz-ZlFKIG6dApg-unsplash%20%281%29.jpg"
-          width={300}
-          height={300}
+          src="https://s3.tebi.io/test1345/20250412_1240_Smiling%20Girl%20with%20Headphones_simple_compose_01jrm9wdxjegbtgsevnsbfjd63%20%286%29%20%282%29.png"
+          fill
           alt="this is image element"
           priority={true}
-          className="w-full h-full"
+          className=""
         />
-        <DirectPlayButton playListId={testId} />
+        <DirectPlayButton playListId={testId} index={index} />
         <span className=" group-hover:backdrop-brightness-75 absolute inset-0  "></span>
       </Link>
       <div className=" w-full">

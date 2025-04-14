@@ -21,7 +21,6 @@ function CloseFunctoion(
   );
   useEffect(() => {
     function closeSearch(e: KeyboardEvent) {
-      console.log("hello");
       if (e.key === "Escape" && value === true && !isChildOpen) {
         fun(false);
         setIsChildOpen({ true: false });

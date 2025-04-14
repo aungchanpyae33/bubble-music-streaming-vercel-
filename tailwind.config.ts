@@ -1,6 +1,6 @@
 import type { Config } from "tailwindcss";
-
 const config: Config = {
+  // in version 4 there is no need to do that
   future: {
     hoverOnlyWhenSupported: true,
   },
@@ -14,14 +14,12 @@ const config: Config = {
     extend: {
       screens: {
         short: { raw: "(max-height: 400px)" },
+        overShort: { raw: "(max-height: 280px)" },
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
-      },
-      colors: {
-        overlay: "rgba(43, 43, 41,0.5)",
       },
       animation: {
         showtextoverflow:
@@ -42,6 +40,9 @@ const config: Config = {
           },
           to: { transform: "translateX(0)" },
         },
+      },
+      colors: {
+        overlay: "rgba(43, 43, 41,0.5)",
       },
     },
   },

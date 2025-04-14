@@ -47,6 +47,6 @@ export function playBackRate({
   //data + 1 means already loaded buffer
   //  in this case SegeData -1 is equal to the segData + 1 which is data of the segments that has loaded buffer
   const datag = final === segData - 1 ? final + 1 : final;
-  console.log(datag);
+  // console.log(datag, "dataG");
   return datag;
 }

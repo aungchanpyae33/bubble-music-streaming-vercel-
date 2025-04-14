@@ -1,5 +1,5 @@
 "use client";
-import { currentSongPlaylistAction, useCurrentPlayList } from "@/lib/zustand";
+import { currentSongPlaylistAction } from "@/lib/zustand";
 import { ReactNode, useEffect } from "react";
 import type { urlProp } from "./AudiosContainer";
 
