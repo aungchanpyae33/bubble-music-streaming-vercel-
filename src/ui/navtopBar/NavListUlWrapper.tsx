@@ -22,9 +22,7 @@ function NavListUlWrapper({ open, setOpen, children }: NavListUlWrapperProp) {
       <li className="h-[70px] relative   flex border-b border-opacity-15 border-neutral-200">
         <NavSidebarToggle setOpen={setOpen} open={open} />
         <button
-          className={clsx(
-            "px-2   flex flex-1 items-center   justify-start h-[70px]"
-          )}
+          className={clsx("flex flex-1 items-center   justify-start  h-[70px]")}
           aria-hidden={true}
           tabIndex={open ? 0 : -1}
         >

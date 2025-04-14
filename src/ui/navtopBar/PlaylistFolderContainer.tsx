@@ -47,7 +47,7 @@ function PlaylistFolderContainer({
             key={index}
           >
             <div className="w-[70px]  cursor-pointer text-center  ">icon</div>
-            <div className=" flex-1  truncate px-2">{item.title}</div>
+            <div className=" flex-1  truncate pr-2">{item.title}</div>
           </div>
         ))}
     </div>
