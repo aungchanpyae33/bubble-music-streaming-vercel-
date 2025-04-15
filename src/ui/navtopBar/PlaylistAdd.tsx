@@ -28,6 +28,10 @@ function PlaylistAdd({ state, formAction, isPending }: PlaylistAddProp) {
     }
   }, [isPending, state]);
 
+  useEffect(() => {
+    open && formParentRef.current?.focus();
+  }, [open, formParentRef]);
+
   return (
     <>
       <InitCreateButton open={open} setOpen={setOpen} />
@@ -38,6 +42,7 @@ function PlaylistAdd({ state, formAction, isPending }: PlaylistAddProp) {
         >
           <FocusTrap refFocus={formParentRef}>
             <div
+              tabIndex={0}
               ref={formParentRef}
               className="absolute   top-[50%] left-[50%] -translate-x-[50%] bg-zinc-800 p-3 rounded-md border border-zinc-500 -translate-y-[50%]  max-w-[480px] w-[94%]"
               onClick={(e) => e.stopPropagation()}
