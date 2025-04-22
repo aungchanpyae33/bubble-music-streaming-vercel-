@@ -20,7 +20,10 @@ export const useToggleContentPosition = ({
 
     const farFromBottom = clientHeight - targetTop;
     function calculateX() {
-      return targetRect.left - containerElementRect.width - 10;
+      if (targetRect.left < containerElementRect.width) {
+        return targetRect.right;
+      }
+      return targetRect.left - containerElementRect.width;
     }
     function calculateY() {
       if (targetTop < containerHeight) {
