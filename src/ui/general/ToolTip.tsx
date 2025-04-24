@@ -5,6 +5,7 @@ import useTooltipOverflow, {
 import { closeTooltip, showToolTipCheck } from "@/lib/ToolTip/showToolTipCheck";
 import clsx from "clsx";
 import { ReactNode, useEffect, useMemo, useRef } from "react";
+import { createPortal } from "react-dom";
 
 export interface pointerPosition {
   clientX: number;
@@ -95,18 +96,22 @@ function ToolTip({
         {children}
       </div>
 
-      <div
-        className={clsx(
-          " fixed max-w-[450px] md:max-w-[550px] w-max z-20 pointer-events-none px-2 p-1 text-sm bg-[#2A2A2A] border border-[#444444] shadow-[0_4px_8px_rgba(0,0,0,0.3)] ",
-          {
-            hidden: !tooltipShow.show,
-          }
+      {typeof window !== "undefined" &&
+        createPortal(
+          <div
+            className={clsx(
+              "fixed max-w-[450px] z-30 md:max-w-[550px] w-max  pointer-events-none px-2 p-1 text-sm bg-[#2A2A2A] border border-[#444444] shadow-[0_4px_8px_rgba(0,0,0,0.3)]",
+              {
+                hidden: !tooltipShow.show,
+              }
+            )}
+            ref={toolTipRef}
+            style={tooltipShow.toolTipPosition}
+          >
+            {tooltipContent}
+          </div>,
+          document.body
         )}
-        ref={toolTipRef}
-        style={tooltipShow.toolTipPosition}
-      >
-        {tooltipContent}
-      </div>
     </div>
   );
 }
