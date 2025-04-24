@@ -54,7 +54,7 @@ const useTooltipOverflow = ({
         const positionTop = tooltipRectTop - goRect.height;
         const positionBottom = tooltipRect.bottom;
         const positionY =
-          positionTop < 50 ? positionBottom + 8 : positionTop - 8;
+          positionTop < 70 ? positionBottom + 8 : positionTop - 8;
         setTooltipShow((pre) => ({
           ...pre,
           toolTipPosition: { left: `${positionX}px`, top: `${positionY}px` },
