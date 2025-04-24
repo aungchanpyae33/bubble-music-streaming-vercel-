@@ -1,3 +1,4 @@
+import { PostgrestError } from "@supabase/supabase-js";
 import { RefObject } from "react";
 import { persist } from "zustand/middleware";
 import { createWithEqualityFn as create } from "zustand/traditional";
@@ -51,6 +52,23 @@ export interface previousSongPlaylistAction {
   setPreviousPlayListArray: (
     newList: previousSongPlaylist["previousPlayListArray"]
   ) => void;
+}
+
+export interface playlistFolderProps {
+  playlistFolder:
+    | {
+        data:
+          | {
+              id: string;
+              name: any;
+            }[]
+          | null;
+        error: PostgrestError | null;
+      }
+    | undefined;
+}
+export interface setPlyalistFolderAction {
+  setPlaylistFolder: (data: playlistFolderProps["playlistFolder"]) => void;
 }
 
 export interface SongFunctionState {
@@ -115,6 +133,13 @@ export interface isChildOpen {
 
 export interface isChildOpenAction {
   setIsChildOpen: (value: isChildOpen["isChildOpen"]) => void;
+}
+
+export interface isBoxOpen {
+  isBoxOpen: boolean;
+}
+export interface setIsBoxOpen {
+  setIsBoxOpen: (value: boolean) => void;
 }
 
 // need to select them with object key as there will be used for many component
@@ -325,3 +350,39 @@ export const useNotInputFocus = create<focusState & focusStateAction>(
     setIsInputFocus: (value: boolean) => set(() => ({ isInputFocus: value })),
   })
 );
+
+export const usePlaylistFolder = create<
+  playlistFolderProps & setPlyalistFolderAction
+>((set) => ({
+  playlistFolder: undefined,
+  setPlaylistFolder: (value: playlistFolderProps["playlistFolder"]) =>
+    set((state) => {
+      // If there's no existing state yet, just set the new value
+      if (!state.playlistFolder) {
+        return { playlistFolder: value };
+      }
+      //merge the data
+      const existingData = state.playlistFolder.data || [];
+      const newData = value?.data || [];
+
+      const existingIds = new Set(existingData.map((item) => item.id));
+
+      const uniqueNewData = newData.filter((item) => !existingIds.has(item.id));
+
+      return {
+        playlistFolder: {
+          ...state.playlistFolder,
+          data: [...existingData, ...uniqueNewData],
+          error: value?.error || state.playlistFolder.error,
+        },
+      };
+    }),
+}));
+
+export const useShowAddBox = create<isBoxOpen & setIsBoxOpen>((set) => ({
+  isBoxOpen: false,
+  setIsBoxOpen: (value: boolean) =>
+    set(() => ({
+      isBoxOpen: value,
+    })),
+}));
