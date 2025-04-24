@@ -48,6 +48,9 @@ export interface previousSongPlaylist {
   previousPlayListArray: {};
 }
 
+export interface resetAction {
+  reset: () => void;
+}
 export interface previousSongPlaylistAction {
   setPreviousPlayListArray: (
     newList: previousSongPlaylist["previousPlayListArray"]
@@ -143,7 +146,7 @@ export interface setIsBoxOpen {
 }
 
 // need to select them with object key as there will be used for many component
-export const useSong = create<SongState & SongActions>()(
+export const useSong = create<SongState & SongActions & resetAction>()(
   persist(
     (set) => ({
       songCu: {},
@@ -151,6 +154,9 @@ export const useSong = create<SongState & SongActions>()(
         set(() => ({
           songCu: { ...newSong },
         })),
+      reset: () => {
+        set({ songCu: {} });
+      },
     }),
     {
       name: "currentSong-storage",
@@ -159,7 +165,7 @@ export const useSong = create<SongState & SongActions>()(
 );
 
 export const usePreviousPlayList = create<
-  previousSongPlaylist & previousSongPlaylistAction
+  previousSongPlaylist & previousSongPlaylistAction & resetAction
 >()(
   persist(
     (set) => ({
@@ -168,6 +174,9 @@ export const usePreviousPlayList = create<
         set(() => ({
           previousPlayListArray: { ...newList },
         })),
+      reset: () => {
+        set({ previousPlayListArray: {} });
+      },
     }),
     {
       name: "previous-playlistArray-storage",
@@ -192,7 +201,7 @@ export const useSongFunction = create<SongFunctionState & SongFunctionActions>(
 );
 
 export const useStorePlayListId = create<
-  StorePlayListIdState & StorePlayListIdStateAction
+  StorePlayListIdState & StorePlayListIdStateAction & resetAction
 >()(
   persist(
     (set) => ({
@@ -201,6 +210,9 @@ export const useStorePlayListId = create<
         set((state) => ({
           playlistId: { ...id },
         })),
+      reset: () => {
+        set({ playlistId: {} });
+      },
     }),
     {
       name: "playlistIdStorage-1",
@@ -229,7 +241,8 @@ export const useRepeatAndCurrentPlayList = create<
     currentSongPlaylistAction &
     IsRepeatState &
     RepeatAction &
-    PrefetchAction
+    PrefetchAction &
+    resetAction
 >()(
   persist(
     (set, get) => ({
@@ -283,6 +296,12 @@ export const useRepeatAndCurrentPlayList = create<
             return null;
           }
         }
+      },
+      reset: () => {
+        set(() => ({
+          playListArray: {},
+          isRepeat: false,
+        }));
       },
     }),
     {
