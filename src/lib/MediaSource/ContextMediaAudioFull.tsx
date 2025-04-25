@@ -29,10 +29,8 @@ function ContextMediaAudioFull({
 
   return (
     <Context.Provider value={value}>
-      <div className="w-full relative flex  h-[70px]" ref={footerRef}>
-        {footerNaviRef}
-        {children}
-      </div>
+      {footerNaviRef}
+      {children}
     </Context.Provider>
   );
 }
