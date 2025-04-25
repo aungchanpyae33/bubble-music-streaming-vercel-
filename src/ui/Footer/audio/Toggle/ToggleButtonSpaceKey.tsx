@@ -26,15 +26,17 @@ function ToggleButtonSpaceKey({
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.code === "Space" && !isInputFocus) {
-        // to prevent scroll
+        // to prevent trigger twice when focusTrap is open
+        e.stopImmediatePropagation();
+        //to prevent scroll
         e.preventDefault();
         setPlay(`${songCuUrl},${playlistIdString}`, undefined);
         setPlayList(playlistIdString, undefined);
       }
     };
-    window.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("keydown", handleKeyDown);
     return () => {
-      window.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("keydown", handleKeyDown);
     };
   }, [playlistIdString, setPlay, setPlayList, songCuUrl, isInputFocus]);
   return children;
