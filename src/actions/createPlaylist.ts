@@ -1,15 +1,14 @@
 "use server";
 
-import { supabase } from "@/database/supabase";
+import { createClient } from "@/database/server";
 
-export const insertDataAction = async (prevState: any, queryData: FormData) => {
+export const insertDataAction = async (queryData: FormData) => {
+  const supabase = await createClient();
   const playlistname = queryData.get("playlistname");
-  const { data: song, error } = await supabase
-    .from("song")
-    .insert([{ title: playlistname }])
-    .select("title");
-  return {
-    data: [...(prevState?.data || []), ...(song || [])],
-    error,
-  };
+  let { data, error } = await supabase.rpc("insert_playlist", {
+    playlist_name: playlistname,
+  });
+  if (error) console.error(error);
+  else console.log(data);
+  return { data, error };
 };

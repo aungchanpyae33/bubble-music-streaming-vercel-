@@ -11,16 +11,17 @@ import { get } from "@/database/data";
 
 async function NavSideBar() {
   const deviceFromUserAgent = await DeviceCheck();
-  const { data: songs, error } = await get();
+  const playLists = await get();
+  console.log("heyyyyyyyyyyyyyyyyy");
   return (
     <>
       <div
-        className={clsx("w-[70px] bg-[#0A0A0A] ", {
+        className={clsx("w-[70px]  bg-[#0A0A0A] ", {
           hidden: deviceFromUserAgent !== "desktop",
         })}
       >
         <NavList
-          songs={songs}
+          songs={playLists}
           childrenExplore={
             <div className=" w-[70px] max-w-[70px] h-[70px]   flex items-center justify-center     ">
               <IconWrapper size="large" Icon={Compass} />

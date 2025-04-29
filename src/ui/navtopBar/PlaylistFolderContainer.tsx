@@ -1,10 +1,11 @@
-import React, { SetStateAction, useActionState, useEffect } from "react";
+import React, { SetStateAction, useEffect, useState } from "react";
 import NavSideLink from "./NavSideLink";
 import IconWrapper from "../general/IconWrapper";
 import { ListMusic } from "lucide-react";
 import PlaylistAdd from "./PlaylistAdd";
-import { insertDataAction } from "@/actions/createPlaylist";
-import { songsProp } from "./NavList";
+import { getProps } from "@/database/data";
+import Link from "next/link";
+import { setPlyalistFolderAction, usePlaylistFolder } from "@/lib/zustand";
 
 function PlaylistFolderContainer({
   open,
@@ -13,13 +14,16 @@ function PlaylistFolderContainer({
 }: {
   open: boolean;
   setOpen: React.Dispatch<SetStateAction<boolean>>;
-  songs: songsProp["songs"];
+  songs: getProps;
 }) {
-  const [state, formAction, isPending] = useActionState(insertDataAction, {
-    data: songs!,
-    error: null,
-  });
-  console.log("why", state);
+  const setPlaylistFolder = usePlaylistFolder(
+    (state: setPlyalistFolderAction) => state.setPlaylistFolder
+  );
+  const [songsData, setSongsData] = useState(songs);
+  useEffect(() => {
+    console.log();
+    setPlaylistFolder(songs);
+  }, [setPlaylistFolder, songs]);
   return (
     <div>
       <div className=" border-t-2  border-black  h-[50px] flex items-center justify-between  ">
@@ -34,21 +38,19 @@ function PlaylistFolderContainer({
             <IconWrapper size="large" Icon={ListMusic} />
           </div>
         </NavSideLink>
-        <PlaylistAdd
-          formAction={formAction}
-          isPending={isPending}
-          state={state}
-        />
+        <PlaylistAdd setSongsData={setSongsData} />
       </div>
-      {state.data &&
-        state.data.map((item, index) => (
-          <div
+      {songsData &&
+        songsData.data &&
+        songsData.data.map((item) => (
+          <Link
+            href={`/playlist/${item.id}`}
             className=" mt-2  h-[50px] hover:bg-[#333333] leading-relaxed  flex items-center"
-            key={index}
+            key={item.id}
           >
-            <div className="w-[70px]  cursor-pointer text-center  ">icon</div>
-            <div className=" flex-1  truncate pr-2">{item.title}</div>
-          </div>
+            <div className="w-[70px]  cursor-pointer text-center">icon</div>
+            <div className=" flex-1  truncate pr-2">{item.name}</div>
+          </Link>
         ))}
     </div>
   );

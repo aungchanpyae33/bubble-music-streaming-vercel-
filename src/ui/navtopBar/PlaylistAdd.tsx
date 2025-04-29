@@ -1,37 +1,27 @@
 import { X } from "lucide-react";
 import IconWrapper from "../general/IconWrapper";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 import Form from "next/form";
 import FocusTrap from "../Footer/audioFull/FocusTrap";
 import TitleInput from "./createPlaylist/TitleInput";
 import DescriptionInput from "./createPlaylist/DescriptionInput";
 import SubmitButton from "./createPlaylist/SubmitButton";
-
 import InitCreateButton from "./createPlaylist/InitCreateButton";
-import { PostgrestError } from "@supabase/supabase-js";
-interface PlaylistAddProp {
-  state: {
-    data: any[];
-    error: PostgrestError | null;
-  };
-  formAction: (formData: FormData) => void;
-  isPending: boolean;
-}
+import { getProps } from "@/database/data";
+import { insertDataAction } from "@/actions/createPlaylist";
+import { useKindeAuth } from "@kinde-oss/kinde-auth-nextjs";
 
-function PlaylistAdd({ state, formAction, isPending }: PlaylistAddProp) {
+interface PlaylistAddProp {
+  setSongsData: React.Dispatch<React.SetStateAction<getProps>>;
+}
+function PlaylistAdd({ setSongsData }: PlaylistAddProp) {
   const [open, setOpen] = useState(false);
   const formParentRef = useRef<HTMLDivElement>(null);
-  //useeffect when when playlistAdd is re-render because of return from formaction , it will always true state and initial ispending false  , it is already run  before click initcreateButton ,
-  useEffect(() => {
-    if (!isPending && state) {
-      setOpen(false);
-    }
-  }, [isPending, state]);
-
+  const { user } = useKindeAuth();
   useEffect(() => {
     open && formParentRef.current?.focus();
   }, [open, formParentRef]);
-
+  const [isPending, startTransition] = useTransition();
   return (
     <>
       <InitCreateButton open={open} setOpen={setOpen} />
@@ -47,7 +37,23 @@ function PlaylistAdd({ state, formAction, isPending }: PlaylistAddProp) {
               className="absolute   top-[50%] left-[50%] -translate-x-[50%] bg-zinc-800 p-3 rounded-md border border-zinc-500 -translate-y-[50%]  max-w-[480px] w-[94%]"
               onClick={(e) => e.stopPropagation()}
             >
-              <Form action={formAction} className="" id="createPlaylist">
+              <Form
+                action={async (formData: FormData) => {
+                  startTransition(async () => {
+                    const value = await insertDataAction(formData);
+                    if (value.data && value.data.length > 0) {
+                      setSongsData((pre) => ({
+                        ...pre,
+                        data: [...(pre.data || []), ...value.data],
+                        error: value.error,
+                      }));
+                      setOpen(false);
+                    }
+                  });
+                }}
+                className=""
+                id="createPlaylist"
+              >
                 <fieldset className=" flex flex-col gap-2 items-start">
                   <legend className="text-lg font-semibold flex w-full justify-between items-center  text-white mb-4">
                     <h3 className="">သီချင်းစာရင်း အသစ်</h3>
@@ -61,6 +67,12 @@ function PlaylistAdd({ state, formAction, isPending }: PlaylistAddProp) {
                       <IconWrapper size="large" Icon={X} />
                     </button>
                   </legend>
+                  <input
+                    type="text"
+                    name="userId"
+                    defaultValue={user?.id}
+                    hidden
+                  />
                   <TitleInput />
                   <DescriptionInput />
                   <SubmitButton isPending={isPending} />
