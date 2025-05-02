@@ -70,10 +70,16 @@ export interface playlistFolderProps {
       }
     | undefined;
 }
-export interface setPlyalistFolderAction {
+
+export interface setPlaylistFolderAction {
   setPlaylistFolder: (data: playlistFolderProps["playlistFolder"]) => void;
 }
-
+export interface addPlaylistFolderAction {
+  addPlaylistFolder: (value: {
+    data: any;
+    error: PostgrestError | null;
+  }) => void;
+}
 export interface SongFunctionState {
   Isplay: Record<string, boolean | undefined>;
 }
@@ -371,7 +377,7 @@ export const useNotInputFocus = create<focusState & focusStateAction>(
 );
 
 export const usePlaylistFolder = create<
-  playlistFolderProps & setPlyalistFolderAction
+  playlistFolderProps & setPlaylistFolderAction & addPlaylistFolderAction
 >((set) => ({
   playlistFolder: undefined,
   setPlaylistFolder: (value: playlistFolderProps["playlistFolder"]) =>
@@ -380,22 +386,15 @@ export const usePlaylistFolder = create<
       if (!state.playlistFolder) {
         return { playlistFolder: value };
       }
-      //merge the data
-      const existingData = state.playlistFolder.data || [];
-      const newData = value?.data || [];
-
-      const existingIds = new Set(existingData.map((item) => item.id));
-
-      const uniqueNewData = newData.filter((item) => !existingIds.has(item.id));
-
-      return {
-        playlistFolder: {
-          ...state.playlistFolder,
-          data: [...existingData, ...uniqueNewData],
-          error: value?.error || state.playlistFolder.error,
-        },
-      };
+      return { playlistFolder: state.playlistFolder };
     }),
+  addPlaylistFolder: (value) =>
+    set((state) => ({
+      playlistFolder: {
+        data: [...(state.playlistFolder?.data || []), ...value.data],
+        error: value.error,
+      },
+    })),
 }));
 
 export const useShowAddBox = create<isBoxOpen & setIsBoxOpen>((set) => ({

@@ -10,6 +10,7 @@ import InitCreateButton from "./createPlaylist/InitCreateButton";
 import { getProps } from "@/database/data";
 import { insertDataAction } from "@/actions/createPlaylist";
 import { useKindeAuth } from "@kinde-oss/kinde-auth-nextjs";
+import { addPlaylistFolderAction, usePlaylistFolder } from "@/lib/zustand";
 
 interface PlaylistAddProp {
   setSongsData: React.Dispatch<React.SetStateAction<getProps>>;
@@ -22,6 +23,9 @@ function PlaylistAdd({ setSongsData }: PlaylistAddProp) {
     open && formParentRef.current?.focus();
   }, [open, formParentRef]);
   const [isPending, startTransition] = useTransition();
+  const addPlaylistFolder = usePlaylistFolder(
+    (state: addPlaylistFolderAction) => state.addPlaylistFolder
+  );
   return (
     <>
       <InitCreateButton open={open} setOpen={setOpen} />
@@ -47,6 +51,7 @@ function PlaylistAdd({ setSongsData }: PlaylistAddProp) {
                         data: [...(pre.data || []), ...value.data],
                         error: value.error,
                       }));
+                      addPlaylistFolder(value);
                       setOpen(false);
                     }
                   });

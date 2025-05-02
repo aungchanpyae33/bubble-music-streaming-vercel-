@@ -5,7 +5,7 @@ import { ListMusic } from "lucide-react";
 import PlaylistAdd from "./PlaylistAdd";
 import { getProps } from "@/database/data";
 import Link from "next/link";
-import { setPlyalistFolderAction, usePlaylistFolder } from "@/lib/zustand";
+import { setPlaylistFolderAction, usePlaylistFolder } from "@/lib/zustand";
 
 function PlaylistFolderContainer({
   open,
@@ -16,14 +16,14 @@ function PlaylistFolderContainer({
   setOpen: React.Dispatch<SetStateAction<boolean>>;
   songs: getProps;
 }) {
-  const setPlaylistFolder = usePlaylistFolder(
-    (state: setPlyalistFolderAction) => state.setPlaylistFolder
-  );
   const [songsData, setSongsData] = useState(songs);
+  const setPlaylistFolder = usePlaylistFolder(
+    (state: setPlaylistFolderAction) => state.setPlaylistFolder
+  );
   useEffect(() => {
-    console.log();
     setPlaylistFolder(songs);
   }, [setPlaylistFolder, songs]);
+
   return (
     <div>
       <div className=" border-t-2  border-black  h-[50px] flex items-center justify-between  ">
