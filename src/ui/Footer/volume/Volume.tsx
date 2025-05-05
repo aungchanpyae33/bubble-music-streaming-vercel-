@@ -1,5 +1,4 @@
 import useVolumeSeek from "@/lib/CustomHooks/VolumeSeek";
-import DataContext from "@/lib/MediaSource/ContextMedia";
 import { useContext, useMemo, useRef } from "react";
 import AudioThumbSlider from "../audio/SliderUi/AudioThumbSlider";
 import AudioProgressbar from "../audio/SliderUi/AudioProgressbar";
@@ -11,6 +10,7 @@ import ContextVolume from "./ContextVolume";
 import VolumeContainer from "./VolumeContainer";
 import VolumeToggleButton from "./VolumeToggleButton";
 import { Context } from "@/lib/MediaSource/ContextMediaAudioFull";
+import { DataContext } from "@/lib/MediaSource/ContextMedia";
 
 function Volume({ isFull }: { isFull: boolean }) {
   const { dataAudio } = useContext(DataContext);

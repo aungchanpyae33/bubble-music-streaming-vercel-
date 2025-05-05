@@ -1,5 +1,5 @@
 import AudioSeeked from "@/lib/MediaSource/AudioSeeked";
-import DataContext from "@/lib/MediaSource/ContextMedia";
+import { DataContext } from "@/lib/MediaSource/ContextMedia";
 import { AudioDraggingActions, AudioValueActions } from "@/lib/zustand";
 import { ReactNode, RefObject, useContext } from "react";
 interface Props extends React.ComponentProps<"div"> {
