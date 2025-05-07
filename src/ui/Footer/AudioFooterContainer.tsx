@@ -1,7 +1,6 @@
-import { ContextDevice } from "@/lib/DeviceContext/DeviceContextFooter";
 import { Context } from "@/lib/MediaSource/ContextMediaAudioFull";
 import clsx from "clsx";
-import { Children, RefObject, useContext, useRef } from "react";
+import { RefObject, useContext, useRef } from "react";
 
 function AudioFooterContainer({
   children,
@@ -11,16 +10,14 @@ function AudioFooterContainer({
   footerRef: RefObject<HTMLDivElement | null>;
 }) {
   const initialRef = useRef<HTMLElement | null>(null);
-  const { device } = useContext(ContextDevice);
   const { open, setOpen } = useContext(Context);
   return (
     // <div className="cursor-not-allowed">
     // in chrome , when use top-0 and -translate-x- that is close and bigger the parent height make a little edge between , not found in firefox , use -top parent height
     <div
-      className={clsx("w-full h-full  bg-green-800", {
-        "absolute -top-[70px]  left-0 overShort:static overShort:-translate-y-0 overShort:top-auto overShort:left-auto":
-          device === "mobile",
-      })}
+      className={clsx(
+        "w-full h-full border border-t border-opacity-15  border-neutral-200 "
+      )}
       tabIndex={0}
       onKeyDown={(e) => {
         if (e.key === "Enter") {
@@ -30,7 +27,7 @@ function AudioFooterContainer({
       }}
       // to track initial click elemet , without this  check , if user click the button then hold and release the container that does not have e.stopP will trigger the parent onClick ,
       onMouseDown={(e) => {
-        console.log(e.target);
+        // console.log(e.target);
         initialRef!.current! = e.target as HTMLElement;
       }}
       onClick={(e) => {

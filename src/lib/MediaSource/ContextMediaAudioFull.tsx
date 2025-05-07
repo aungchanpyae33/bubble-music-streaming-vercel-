@@ -17,11 +17,9 @@ export const Context = createContext<contextProps>({
 });
 function ContextMediaAudioFull({
   children,
-  footerRef,
   footerNaviRef,
 }: {
   children: React.ReactNode;
-  footerRef: React.RefObject<HTMLDivElement | null>;
   footerNaviRef: React.ReactNode;
 }) {
   const [open, setOpen] = useState(false);
@@ -29,8 +27,8 @@ function ContextMediaAudioFull({
 
   return (
     <Context.Provider value={value}>
-      {footerNaviRef}
       {children}
+      {footerNaviRef}
     </Context.Provider>
   );
 }
