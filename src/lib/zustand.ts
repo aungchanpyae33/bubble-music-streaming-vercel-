@@ -75,6 +75,12 @@ export interface playlistFolderProps {
 export interface setPlaylistFolderAction {
   setPlaylistFolder: (data: playlistFolderProps["playlistFolder"]) => void;
 }
+export interface addSongProps {
+  addSong: song | {};
+}
+export interface addSongAction {
+  addSongAction: (value: addSongProps["addSong"]) => void;
+}
 export interface addPlaylistFolderAction {
   addPlaylistFolder: (value: {
     data: any;
@@ -405,3 +411,13 @@ export const useShowAddBox = create<isBoxOpen & setIsBoxOpen>((set) => ({
       isBoxOpen: value,
     })),
 }));
+
+export const useSongsStoreData = create<addSongProps & addSongAction>(
+  (set) => ({
+    addSong: {},
+    addSongAction: (value) =>
+      set(() => ({
+        addSong: { ...value },
+      })),
+  })
+);
