@@ -3,11 +3,15 @@ import React, { RefObject, useEffect } from "react";
 function OutterClick(
   value: boolean,
   fun: React.Dispatch<React.SetStateAction<boolean>>,
-  parentElement: RefObject<HTMLDivElement | null>
+  parentElement: RefObject<HTMLDivElement | null>,
+  ignoreRef?: RefObject<HTMLDivElement | null>
 ) {
   useEffect(() => {
     function OutterClickFunction(e: MouseEvent | TouchEvent) {
-      if (!parentElement!.current!.contains(e.target as Node)) {
+      if (
+        !parentElement!.current!.contains(e.target as Node) &&
+        !ignoreRef?.current?.contains(e.target as HTMLElement)
+      ) {
         fun(false);
       }
     }
@@ -23,7 +27,7 @@ function OutterClick(
       document.removeEventListener("mousedown", OutterClickFunction);
       document.removeEventListener("touchstart", OutterClickFunction);
     };
-  }, [value, fun, parentElement]);
+  }, [value, fun, parentElement, ignoreRef]);
 }
 
 export default OutterClick;
