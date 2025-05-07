@@ -12,7 +12,11 @@ export interface FetchingState {
   isFetch: boolean;
   fetchingseg: number;
 }
-const useMediaSourceBuffer = (url: string, sege: number) => {
+const useMediaSourceBuffer = (
+  url: string,
+  sege: number,
+  song_time_stamp: Array<number>
+) => {
   const fetching = useRef<FetchingState>({
     isFetch: false,
     fetchingseg: 1,
@@ -30,7 +34,7 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
   const prefetchSegment = useRepeatAndCurrentPlayList(
     (state) => state.prefetchSegment
   );
-
+  console.log(song_time_stamp, segNum);
   // function to wait data from prefetchSegment
   const checkFeching = useCallback(async () => {
     return prefetchSegment({
@@ -85,7 +89,10 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
   );
 
   const loadNextSegment = useCallback(async () => {
-    const { remainingBuffer, segData } = getRemainingBufferDuration(dataAudio);
+    const { remainingBuffer, segData } = getRemainingBufferDuration(
+      dataAudio,
+      song_time_stamp
+    );
 
     // condition 1 : if current segment is greater than total segment and mediaSource is open and isCalled is true
     if (
@@ -126,9 +133,10 @@ const useMediaSourceBuffer = (url: string, sege: number) => {
       fetching.current.fetchingseg = segNum.current;
       await fetchAudioSegment(segNum.current);
     } else if (bufferThreshold < remainingBuffer) {
+      // console.log("hit me", segData);
       segNum.current = segData;
     }
-  }, [fetchAudioSegment, sege, checkFeching]);
+  }, [fetchAudioSegment, sege, checkFeching, song_time_stamp]);
 
   const throttleLoadNextSegment = useMemo(
     () => throttle(loadNextSegment, 1000),

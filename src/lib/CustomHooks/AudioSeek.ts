@@ -2,7 +2,6 @@ import { RefObject, useContext, useEffect } from "react";
 import throttle from "../throttle";
 import { seekCal, sliderPositionCal } from "../MediaSource/SliderPositionCal";
 import AudioSeeked from "../MediaSource/AudioSeeked";
-import DataContext from "../MediaSource/ContextMedia";
 import {
   AudioDraggingActions,
   AudioDraggingState,
@@ -11,6 +10,7 @@ import {
   useAudioDragging,
   useAudioValue,
 } from "../zustand";
+import { DataContext } from "../MediaSource/ContextMedia";
 
 interface audioSeekProp {
   sliderRef: RefObject<HTMLDivElement | null>;
@@ -51,6 +51,7 @@ const useAudioSeek = ({
     abortController,
     fetching,
     bufferThreshold,
+    song_time_stamp,
   } = useContext(DataContext);
   useEffect(() => {
     const copyDataAudio = dataAudio!.current!;
@@ -74,6 +75,7 @@ const useAudioSeek = ({
         bufferThreshold,
         fetching,
         abortController,
+        song_time_stamp,
       });
     }
 
@@ -129,6 +131,7 @@ const useAudioSeek = ({
     setValue,
     bufferThreshold,
     shouldRun,
+    song_time_stamp,
   ]);
 
   useEffect(() => {

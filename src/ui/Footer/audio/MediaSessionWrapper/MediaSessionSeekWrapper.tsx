@@ -17,6 +17,7 @@ function MediaSessionSeekWrapper({
     abortController,
     fetching,
     bufferThreshold,
+    song_time_stamp,
   } = useContext(DataContext);
   MediaSessionSeek(
     fetching,
@@ -26,7 +27,8 @@ function MediaSessionSeekWrapper({
     sege,
     loadNextSegment,
     duration,
-    bufferThreshold
+    bufferThreshold,
+    song_time_stamp
   );
   return children;
 }

@@ -11,6 +11,7 @@ interface AudioSeekedProp {
   bufferThreshold: number;
   abortController: RefObject<AbortController | null>;
   fetching: RefObject<{ isFetch: boolean; fetchingseg: number }>;
+  song_time_stamp: Array<number>;
 }
 const AudioSeeked = ({
   per,
@@ -22,6 +23,7 @@ const AudioSeeked = ({
   bufferThreshold,
   fetching,
   abortController,
+  song_time_stamp,
 }: AudioSeekedProp) => {
   const data = per * duration;
   const seekSeg = playBackRate({
@@ -30,6 +32,7 @@ const AudioSeeked = ({
     sege,
     duration,
     bufferThreshold,
+    song_time_stamp,
   });
   console.log(seekSeg, "seekSeg");
   AbortFetch(fetching, abortController, seekSeg);

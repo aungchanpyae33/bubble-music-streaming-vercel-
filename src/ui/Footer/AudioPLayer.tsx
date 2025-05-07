@@ -2,7 +2,6 @@
 import React, { useRef } from "react";
 import { useSong } from "@/lib/zustand";
 import AudioElement from "./audio/AudioElement";
-import DataContext from "@/lib/MediaSource/ContextMedia";
 import ToggleButton from "./audio/Toggle/ToggleButton";
 import TimeIndicatorDur from "./audio/Time/TimeIndicatorDur";
 import AudioDisplayFooter from "./AudioDisplayFooter";
@@ -22,6 +21,7 @@ import FullToggleButton from "./audioFull/FullToggleButton";
 import QueueButton from "./audio/QueueButton";
 import AudioFooterContainer from "./AudioFooterContainer";
 import clsx from "clsx";
+import ContextMedia from "@/lib/MediaSource/ContextMedia";
 
 function AudioPlayer({
   footerRef,
@@ -29,10 +29,9 @@ function AudioPlayer({
   footerRef: React.RefObject<HTMLDivElement | null>;
 }) {
   const toggleRef = useRef<HTMLButtonElement | null>(null);
-  const { sege, name, duration } = useSong(
+  const { sege, name, duration, song_time_stamp } = useSong(
     (state: SongState) => state.songCu
   ) as SongDetail;
-
   const url = useSong(
     (state: SongState) =>
       Object.values(state.songCu as Record<string, string>)[0]
@@ -44,19 +43,20 @@ function AudioPlayer({
     abortController,
     fetching,
     bufferThreshold,
-  } = useMediaSourceBuffer(url, sege);
+  } = useMediaSourceBuffer(url, sege, song_time_stamp);
 
   // console.log("hf", url);
   return (
-    <DataContext.Provider
-      value={{
+    <ContextMedia
+      data={{
         dataAudio,
-        loadNextSegment,
-        segNum,
-        sege,
         duration,
         abortController,
         fetching,
+        segNum,
+        song_time_stamp,
+        loadNextSegment,
+        sege,
         bufferThreshold,
       }}
     >
@@ -97,32 +97,43 @@ function AudioPlayer({
                 <MediaSessionButtonWrapper url={url}>
                   <AudioFunctionButton>
                     {/* in jsx when use arrow and {} , react expect to return elemetn , if it does not have  return ,  implicitly returns void, or undefined, so, react think nothing to render  */}
-                    {(playListArray) => (
-                      // return element
-                      <div
-                        className="flex gap-2"
-                        onClick={(e) => e.stopPropagation()}
-                        onKeyDown={(e) => e.stopPropagation()}
-                      >
-                        <AudioFunctionShuffle
-                          className="text-white/70 hover:text-white  p-1  sm:inline-block text-sm md:text-base hidden"
-                          urlProp={playListArray}
-                          url={url}
-                        />
-                        <AudioFunctionPre
-                          className="text-white/70 hover:text-white  p-1  sm:inline-block text-sm md:text-base hidden"
-                          url={url}
-                          urlProp={playListArray}
-                        />
-                        <ToggleButton className="p-1" urlProp={playListArray} />
-                        <AudioFunctionNext
-                          url={url}
-                          urlProp={playListArray}
-                          className="text-white/70 hover:text-white  p-1 text-sm md:text-base"
-                        />
-                        <AudioFunctionRepeat className="text-white/70 hover:text-white  p-1  sm:inline-block text-sm md:text-base hidden" />
-                      </div>
-                    )}
+                    {(playListArray) => {
+                      if (
+                        playListArray &&
+                        playListArray.songs &&
+                        playListArray.songs.length > 0
+                      ) {
+                        return (
+                          // return element
+                          <div
+                            className="flex gap-2"
+                            onClick={(e) => e.stopPropagation()}
+                            onKeyDown={(e) => e.stopPropagation()}
+                          >
+                            <AudioFunctionShuffle
+                              className="text-white/70 hover:text-white  p-1  sm:inline-block text-sm md:text-base hidden"
+                              urlProp={playListArray}
+                              url={url}
+                            />
+                            <AudioFunctionPre
+                              className="text-white/70 hover:text-white  p-1  sm:inline-block text-sm md:text-base hidden"
+                              url={url}
+                              urlProp={playListArray}
+                            />
+                            <ToggleButton
+                              className="p-1"
+                              urlProp={playListArray}
+                            />
+                            <AudioFunctionNext
+                              url={url}
+                              urlProp={playListArray}
+                              className="text-white/70 hover:text-white  p-1 text-sm md:text-base"
+                            />
+                            <AudioFunctionRepeat className="text-white/70 hover:text-white  p-1  sm:inline-block text-sm md:text-base hidden" />
+                          </div>
+                        );
+                      }
+                    }}
                   </AudioFunctionButton>
                 </MediaSessionButtonWrapper>
               </div>
@@ -151,7 +162,7 @@ function AudioPlayer({
           </div>
         </AudioFooterContainer>
       </div>
-    </DataContext.Provider>
+    </ContextMedia>
   );
 }
 

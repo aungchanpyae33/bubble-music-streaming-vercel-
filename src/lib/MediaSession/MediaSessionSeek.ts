@@ -10,7 +10,8 @@ const MediaSessionSeek = (
   sege: number | undefined,
   loadNextSegment: () => void,
   duration: number,
-  bufferThreshold: number
+  bufferThreshold: number,
+  song_time_stamp: Array<number>
 ) => {
   // Extract the `value` from the event beforehand to avoid issues with `e` in dependencies
 
@@ -28,6 +29,7 @@ const MediaSessionSeek = (
           sege,
           duration,
           bufferThreshold,
+          song_time_stamp,
         });
         AbortFetch(fetching, abortController, seekSeg);
         if (seekSeg !== fetching.current.fetchingseg) {
@@ -48,7 +50,7 @@ const MediaSessionSeek = (
     loadNextSegment,
     duration,
     bufferThreshold,
-    // Ensure `data` is part of dependencies
+    song_time_stamp,
   ]);
 };
 
