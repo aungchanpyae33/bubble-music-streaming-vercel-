@@ -22,7 +22,8 @@ import QueueButton from "./audio/QueueButton";
 import AudioFooterContainer from "./AudioFooterContainer";
 import clsx from "clsx";
 import ContextMedia from "@/lib/MediaSource/ContextMedia";
-
+import { AnimatePresence } from "motion/react";
+import { motion } from "motion/react";
 function AudioPlayer({
   footerRef,
 }: {
@@ -60,111 +61,113 @@ function AudioPlayer({
         bufferThreshold,
       }}
     >
-      <div
-        className={clsx(
-          "w-full duration-300 z-0 ease-in-out transition-transform relative flex   h-[70px]",
-          {
-            "translate-y-full": !url,
-          }
-        )}
-        ref={footerRef}
-      >
-        <AudioFooterContainer footerRef={footerRef}>
-          <AudioFull
-            footerRef={footerRef}
-            url={url}
-            duration={duration}
-            toggleRef={toggleRef}
-          />
-          <div className=" w-full sm:w-[25%]   md:w-[25%] max-w-[375px]  flex items-center">
-            <AudioDisplayFooter
-              urlImage={
-                "https://s3.tebi.io/test1345/timo-volz-ZlFKIG6dApg-unsplash%20%281%29.jpg"
-              }
-            />
-            {/* without it will just changing data for audioinfo */}
-            {name && (
-              <div
-                className="flex flex-col overflow-hidden will-change-transform"
-                key={name}
-              >
-                <AudioInfo name={name} isLink={false} />
-                <AudioInfo name={"aspea"} isLink={true} />
-              </div>
-            )}
-          </div>
-
-          <div className="max-w-[600px] sm:flex-1 w-fit  flex    ">
-            <div className="audioFunctionContainer flex  flex-col flex-1 items-end sm:items-center pr-2 sm:pr-0  justify-center">
-              <div className="upContainer ">
-                <MediaSessionButtonWrapper url={url}>
-                  <AudioFunctionButton>
-                    {/* in jsx when use arrow and {} , react expect to return elemetn , if it does not have  return ,  implicitly returns void, or undefined, so, react think nothing to render  */}
-                    {(playListArray) => {
-                      if (
-                        playListArray &&
-                        playListArray.songs &&
-                        playListArray.songs.length > 0
-                      ) {
-                        return (
-                          // return element
-                          <div
-                            className="flex gap-2"
-                            onClick={(e) => e.stopPropagation()}
-                            onKeyDown={(e) => e.stopPropagation()}
-                          >
-                            <AudioFunctionShuffle
-                              className="text-white/70 hover:text-white  p-1  sm:inline-block text-sm md:text-base hidden"
-                              urlProp={playListArray}
-                              url={url}
-                            />
-                            <AudioFunctionPre
-                              className="text-white/70 hover:text-white  p-1  sm:inline-block text-sm md:text-base hidden"
-                              url={url}
-                              urlProp={playListArray}
-                            />
-                            <ToggleButton
-                              className="p-1"
-                              urlProp={playListArray}
-                            />
-                            <AudioFunctionNext
-                              url={url}
-                              urlProp={playListArray}
-                              className="text-white/70 hover:text-white  p-1 text-sm md:text-base"
-                            />
-                            <AudioFunctionRepeat className="text-white/70 hover:text-white  p-1  sm:inline-block text-sm md:text-base hidden" />
-                          </div>
-                        );
-                      }
-                    }}
-                  </AudioFunctionButton>
-                </MediaSessionButtonWrapper>
-              </div>
-              <div className="BottomContainer  w-full absolute sm:static top-0 left-0 ">
-                <MediaSessionSeekWrapper duration={duration}>
-                  <AudioElement url={url} isFull={false}>
-                    <TimeIndicatorDur
-                      duration={duration}
-                      className="text-sm  w-[5rem] text-center hidden sm:inline"
-                    />
-                  </AudioElement>
-                </MediaSessionSeekWrapper>
-              </div>
-            </div>
-          </div>
-          <div
-            className="w-[20%] px-2 md:w-[25%] hidden max-w-[375px] sm:flex  items-center"
-            onClick={(e) => e.stopPropagation()}
-            onKeyDown={(e) => e.stopPropagation()}
+      <AnimatePresence>
+        {url && (
+          <motion.div
+            initial={{ y: "100%" }}
+            animate={{ y: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className={clsx("w-full  z-0  relative flex   h-[70px]")}
+            ref={footerRef}
           >
-            <div className="w-full sm:flex  gap-3 relative  items-center justify-around">
-              <QueueButton />
-              <Volume isFull={false} />
-              <FullToggleButton footerRef={footerRef} ref={toggleRef} />
-            </div>
-          </div>
-        </AudioFooterContainer>
-      </div>
+            <AudioFooterContainer footerRef={footerRef}>
+              <AudioFull
+                footerRef={footerRef}
+                url={url}
+                duration={duration}
+                toggleRef={toggleRef}
+              />
+              <div className=" w-full sm:w-[25%]   md:w-[25%] max-w-[375px]  flex items-center">
+                <AudioDisplayFooter
+                  urlImage={
+                    "https://s3.tebi.io/test1345/timo-volz-ZlFKIG6dApg-unsplash%20%281%29.jpg"
+                  }
+                />
+                {/* without it will just changing data for audioinfo */}
+                {name && (
+                  <div
+                    className="flex flex-col overflow-hidden will-change-transform"
+                    key={name}
+                  >
+                    <AudioInfo name={name} isLink={false} />
+                    <AudioInfo name={"aspea"} isLink={true} />
+                  </div>
+                )}
+              </div>
+
+              <div className="max-w-[600px] sm:flex-1 w-fit  flex    ">
+                <div className="audioFunctionContainer flex  flex-col flex-1 items-end sm:items-center pr-2 sm:pr-0  justify-center">
+                  <div className="upContainer ">
+                    <MediaSessionButtonWrapper url={url}>
+                      <AudioFunctionButton>
+                        {/* in jsx when use arrow and {} , react expect to return elemetn , if it does not have  return ,  implicitly returns void, or undefined, so, react think nothing to render  */}
+                        {(playListArray) => {
+                          if (
+                            playListArray &&
+                            playListArray.songs &&
+                            playListArray.songs.length > 0
+                          ) {
+                            return (
+                              // return element
+                              <div
+                                className="flex gap-2"
+                                onClick={(e) => e.stopPropagation()}
+                                onKeyDown={(e) => e.stopPropagation()}
+                              >
+                                <AudioFunctionShuffle
+                                  className="text-white/70 hover:text-white  p-1  sm:inline-block text-sm md:text-base hidden"
+                                  urlProp={playListArray}
+                                  url={url}
+                                />
+                                <AudioFunctionPre
+                                  className="text-white/70 hover:text-white  p-1  sm:inline-block text-sm md:text-base hidden"
+                                  url={url}
+                                  urlProp={playListArray}
+                                />
+                                <ToggleButton
+                                  className="p-1"
+                                  urlProp={playListArray}
+                                />
+                                <AudioFunctionNext
+                                  url={url}
+                                  urlProp={playListArray}
+                                  className="text-white/70 hover:text-white  p-1 text-sm md:text-base"
+                                />
+                                <AudioFunctionRepeat className="text-white/70 hover:text-white  p-1  sm:inline-block text-sm md:text-base hidden" />
+                              </div>
+                            );
+                          }
+                        }}
+                      </AudioFunctionButton>
+                    </MediaSessionButtonWrapper>
+                  </div>
+                  <div className="BottomContainer  w-full absolute sm:static top-0 left-0 ">
+                    <MediaSessionSeekWrapper duration={duration}>
+                      <AudioElement url={url} isFull={false}>
+                        <TimeIndicatorDur
+                          duration={duration}
+                          className="text-sm  w-[5rem] text-center hidden sm:inline"
+                        />
+                      </AudioElement>
+                    </MediaSessionSeekWrapper>
+                  </div>
+                </div>
+              </div>
+              <div
+                className="w-[20%] px-2 md:w-[25%] hidden max-w-[375px] sm:flex  items-center"
+                onClick={(e) => e.stopPropagation()}
+                onKeyDown={(e) => e.stopPropagation()}
+              >
+                <div className="w-full sm:flex  gap-3 relative  items-center justify-around">
+                  <QueueButton />
+                  <Volume isFull={false} />
+                  <FullToggleButton footerRef={footerRef} ref={toggleRef} />
+                </div>
+              </div>
+            </AudioFooterContainer>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </ContextMedia>
   );
 }
