@@ -61,9 +61,12 @@ function AudioPlayer({
       }}
     >
       <div
-        className={clsx("w-full relative flex  h-[70px]", {
-          hidden: !url,
-        })}
+        className={clsx(
+          "w-full duration-300 z-0 ease-in-out transition-transform relative flex   h-[70px]",
+          {
+            "translate-y-full": !url,
+          }
+        )}
         ref={footerRef}
       >
         <AudioFooterContainer footerRef={footerRef}>
