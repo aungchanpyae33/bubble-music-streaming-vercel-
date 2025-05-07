@@ -7,7 +7,9 @@ import {
 
 function CloseFunctoion(
   value: boolean,
-  fun: React.Dispatch<React.SetStateAction<boolean>>,
+  fun:
+    | React.Dispatch<React.SetStateAction<boolean>>
+    | ((value: boolean) => void),
   closeElement: RefObject<HTMLButtonElement | null>,
   isChildCloseFunction: boolean
 ) {
