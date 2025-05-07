@@ -28,13 +28,13 @@ function NavList({
 
   return (
     <div className=" w-full ">
-      <ul className="fixed z-10 isolate   w-[70px]  top-0  box-border  left-0 h-[70px] md:h-[calc(100%-70px)] flex  flex-col gap-x-1   rounded-b-sm ">
+      <ul className="fixed w-[70px]   top-0  box-border  left-0 h-[70px] md:h-full flex  flex-col gap-x-1   rounded-b-sm">
         <button
           onClick={() => {
             setOpen(!open);
           }}
           tabIndex={open ? -1 : 0}
-          className=" w-[70px]  cursor-pointer h-[70px] min-h-[70px]  flex items-center justify-center "
+          className=" w-[70px]  cursor-pointer border-none  h-[70px] min-h-[70px]  flex items-center justify-center "
         >
           {/* open */}
           <IconWrapper size="large" Icon={Menu} />
@@ -54,7 +54,7 @@ function NavList({
       </ul>
 
       <NavListUlWrapper open={open} setOpen={setOpen}>
-        <div className="overflow-auto">
+        <div className="overflow-auto  py-3">
           <NavSideLink
             url="/explore"
             icon="icon"
