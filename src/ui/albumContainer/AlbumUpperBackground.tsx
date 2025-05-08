@@ -18,12 +18,8 @@ function AlbumUpperBackground({ children }: Props) {
   const R = bgValue ? bgValue[0] : "";
   const G = bgValue ? bgValue[1] : "";
   const B = bgValue ? bgValue[2] : "";
-  const bottomR = bgValue ? Math.round(Number(R) * 0.9) : "";
-  const bottomG = bgValue ? Math.round(Number(G) * 0.9) : "";
-  const bottomB = bgValue ? Math.round(Number(B) * 0.9) : "";
 
   const mainColor = bgValue ? `rgb(${R},${G},${B})` : "";
-  const bottomColor = `rgb(${bottomR},${bottomG},${bottomB})`;
 
   const value = { bgValue, setBgValue };
   return (
@@ -34,22 +30,12 @@ function AlbumUpperBackground({ children }: Props) {
           style={
             bgValue
               ? {
-                  background: `linear-gradient(to bottom,${mainColor}0%,${bottomColor}60%)`,
+                  backgroundColor: `${mainColor}`,
                 }
               : {}
           }
         >
           {children}
-          <div
-            className=" absolute bottom-0 translate-y-full opacity-55  w-full  left-0 h-[250px]"
-            style={
-              bgValue
-                ? {
-                    background: `linear-gradient(to bottom,${bottomColor}0%,rgb(17 17 17)70%)`,
-                  }
-                : {}
-            }
-          ></div>
         </div>
       </ContextAlbum.Provider>
     </>
