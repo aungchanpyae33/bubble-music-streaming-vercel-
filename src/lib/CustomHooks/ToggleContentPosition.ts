@@ -1,8 +1,9 @@
-import { RefObject, useLayoutEffect, useState } from "react";
+import { RefObject, useLayoutEffect, useRef, useState } from "react";
 
 type PositionStyle = {
   transform: string;
   height?: string;
+  maxHeight?: string;
 };
 // adding debounce or throttle make laggy vibe when resize,
 export const useToggleContentPosition = ({
@@ -15,6 +16,7 @@ export const useToggleContentPosition = ({
   const [position, setPosition] = useState<PositionStyle>({
     transform: "translate(0px, 0px)",
   });
+  const initialHeightRef = useRef<number | null>(null);
   useLayoutEffect(() => {
     const updatePosition = () => {
       const parentEl = parentRef.current;
@@ -25,6 +27,10 @@ export const useToggleContentPosition = ({
       const containerRect = containerEl.getBoundingClientRect();
       const targetTop = targetRect.top;
       const containerHeight = containerRect.height;
+      if (initialHeightRef.current === null) {
+        initialHeightRef.current = containerRect.height;
+      }
+
       const spaceBelow = windowHeight - targetTop;
 
       const x =
@@ -48,6 +54,7 @@ export const useToggleContentPosition = ({
 
       setPosition({
         transform: `translate(${x}px, ${roundedY}px)`,
+        maxHeight: `${initialHeightRef.current}px`,
         ...(roundedY === 0 ? { height: "100%" } : {}),
       });
     };
