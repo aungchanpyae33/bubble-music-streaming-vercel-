@@ -8,7 +8,7 @@ function AudioPlayerWrapper({ children }: { children: React.ReactNode }) {
   const footerRef = useRef<HTMLDivElement | null>(null);
   return (
     <MediaSessionDesWrapper>
-      <ContextMediaAudioFull footerRef={footerRef} footerNaviRef={children}>
+      <ContextMediaAudioFull footerNaviRef={children}>
         <AudioPlayer footerRef={footerRef} />
       </ContextMediaAudioFull>
     </MediaSessionDesWrapper>
