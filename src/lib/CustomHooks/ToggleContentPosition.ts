@@ -1,48 +1,61 @@
 import { RefObject, useLayoutEffect, useState } from "react";
 
+type PositionStyle = {
+  transform: string;
+  height?: string;
+};
+// adding debounce or throttle make laggy vibe when resize,
 export const useToggleContentPosition = ({
   parentRef,
   containerRef,
 }: {
   parentRef: RefObject<HTMLDivElement | null>;
   containerRef: RefObject<HTMLDivElement | null>;
-}) => {
-  const [position, setPosition] = useState({});
+}): [PositionStyle, React.Dispatch<React.SetStateAction<PositionStyle>>] => {
+  const [position, setPosition] = useState<PositionStyle>({
+    transform: "translate(0px, 0px)",
+  });
   useLayoutEffect(() => {
-    const clientHeight = window.innerHeight;
+    const updatePosition = () => {
+      const parentEl = parentRef.current;
+      const containerEl = containerRef.current;
+      if (!parentEl || !containerEl) return;
+      const windowHeight = window.innerHeight;
+      const targetRect = parentEl.getBoundingClientRect();
+      const containerRect = containerEl.getBoundingClientRect();
+      const targetTop = targetRect.top;
+      const containerHeight = containerRect.height;
+      const spaceBelow = windowHeight - targetTop;
 
-    const parentElement = parentRef!.current!;
-    const containerElement = containerRef!.current!;
-    const targetRect = parentElement.getBoundingClientRect();
-    const containerElementRect = containerElement.getBoundingClientRect();
-    const targetTop = targetRect.top;
-    const containerHeight = containerElementRect.height;
+      const x =
+        targetRect.left < containerRect.width
+          ? targetRect.right
+          : targetRect.left - containerRect.width;
 
-    const farFromBottom = clientHeight - targetTop;
-    function calculateX() {
-      if (targetRect.left < containerElementRect.width) {
-        return targetRect.right;
-      }
-      return targetRect.left - containerElementRect.width;
-    }
-    function calculateY() {
-      if (targetTop < containerHeight) {
-        if (containerHeight > farFromBottom) {
-          return targetTop - (containerHeight - farFromBottom);
+      const y = (() => {
+        if (targetTop < containerHeight) {
+          return containerHeight > spaceBelow
+            ? targetTop - (containerHeight - spaceBelow)
+            : targetTop;
         } else {
-          return targetTop;
+          return windowHeight - targetRect.bottom <= 0
+            ? targetTop - (containerHeight - spaceBelow)
+            : targetRect.bottom - containerHeight;
         }
-      } else {
-        return targetRect.bottom - containerHeight;
-      }
-    }
-    const positionX = calculateX();
-    const positionY = Math.max(calculateY(), 0);
-    setPosition({
-      left: `${positionX}px`,
-      top: `${positionY}px`,
-      height: `calc(100% - ${positionY}px )`,
-    });
+      })();
+
+      const roundedY = Math.max(Math.round(y), 0);
+
+      setPosition({
+        transform: `translate(${x}px, ${roundedY}px)`,
+        ...(roundedY === 0 ? { height: "100%" } : {}),
+      });
+    };
+
+    updatePosition();
+    window.addEventListener("resize", updatePosition);
+    return () => window.removeEventListener("resize", updatePosition);
   }, [parentRef, containerRef]);
+
   return [position, setPosition];
 };
