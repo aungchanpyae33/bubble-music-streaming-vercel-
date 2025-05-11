@@ -7,13 +7,13 @@ interface Props extends React.ComponentProps<"button"> {
 }
 function FullToggleButton({ footerRef, ref }: Props) {
   const { open, setOpen } = useContext(Context);
-  // console.log(open);
+
   return (
     <button
       ref={ref}
       className=" p-1"
       onClick={() => {
-        footerRef!.current!.classList.toggle("z-50");
+        footerRef!.current!.classList.add("z-50");
         setOpen(!open);
       }}
     >

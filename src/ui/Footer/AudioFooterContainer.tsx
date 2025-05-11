@@ -21,7 +21,7 @@ function AudioFooterContainer({
       tabIndex={0}
       onKeyDown={(e) => {
         if (e.key === "Enter") {
-          footerRef.current?.classList.toggle("z-50");
+          footerRef.current?.classList.add("z-50");
           setOpen(!open);
         }
       }}
@@ -32,7 +32,7 @@ function AudioFooterContainer({
       }}
       onClick={(e) => {
         if (e.target === initialRef.current) {
-          footerRef.current?.classList.toggle("z-50");
+          footerRef.current?.classList.add("z-50");
           setOpen(!open);
         }
       }}

@@ -10,9 +10,7 @@ function CloseFunctoionForFull(
     const copyRef = refFocus!.current!;
     function closeSearch(e: KeyboardEvent) {
       if (e.key === "Escape" && value === true) {
-        console.log("hi");
         fun(false);
-        copyRef.classList.toggle("z-50");
         closeElement.current!.focus();
       }
       if (e.key === "Tab") {

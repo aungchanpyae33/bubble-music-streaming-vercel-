@@ -33,7 +33,11 @@ function AudioFull({
 }) {
   const { open, setOpen } = useContext(Context);
   const refFocus = useRef<HTMLDivElement | null>(null);
-
+  function removeZindex() {
+    if (!open) {
+      footerRef!.current!.classList.remove("z-50");
+    }
+  }
   CloseFunctoionForFull(open, setOpen, toggleRef, refFocus);
   return (
     <div
@@ -45,6 +49,7 @@ function AudioFull({
         }
       )}
       aria-hidden={!open}
+      onTransitionEnd={removeZindex}
     >
       <AnimatePresence>
         {open && (
@@ -63,7 +68,6 @@ function AudioFull({
                   <button
                     className=" bg-transparent transition-colors  duration-200 hover:bg-[#333333] p-1 rounded-full flex items-center justify-center"
                     onClick={() => {
-                      footerRef!.current!.classList.toggle("z-50");
                       toggleRef.current?.focus();
                       setOpen(!open);
                     }}
