@@ -1,4 +1,3 @@
-"use client";
 import { RefObject } from "react";
 
 function ScrollHorizontal(
