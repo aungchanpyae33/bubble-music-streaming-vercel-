@@ -7,32 +7,21 @@ import ToggleContent from "./ToggleContent";
 import { DisableScroll } from "@/lib/CustomHooks/DisableScroll";
 import AddSongContentWrapper from "./AddSongContentWrapper";
 import AddSongContent from "./AddSongContent";
-import FocusTrap from "../Footer/audioFull/FocusTrap";
 import { ContextMoreOption } from "./MoreOptionContext";
 import { createPortal } from "react-dom";
-import ToggleHeartContent from "./ToggleHeartContent";
-import RemoveSongButton from "./RemoveSongButton";
-import AddSongButton from "./AddSongButton";
-import ContextToggleContent, {
-  ToggleContentContext,
-} from "./ContextToggleContent";
+import ContextToggleContent from "./ContextToggleContent";
+import ContentChild from "./ContentChild";
 DisableScroll;
 interface MoreOptionProps extends React.ComponentProps<"div"> {}
 function MoreOption({ className }: MoreOptionProps) {
   const { show, setShow } = useContext(ContextMoreOption);
   const parentRef = useRef<HTMLDivElement>(null);
   const ignonreOutterClickRef = useRef<HTMLDivElement>(null);
-  const refFocus = useRef<HTMLDivElement>(null);
   OutterClick(show, setShow, parentRef, ignonreOutterClickRef);
   // need to do with focus-out
   DisableScroll(show);
-  const containerRef = useRef<HTMLDivElement>(null);
   return (
-    <div
-      className={className}
-      style={show ? { opacity: 1 } : {}}
-      ref={parentRef}
-    >
+    <div className={className} ref={parentRef}>
       <button
         onClick={() => {
           setShow(!show);
@@ -44,32 +33,14 @@ function MoreOption({ className }: MoreOptionProps) {
       {show &&
         typeof window !== "undefined" &&
         createPortal(
-          <ContextToggleContent show={show}>
+          <ContextToggleContent>
             <ToggleContent
               parentRef={parentRef}
               ref={ignonreOutterClickRef}
-              contentChild={
-                <FocusTrap refFocus={containerRef} className=" w-full h-full">
-                  <div
-                    tabIndex={0}
-                    ref={containerRef}
-                    className="w-full h-full"
-                  >
-                    <h1 className=" h-10">test content</h1>
-                    <AddSongButton />
-                    <RemoveSongButton />
-                    <ToggleHeartContent />
-                    <h1 className=" h-10">test content</h1>
-                    <h1 className=" h-10">test content</h1>
-                    <h1 className="h-10">test content</h1>
-                  </div>
-                </FocusTrap>
-              }
+              contentChild={<ContentChild />}
             >
               <AddSongContentWrapper>
-                <FocusTrap refFocus={refFocus}>
-                  <AddSongContent ref={refFocus} />
-                </FocusTrap>
+                <AddSongContent />
               </AddSongContentWrapper>
             </ToggleContent>
           </ContextToggleContent>,
