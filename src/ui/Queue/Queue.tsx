@@ -6,41 +6,73 @@ import {
   useRepeatAndCurrentPlayList,
 } from "@/lib/zustand";
 import clsx from "clsx";
-import { urlProp } from "../albumContainer/AudiosContainer";
 import ToggleElement from "../Footer/audio/Toggle/ToggleElement";
+import { getPlaylistSongsReturn } from "@/database/data";
+import Image from "next/image";
+import PlaylistInfoContext from "../trackComponent/PlaylistInfoContext";
+import MoreOptionContext from "../trackComponent/MoreOptionContext";
+import MoreOption from "../trackComponent/MoreOption";
 
 function Queue() {
-  const isQueue = useOnlyOneSider((state: queueState) => state.isQueue);
-  const [playListArrayKey, playListArray] = useRepeatAndCurrentPlayList(
-    (state: currentSongPlaylist) =>
-      Object.entries(state.playListArray as Record<string, urlProp[]>)[0] || []
-  );
-  const playlistUrl = {
-    playlistId: playListArrayKey,
-    song: playListArray,
-  };
+  const playListArray = useRepeatAndCurrentPlayList(
+    (state: currentSongPlaylist) => Object.values(state.playListArray)[0] || []
+  ) as getPlaylistSongsReturn;
+  // console.log(playListArray);
   return (
     <div
       className={clsx(
-        "h-full  w-[20%] md:w-[25%] min-w-[250px] flex flex-col border border-neutral-200 border-opacity-15 border-y-0    max-w-[375px] overflow-y-auto",
-        {
-          hidden: !isQueue,
-          "hidden sm:block": isQueue,
-        }
+        "h-full  w-[20%] md:w-[25%] min-w-[250px] flex flex-col border border-neutral-200 border-opacity-15 border-y-0    max-w-[375px] overflow-y-auto"
       )}
     >
       {playListArray &&
-        playListArray.map((song, index) => (
-          <div key={index} className="flex hover:bg-red-800 items-center">
+        playListArray.playlist_id &&
+        playListArray.songs.map((song, index) => (
+          <div
+            key={index}
+            className="flex hover:bg-[#333333] items-stretch
+          "
+          >
             <ToggleElement
               url={song.url}
               name={song.name}
               duration={song.duration}
               sege={song.sege}
-              playlistUrl={playlistUrl}
-              className="w-[50px]"
+              playlistSong={playListArray}
+              song_time_stamp={song.song_time_stamp}
+              className="w-[50px] "
             />
-            <div className="p-5 truncate flex-1  ">{song.name}</div>
+            <div
+              className="flex-1 overflow-hidden
+              flex items-center"
+            >
+              <Image
+                src={
+                  "https://s3.tebi.io/test1345/timo-volz-ZlFKIG6dApg-unsplash%20%281%29.jpg"
+                }
+                width={50}
+                height={50}
+                alt="test image"
+                priority={true}
+              />
+              <div
+                className=" flex-1 truncate
+              "
+              >
+                {song.name}
+              </div>
+              <div className="w-[30px]">
+                <PlaylistInfoContext
+                  songId={song.id}
+                  playlistId={playListArray.playlist_id}
+                  isLike={song.is_liked}
+                  is_owner={playListArray.is_owner}
+                >
+                  <MoreOptionContext>
+                    <MoreOption />
+                  </MoreOptionContext>
+                </PlaylistInfoContext>
+              </div>
+            </div>
           </div>
         ))}
     </div>

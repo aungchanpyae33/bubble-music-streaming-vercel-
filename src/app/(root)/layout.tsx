@@ -38,8 +38,9 @@ export default function RootLayout({
                 {children}
                 <Footer />
               </Main>
-
-              <Queue />
+              <QueueWrapper>
+                <Queue />
+              </QueueWrapper>
             </Suspense>
           </div>
           <Suspense
