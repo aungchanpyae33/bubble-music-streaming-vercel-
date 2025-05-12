@@ -23,20 +23,32 @@ export const useToggleContentPosition = ({
       const containerEl = containerRef.current;
       if (!parentEl || !containerEl) return;
       const windowHeight = window.innerHeight;
+      const windowWidth = window.innerWidth;
       const targetRect = parentEl.getBoundingClientRect();
       const containerRect = containerEl.getBoundingClientRect();
       const targetTop = targetRect.top;
+      const targetLeft = targetRect.left;
+      const targetRight = targetRect.right;
+      const targetBottom = targetRect.bottom;
       const containerHeight = containerRect.height;
+      const containerWidth = containerRect.width;
       if (initialHeightRef.current === null) {
         initialHeightRef.current = containerRect.height;
       }
 
       const spaceBelow = windowHeight - targetTop;
 
-      const x =
-        targetRect.left < containerRect.width
-          ? targetRect.right
-          : targetRect.left - containerRect.width;
+      const x = (() => {
+        if (targetLeft < containerWidth) {
+          console.log("one");
+          return targetRight;
+        } else {
+          if (targetLeft > windowWidth) {
+            return windowWidth - containerWidth;
+          }
+          return targetLeft - containerWidth;
+        }
+      })();
 
       const y = (() => {
         if (targetTop < containerHeight) {
@@ -44,16 +56,17 @@ export const useToggleContentPosition = ({
             ? targetTop - (containerHeight - spaceBelow)
             : targetTop;
         } else {
-          return windowHeight - targetRect.bottom <= 0
+          return windowHeight - targetBottom <= 0
             ? targetTop - (containerHeight - spaceBelow)
-            : targetRect.bottom - containerHeight;
+            : targetBottom - containerHeight;
         }
       })();
 
       const roundedY = Math.max(Math.round(y), 0);
-
+      const roundedX = Math.max(Math.round(x), 0);
+      console.log(roundedX);
       setPosition({
-        transform: `translate(${x}px, ${roundedY}px)`,
+        transform: `translate(${roundedX}px, ${roundedY}px)`,
         maxHeight: `${initialHeightRef.current}px`,
         ...(roundedY === 0 ? { height: "100%" } : {}),
       });
