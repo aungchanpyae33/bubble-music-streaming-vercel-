@@ -7,10 +7,21 @@ const useScreenSize = (query: MediaQuery) => {
     const media = window.matchMedia(query);
     const listener = () => setMatches(media.matches);
 
-    media.addEventListener("change", listener);
-    setMatches(media.matches);
+    if (media.addEventListener) {
+      media.addEventListener("change", listener);
+    } else {
+      // @ts-ignore: addListener is deprecated but still needed for older Safari 2020
+      media.addListener(listener);
+    }
 
-    return () => media.removeEventListener("change", listener);
+    return () => {
+      if (media.removeEventListener) {
+        media.removeEventListener("change", listener);
+      } else {
+        // @ts-ignore: addListener is deprecated but still needed for older Safaric 2020
+        media.removeListener(listener);
+      }
+    };
   }, [query]);
 
   return matches;

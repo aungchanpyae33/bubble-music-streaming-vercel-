@@ -28,11 +28,19 @@ function FocusTrap({ children, refFocus, mqAffectsChild }: Props) {
     //to handle tailwind change hidden style
     mqAffectsChild &&
       mqAffectsChild.forEach((item, index) => {
-        mediaQueries[index] = window.matchMedia(item);
-        mediaQueries[index].addEventListener("change", findLastElement);
+        const mq = window.matchMedia(item);
+        mediaQueries[index] = mq;
+
+        if (mq.addEventListener) {
+          mq.addEventListener("change", findLastElement); // Modern browsers
+        } else {
+          // Fallback for older browsers (deprecated)
+          // @ts-ignore: Safari/ 2020
+          mq.addListener(findLastElement);
+        }
       });
 
-    // to handle when lastElement is focus and then resize the window to some breakpoint , and it loss focus state which can lead to break focus trap
+    // to handle when lastElement is focus and then resize the window to some breakpoint , as it loss focus state which can lead to break focus trap
     function handleOut(e: FocusEvent) {
       // if focus loss is cause by tab key , return it
       if (e.relatedTarget) {
@@ -88,7 +96,13 @@ function FocusTrap({ children, refFocus, mqAffectsChild }: Props) {
       if (mqAffectsChild) {
         copyRef.removeEventListener("focusout", handleOut);
         mediaQueries.forEach((item) => {
-          item.removeEventListener("change", findLastElement);
+          if ("removeEventListener" in item) {
+            item.removeEventListener("change", findLastElement); // Modern browsers
+          } else {
+            // Fallback for older browsers (deprecated)
+            // @ts-ignore: Safari 2020
+            item.removeListener(findLastElement);
+          }
         });
       }
     };
