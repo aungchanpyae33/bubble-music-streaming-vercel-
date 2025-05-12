@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SearchToggleButton from "./SearchToggleButton";
 import FormWrapper from "./FormWrapper";
 import InputComponent from "./InputComponent";
@@ -14,7 +14,12 @@ function FormContainer({
   setValue: React.Dispatch<React.SetStateAction<string | null>>;
 }) {
   const [show, setShow] = useState(false);
-
+  //auto focus the input
+  useEffect(() => {
+    if (show && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [show, inputRef]);
   return (
     <div className="w-[80%]  sm:max-w-[500px] lg:max-w-[600px] mx-auto">
       <SearchToggleButton

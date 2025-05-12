@@ -27,12 +27,12 @@ function InputComponent({ inputRef, setShow, setValue }: InputComponentProps) {
         ref={inputRef}
         onBlur={() => {
           setOpen(false);
-          setShow(false);
+          // setShow(false);
           setIsInputFocus(false);
         }}
         onFocus={() => {
           setOpen(true);
-          setShow(true);
+          // setShow(true);
           setIsInputFocus(true);
         }}
         onKeyDown={(e) => {
