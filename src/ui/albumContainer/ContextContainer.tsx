@@ -3,18 +3,21 @@ import { createContext, ReactNode, RefObject, useRef } from "react";
 
 interface prop {
   playlistWrapperRef: RefObject<HTMLDivElement | null>;
+  arrowNaviRef: RefObject<HTMLDivElement | null>;
 }
 
 export const ContainerContext = createContext<prop>({
   playlistWrapperRef: { current: null },
+  arrowNaviRef: { current: null },
 });
 
 function ContextContainer({ children }: { children: ReactNode }) {
   const playlistWrapperRef = useRef<HTMLDivElement | null>(null);
-  const value = { playlistWrapperRef };
+  const arrowNaviRef = useRef<HTMLDivElement | null>(null);
+  const value = { playlistWrapperRef, arrowNaviRef };
   return (
     <div
-      className=" max-w-full pb-3"
+      className=" max-w-full relative  pb-3"
       role="row"
       // tabIndex={0}
       // onKeyDown={(e) => {
