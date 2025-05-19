@@ -34,7 +34,7 @@ const useMediaSourceBuffer = (
   const prefetchSegment = useRepeatAndCurrentPlayList(
     (state) => state.prefetchSegment
   );
-  console.log(song_time_stamp, segNum);
+
   // function to wait data from prefetchSegment
   const checkFeching = useCallback(async () => {
     return prefetchSegment({
@@ -145,6 +145,12 @@ const useMediaSourceBuffer = (
   const updateendLoadNextSegment = useCallback(() => {
     if (segNum.current <= sege) {
       loadNextSegment();
+    }
+    // because of using throttle , i need to immediate endstream if lastsegement is append before 0.3 second of the song by seek
+
+    if (segNum.current > sege && mediaSource.current?.readyState === "open") {
+      mediaSource!.current!.endOfStream();
+      isCalled.current = false;
     }
   }, [loadNextSegment, sege]);
 
