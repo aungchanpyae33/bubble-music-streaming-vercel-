@@ -1,13 +1,14 @@
+import { valueProps } from "@/lib/CustomHooks/AudioSeek";
 import { RefObject } from "react";
 
 function AudioProgressbar({
   value,
   progressRef,
 }: {
-  value: number;
+  value: valueProps["value"];
   progressRef: RefObject<HTMLDivElement | null>;
 }) {
-  const output = 100 - value;
+  const output = 100 - value!;
   return (
     <div
       className="bg-white w-full left-0  absolute top-0 origin-left h-full"

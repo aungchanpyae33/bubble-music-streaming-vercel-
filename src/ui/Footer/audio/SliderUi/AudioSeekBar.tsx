@@ -1,5 +1,5 @@
 import { ReactNode, useContext, useMemo, useRef } from "react";
-import useAudioSeek from "@/lib/CustomHooks/AudioSeek";
+import useAudioSeek, { valueProps } from "@/lib/CustomHooks/AudioSeek";
 import AudioThumbSlider from "./AudioThumbSlider";
 import AudioProgressbar from "./AudioProgressbar";
 import AudioSliderActionWrapper from "./AudioSliderActionWrapper";
@@ -15,7 +15,7 @@ export interface eventProp {
 interface PropAudioSeek extends React.ComponentProps<"div"> {
   duration: number;
   hideSliderInSmScreen: boolean;
-  childrenFn: (value: number) => ReactNode;
+  childrenFn: (value: valueProps["value"]) => ReactNode;
   url: string;
   isFull: boolean;
 }
@@ -33,7 +33,9 @@ function AudioSeekBar({
     () => typeof window !== "undefined" && "onpointerdown" in window,
     []
   );
+
   const shouldRun = useMemo(() => (isFull ? open : !open), [isFull, open]);
+
   const isTouchDevice = useMemo(
     () =>
       typeof window !== "undefined" &&
@@ -52,7 +54,7 @@ function AudioSeekBar({
   });
   return (
     <>
-      {childrenFn(value)}
+      {childrenFn(value!)}
       <div className={className}>
         <AudioProgressbar value={value} progressRef={progressRef} />
         <AudioThumbSlider

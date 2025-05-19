@@ -1,3 +1,4 @@
+import { valueProps } from "@/lib/CustomHooks/AudioSeek";
 import AudioSeeked from "@/lib/MediaSource/AudioSeeked";
 import { DataContext } from "@/lib/MediaSource/ContextMedia";
 import { AudioDraggingActions, AudioValueActions } from "@/lib/zustand";
@@ -6,7 +7,7 @@ interface Props extends React.ComponentProps<"div"> {
   sliderRef: RefObject<HTMLDivElement | null>;
   setIsDragging: AudioDraggingActions["setIsDragging"];
   duration: number;
-  value: number;
+  value: valueProps["value"];
   setValue: AudioValueActions["setValue"];
   progressRef: RefObject<HTMLDivElement | null>;
   children: ReactNode;
@@ -40,12 +41,12 @@ function AudioSlider({
         if (e.key === "ArrowRight") {
           if (!sliderRef.current) return;
           setIsDragging(true);
-          const newValue = Math.max(value - 1, 0);
+          const newValue = Math.max(value! - 1, 0);
           setValue(newValue);
         } else if (e.key === "ArrowLeft") {
           if (!sliderRef.current) return;
           setIsDragging(true);
-          const newValue = Math.min(value + 1, 100);
+          const newValue = Math.min(value! + 1, 100);
           setValue(newValue);
         } else if (e.key !== "Tab") {
           e.preventDefault();

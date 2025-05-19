@@ -1,5 +1,7 @@
+import { valueProps } from "@/lib/CustomHooks/AudioSeek";
+
 interface Props extends React.ComponentProps<"span"> {
-  value: number;
+  value: valueProps["value"];
 }
 function AudioThumbSlider({ value, className }: Props) {
   return (
@@ -9,5 +11,4 @@ function AudioThumbSlider({ value, className }: Props) {
     ></span>
   );
 }
-
 export default AudioThumbSlider;

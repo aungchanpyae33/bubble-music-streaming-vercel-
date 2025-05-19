@@ -1,4 +1,4 @@
-import { RefObject, useContext, useEffect } from "react";
+import { RefObject, useContext, useEffect, useMemo } from "react";
 import throttle from "../throttle";
 import { seekCal, sliderPositionCal } from "../MediaSource/SliderPositionCal";
 import AudioSeeked from "../MediaSource/AudioSeeked";
@@ -7,11 +7,18 @@ import {
   AudioDraggingState,
   AudioValueActions,
   AudioValueState,
+  SongFunctionState,
   useAudioDragging,
   useAudioValue,
+  useSongFunction,
 } from "../zustand";
 import { DataContext } from "../MediaSource/ContextMedia";
-
+export interface valueProps {
+  value: AudioValueState["value"] | undefined;
+}
+export interface isDraggingProps {
+  isDragging: AudioDraggingState["isDragging"] | undefined;
+}
 interface audioSeekProp {
   sliderRef: RefObject<HTMLDivElement | null>;
   duration: number;
@@ -21,9 +28,9 @@ interface audioSeekProp {
   shouldRun: boolean;
 }
 interface useAudioSeekReturnType {
-  value: AudioValueState["value"];
+  value: valueProps["value"];
   setValue: AudioValueActions["setValue"];
-  isDragging: AudioDraggingState["isDragging"];
+  isDragging: isDraggingProps["isDragging"];
   setIsDragging: AudioDraggingActions["setIsDragging"];
 }
 
@@ -35,10 +42,12 @@ const useAudioSeek = ({
   url,
   shouldRun,
 }: audioSeekProp): useAudioSeekReturnType => {
-  const value = useAudioValue((state: AudioValueState) => state.value);
+  const value = useAudioValue((state: AudioValueState) =>
+    shouldRun ? state.value : undefined
+  );
   const setValue = useAudioValue((state: AudioValueActions) => state.setValue);
-  const isDragging = useAudioDragging(
-    (state: AudioDraggingState) => state.isDragging
+  const isDragging = useAudioDragging((state: AudioDraggingState) =>
+    shouldRun ? state.isDragging : undefined
   );
   const setIsDragging = useAudioDragging(
     (state: AudioDraggingActions) => state.setIsDragging
@@ -53,18 +62,31 @@ const useAudioSeek = ({
     bufferThreshold,
     song_time_stamp,
   } = useContext(DataContext);
+  const throttledSetValue = useMemo(
+    () => throttle((val: number) => setValue(val), 1000),
+    [setValue]
+  );
+  const Isplay = useSongFunction(
+    (state: SongFunctionState) =>
+      Object.values(state.Isplay as Record<string, boolean>)[0]
+  );
+
   useEffect(() => {
     const copyDataAudio = dataAudio!.current!;
-    const throttledHandleTimeUpdate = throttle(handleTimeUpdate, 1000);
+    let animationFrameId: number;
+
     function handleMove(e: PointerEvent | TouchEvent | MouseEvent) {
       if (!shouldRun) return;
       const { percentage } = sliderPositionCal({ sliderRef, e });
       setValue(percentage);
     }
+
     function handleUp(e: PointerEvent | TouchEvent | MouseEvent) {
       if (!shouldRun) return;
+
       setIsDragging(false);
       const per = seekCal({ sliderRef, e });
+
       AudioSeeked({
         per,
         duration,
@@ -78,16 +100,17 @@ const useAudioSeek = ({
         song_time_stamp,
       });
     }
-
-    function handleTimeUpdate(e: Event) {
-      if (!shouldRun) return;
-      if (!isDragging) {
-        const audioElement = e.currentTarget as HTMLAudioElement;
-        const data = (audioElement.currentTime / audioElement.duration) * 100;
-        const newValue = 100 - data;
-        setValue(newValue);
+    function update() {
+      if (!Isplay || !shouldRun || !copyDataAudio || isDragging) {
+        animationFrameId = requestAnimationFrame(update);
+        return;
       }
+      const data = (copyDataAudio.currentTime / copyDataAudio.duration) * 100;
+      const newValue = 100 - data;
+      throttledSetValue(newValue);
+      animationFrameId = requestAnimationFrame(update);
     }
+
     if (isDragging) {
       if (isPointer) {
         document.addEventListener("pointermove", handleMove);
@@ -102,7 +125,9 @@ const useAudioSeek = ({
         }
       }
     }
-    copyDataAudio.addEventListener("timeupdate", throttledHandleTimeUpdate);
+
+    animationFrameId = requestAnimationFrame(update);
+
     return () => {
       document.removeEventListener("pointermove", handleMove);
       document.removeEventListener("pointerup", handleUp);
@@ -110,10 +135,7 @@ const useAudioSeek = ({
       document.removeEventListener("touchend", handleUp);
       document.removeEventListener("mousemove", handleMove);
       document.removeEventListener("mouseup", handleUp);
-      copyDataAudio.removeEventListener(
-        "timeupdate",
-        throttledHandleTimeUpdate
-      );
+      cancelAnimationFrame(animationFrameId);
     };
   }, [
     dataAudio,
@@ -132,6 +154,8 @@ const useAudioSeek = ({
     bufferThreshold,
     shouldRun,
     song_time_stamp,
+    throttledSetValue,
+    Isplay,
   ]);
 
   useEffect(() => {
