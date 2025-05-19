@@ -1,24 +1,16 @@
-import {
-  focusState,
-  SongFunctionActions,
-  SongState,
-  StorePlayListIdState,
-  useNotInputFocus,
-} from "@/lib/zustand";
+import { focusState, SongState, useNotInputFocus } from "@/lib/zustand";
 import { useEffect } from "react";
 interface ToggleButtonSpaceKeyProps {
   setPlay: (key: string, play: boolean | undefined) => void;
   setPlayList: (key: string, play: boolean | undefined) => void;
   songCuUrl: SongState;
   playlistIdString: string;
-  children: React.ReactNode;
 }
 function ToggleButtonSpaceKey({
   setPlay,
   setPlayList,
   songCuUrl,
   playlistIdString,
-  children,
 }: ToggleButtonSpaceKeyProps) {
   const isInputFocus = useNotInputFocus(
     (state: focusState) => state.isInputFocus
@@ -39,7 +31,7 @@ function ToggleButtonSpaceKey({
       document.removeEventListener("keydown", handleKeyDown);
     };
   }, [playlistIdString, setPlay, setPlayList, songCuUrl, isInputFocus]);
-  return children;
+  return null;
 }
 
 export default ToggleButtonSpaceKey;

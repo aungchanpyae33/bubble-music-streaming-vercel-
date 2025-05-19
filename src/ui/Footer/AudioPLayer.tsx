@@ -24,6 +24,7 @@ import clsx from "clsx";
 import ContextMedia from "@/lib/MediaSource/ContextMedia";
 import { AnimatePresence } from "motion/react";
 import { motion } from "motion/react";
+import PlaceHolderToggleState from "./PlaceHolderToggleState";
 function AudioPlayer({
   footerRef,
 }: {
@@ -45,8 +46,6 @@ function AudioPlayer({
     fetching,
     bufferThreshold,
   } = useMediaSourceBuffer(url, sege, song_time_stamp);
-
-  // console.log("hf", url);
   return (
     <ContextMedia
       data={{
@@ -70,6 +69,7 @@ function AudioPlayer({
             className={clsx("w-full  z-0  relative flex   h-[70px]")}
             ref={footerRef}
           >
+            <PlaceHolderToggleState />
             <AudioFooterContainer footerRef={footerRef}>
               <AudioFull
                 footerRef={footerRef}
