@@ -11,13 +11,24 @@ import EdgeFade from "../playlist/EdgeFade";
 function PlaylistWrapper({ children }: { children: React.ReactNode }) {
   const { arrowNaviRef, playlistWrapperRef } = useContext(ContainerContext);
   const { showLeft, showRight, updateArrows, hideArrows } = useScrollArrows();
+  const [isHovered, setIsHovered] = useState(false);
   return (
     <div
       className=" max-w-fit p-4 gap-2 md:gap-4 lg:gap-6 flex  no-scrollbar snap-x scroll-smooth   overflow-y-visible overflow-x-auto"
       ref={playlistWrapperRef}
-      onScroll={updateArrows}
-      onMouseEnter={updateArrows}
-      onMouseLeave={hideArrows}
+      onScroll={(e) => {
+        if (isHovered) {
+          updateArrows(e);
+        }
+      }}
+      onMouseEnter={(e) => {
+        setIsHovered(true);
+        updateArrows(e);
+      }}
+      onMouseLeave={() => {
+        setIsHovered(false);
+        hideArrows();
+      }}
     >
       {showRight &&
         typeof window !== "undefined" &&
