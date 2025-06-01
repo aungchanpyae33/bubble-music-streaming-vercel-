@@ -160,42 +160,34 @@ export interface setIsBoxOpen {
 
 // need to select them with object key as there will be used for many component
 export const useSong = create<SongState & SongActions & resetAction>()(
-  persist(
-    (set) => ({
-      songCu: {},
-      updateSongCu: (newSong) =>
-        set(() => ({
-          songCu: { ...newSong },
-        })),
-      reset: () => {
-        set({ songCu: {} });
-      },
-    }),
-    {
-      name: "currentSong-storage",
-    }
-  )
+  (set) => ({
+    songCu: {},
+    updateSongCu: (newSong) =>
+      set(() => ({
+        songCu: { ...newSong },
+      })),
+    reset: () => {
+      set({ songCu: {} });
+    },
+  })
 );
 
 export const usePreviousPlayList = create<
   previousSongPlaylist & previousSongPlaylistAction & resetAction
->()(
-  persist(
-    (set) => ({
-      previousPlayListArray: {},
-      setPreviousPlayListArray: (newList) =>
-        set(() => ({
-          previousPlayListArray: { ...newList },
-        })),
-      reset: () => {
-        set({ previousPlayListArray: {} });
-      },
+>()((set) => ({
+  previousPlayListArray: {},
+  setPreviousPlayListArray: (newList) =>
+    set((state) => {
+      if (
+        Object.keys(newList)[0] !== Object.keys(state.previousPlayListArray)[0]
+      ) {
+        return { previousPlayListArray: { ...newList } };
+      } else return state.previousPlayListArray;
     }),
-    {
-      name: "previous-playlistArray-storage",
-    }
-  )
-);
+  reset: () => {
+    set({ previousPlayListArray: {} });
+  },
+}));
 
 export const useSongFunction = create<SongFunctionState & SongFunctionActions>(
   (set) => ({
@@ -215,23 +207,16 @@ export const useSongFunction = create<SongFunctionState & SongFunctionActions>(
 
 export const useStorePlayListId = create<
   StorePlayListIdState & StorePlayListIdStateAction & resetAction
->()(
-  persist(
-    (set) => ({
-      playlistId: {},
-      setPlaylistId: (id) =>
-        set((state) => ({
-          playlistId: { ...id },
-        })),
-      reset: () => {
-        set({ playlistId: {} });
-      },
-    }),
-    {
-      name: "playlistIdStorage-1",
-    }
-  )
-);
+>()((set) => ({
+  playlistId: {},
+  setPlaylistId: (id) =>
+    set((state) => ({
+      playlistId: { ...id },
+    })),
+  reset: () => {
+    set({ playlistId: {} });
+  },
+}));
 
 export const useDirectPlayBack = create<
   DirectPlayBackState & DirectPlayBackAction
@@ -256,72 +241,67 @@ export const useRepeatAndCurrentPlayList = create<
     RepeatAction &
     PrefetchAction &
     resetAction
->()(
-  persist(
-    (set, get) => ({
-      playListArray: {},
-      setPlayListArray: (newList) =>
-        set((state) => ({
-          playListArray: { ...newList },
-        })),
-      isRepeat: false,
-      setRepeat: () => set((state) => ({ isRepeat: !state.isRepeat })),
-      // if it check as isRepeat in function component, it will re-render entrire component
-      prefetchSegment: async ({
-        currentUrl,
-        abortController,
-        prefetchedUrl,
-        prefetchPromiseRef,
-      }: PrefetchParams) => {
-        // later need to change another abort
-        const fetchOptions: RequestInit = {
-          signal: abortController!.current!.signal,
-        };
-        const playlistArray = Object.values(
-          get().playListArray
-        )[0] as SongDetail[];
-        const currentIndex = playlistArray.findIndex(
-          (song) => song.url === currentUrl
-        );
-        const extract = Math.min(currentIndex + 1, playlistArray.length - 1);
-        const url = playlistArray[extract].url;
-        // Early return if repeat is enabled
-        if (get().isRepeat) return null;
-        // if (url !== currentUrl) {
-        const initUrl = url;
-        const seg1Url = url.replace("init.mp4", "seg-1.m4s");
-
-        try {
-          // if prefetch promise is not null , means they are waiting some promise, if then return this promise to receive the data
-          if (!prefetchPromiseRef.current) {
-            // immediate update url to inform there is a prefetch call
-            prefetchedUrl.current = url;
-            prefetchPromiseRef.current = Promise.all([
-              fetch(initUrl).then((res) => res.arrayBuffer()),
-              fetch(seg1Url).then((res) => res.arrayBuffer()),
-            ]);
-          }
-          return prefetchPromiseRef.current;
-        } catch (err: any) {
-          if (err.name === "AbortError") {
-            return null;
-          } else {
-            return null;
-          }
-        }
-      },
-      reset: () => {
-        set(() => ({
-          playListArray: {},
-          isRepeat: false,
-        }));
-      },
+>()((set, get) => ({
+  playListArray: {},
+  setPlayListArray: (newList) =>
+    set((state) => {
+      if (Object.keys(newList)[0] !== Object.keys(state.playListArray)[0]) {
+        return { playListArray: { ...newList } };
+      } else return state.playListArray;
     }),
-    {
-      name: "repeatAndPlaylistArray-storage",
+  isRepeat: false,
+  setRepeat: () => set((state) => ({ isRepeat: !state.isRepeat })),
+  // if it check as isRepeat in function component, it will re-render entrire component
+  prefetchSegment: async ({
+    currentUrl,
+    abortController,
+    prefetchedUrl,
+    prefetchPromiseRef,
+  }: PrefetchParams) => {
+    // later need to change another abort
+    const fetchOptions: RequestInit = {
+      signal: abortController!.current!.signal,
+    };
+    const playlistArray = Object.values(
+      get().playListArray
+    )[0] as getSongsReturn;
+    const currentIndex = playlistArray.songs.findIndex(
+      (song) => song.url === currentUrl
+    );
+    const extract = Math.min(currentIndex + 1, playlistArray.songs.length - 1);
+    const url = playlistArray.songs[extract].url;
+    // Early return if repeat is enabled
+    if (get().isRepeat) return null;
+    // if (url !== currentUrl) {
+    const initUrl = url;
+    const seg1Url = url.replace("init.mp4", "seg-1.m4s");
+
+    try {
+      // if prefetch promise is not null , means they are waiting some promise, if then return this promise to receive the data
+      if (!prefetchPromiseRef.current) {
+        // immediate update url to inform there is a prefetch call
+        prefetchedUrl.current = url;
+        prefetchPromiseRef.current = Promise.all([
+          fetch(initUrl).then((res) => res.arrayBuffer()),
+          fetch(seg1Url).then((res) => res.arrayBuffer()),
+        ]);
+      }
+      return prefetchPromiseRef.current;
+    } catch (err: any) {
+      if (err.name === "AbortError") {
+        return null;
+      } else {
+        return null;
+      }
     }
-  )
-);
+  },
+  reset: () => {
+    set(() => ({
+      playListArray: {},
+      isRepeat: false,
+    }));
+  },
+}));
 
 export const useAudioValue = create<AudioValueState & AudioValueActions>(
   (set) => ({
