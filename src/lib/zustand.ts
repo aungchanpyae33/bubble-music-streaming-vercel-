@@ -401,3 +401,40 @@ export const useSongsStoreData = create<addSongProps & addSongAction>(
       })),
   })
 );
+
+import { StoreApi, UseBoundStore } from "zustand";
+type PairState = {
+  like: boolean | undefined;
+  setLike: (v: boolean) => void;
+};
+type PairStore = UseBoundStore<StoreApi<PairState>>;
+
+// Internal registry
+const storeMap = new Map<string, { store: PairStore; count: number }>();
+
+export function getPairStore(pairId: string): PairStore {
+  const existing = storeMap.get(pairId);
+  if (existing) {
+    existing.count += 1;
+    return existing.store;
+  }
+
+  const store = create<PairState>((set) => ({
+    like: undefined,
+    setLike: (v) => set({ like: v }),
+  }));
+
+  storeMap.set(pairId, { store, count: 1 });
+  return store;
+}
+
+// Call this when a component unmounts
+export function releasePairStore(pairId: string) {
+  const entry = storeMap.get(pairId);
+  if (!entry) return;
+  entry.count -= 1;
+
+  if (entry.count <= 0) {
+    storeMap.delete(pairId);
+  }
+}
