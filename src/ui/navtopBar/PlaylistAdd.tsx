@@ -13,7 +13,7 @@ import { useKindeAuth } from "@kinde-oss/kinde-auth-nextjs";
 import { addPlaylistFolderAction, usePlaylistFolder } from "@/lib/zustand";
 
 interface PlaylistAddProp {
-  setSongsData: React.Dispatch<React.SetStateAction<getProps>>;
+  setSongsData: React.Dispatch<React.SetStateAction<getProps[]>>;
 }
 function PlaylistAdd({ setSongsData }: PlaylistAddProp) {
   const [open, setOpen] = useState(false);
@@ -44,14 +44,19 @@ function PlaylistAdd({ setSongsData }: PlaylistAddProp) {
               <Form
                 action={async (formData: FormData) => {
                   startTransition(async () => {
-                    const value = await insertDataAction(formData);
-                    if (value.data && value.data.length > 0) {
-                      setSongsData((pre) => ({
-                        ...pre,
-                        data: [...(pre.data || []), ...value.data],
-                        error: value.error,
-                      }));
-                      addPlaylistFolder(value);
+                    const playlistname = formData.get("playlistname");
+                    if (!playlistname || typeof playlistname !== "string") {
+                      return;
+                    }
+                    const { data, error } = await insertDataAction(
+                      playlistname
+                    );
+                    console.log(data, error);
+                    if (data && data.length > 0) {
+                      setSongsData((pre) => {
+                        return [...pre, ...data];
+                      });
+                      addPlaylistFolder(data[0]);
                       setOpen(false);
                     }
                   });

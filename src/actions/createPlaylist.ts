@@ -2,13 +2,14 @@
 
 import { createClient } from "@/database/server";
 
-export const insertDataAction = async (queryData: FormData) => {
-  const supabase = await createClient();
-  const playlistname = queryData.get("playlistname");
-  let { data, error } = await supabase.rpc("insert_playlist", {
-    playlist_name: playlistname,
-  });
-  if (error) console.error(error);
-  else console.log(data);
-  return { data, error };
+export const insertDataAction = async (playlist_name: string) => {
+  try {
+    const supabase = await createClient();
+    let { data, error } = await supabase.rpc("insert_playlist", {
+      playlist_name,
+    });
+    return { data, error };
+  } catch (error) {
+    return { data: null, error };
+  }
 };

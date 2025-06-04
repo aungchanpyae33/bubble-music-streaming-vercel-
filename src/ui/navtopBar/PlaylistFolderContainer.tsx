@@ -14,14 +14,15 @@ function PlaylistFolderContainer({
 }: {
   open: boolean;
   setOpen: React.Dispatch<SetStateAction<boolean>>;
-  songs: getProps;
+  songs: getProps[] | null;
 }) {
-  const [songsData, setSongsData] = useState(songs);
+  const [songsData, setSongsData] = useState(songs!);
   const setPlaylistFolder = usePlaylistFolder(
     (state: setPlaylistFolderAction) => state.setPlaylistFolder
   );
+
   useEffect(() => {
-    setPlaylistFolder(songs);
+    setPlaylistFolder(songs!);
   }, [setPlaylistFolder, songs]);
 
   return (
@@ -41,8 +42,8 @@ function PlaylistFolderContainer({
         <PlaylistAdd setSongsData={setSongsData} />
       </div>
       {songsData &&
-        songsData.data &&
-        songsData.data.map((item) => (
+        songsData &&
+        songsData.map((item) => (
           <Link
             href={`/playlist/${item.id}`}
             className=" mt-2  h-[50px] hover:bg-[#333333] leading-relaxed  flex items-center"
