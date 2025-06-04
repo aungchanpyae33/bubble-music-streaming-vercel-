@@ -30,7 +30,7 @@ function SearchInput() {
     queryKey: ["search", value],
     queryFn: () => fetchInput(value!),
     placeholderData: (previousData) => previousData,
-    staleTime: 0, // Always refetch when query key changes
+    staleTime: 60,
   });
 
   return (
