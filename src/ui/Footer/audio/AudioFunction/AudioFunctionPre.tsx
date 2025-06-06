@@ -1,3 +1,4 @@
+import { getSongsReturn } from "@/database/data";
 import {
   useDirectPlayBack,
   useSong,
@@ -15,7 +16,7 @@ import type { urlProp } from "@/ui/albumContainer/AudiosContainer";
 import IconWrapper from "@/ui/general/IconWrapper";
 import { SkipBack } from "lucide-react";
 interface Props extends React.ComponentProps<"button"> {
-  urlProp: urlProp[];
+  urlProp: getSongsReturn;
   url: string;
 }
 function AudioFunctionPre({ urlProp, url, className }: Props) {
@@ -23,7 +24,7 @@ function AudioFunctionPre({ urlProp, url, className }: Props) {
   const playlistId = useStorePlayListId(
     (state: StorePlayListIdState) => Object.values(state.playlistId)[0] || []
   ) as string[];
-  console.log(urlProp);
+  // console.log(urlProp);
 
   const setPlay = useSongFunction(
     (state: SongFunctionActions) => state.setPlay
@@ -34,16 +35,20 @@ function AudioFunctionPre({ urlProp, url, className }: Props) {
   const setPlayList = useDirectPlayBack(
     (state: DirectPlayBackAction) => state.setPlayList
   );
-  const currentIndex = urlProp.findIndex((song) => song.url === url);
 
-  function songFunctionPre() {
-    const songList = urlProp;
+  function songFunctionPre(currentUrl: string = url) {
+    if (!urlProp.songs || urlProp.songs.length === 0) return;
+    const currentIndex = urlProp.songs.findIndex(
+      (song) => song.url === currentUrl
+    );
+    const songList = urlProp.songs;
     if (currentIndex <= 0) return;
-    const { url, sege, duration, name } = songList[currentIndex - 1];
+    const { url, sege, duration, name, song_time_stamp } =
+      songList[currentIndex - 1];
 
     const uniUrl = `${url},${playlistId[0]}`;
     console.log(uniUrl);
-    updateSongCu({ [url || ""]: url, sege, duration, name });
+    updateSongCu({ [url || ""]: url, sege, duration, name, song_time_stamp });
     // [todo] need to check if there is a new playlist or not
     setPlaylistId({ [playlistId[0] || ""]: [playlistId[0], url] });
     setPlayList(playlistId[0], true);

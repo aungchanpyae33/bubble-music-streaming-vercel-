@@ -15,12 +15,13 @@ import type {
   DirectPlayBackAction,
   StorePlayListIdStateAction,
 } from "../zustand";
+import { song } from "@/database/data";
 
 const MediaSessionButton = (currentUrl: string) => {
   //[todo] need to add more code to align with audiofunction pre and next but can safe remove some code as there will be no ui when page refresh
   const [playListArrayKey, playListArray] = useRepeatAndCurrentPlayList(
     (state: currentSongPlaylist) =>
-      Object.entries(state.playListArray as Record<string, urlProp[]>)[0] || []
+      Object.entries(state.playListArray as Record<string, song[]>)[0] || []
   );
 
   const setPlay = useSongFunction(
@@ -40,15 +41,17 @@ const MediaSessionButton = (currentUrl: string) => {
       sege,
       duration,
       name,
+      song_time_stamp,
     }: {
       url: string;
       sege: number;
       duration: number;
       name: string;
+      song_time_stamp: number[];
     }) {
       const uniUrl = `${url},${playListArrayKey}`;
       console.log(uniUrl);
-      updateSongCu({ [url || ""]: url, sege, duration, name });
+      updateSongCu({ [url || ""]: url, sege, duration, name, song_time_stamp });
       setPlaylistId({ [playListArrayKey || ""]: [playListArrayKey, url] });
       setPlayList(playListArrayKey, true);
       // url is also  keyName
@@ -56,22 +59,25 @@ const MediaSessionButton = (currentUrl: string) => {
     }
     if ("mediaSession" in navigator) {
       navigator.mediaSession.setActionHandler("previoustrack", () => {
-        console.log(currentUrl);
+        if (!playListArray || playListArray.length === 0) return;
         const currentIndex = playListArray.findIndex(
           (song) => song.url === currentUrl
         );
         if (currentIndex <= 0) return;
 
-        const { url, sege, name, duration } = playListArray[currentIndex - 1];
-        MediaSessionButtonTaks({ url, sege, duration, name });
+        const { url, sege, name, duration, song_time_stamp } =
+          playListArray[currentIndex - 1];
+        MediaSessionButtonTaks({ url, sege, duration, name, song_time_stamp });
       });
       navigator.mediaSession.setActionHandler("nexttrack", () => {
+        if (!playListArray || playListArray.length === 0) return;
         const currentIndex = playListArray.findIndex(
           (song) => song.url === currentUrl
         );
         if (currentIndex >= playListArray.length - 1) return;
-        const { url, sege, name, duration } = playListArray[currentIndex + 1];
-        MediaSessionButtonTaks({ url, sege, duration, name });
+        const { url, sege, name, duration, song_time_stamp } =
+          playListArray[currentIndex + 1];
+        MediaSessionButtonTaks({ url, sege, duration, name, song_time_stamp });
       });
     }
     return () => {
