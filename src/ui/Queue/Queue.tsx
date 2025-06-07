@@ -1,39 +1,46 @@
 "use client";
 import {
   currentSongPlaylist,
-  queueState,
-  useOnlyOneSider,
+  SongState,
   useRepeatAndCurrentPlayList,
+  useSong,
 } from "@/lib/zustand";
 import clsx from "clsx";
 import ToggleElement from "../Footer/audio/Toggle/ToggleElement";
-import { getPlaylistSongsReturn } from "@/database/data";
+import { getSongsReturn } from "@/database/data";
 import Image from "next/image";
 import PlaylistInfoContext from "../trackComponent/PlaylistInfoContext";
 import MoreOptionContext from "../trackComponent/MoreOptionContext";
 import MoreOption from "../trackComponent/MoreOption";
+import { useRef } from "react";
+import PlaceHolderQueue from "./PlaceHolderQueue";
 
 function Queue() {
   const playListArray = useRepeatAndCurrentPlayList(
     (state: currentSongPlaylist) => Object.values(state.playListArray)[0] || []
-  ) as getPlaylistSongsReturn;
-  // console.log(playListArray);
+  ) as getSongsReturn;
+  const queueRef = useRef<HTMLDivElement | null>(null);
+
   return (
     <div
       className={clsx(
         "h-full  w-[20%] md:w-[25%] min-w-[250px] flex flex-col border border-neutral-200 border-opacity-15 border-y-0    max-w-[375px] overflow-y-auto"
       )}
+      ref={queueRef}
     >
+      <PlaceHolderQueue queueRef={queueRef} />
       {playListArray &&
-        playListArray.playlist_id &&
-        playListArray.songs.map((song, index) => (
+        playListArray.id &&
+        playListArray.songs.map((song) => (
           <div
-            key={index}
+            key={song.id}
+            data-song-url={song.url}
             className="flex hover:bg-[#333333] items-stretch
           "
           >
             <ToggleElement
               url={song.url}
+              songId={song.id}
               name={song.name}
               duration={song.duration}
               sege={song.sege}
@@ -63,7 +70,7 @@ function Queue() {
               <div className="w-[30px]">
                 <PlaylistInfoContext
                   songId={song.id}
-                  playlistId={playListArray.playlist_id}
+                  playlistId={playListArray.id}
                   isLike={song.is_liked}
                   is_owner={playListArray.is_owner}
                 >
