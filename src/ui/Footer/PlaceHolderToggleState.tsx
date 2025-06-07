@@ -1,17 +1,21 @@
 import { addRecent } from "@/actions/addRecent";
-import { getPlaylistSongsReturn } from "@/database/data";
+import { getSongsReturn } from "@/database/data";
 import { DataContext } from "@/lib/MediaSource/ContextMedia";
 import {
   currentSongPlaylist,
+  currentSongPlaylistAction,
   DirectPlayBackAction,
   IsRepeatState,
+  previousSongPlaylistAction,
   SongActions,
+  SongDetail,
   SongFunctionActions,
   SongFunctionState,
   SongState,
   StorePlayListIdState,
   StorePlayListIdStateAction,
   useDirectPlayBack,
+  usePreviousPlayList,
   useRepeatAndCurrentPlayList,
   useSong,
   useSongFunction,
@@ -23,11 +27,16 @@ import ToggleButtonSpaceKey from "./audio/Toggle/ToggleButtonSpaceKey";
 function PlaceHolderToggleState() {
   const { dataAudio, segNum, loadNextSegment } = useContext(DataContext);
   const playListArray = useRepeatAndCurrentPlayList(
-    (state: currentSongPlaylist) => Object.values(state.playListArray)[0] || []
-  ) as getPlaylistSongsReturn;
+    (state: currentSongPlaylist) =>
+      Object.values(state.playListArray)[0] || undefined
+  ) as getSongsReturn;
+  // console.log(playListArray, "adad");
   const Isplay = useSongFunction(
     (state: SongFunctionState) => Object.values(state.Isplay)[0]
   );
+  const { songId, name } = useSong(
+    (state: SongState) => state.songCu
+  ) as SongDetail;
   const songCuUrl = useSong(
     (state: SongState) => Object.values(state.songCu)[0]
   );
@@ -46,6 +55,12 @@ function PlaceHolderToggleState() {
   );
   const setPlayList = useDirectPlayBack(
     (state: DirectPlayBackAction) => state.setPlayList
+  );
+  const setPlayListArray = useRepeatAndCurrentPlayList(
+    (state: currentSongPlaylistAction) => state.setPlayListArray
+  );
+  const setPreviousPlayListArray = usePreviousPlayList(
+    (state: previousSongPlaylistAction) => state.setPreviousPlayListArray
   );
   const updateSongCu = useSong((state: SongActions) => state.updateSongCu);
   const isRepeat = useRepeatAndCurrentPlayList(
@@ -71,9 +86,16 @@ function PlaceHolderToggleState() {
       if (!isRepeat) {
         const songList = playListArray.songs;
         if (currentIndex >= playListArray.songs.length - 1) return;
-        const { url, sege, duration, name } = songList[currentIndex + 1];
+        const { url, sege, duration, name, song_time_stamp } =
+          songList[currentIndex + 1];
         const uniUrl = `${url},${playlistId[0]}`;
-        updateSongCu({ [url || ""]: url, sege, duration, name });
+        updateSongCu({
+          [url || ""]: url,
+          sege,
+          duration,
+          name,
+          song_time_stamp,
+        });
         // [todo] need to check if there is a new playlist or not
         setPlaylistId({
           [playlistId[0] || ""]: [playlistId[0], url],
