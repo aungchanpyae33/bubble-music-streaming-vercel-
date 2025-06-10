@@ -7,10 +7,10 @@ function BeforeLoad() {
     (state: SongState) =>
       Object.values(state.songCu as Record<string, string>)[0]
   );
-  console.log(url);
+
   useEffect(() => {
     const handleBeforeUnload = (event: BeforeUnloadEvent) => {
-      if (!url) {
+      if (url) {
         event.preventDefault();
         return "";
       }
