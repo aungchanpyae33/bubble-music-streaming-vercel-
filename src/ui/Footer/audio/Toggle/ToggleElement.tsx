@@ -21,25 +21,41 @@ import type {
   // StorePlayListIdState,
   // StorePlayListIdStateAction,
 } from "@/lib/zustand";
-import { playlistProp } from "@/ui/albumContainer/AudiosContainer";
 import IconWrapper from "@/ui/general/IconWrapper";
 import { Pause, Play } from "lucide-react";
+import { getSongsReturn } from "@/database/data";
+import outputUniUrl from "@/lib/CustomHooks/OutputUniUrl";
 interface toggleElementProp extends React.ComponentProps<"button"> {
   url: string;
   sege: number;
   duration: number;
   name: string;
-  playlistUrl: playlistProp;
+  song_time_stamp: Array<number>;
+  playlistSong: getSongsReturn | undefined;
+  songId: number;
+  might_repeat: boolean | undefined;
+  uni_id: number | undefined;
 }
 const ToggleElement = ({
   url,
   sege,
   duration,
   name,
-  playlistUrl,
+  playlistSong,
+  song_time_stamp,
   className,
+  songId,
+  might_repeat,
+  uni_id,
 }: toggleElementProp) => {
-  const uniUrl = `${url},${playlistUrl.playlistId}`;
+  // console.log(playlistSong, "playlistsong");
+  const { playlistId, uniUrl } = outputUniUrl(
+    playlistSong,
+    might_repeat,
+    uni_id,
+    url
+  );
+  // console.log(uniUrl);
   // for toggle audio
   const Isplay = useSongFunction(
     (state: SongFunctionState) => state.Isplay[uniUrl || ""]
@@ -66,8 +82,7 @@ const ToggleElement = ({
   const setPlayList = useDirectPlayBack(
     (state: DirectPlayBackAction) => state.setPlayList
   );
-  // console.log(Isplay, url === songCuUrl, songCuUrl, url);
-  // console.log("render toggleElement");
+
   return (
     <button
       role="rowCell1"
@@ -84,20 +99,35 @@ const ToggleElement = ({
       // }}
       onClick={() => {
         setPlayListArray({
-          [playlistUrl.playlistId || ""]: playlistUrl.song,
+          [playlistId || ""]: playlistSong,
         });
         setPreviousPlayListArray({
-          [playlistUrl.playlistId || ""]: playlistUrl.song,
+          [playlistId || ""]: playlistSong,
         });
-        if (url === songCuUrl) {
+        // to handle same song but different playlist or album
+        console.log(uniUrl, songCuUrl, playlistId);
+        if (uniUrl === `${songCuUrl},${playlistId}`) {
           setPlay(uniUrl || "", undefined);
-          setPlayList(playlistUrl.playlistId || "", undefined);
-        } else {
-          updateSongCu({ [url || ""]: url, sege, duration, name });
+          setPlayList(playlistId || "", undefined);
           setPlaylistId({
-            [playlistUrl.playlistId || ""]: [playlistUrl.playlistId, url],
+            [playlistId || ""]: [playlistId, url],
           });
-          setPlayList(playlistUrl.playlistId || "", true);
+        } else {
+          const data = {
+            [uniUrl || ""]: url,
+            sege,
+            duration,
+            name,
+            song_time_stamp,
+            songId,
+          };
+
+          // console.log(data);
+          updateSongCu(data);
+          setPlaylistId({
+            [playlistId || ""]: [playlistId, url],
+          });
+          setPlayList(playlistId || "", true);
           setPlay(uniUrl || "", true);
         }
       }}
