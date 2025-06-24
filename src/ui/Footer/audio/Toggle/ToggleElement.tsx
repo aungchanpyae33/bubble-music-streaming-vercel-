@@ -62,7 +62,7 @@ const ToggleElement = ({
   );
   //  for current song with presist
   const songCuUrl = useSong(
-    (state: SongState) => (state.songCu as Record<string, string>)[url || ""]
+    (state: SongState) => (state.songCu as Record<string, string>)[uniUrl || ""]
   );
   // for current playlist(id and song currentSongUrl as to know for directplayback button)
   const setPlaylistId = useStorePlayListId(
@@ -105,8 +105,13 @@ const ToggleElement = ({
           [playlistId || ""]: playlistSong,
         });
         // to handle same song but different playlist or album
-        console.log(uniUrl, songCuUrl, playlistId);
-        if (uniUrl === `${songCuUrl},${playlistId}`) {
+        const { uniUrl: checkForToggle } = outputUniUrl(
+          playlistSong,
+          might_repeat,
+          uni_id,
+          songCuUrl
+        );
+        if (uniUrl === checkForToggle) {
           setPlay(uniUrl || "", undefined);
           setPlayList(playlistId || "", undefined);
           setPlaylistId({
@@ -120,6 +125,7 @@ const ToggleElement = ({
             name,
             song_time_stamp,
             songId,
+            uni_id,
           };
 
           // console.log(data);

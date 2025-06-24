@@ -6,19 +6,21 @@ import {
   useSongFunction,
   useStorePlayListId,
 } from "../zustand";
-import type { urlProp } from "@/ui/albumContainer/AudiosContainer";
 import type {
   SongFunctionActions,
   SongActions,
   currentSongPlaylist,
-  SongDetail,
   DirectPlayBackAction,
   StorePlayListIdStateAction,
 } from "../zustand";
 import { getSongsReturn, song } from "@/database/data";
 import outputUniUrl from "../CustomHooks/OutputUniUrl";
+import outputCurrentIndex from "../CustomHooks/OutputCurrentIndex";
 
-const MediaSessionButton = (currentUrl: string) => {
+const MediaSessionButton = (
+  currentUrl: string,
+  uni_id_scope: number | undefined
+) => {
   //[todo] need to add more code to align with audiofunction pre and next but can safe remove some code as there will be no ui when page refresh
   // const [playListArrayKey, playListArray] = useRepeatAndCurrentPlayList(
   //   (state: currentSongPlaylist) =>
@@ -70,6 +72,7 @@ const MediaSessionButton = (currentUrl: string) => {
         duration,
         name,
         song_time_stamp,
+        uni_id,
       });
       setPlaylistId({ [playlistId || ""]: [playlistId, url] });
       setPlayList(playlistId, true);
@@ -79,8 +82,10 @@ const MediaSessionButton = (currentUrl: string) => {
     if ("mediaSession" in navigator) {
       navigator.mediaSession.setActionHandler("previoustrack", () => {
         if (!playListArray || playListArray.songs.length === 0) return;
-        const currentIndex = playListArray.songs.findIndex(
-          (song) => song.url === currentUrl
+        const currentIndex = outputCurrentIndex(
+          playListArray,
+          currentUrl,
+          uni_id_scope
         );
         if (currentIndex <= 0) return;
 
@@ -97,8 +102,10 @@ const MediaSessionButton = (currentUrl: string) => {
       });
       navigator.mediaSession.setActionHandler("nexttrack", () => {
         if (!playListArray || playListArray.songs.length === 0) return;
-        const currentIndex = playListArray.songs.findIndex(
-          (song) => song.url === currentUrl
+        const currentIndex = outputCurrentIndex(
+          playListArray,
+          currentUrl,
+          uni_id_scope
         );
         if (currentIndex >= playListArray.songs.length - 1) return;
         const { url, sege, name, duration, song_time_stamp, uni_id } =
@@ -122,6 +129,7 @@ const MediaSessionButton = (currentUrl: string) => {
     setPlay,
     updateSongCu,
     currentUrl,
+    uni_id_scope,
     setPlaylistId,
     setPlayList,
   ]);

@@ -1,3 +1,5 @@
+import { getSongsReturn } from "@/database/data";
+import outputCurrentIndex from "@/lib/CustomHooks/OutputCurrentIndex";
 import shufflePlaylistArray from "@/lib/shufflePlaylistArray";
 import {
   currentSongPlaylistAction,
@@ -13,18 +15,11 @@ import clsx from "clsx";
 import { Shuffle } from "lucide-react";
 import { useState } from "react";
 interface Props extends React.ComponentProps<"button"> {
-  urlProp: urlProp[];
+  urlProp: getSongsReturn;
+  uni_id?: number | undefined;
   url: string;
 }
-function AudioFunctionShuffle({ className, urlProp, url }: Props) {
-  console.log(urlProp);
-  // console.log("render");
-  const currentIndex = urlProp.findIndex((song) => song.url === url);
-  const currentSong = urlProp[currentIndex];
-  const excludeCurrentSong = [
-    ...urlProp.slice(0, currentIndex),
-    ...urlProp.slice(currentIndex + 1),
-  ];
+function AudioFunctionShuffle({ className, urlProp, url, uni_id }: Props) {
   const [isShuffle, setIsShuffle] = useState(false);
   const previousPlayListArray = usePreviousPlayList(
     (state: previousSongPlaylist) =>
@@ -34,23 +29,28 @@ function AudioFunctionShuffle({ className, urlProp, url }: Props) {
   const playlistId = useStorePlayListId(
     (state: StorePlayListIdState) => Object.values(state.playlistId)[0] || []
   ) as string[];
-  const shuffleArray = !isShuffle
-    ? [currentSong, ...shufflePlaylistArray(excludeCurrentSong)]
-    : previousPlayListArray;
+
   const setPlayListArray = useRepeatAndCurrentPlayList(
     (state: currentSongPlaylistAction) => state.setPlayListArray
   );
-
+  function shuffle(currentUrl: string = url) {
+    if (!urlProp.songs || urlProp.songs.length === 0) return;
+    const currentIndex = outputCurrentIndex(urlProp, currentUrl, uni_id);
+    const currentSong = urlProp.songs[currentIndex];
+    const excludeCurrentSong = [
+      ...urlProp.songs.slice(0, currentIndex),
+      ...urlProp.songs.slice(currentIndex + 1),
+    ];
+    const shuffleArray = !isShuffle
+      ? [currentSong, ...shufflePlaylistArray(excludeCurrentSong)]
+      : previousPlayListArray;
+    setPlayListArray({
+      [playlistId[0] || ""]: shuffleArray,
+    });
+    setIsShuffle(!isShuffle);
+  }
   return (
-    <button
-      className={className}
-      onClick={() => {
-        setPlayListArray({
-          [playlistId[0] || ""]: shuffleArray,
-        });
-        setIsShuffle(!isShuffle);
-      }}
-    >
+    <button className={className} onClick={() => shuffle()}>
       {/* {isShuffle ? "unSh" : "Shu"} */}
       <IconWrapper
         Icon={Shuffle}

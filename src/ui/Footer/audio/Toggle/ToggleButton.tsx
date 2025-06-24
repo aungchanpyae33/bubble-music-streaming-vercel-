@@ -14,17 +14,18 @@ import type {
 } from "@/lib/zustand";
 import { Pause, Play } from "lucide-react";
 import IconWrapper from "@/ui/general/IconWrapper";
-import { getPlaylistSongsReturn } from "@/database/data";
+import { getSongsReturn } from "@/database/data";
+import outputUniUrl from "@/lib/CustomHooks/OutputUniUrl";
+import { url } from "inspector";
 
 interface Props extends React.ComponentProps<"button"> {
-  urlProp: getPlaylistSongsReturn;
+  urlProp: getSongsReturn;
+  url: string;
+  uni_id?: number | undefined;
 }
-function ToggleButton({ urlProp, className }: Props) {
+function ToggleButton({ urlProp, className, url, uni_id }: Props) {
   const Isplay = useSongFunction(
     (state: SongFunctionState) => Object.values(state.Isplay)[0]
-  );
-  const songCuUrl = useSong(
-    (state: SongState) => Object.values(state.songCu)[0]
   );
   const playlistId = useStorePlayListId(
     (state: StorePlayListIdState) => Object.values(state.playlistId)[0] || []
@@ -37,7 +38,7 @@ function ToggleButton({ urlProp, className }: Props) {
   const setPlayList = useDirectPlayBack(
     (state: DirectPlayBackAction) => state.setPlayList
   );
-
+  const { uniUrl } = outputUniUrl(urlProp, urlProp?.might_repeat, uni_id, url);
   return (
     <button
       className={className}
@@ -47,7 +48,7 @@ function ToggleButton({ urlProp, className }: Props) {
       }}
       onClick={() => {
         // need to use with key value not undefined as firsetkey that get from isplay preversin is undefined and it will not trigger to the toggleElement
-        setPlay(`${songCuUrl},${playlistIdString}`, undefined);
+        setPlay(uniUrl, undefined);
         setPlayList(playlistIdString, undefined);
       }}
     >

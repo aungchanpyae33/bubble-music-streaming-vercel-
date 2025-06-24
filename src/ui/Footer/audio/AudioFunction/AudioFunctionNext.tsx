@@ -15,11 +15,14 @@ import type {
 import { SkipForward } from "lucide-react";
 import IconWrapper from "@/ui/general/IconWrapper";
 import { getSongsReturn } from "@/database/data";
+import outputUniUrl from "@/lib/CustomHooks/OutputUniUrl";
+import outputCurrentIndex from "@/lib/CustomHooks/OutputCurrentIndex";
 interface Props extends React.ComponentProps<"button"> {
   urlProp: getSongsReturn;
+  uni_id?: number | undefined;
   url: string;
 }
-function AudioFunctionNext({ urlProp, url, className }: Props) {
+function AudioFunctionNext({ urlProp, url, className, uni_id }: Props) {
   const updateSongCu = useSong((state: SongActions) => state.updateSongCu);
   const playlistId = useStorePlayListId(
     (state: StorePlayListIdState) => Object.values(state.playlistId)[0] || []
@@ -35,20 +38,29 @@ function AudioFunctionNext({ urlProp, url, className }: Props) {
   const setPlayList = useDirectPlayBack(
     (state: DirectPlayBackAction) => state.setPlayList
   );
-  function songFunctionNext(currentUrl: string = url) {
+  function songFunctionNext(currentUrl: string = url, uni_id_scope = uni_id) {
     if (!urlProp.songs || urlProp.songs.length === 0) return;
-    const currentIndex = urlProp.songs.findIndex(
-      (song) => song.url === currentUrl
-    );
+    const currentIndex = outputCurrentIndex(urlProp, currentUrl, uni_id_scope);
     const songList = urlProp.songs;
     console.log(currentIndex);
     if (currentIndex >= urlProp.songs.length - 1) return;
-    const { url, sege, duration, name, song_time_stamp } =
+    const { url, sege, duration, name, song_time_stamp, uni_id } =
       songList[currentIndex + 1];
 
-    const uniUrl = `${url},${playlistId[0]}`;
-    console.log(uniUrl);
-    updateSongCu({ [url || ""]: url, sege, duration, name, song_time_stamp });
+    const { uniUrl } = outputUniUrl(
+      urlProp,
+      urlProp?.might_repeat,
+      uni_id,
+      url
+    );
+    updateSongCu({
+      [uniUrl || ""]: url,
+      sege,
+      duration,
+      name,
+      song_time_stamp,
+      uni_id,
+    });
     // [todo] need to check if there is a new playlist or not
     setPlaylistId({ [playlistId[0] || ""]: [playlistId[0], url] });
     setPlayList(playlistId[0], true);

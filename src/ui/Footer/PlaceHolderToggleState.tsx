@@ -23,6 +23,8 @@ import {
 } from "@/lib/zustand";
 import { useContext, useEffect } from "react";
 import ToggleButtonSpaceKey from "./audio/Toggle/ToggleButtonSpaceKey";
+import { supabase } from "@/database/supabase";
+import outputUniUrl from "@/lib/CustomHooks/OutputUniUrl";
 
 function PlaceHolderToggleState() {
   const { dataAudio, segNum, loadNextSegment } = useContext(DataContext);
@@ -86,15 +88,21 @@ function PlaceHolderToggleState() {
       if (!isRepeat) {
         const songList = playListArray.songs;
         if (currentIndex >= playListArray.songs.length - 1) return;
-        const { url, sege, duration, name, song_time_stamp } =
+        const { url, sege, duration, name, song_time_stamp, uni_id } =
           songList[currentIndex + 1];
-        const uniUrl = `${url},${playlistId[0]}`;
+        const { uniUrl } = outputUniUrl(
+          playListArray,
+          playListArray?.might_repeat,
+          uni_id,
+          url
+        );
         updateSongCu({
-          [url || ""]: url,
+          [uniUrl || ""]: url,
           sege,
           duration,
           name,
           song_time_stamp,
+          uni_id,
         });
         // [todo] need to check if there is a new playlist or not
         setPlaylistId({
@@ -135,6 +143,41 @@ function PlaceHolderToggleState() {
     }
     addRecentFn();
   }, [playlistIdString, playlistIdName]);
+
+  useEffect(() => {
+    if (Isplay && !playListArray) {
+      console.log("time to fetchsome");
+      async function get() {
+        const { data, error } = await supabase.rpc("get_similar_songs", {
+          input_song_id: songId,
+          similarity_threshold: 0.3,
+        });
+        const data1 = {
+          id: `create-on-fly-${name}`,
+          name: "autogenerate",
+          related_id: "smooth",
+          realted_name: "autogenerate",
+          is_owner: false,
+          songs: data,
+        };
+        setPlayListArray({
+          ["smooth"]: data1,
+        });
+        setPreviousPlayListArray({
+          ["smooth"]: data1,
+        });
+        console.log(data);
+      }
+      console.log(get());
+    }
+  }, [
+    Isplay,
+    playListArray,
+    songId,
+    setPlayListArray,
+    setPreviousPlayListArray,
+    name,
+  ]);
   return (
     <ToggleButtonSpaceKey
       setPlay={setPlay}

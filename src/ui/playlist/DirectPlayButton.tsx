@@ -17,12 +17,13 @@ import {
   useSongFunction,
   useStorePlayListId,
 } from "@/lib/zustand";
-import { playlistProp, urlProp } from "../albumContainer/AudiosContainer";
 import { RefObject, useRef } from "react";
 import IconWrapper from "../general/IconWrapper";
 import { Pause, Play } from "lucide-react";
+import { getSongsReturn } from "@/database/data";
+import outputUniUrl from "@/lib/CustomHooks/OutputUniUrl";
 const hasData = async (
-  dataFromFetch: RefObject<Promise<playlistProp> | null>,
+  dataFromFetch: RefObject<Promise<getSongsReturn> | null>,
   index: number
 ) => {
   if (!dataFromFetch.current) {
@@ -39,7 +40,7 @@ function DirectPlayButton({
   playListId: string;
   index: number;
 }) {
-  const dataFromFetch = useRef<Promise<playlistProp> | null>(null);
+  const dataFromFetch = useRef<Promise<getSongsReturn> | null>(null);
 
   // toggle playlistfolder
   const IsPlayList = useDirectPlayBack(
@@ -52,7 +53,7 @@ function DirectPlayButton({
   );
   const playListArray = useRepeatAndCurrentPlayList(
     (state: currentSongPlaylist) =>
-      (state.playListArray as Record<string, SongDetail[]>)[playListId || ""]
+      (state.playListArray as Record<string, getSongsReturn>)[playListId || ""]
   );
 
   const setPlaylistId = useStorePlayListId(
@@ -78,36 +79,48 @@ function DirectPlayButton({
   const handlePlayClick = async (index: number) => {
     const playlistData = !playlistId
       ? await hasData(dataFromFetch, index)
-      : { playlistId: playListId, song: playListArray };
+      : playListArray;
     console.log(playlistData);
     if (playlistData) {
       const currentIndex = (() => {
         if (playlistId) {
-          return playlistData.song.findIndex(
-            (song: SongDetail) => song.url === playlistId[1]
+          return playlistData.songs.findIndex(
+            (song) => song.url === playlistId[1]
           );
         }
         return 0;
       })();
-      const { url, sege, name, duration } = (() => {
+      const { url, sege, duration, name, song_time_stamp, uni_id } = (() => {
         if (playlistId) {
-          return playlistData.song[currentIndex];
+          return playlistData.songs[currentIndex];
         }
-        return playlistData.song[0];
+        return playlistData.songs[0];
       })();
-      const uniUrl = `${url},${playListId}`;
+      const { uniUrl } = outputUniUrl(
+        playlistData,
+        playlistData?.might_repeat,
+        uni_id,
+        url
+      );
 
       setPreviousPlayListArray({
-        [playListId || ""]: playlistData.song,
+        [playListId || ""]: playlistData,
       });
       setPlayListArray({
-        [playListId || ""]: playlistData.song,
+        [playListId || ""]: playlistData,
       });
       if (playlistId) {
         setPlay(uniUrl || "", undefined);
         setPlayList(playListId || "", undefined);
       } else {
-        updateSongCu({ [url || ""]: url, sege, duration, name });
+        updateSongCu({
+          [uniUrl || ""]: url,
+          sege,
+          duration,
+          name,
+          song_time_stamp,
+          uni_id,
+        });
         setPlaylistId({
           [playListId || ""]: [playListId, url],
         });
