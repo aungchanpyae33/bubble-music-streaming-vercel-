@@ -24,22 +24,17 @@ import { getSongsReturn } from "@/database/data";
 import outputUniUrl from "@/lib/CustomHooks/OutputUniUrl";
 const hasData = async (
   dataFromFetch: RefObject<Promise<getSongsReturn> | null>,
-  index: number
+  playlistId: string
 ) => {
+  console.log(playlistId);
   if (!dataFromFetch.current) {
-    dataFromFetch.current = fetch(`/api/getPlaylistData/one${index}`).then(
-      (res) => res.json()
+    dataFromFetch.current = fetch(`/api/playlist/${playlistId}`).then((res) =>
+      res.json()
     );
   }
   return dataFromFetch.current;
 };
-function DirectPlayButton({
-  playListId,
-  index,
-}: {
-  playListId: string;
-  index: number;
-}) {
+function DirectPlayButton({ playListId }: { playListId: string }) {
   const dataFromFetch = useRef<Promise<getSongsReturn> | null>(null);
 
   // toggle playlistfolder
@@ -76,9 +71,9 @@ function DirectPlayButton({
     (state: previousSongPlaylistAction) => state.setPreviousPlayListArray
   );
 
-  const handlePlayClick = async (index: number) => {
+  const handlePlayClick = async () => {
     const playlistData = !playlistId
-      ? await hasData(dataFromFetch, index)
+      ? await hasData(dataFromFetch, playListId)
       : playListArray;
     console.log(playlistData);
     if (playlistData) {
@@ -139,7 +134,7 @@ function DirectPlayButton({
       onClick={(e) => {
         e.preventDefault();
         e.stopPropagation();
-        handlePlayClick(index);
+        handlePlayClick();
       }}
     >
       {IsPlayList ? (
