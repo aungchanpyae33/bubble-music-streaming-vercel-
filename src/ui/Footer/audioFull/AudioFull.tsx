@@ -23,11 +23,13 @@ import MotionFull from "./MotionFull";
 function AudioFull({
   footerRef,
   url,
+  uni_id,
   duration,
   toggleRef,
 }: {
   footerRef: React.RefObject<HTMLDivElement | null>;
   url: string;
+  uni_id?: number | undefined;
   duration: number;
   toggleRef: React.RefObject<HTMLButtonElement | null>;
 }) {
@@ -42,10 +44,10 @@ function AudioFull({
   return (
     <div
       className={clsx(
-        "fixed inset-0 z-50 transition-transform duration-500 bg-[#0A0A0A]",
+        "fixed inset-0 z-50 transition-transform duration-500 ease-in-out  bg-[#0A0A0A]",
         {
-          "translate-y-full": !open,
-          "translate-y-0": open,
+          "translate-y-full ": !open,
+          "translate-y-0 ": open,
         }
       )}
       aria-hidden={!open}
@@ -120,18 +122,23 @@ function AudioFull({
                               className="bg-pink-300 p-2  md:text-base text-2xl"
                               urlProp={playListArray}
                               url={url}
+                              uni_id={uni_id}
                             />
                             <AudioFunctionPre
                               url={url}
+                              uni_id={uni_id}
                               urlProp={playListArray}
                               className="bg-pink-300 p-2  md:text-base text-2xl"
                             />
                             <ToggleButton
+                              url={url}
+                              uni_id={uni_id}
                               className=" bg-red-300 md:text-base text-2xl "
                               urlProp={playListArray}
                             />
                             <AudioFunctionNext
                               url={url}
+                              uni_id={uni_id}
                               urlProp={playListArray}
                               className="bg-pink-300 p-2  md:text-base text-2xl"
                             />

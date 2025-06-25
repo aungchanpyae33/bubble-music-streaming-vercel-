@@ -75,6 +75,7 @@ function AudioPlayer({
               <AudioFull
                 footerRef={footerRef}
                 url={url}
+                uni_id={uni_id}
                 duration={duration}
                 toggleRef={toggleRef}
               />
