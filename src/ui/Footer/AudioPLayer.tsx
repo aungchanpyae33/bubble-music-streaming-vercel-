@@ -127,12 +127,7 @@ function AudioPlayer({
                                 uni_id={uni_id}
                                 urlProp={playListArray}
                               />
-                              <ToggleButton
-                                url={url}
-                                uni_id={uni_id}
-                                className="p-1"
-                                urlProp={playListArray}
-                              />
+                              <ToggleButton className="p-1" />
                               <AudioFunctionNext
                                 url={url}
                                 uni_id={uni_id}

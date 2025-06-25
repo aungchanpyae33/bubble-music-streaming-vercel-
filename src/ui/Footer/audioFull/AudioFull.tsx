@@ -130,12 +130,7 @@ function AudioFull({
                               urlProp={playListArray}
                               className="bg-pink-300 p-2  md:text-base text-2xl"
                             />
-                            <ToggleButton
-                              url={url}
-                              uni_id={uni_id}
-                              className=" bg-red-300 md:text-base text-2xl "
-                              urlProp={playListArray}
-                            />
+                            <ToggleButton className=" bg-red-300 md:text-base text-2xl " />
                             <AudioFunctionNext
                               url={url}
                               uni_id={uni_id}

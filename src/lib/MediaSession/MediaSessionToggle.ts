@@ -1,26 +1,26 @@
 import { useEffect } from "react";
-import { useSongFunction } from "../zustand";
-import type { SongFunctionActions, SongFunctionState } from "../zustand";
+import { useDirectPlayBack, useSongFunction } from "../zustand";
+import type { DirectPlayBackAction, SongFunctionActions } from "../zustand";
 const MediaSessionToggle = () => {
   const setPlay = useSongFunction(
     (state: SongFunctionActions) => state.setPlay
   );
-  const firstKey = useSongFunction(
-    (state: SongFunctionState) => Object.keys(state.Isplay)[0]
+  const setPlayList = useDirectPlayBack(
+    (state: DirectPlayBackAction) => state.setPlayList
   );
   useEffect(() => {
-    if ("mediaSession" in navigator) {
-      navigator.mediaSession.setActionHandler("play", () => {
-        setPlay(firstKey, undefined);
-      });
-      navigator.mediaSession.setActionHandler("pause", () => {
-        setPlay(firstKey, undefined);
-      });
-    }
+    if (!("mediaSession" in navigator)) return;
+
+    const handleMediaSession = () => {
+      setPlay("unknown", undefined);
+      setPlayList("unknown", undefined);
+    };
+    navigator.mediaSession.setActionHandler("play", handleMediaSession);
+    navigator.mediaSession.setActionHandler("pause", handleMediaSession);
     return () => {
       navigator.mediaSession.setActionHandler("play", null);
       navigator.mediaSession.setActionHandler("pause", null);
     };
-  }, [setPlay, firstKey]);
+  }, [setPlay, setPlayList]);
 };
 export default MediaSessionToggle;
