@@ -10,7 +10,9 @@ function IconWrapper({ Icon, size, className, ...props }: Props) {
     medium: "w-7 h-7",
     small: "w-6 h-6",
   };
-  const baseStyle = `stroke-[0.8] ${baseSize[size!]}`;
+  const baseStyle = `stroke-[0.8]  active:scale-90 transition-[scale] duration-200 ${
+    baseSize[size!]
+  }`;
 
   return <Icon className={twMerge(baseStyle, className)} {...props} />;
 }
