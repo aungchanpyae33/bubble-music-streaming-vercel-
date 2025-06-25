@@ -1,17 +1,20 @@
-import { focusState, SongState, useNotInputFocus } from "@/lib/zustand";
+import {
+  DirectPlayBackAction,
+  focusState,
+  SongFunctionActions,
+  SongState,
+  useDirectPlayBack,
+  useNotInputFocus,
+  useSongFunction,
+} from "@/lib/zustand";
 import { useEffect } from "react";
-interface ToggleButtonSpaceKeyProps {
-  setPlay: (key: string, play: boolean | undefined) => void;
-  setPlayList: (key: string, play: boolean | undefined) => void;
-  songCuUrl: SongState;
-  playlistIdString: string;
-}
-function ToggleButtonSpaceKey({
-  setPlay,
-  setPlayList,
-  songCuUrl,
-  playlistIdString,
-}: ToggleButtonSpaceKeyProps) {
+function ToggleButtonSpaceKey() {
+  const setPlayList = useDirectPlayBack(
+    (state: DirectPlayBackAction) => state.setPlayList
+  );
+  const setPlay = useSongFunction(
+    (state: SongFunctionActions) => state.setPlay
+  );
   const isInputFocus = useNotInputFocus(
     (state: focusState) => state.isInputFocus
   );
@@ -22,15 +25,15 @@ function ToggleButtonSpaceKey({
         e.stopImmediatePropagation();
         //to prevent scroll
         e.preventDefault();
-        setPlay(`${songCuUrl},${playlistIdString}`, undefined);
-        setPlayList(playlistIdString, undefined);
+        setPlay("unknown", undefined);
+        setPlayList("unknown", undefined);
       }
     };
     document.addEventListener("keydown", handleKeyDown);
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [playlistIdString, setPlay, setPlayList, songCuUrl, isInputFocus]);
+  }, [setPlay, setPlayList, isInputFocus]);
   return null;
 }
 

@@ -25,8 +25,17 @@ import { useContext, useEffect } from "react";
 import ToggleButtonSpaceKey from "./audio/Toggle/ToggleButtonSpaceKey";
 import { supabase } from "@/database/supabase";
 import outputUniUrl from "@/lib/CustomHooks/OutputUniUrl";
+import outputCurrentIndex from "@/lib/CustomHooks/OutputCurrentIndex";
 
-function PlaceHolderToggleState() {
+function PlaceHolderToggleState({
+  url,
+  uni_id,
+  children,
+}: {
+  url: string;
+  uni_id: number | undefined;
+  children: React.ReactNode;
+}) {
   const { dataAudio, segNum, loadNextSegment } = useContext(DataContext);
   const playListArray = useRepeatAndCurrentPlayList(
     (state: currentSongPlaylist) =>
@@ -39,9 +48,7 @@ function PlaceHolderToggleState() {
   const { songId, name } = useSong(
     (state: SongState) => state.songCu
   ) as SongDetail;
-  const songCuUrl = useSong(
-    (state: SongState) => Object.values(state.songCu)[0]
-  );
+
   const playlistId = useStorePlayListId(
     (state: StorePlayListIdState) => Object.values(state.playlistId)[0] || []
   ) as string[];
@@ -81,10 +88,8 @@ function PlaceHolderToggleState() {
     }
 
     function playNext() {
-      console.log("wok");
-      const currentIndex = playListArray.songs.findIndex(
-        (song) => song.url === songCuUrl
-      );
+      if (!playListArray.songs || playListArray.songs.length === 0) return;
+      const currentIndex = outputCurrentIndex(playListArray, url, uni_id);
       if (!isRepeat) {
         const songList = playListArray.songs;
         if (currentIndex >= playListArray.songs.length - 1) return;
@@ -108,9 +113,9 @@ function PlaceHolderToggleState() {
         setPlaylistId({
           [playlistId[0] || ""]: [playlistId[0], url],
         });
-        setPlay(uniUrl || "unknown", true);
+        setPlay(uniUrl, true);
         // [todo] need to check if there is a new playlist or not
-        setPlayList(playlistId[0] || "unknown", true);
+        setPlayList(playlistId[0], true);
       } else {
         dataAudio!.current!.currentTime = 0;
         segNum.current = 1;
@@ -134,7 +139,8 @@ function PlaceHolderToggleState() {
     setPlayList,
     playListArray,
     playlistId,
-    songCuUrl,
+    url,
+    uni_id,
     setPlaylistId,
   ]);
   useEffect(() => {
@@ -178,14 +184,7 @@ function PlaceHolderToggleState() {
     setPreviousPlayListArray,
     name,
   ]);
-  return (
-    <ToggleButtonSpaceKey
-      setPlay={setPlay}
-      setPlayList={setPlayList}
-      songCuUrl={songCuUrl}
-      playlistIdString={playlistIdString}
-    />
-  );
+  return children;
 }
 
 export default PlaceHolderToggleState;

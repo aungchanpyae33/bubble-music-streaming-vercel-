@@ -25,6 +25,7 @@ import ContextMedia from "@/lib/MediaSource/ContextMedia";
 import { AnimatePresence } from "motion/react";
 import { motion } from "motion/react";
 import PlaceHolderToggleState from "./PlaceHolderToggleState";
+import ToggleButtonSpaceKey from "./audio/Toggle/ToggleButtonSpaceKey";
 function AudioPlayer({
   footerRef,
 }: {
@@ -70,7 +71,10 @@ function AudioPlayer({
             className={clsx("w-full   relative flex   h-[70px]")}
             ref={footerRef}
           >
-            <PlaceHolderToggleState />
+            <PlaceHolderToggleState url={url} uni_id={uni_id}>
+              <ToggleButtonSpaceKey />
+              {/* this is for space key to toggle play and pause */}
+            </PlaceHolderToggleState>
             <AudioFooterContainer footerRef={footerRef}>
               <AudioFull
                 footerRef={footerRef}
