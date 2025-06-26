@@ -13,7 +13,7 @@ import type {
   DirectPlayBackAction,
   StorePlayListIdStateAction,
 } from "../zustand";
-import { getSongsReturn, song } from "@/database/data";
+import { artists, getSongsReturn, song } from "@/database/data";
 import outputUniUrl from "../CustomHooks/OutputUniUrl";
 import outputCurrentIndex from "../CustomHooks/OutputCurrentIndex";
 
@@ -51,6 +51,8 @@ const MediaSessionButton = (
       name,
       song_time_stamp,
       uni_id,
+      is_liked,
+      artists,
     }: {
       url: string;
       sege: number;
@@ -58,6 +60,8 @@ const MediaSessionButton = (
       name: string;
       song_time_stamp: number[];
       uni_id?: number | undefined;
+      is_liked: boolean;
+      artists: artists[];
     }) {
       const { playlistId, uniUrl } = outputUniUrl(
         playListArray,
@@ -73,6 +77,8 @@ const MediaSessionButton = (
         name,
         song_time_stamp,
         uni_id,
+        is_liked,
+        artists,
       });
       setPlaylistId({ [playlistId || ""]: [playlistId, url] });
       setPlayList(playlistId, true);
@@ -89,8 +95,16 @@ const MediaSessionButton = (
         );
         if (currentIndex <= 0) return;
 
-        const { url, sege, name, duration, song_time_stamp, uni_id } =
-          playListArray.songs[currentIndex - 1];
+        const {
+          url,
+          sege,
+          name,
+          duration,
+          song_time_stamp,
+          uni_id,
+          is_liked,
+          artists,
+        } = playListArray.songs[currentIndex - 1];
         MediaSessionButtonTaks({
           url,
           sege,
@@ -98,6 +112,8 @@ const MediaSessionButton = (
           name,
           song_time_stamp,
           uni_id,
+          is_liked,
+          artists,
         });
       });
       navigator.mediaSession.setActionHandler("nexttrack", () => {
@@ -108,8 +124,16 @@ const MediaSessionButton = (
           uni_id_scope
         );
         if (currentIndex >= playListArray.songs.length - 1) return;
-        const { url, sege, name, duration, song_time_stamp, uni_id } =
-          playListArray.songs[currentIndex + 1];
+        const {
+          url,
+          sege,
+          name,
+          duration,
+          song_time_stamp,
+          uni_id,
+          is_liked,
+          artists,
+        } = playListArray.songs[currentIndex + 1];
         MediaSessionButtonTaks({
           url,
           sege,
@@ -117,6 +141,8 @@ const MediaSessionButton = (
           name,
           song_time_stamp,
           uni_id,
+          is_liked,
+          artists,
         });
       });
     }

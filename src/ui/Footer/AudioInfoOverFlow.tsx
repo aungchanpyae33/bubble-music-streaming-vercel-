@@ -4,12 +4,10 @@ import { RefObject } from "react";
 import UnderLineLinkHover from "../general/UnderLineLinkHover";
 function AudioInfoOverFlow({
   ofcheckDiv,
-  name,
-  isLink,
+  el,
 }: {
   ofcheckDiv: RefObject<HTMLDivElement | null>;
-  name: string;
-  isLink: boolean;
+  el: React.ReactNode;
 }) {
   const [isOverFlow, animate, setanimatie, setIsOverFlow, animateItterate] =
     useOverflowCheck(ofcheckDiv);
@@ -62,11 +60,7 @@ function AudioInfoOverFlow({
         }
       }}
     >
-      {isLink ? (
-        <UnderLineLinkHover href={"some/test"}>name</UnderLineLinkHover>
-      ) : (
-        name
-      )}
+      {el}
     </div>
   );
 }

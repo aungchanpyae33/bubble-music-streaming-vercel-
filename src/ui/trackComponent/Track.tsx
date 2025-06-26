@@ -7,8 +7,9 @@ import MoreOptionContext from "./MoreOptionContext";
 import MoreOption from "./MoreOption";
 import PlaylistInfoContext from "./PlaylistInfoContext";
 import LeadingRelax from "../general/LeadingRelax";
-import Link from "next/link";
+
 import UnderLineLinkHover from "../general/UnderLineLinkHover";
+import ArtistWrapper from "../general/ArtistWrapper";
 
 function Track({
   name,
@@ -76,6 +77,8 @@ function Track({
           playlistSong={playlistSong}
           song_time_stamp={song_time_stamp}
           uni_id={uni_id}
+          is_liked={like}
+          artists={artists}
           className="w-full"
         />
       </td>
@@ -89,16 +92,7 @@ function Track({
         <div className="sm:hidden">{}</div>
       </td>
       <td className=" text-left hidden px-2  sm:table-cell   max-w-[100px] break-words truncate">
-        {artists.map((item) => (
-          <UnderLineLinkHover
-            key={item.id}
-            href={`/artist/${item.id}`}
-            prefetch={false}
-            className=" mr-1   leading-relaxed w-full truncate text-start"
-          >
-            {item.name}
-          </UnderLineLinkHover>
-        ))}
+        <ArtistWrapper artists={artists} />
       </td>
 
       <td className=" max-w-[100px] px-2  hidden md:table-cell   truncate">

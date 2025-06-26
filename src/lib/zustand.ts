@@ -8,6 +8,10 @@ export interface SongDetail {
   duration: number;
   song_time_stamp: Array<number>;
   name: string;
+  songId: number;
+  uni_id?: number;
+  is_liked: boolean;
+  artists: artists[];
 }
 
 export interface IsRepeatState {

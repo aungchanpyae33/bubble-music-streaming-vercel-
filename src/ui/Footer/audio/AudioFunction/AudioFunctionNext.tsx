@@ -44,8 +44,16 @@ function AudioFunctionNext({ urlProp, url, className, uni_id }: Props) {
     const songList = urlProp.songs;
     console.log(currentIndex);
     if (currentIndex >= urlProp.songs.length - 1) return;
-    const { url, sege, duration, name, song_time_stamp, uni_id } =
-      songList[currentIndex + 1];
+    const {
+      url,
+      sege,
+      duration,
+      name,
+      song_time_stamp,
+      uni_id,
+      is_liked,
+      artists,
+    } = songList[currentIndex + 1];
 
     const { uniUrl } = outputUniUrl(
       urlProp,
@@ -60,6 +68,8 @@ function AudioFunctionNext({ urlProp, url, className, uni_id }: Props) {
       name,
       song_time_stamp,
       uni_id,
+      is_liked,
+      artists,
     });
     // [todo] need to check if there is a new playlist or not
     setPlaylistId({ [playlistId[0] || ""]: [playlistId[0], url] });

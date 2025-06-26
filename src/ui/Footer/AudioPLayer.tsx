@@ -26,20 +26,19 @@ import { AnimatePresence } from "motion/react";
 import { motion } from "motion/react";
 import PlaceHolderToggleState from "./PlaceHolderToggleState";
 import ToggleButtonSpaceKey from "./audio/Toggle/ToggleButtonSpaceKey";
+import ArtistWrapper from "../general/ArtistWrapper";
 function AudioPlayer({
   footerRef,
 }: {
   footerRef: React.RefObject<HTMLDivElement | null>;
 }) {
   const toggleRef = useRef<HTMLButtonElement | null>(null);
-  const { sege, name, duration, song_time_stamp, uni_id } = useSong(
-    (state: SongState) => state.songCu
-  ) as SongDetail;
+  const { sege, name, duration, song_time_stamp, uni_id, is_liked, artists } =
+    useSong((state: SongState) => state.songCu) as SongDetail;
   const url = useSong(
     (state: SongState) =>
       Object.values(state.songCu as Record<string, string>)[0]
   );
-  console.log("it is a bit much");
   const {
     dataAudio,
     loadNextSegment,
@@ -95,8 +94,8 @@ function AudioPlayer({
                     className="flex flex-col overflow-hidden will-change-transform"
                     key={name}
                   >
-                    <AudioInfo name={name} isLink={false} />
-                    <AudioInfo name={"aspea"} isLink={true} />
+                    <AudioInfo el={<span>{name}</span>} />
+                    <AudioInfo el={<ArtistWrapper artists={artists} />} />
                   </div>
                 )}
               </div>

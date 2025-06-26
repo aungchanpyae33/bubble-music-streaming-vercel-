@@ -23,7 +23,7 @@ import type {
 } from "@/lib/zustand";
 import IconWrapper from "@/ui/general/IconWrapper";
 import { Pause, Play } from "lucide-react";
-import { getSongsReturn } from "@/database/data";
+import { artists, getSongsReturn } from "@/database/data";
 import outputUniUrl from "@/lib/CustomHooks/OutputUniUrl";
 interface toggleElementProp extends React.ComponentProps<"button"> {
   url: string;
@@ -35,6 +35,8 @@ interface toggleElementProp extends React.ComponentProps<"button"> {
   songId: number;
   might_repeat: boolean | undefined;
   uni_id: number | undefined;
+  is_liked: boolean;
+  artists: artists[];
 }
 const ToggleElement = ({
   url,
@@ -47,6 +49,8 @@ const ToggleElement = ({
   songId,
   might_repeat,
   uni_id,
+  is_liked,
+  artists,
 }: toggleElementProp) => {
   // console.log(playlistSong, "playlistsong");
   const { playlistId, uniUrl } = outputUniUrl(
@@ -126,6 +130,8 @@ const ToggleElement = ({
             song_time_stamp,
             songId,
             uni_id,
+            is_liked,
+            artists,
           };
 
           // console.log(data);

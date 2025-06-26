@@ -85,7 +85,16 @@ function DirectPlayButton({ playListId }: { playListId: string }) {
         }
         return 0;
       })();
-      const { url, sege, duration, name, song_time_stamp, uni_id } = (() => {
+      const {
+        url,
+        sege,
+        duration,
+        name,
+        song_time_stamp,
+        uni_id,
+        is_liked,
+        artists,
+      } = (() => {
         if (playlistId) {
           return playlistData.songs[currentIndex];
         }
@@ -115,6 +124,8 @@ function DirectPlayButton({ playListId }: { playListId: string }) {
           name,
           song_time_stamp,
           uni_id,
+          is_liked,
+          artists,
         });
         setPlaylistId({
           [playListId || ""]: [playListId, url],
