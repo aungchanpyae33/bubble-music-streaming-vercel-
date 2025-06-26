@@ -27,6 +27,7 @@ import { motion } from "motion/react";
 import PlaceHolderToggleState from "./PlaceHolderToggleState";
 import ToggleButtonSpaceKey from "./audio/Toggle/ToggleButtonSpaceKey";
 import ArtistWrapper from "../general/ArtistWrapper";
+import MediaSessionDesWrapper from "./audio/MediaSessionWrapper/MediaSessionDesWrapper";
 function AudioPlayer({
   footerRef,
 }: {
@@ -70,6 +71,7 @@ function AudioPlayer({
             className={clsx("w-full   relative flex   h-[70px]")}
             ref={footerRef}
           >
+            <MediaSessionDesWrapper name={name} artists={artists} />
             <PlaceHolderToggleState url={url} uni_id={uni_id}>
               <ToggleButtonSpaceKey />
               {/* this is for space key to toggle play and pause */}

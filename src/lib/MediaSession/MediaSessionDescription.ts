@@ -1,12 +1,13 @@
+import { artists } from "@/database/data";
 import { useEffect } from "react";
-const MediaSessionDes = (name: string, url: string) => {
+const MediaSessionDes = (name: string, artists: artists[]) => {
+  console.log(artists);
   // console.log(urlSongs)
   useEffect(() => {
     if ("mediaSession" in navigator) {
       navigator.mediaSession.metadata = new MediaMetadata({
         title: name,
-        artist: "Kendrick Lamar",
-        album: "To Pimp A Butterfly",
+        artist: artists.map((artist) => artist.name).join(", "),
         artwork: [
           {
             src: "https://s3.tebi.io/test1345/timo-volz-ZlFKIG6dApg-unsplash%20%281%29.jpg",
@@ -19,6 +20,6 @@ const MediaSessionDes = (name: string, url: string) => {
     return () => {
       navigator.mediaSession.metadata = null;
     };
-  }, [name, url]);
+  }, [name, artists]);
 };
 export default MediaSessionDes;
