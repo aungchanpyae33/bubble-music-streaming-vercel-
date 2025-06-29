@@ -14,6 +14,12 @@ const nextConfig = {
         port: "",
         pathname: "/test1345/**",
       },
+      {
+        protocol: "https",
+        hostname: "tebi.bubblemusic.dpdns.org",
+        port: "",
+        pathname: "/**",
+      },
     ],
   },
 };
