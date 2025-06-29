@@ -1,42 +1,73 @@
 import Link from "next/link";
 import UserProfile from "./UserProfile";
+import {
+  getKindeServerSession,
+  LoginLink,
+  LogoutLink,
+} from "@kinde-oss/kinde-auth-nextjs/server";
+import TestCom from "../TestCom";
 
-function UserInfo() {
-  // test for now
-  const user = {
-    name: "aungchanpyae",
-  };
+async function UserInfo() {
+  const { getUser } = getKindeServerSession();
+  const user = await getUser();
+
   return (
-    <UserProfile name={user.name}>
-      <Link href={"/profile"} className="hover:bg-[#333333] p-2 flex gap-x-3 ">
-        <div>icon</div>
-        <div>ပရိုဖိုင်</div>
-      </Link>
-      <Link href={"/setting"} className="hover:bg-[#333333] p-2 flex gap-x-3 ">
-        <div>icon</div>
-        <div>ဆက်တင်မျာ:</div>
-      </Link>
-      <Link href={"/feedback"} className="hover:bg-[#333333] p-2 flex gap-x-3">
-        <div>icon</div>
-        <div>အကူအညီ နှင့် အကြံပြုချက် </div>{" "}
-      </Link>
-      <Link href={"/feedback"} className="hover:bg-[#333333] p-2 flex gap-x-3">
-        <div>icon</div>
-        <div>အကူအညီ နှင့် အကြံပြုချက် </div>{" "}
-      </Link>
-      <Link href={"/feedback"} className="hover:bg-[#333333] p-2 flex gap-x-3">
-        <div>icon</div>
-        <div>အကူအညီ နှင့် အကြံပြုချက် </div>{" "}
-      </Link>
-      <Link href={"/feedback"} className="hover:bg-[#333333] p-2 flex gap-x-3">
-        <div>icon</div>
-        <div>အကူအညီ နှင့် အကြံပြုချက် </div>{" "}
-      </Link>
-      <button className="hover:bg-[#333333]  w-full p-2 flex gap-x-3 border-t-[1px] border-gray-700  ">
-        <div>icon</div>
-        <div>ထွက်ရန်</div>
-      </button>
-    </UserProfile>
+    <>
+      {user ? (
+        <UserProfile name={user && user.given_name + user.family_name!}>
+          <Link
+            href={"/profile"}
+            className="hover:bg-[#333333] p-2 flex gap-x-3 "
+          >
+            <div>icon</div>
+            <div>ပရိုဖိုင်</div>
+          </Link>
+          <Link
+            href={"/setting"}
+            className="hover:bg-[#333333] p-2 flex gap-x-3 "
+          >
+            <div>icon</div>
+            <div>ဆက်တင်မျာ:</div>
+          </Link>
+          <Link
+            href={"/feedback"}
+            className="hover:bg-[#333333] p-2 flex gap-x-3"
+          >
+            <div>icon</div>
+            <div>အကူအညီ နှင့် အကြံပြုချက် </div>{" "}
+          </Link>
+          <Link
+            href={"/feedback"}
+            className="hover:bg-[#333333] p-2 flex gap-x-3"
+          >
+            <div>icon</div>
+            <div>အကူအညီ နှင့် အကြံပြုချက် </div>{" "}
+          </Link>
+          <Link
+            href={"/feedback"}
+            className="hover:bg-[#333333] p-2 flex gap-x-3"
+          >
+            <div>icon</div>
+            <div>အကူအညီ နှင့် အကြံပြုချက် </div>{" "}
+          </Link>
+          <Link
+            href={"/feedback"}
+            className="hover:bg-[#333333] p-2 flex gap-x-3"
+          >
+            <div>icon</div>
+            <div>အကူအညီ နှင့် အကြံပြုချက် </div>{" "}
+          </Link>
+          <TestCom>
+            <div>icon</div>
+            <div>ထွက်ရန်</div>
+          </TestCom>
+        </UserProfile>
+      ) : (
+        <LoginLink className="bg-[#222222] h-[40px] px-2 hover:bg-[#333333] border-opacity-15 border border-neutral-200 rounded-sm flex items-center ">
+          ဝင်ရန်
+        </LoginLink>
+      )}
+    </>
   );
 }
 

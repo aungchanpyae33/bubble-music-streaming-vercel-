@@ -8,10 +8,10 @@ function UserProfile({
   name,
   children,
 }: {
-  name: string;
+  name: string | null | undefined;
   children: ReactNode;
 }) {
-  const userName = name.slice(0, 1);
+  const userName = name && name.slice(0, 1);
   const [userOpen, setUserOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const parentRef = useRef<HTMLDivElement | null>(null);
@@ -21,7 +21,7 @@ function UserProfile({
     <div className=" relative z-10" ref={parentRef}>
       <button
         ref={buttonRef}
-        className="bg-[#222222] hover:bg-[#333333] text-white w-[40px] h-[40px] rounded-full flex items-center justify-center"
+        className="bg-[#222222] hover:bg-[#333333] w-[40px] h-[40px] rounded-full flex items-center justify-center"
         onClick={() => setUserOpen(!userOpen)}
       >
         {userName}
@@ -38,7 +38,7 @@ function UserProfile({
         <div className="p-2 flex  gap-x-3  border-b-[1px] border-gray-700">
           <div>icon</div>
           <div className="truncate">
-            <div className=" truncate select-all"> aung chan pyae</div>
+            <div className=" truncate select-all">{name}</div>
             <div className=" select-all truncate">@aungchanpyae3304</div>
           </div>
         </div>
