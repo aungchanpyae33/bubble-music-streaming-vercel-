@@ -248,10 +248,8 @@ export const useRepeatAndCurrentPlayList = create<
 >()((set, get) => ({
   playListArray: {},
   setPlayListArray: (newList) =>
-    set((state) => {
-      if (Object.keys(newList)[0] !== Object.keys(state.playListArray)[0]) {
-        return { playListArray: { ...newList } };
-      } else return state.playListArray;
+    set(() => {
+      return { playListArray: { ...newList } };
     }),
   isRepeat: false,
   setRepeat: () => set((state) => ({ isRepeat: !state.isRepeat })),
