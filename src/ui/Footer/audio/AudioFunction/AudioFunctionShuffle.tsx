@@ -1,6 +1,7 @@
 import { getSongsReturn } from "@/database/data";
 import outputCurrentIndex from "@/lib/CustomHooks/OutputCurrentIndex";
-import shufflePlaylistArray from "@/lib/shufflePlaylistArray";
+import excludeCurrentSongs from "@/lib/excludeCurrentSongs";
+import shufflePlaylist from "@/lib/shufflePlaylist";
 import {
   currentSongPlaylistAction,
   previousSongPlaylist,
@@ -24,7 +25,7 @@ function AudioFunctionShuffle({ className, urlProp, url, uni_id }: Props) {
   const previousPlayListArray = usePreviousPlayList(
     (state: previousSongPlaylist) =>
       Object.values(state.previousPlayListArray)[0] || []
-  ) as urlProp[];
+  ) as getSongsReturn;
 
   const playlistId = useStorePlayListId(
     (state: StorePlayListIdState) => Object.values(state.playlistId)[0] || []
@@ -35,17 +36,19 @@ function AudioFunctionShuffle({ className, urlProp, url, uni_id }: Props) {
   );
   function shuffle(currentUrl: string = url) {
     if (!urlProp.songs || urlProp.songs.length === 0) return;
+
     const currentIndex = outputCurrentIndex(urlProp, currentUrl, uni_id);
     const currentSong = urlProp.songs[currentIndex];
-    const excludeCurrentSong = [
-      ...urlProp.songs.slice(0, currentIndex),
-      ...urlProp.songs.slice(currentIndex + 1),
-    ];
-    const shuffleArray = !isShuffle
-      ? [currentSong, ...shufflePlaylistArray(excludeCurrentSong)]
-      : previousPlayListArray;
+    const excludeCurrentSongsArray = excludeCurrentSongs(urlProp, currentIndex);
+    const shufflePlaylistOutput = shufflePlaylist(
+      excludeCurrentSongsArray,
+      isShuffle,
+      urlProp,
+      currentSong,
+      previousPlayListArray
+    );
     setPlayListArray({
-      [playlistId[0] || ""]: shuffleArray,
+      [playlistId[0] || ""]: shufflePlaylistOutput,
     });
     setIsShuffle(!isShuffle);
   }
