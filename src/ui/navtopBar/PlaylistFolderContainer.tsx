@@ -45,7 +45,7 @@ function PlaylistFolderContainer({
         songsData &&
         songsData.map((item) => (
           <Link
-            href={`/playlist/${item.id}`}
+            href={`/${item.type}/${item.id}`}
             className=" mt-2  h-[50px] hover:bg-[#333333] leading-relaxed  flex items-center"
             key={item.id}
           >
