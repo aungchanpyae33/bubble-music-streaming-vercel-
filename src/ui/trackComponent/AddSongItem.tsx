@@ -1,6 +1,8 @@
 import {
   addSongsToPlaylist,
+  addSongsToPlaylistProps,
   songExistAction,
+  songsToPlaylist,
   useAddSongsToPlaylist,
   useIsExistSongs,
 } from "@/lib/zustand";
@@ -25,7 +27,10 @@ function AddSongItem({
     (state: addSongsToPlaylist) => state.addSongsToPlaylist
   );
   const playlistId = playlistSongs.id;
-  const { songId } = useContext(ContextPlaylistInfoTrack);
+  const { songId } = useAddSongsToPlaylist(
+    (state: songsToPlaylist) => state.songsToPlaylist
+  ) as addSongsToPlaylistProps;
+
   const mutation = useAddSongMutate({ songId: songId, playlistId: playlistId });
   const { setShow } = useContext(ContextMoreOption);
   async function handleAdd() {
