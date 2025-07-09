@@ -1,19 +1,18 @@
 "use client";
 import {
   currentSongPlaylist,
-  SongState,
   useRepeatAndCurrentPlayList,
-  useSong,
 } from "@/lib/zustand";
 import clsx from "clsx";
 import ToggleElement from "../Footer/audio/Toggle/ToggleElement";
 import { getSongsReturn } from "@/database/data";
 import Image from "next/image";
-import PlaylistInfoContext from "../trackComponent/PlaylistInfoContext";
 import MoreOptionContext from "../trackComponent/MoreOptionContext";
 import MoreOption from "../trackComponent/MoreOption";
 import { useRef } from "react";
 import PlaceHolderQueue from "./PlaceHolderQueue";
+import PlaylistInfoContextTrack from "../trackComponent/PlaylistInfoContextTrack";
+import TrackItemContainer from "../trackComponent/TrackItemContainer";
 
 function Queue() {
   const playListArray = useRepeatAndCurrentPlayList(
@@ -48,6 +47,8 @@ function Queue() {
               song_time_stamp={song.song_time_stamp}
               might_repeat={playListArray.might_repeat}
               uni_id={song?.uni_id}
+              is_liked={song.is_liked}
+              artists={song.artists}
               className="w-[50px] "
             />
             <div
@@ -71,16 +72,16 @@ function Queue() {
                 {song.name}
               </div>
               <div className="w-[30px]">
-                <PlaylistInfoContext
+                <PlaylistInfoContextTrack
                   songId={song.id}
                   playlistId={playListArray.id}
                   isLike={song.is_liked}
-                  is_owner={playListArray.is_owner}
+                  source={playListArray.source || "none"}
                 >
                   <MoreOptionContext>
-                    <MoreOption />
+                    <MoreOption targetElement={<TrackItemContainer />} />
                   </MoreOptionContext>
-                </PlaylistInfoContext>
+                </PlaylistInfoContextTrack>
               </div>
             </div>
           </div>
