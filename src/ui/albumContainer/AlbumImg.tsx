@@ -12,7 +12,7 @@ function AlbumImg() {
   const [isImageLoaded] = useGetDominantColor({ setBgValue, imgRef });
   return (
     <div
-      className=" lg:w-[250px] rounded-md overflow-hidden md:w-[200px] w-[180px]  aspect-square  object-cover relative bg-[#343333]
+      className=" lg:w-[250px] rounded overflow-hidden md:w-[200px] shrink-0 w-[180px]  aspect-square  object-cover relative bg-[#343333]
     "
     >
       <Image
@@ -22,10 +22,10 @@ function AlbumImg() {
         })}
         ref={imgRef}
         src={
-          "https://s3.tebi.io/test1345/photo-1739467372234-2aba33f6b7ee.avif"
+          "https://tebi.bubblemusic.dpdns.org/lee-hi/4-only/cover/photo_2025-05-23_14-51-24.jpg"
         }
-        // sizes="(min-width: 1940px) 250px, (min-width: 1040px) calc(12.61vw + 8px), (min-width: 780px) calc(18.33vw - 12px), (min-width: 700px) calc(20vw - 10px), 115px"
-        priority={false}
+        priority={true}
+        sizes="(min-width: 1024px) 250px, (min-width: 768px) 200px, 180px"
         fill
         alt="singer song"
       />

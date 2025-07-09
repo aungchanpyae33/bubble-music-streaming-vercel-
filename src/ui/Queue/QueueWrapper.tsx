@@ -9,7 +9,6 @@ function QueueWrapper({ children }: { children: React.ReactNode }) {
     (state: queueStateAction) => state.setIsQueue
   );
   const isSmall = useScreenSize("(width >= 48rem)");
-  console.log(isSmall, "hi");
   useEffect(() => {
     if (isQueue) {
       setIsQueue(isSmall);

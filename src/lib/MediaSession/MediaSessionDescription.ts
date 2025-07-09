@@ -10,7 +10,7 @@ const MediaSessionDes = (name: string, artists: artists[]) => {
         artist: artists.map((artist) => artist.name).join(", "),
         artwork: [
           {
-            src: "https://s3.tebi.io/test1345/timo-volz-ZlFKIG6dApg-unsplash%20%281%29.jpg",
+            src: "https://tebi.bubblemusic.dpdns.org/lee-hi/4-only/cover/photo_2025-05-23_14-51-24.jpg",
             sizes: "300x300",
             type: "image/jpg",
           },

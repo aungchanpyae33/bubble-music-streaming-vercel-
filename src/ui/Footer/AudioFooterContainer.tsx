@@ -16,7 +16,7 @@ function AudioFooterContainer({
     // in chrome , when use top-0 and -translate-x- that is close and bigger the parent height make a little edge between , not found in firefox , use -top parent height
     <div
       className={clsx(
-        "w-full h-full border border-t border-opacity-15  border-neutral-200 "
+        "w-full h-full  border-t border-opacity-15  border-neutral-200 "
       )}
       tabIndex={0}
       onKeyDown={(e) => {

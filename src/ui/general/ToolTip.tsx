@@ -1,11 +1,10 @@
 "use client";
-import useTooltipOverflow, {
-  tooltipState,
-} from "@/lib/CustomHooks/TooltipOverflow";
+import useTooltipOverflow from "@/lib/CustomHooks/TooltipOverflow";
 import { closeTooltip, showToolTipCheck } from "@/lib/ToolTip/showToolTipCheck";
 import clsx from "clsx";
 import { ReactNode, useEffect, useMemo, useRef } from "react";
 import { createPortal } from "react-dom";
+import LeadingRelax from "./LeadingRelax";
 
 export interface pointerPosition {
   clientX: number;
@@ -96,19 +95,16 @@ function ToolTip({
         {children}
       </div>
 
-      {typeof window !== "undefined" &&
+      {tooltipShow.show &&
         createPortal(
           <div
             className={clsx(
-              "fixed max-w-[450px] z-30 md:max-w-[550px] w-max  pointer-events-none px-2 p-1 text-sm bg-[#2A2A2A] border border-[#444444] shadow-[0_4px_8px_rgba(0,0,0,0.3)]",
-              {
-                hidden: !tooltipShow.show,
-              }
+              "fixed max-w-[450px] z-30 md:max-w-[550px] w-max  pointer-events-none px-2 p-1 text-sm bg-[#2A2A2A] border border-[#444444] shadow-[0_4px_8px_rgba(0,0,0,0.3)]"
             )}
             ref={toolTipRef}
             style={tooltipShow.toolTipPosition}
           >
-            {tooltipContent}
+            <LeadingRelax>{tooltipContent}</LeadingRelax>
           </div>,
           document.body
         )}

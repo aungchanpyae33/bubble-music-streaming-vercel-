@@ -13,7 +13,7 @@ const useScreenSize = (query: MediaQuery) => {
       // @ts-ignore: addListener is deprecated but still needed for older Safari 2020
       media.addListener(listener);
     }
-
+    setMatches(media.matches);
     return () => {
       if (media.removeEventListener) {
         media.removeEventListener("change", listener);

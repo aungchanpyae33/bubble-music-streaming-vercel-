@@ -1,3 +1,4 @@
+"use client";
 import useAddSongMutate from "@/lib/CustomHooks/AddSongMutate";
 import {
   isSongExist,

@@ -42,7 +42,7 @@ export interface StorePlayListIdStateAction {
   setPlaylistId: (id: StorePlayListIdState["playlistId"]) => void;
 }
 export interface currentSongPlaylist {
-  playListArray: {};
+  playListArray: getSongsReturn | {};
 }
 
 export interface currentSongPlaylistAction {
@@ -62,35 +62,37 @@ export interface previousSongPlaylistAction {
   ) => void;
 }
 
+export interface Playlist {
+  id: string;
+  name: string;
+}
+
 export interface playlistFolderProps {
-  playlistFolder:
-    | {
-        data:
-          | {
-              id: string;
-              name: any;
-            }[]
-          | null;
-        error: PostgrestError | null;
-      }
-    | undefined;
+  playlistFolder: Playlist[] | null;
 }
 
 export interface setPlaylistFolderAction {
-  setPlaylistFolder: (data: playlistFolderProps["playlistFolder"]) => void;
+  setPlaylistFolder: (data: Playlist[]) => void;
 }
+
+export interface addPlaylistFolderAction {
+  addPlaylistFolder: (value: Playlist) => void;
+}
+
 export interface addSongProps {
-  addSong: song | {};
+  addSong: {};
 }
 export interface addSongAction {
   addSongAction: (value: addSongProps["addSong"]) => void;
 }
-export interface addPlaylistFolderAction {
-  addPlaylistFolder: (value: {
-    data: any;
-    error: PostgrestError | null;
-  }) => void;
+
+export interface toggleLikeProps {
+  toggleLike: {};
 }
+export interface toggleLikeAction {
+  toggleLikeAction: (value: toggleLikeProps["toggleLike"]) => void;
+}
+
 export interface SongFunctionState {
   Isplay: Record<string, boolean | undefined>;
 }
@@ -361,8 +363,8 @@ export const useNotInputFocus = create<focusState & focusStateAction>(
 export const usePlaylistFolder = create<
   playlistFolderProps & setPlaylistFolderAction & addPlaylistFolderAction
 >((set) => ({
-  playlistFolder: undefined,
-  setPlaylistFolder: (value: playlistFolderProps["playlistFolder"]) =>
+  playlistFolder: null,
+  setPlaylistFolder: (value) =>
     set((state) => {
       // If there's no existing state yet, just set the new value
       if (!state.playlistFolder) {
@@ -372,10 +374,7 @@ export const usePlaylistFolder = create<
     }),
   addPlaylistFolder: (value) =>
     set((state) => ({
-      playlistFolder: {
-        data: [...(state.playlistFolder?.data || []), ...value.data],
-        error: value.error,
-      },
+      playlistFolder: [...(state.playlistFolder || []), value],
     })),
 }));
 
@@ -384,8 +383,21 @@ export const useSongsStoreData = create<addSongProps & addSongAction>(
   (set) => ({
     addSong: {},
     addSongAction: (value) =>
+      set(() => {
+        return {
+          addSong: { ...value },
+        };
+      }),
+  })
+);
+
+//only for trigger
+export const useLikeStoreData = create<toggleLikeProps & toggleLikeAction>(
+  (set) => ({
+    toggleLike: {},
+    toggleLikeAction: (value) =>
       set(() => ({
-        addSong: { ...value },
+        toggleLike: { ...value },
       })),
   })
 );

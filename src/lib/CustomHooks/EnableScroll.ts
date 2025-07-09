@@ -9,8 +9,8 @@ export function EnableScroll(containerRef: RefObject<HTMLDivElement | null>) {
       e.stopPropagation();
     };
 
-    el.addEventListener("wheel", stopPropagation);
-    el.addEventListener("touchmove", stopPropagation);
+    el.addEventListener("wheel", stopPropagation, { passive: true });
+    el.addEventListener("touchmove", stopPropagation, { passive: true });
 
     return () => {
       el.removeEventListener("wheel", stopPropagation);

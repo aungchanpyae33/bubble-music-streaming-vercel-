@@ -17,8 +17,8 @@ function SearchResult({ data, inputRef }: prop) {
     <div className="SearchResult w-full absolute bg-[#222222] rounded-md -bottom-1 translate-y-full  border border-neutral-200 border-opacity-25  py-3  shadow-md shadow-overlay text-start">
       {data?.map((item: Movie, index: number) => (
         <SearchResultItem
-          key={item.title}
-          title={item.title}
+          key={item.id}
+          title={item.name}
           index={index}
           show={index === arrow.number && !arrow.run}
         />

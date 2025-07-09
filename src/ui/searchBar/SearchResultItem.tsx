@@ -13,7 +13,7 @@ interface prop {
 //[later] : reactcompiler -> stable
 const SearchResultItem = memo(({ title, index, show }: prop) => {
   const router = useRouter();
-  console.log("SearchResultItem");
+
   return (
     <div
       className={clsx(
@@ -23,8 +23,8 @@ const SearchResultItem = memo(({ title, index, show }: prop) => {
         }
       )}
       key={title}
-      onMouseDown={() => router.push(`/setting?query=${title}`)}
-      onTouchStart={() => router.push(`/setting?query=${title}`)}
+      onMouseDown={() => router.push(`/search?query=${title}`)}
+      onTouchStart={() => router.push(`/search?query=${title}`)}
     >
       <div className=" leading-relaxed truncate">{title}</div>
     </div>

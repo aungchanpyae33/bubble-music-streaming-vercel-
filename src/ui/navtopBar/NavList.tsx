@@ -3,19 +3,16 @@ import OverLay from "./OverLay";
 import NavSideLink from "./NavSideLink";
 import { ReactNode, useState } from "react";
 import NavListUlWrapper from "./NavListUlWrapper";
-import { ListMusic, Menu, Plus } from "lucide-react";
+import { Menu } from "lucide-react";
 import IconWrapper from "../general/IconWrapper";
-import Link from "next/link";
 import PlaylistFolderContainer from "./PlaylistFolderContainer";
-
-export interface songsProp {
-  songs: Record<"title", string>[] | null;
-}
+import { getProps } from "@/database/data";
+import NavSideLinkNotOpen from "./NavSideLinkNotOpen";
 interface childrenProp {
   childrenExplore: ReactNode;
   childrenLive: ReactNode;
   childrenPlaylist: ReactNode;
-  songs: songsProp["songs"];
+  songs: getProps[] | null;
 }
 function NavList({
   childrenExplore,
@@ -25,10 +22,9 @@ function NavList({
 }: childrenProp) {
   // console.log("render");
   const [open, setOpen] = useState(false);
-
   return (
     <div className=" w-full ">
-      <ul className="fixed w-[70px]   top-0  box-border  left-0 h-[70px] md:h-full flex  flex-col gap-x-1   rounded-b-sm">
+      <ul className="fixed w-[70px]  top-0  box-border left-0 h-[70px] md:h-full flex  flex-col gap-x-1   rounded-b-sm">
         <button
           onClick={() => {
             setOpen(!open);
@@ -40,21 +36,22 @@ function NavList({
           <IconWrapper size="large" Icon={Menu} />
         </button>
 
-        <div className=" overflow-hidden h-full border-r border-opacity-15 border-neutral-200">
-          <Link href={"/explore"} className="hidden md:block">
+        <div className=" h-full border-r border-opacity-15    border-neutral-200">
+          <NavSideLinkNotOpen hrefString="/explore">
             {childrenExplore}
-          </Link>
-          <Link href={"/live"} className=" hidden md:block">
+          </NavSideLinkNotOpen>
+          <NavSideLinkNotOpen hrefString="/live">
             {childrenLive}
-          </Link>
-          <Link href={"/library"} className="hidden md:block">
+          </NavSideLinkNotOpen>
+
+          <NavSideLinkNotOpen hrefString="/library">
             {childrenPlaylist}
-          </Link>
+          </NavSideLinkNotOpen>
         </div>
       </ul>
 
       <NavListUlWrapper open={open} setOpen={setOpen}>
-        <div className="overflow-auto  py-3">
+        <div className="overflow-auto   py-3">
           <NavSideLink
             url="/explore"
             icon="icon"

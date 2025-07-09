@@ -1,18 +1,9 @@
-// "use client";
-import ArrowNavi from "@/lib/Accessibility/ArrowNavi";
 import Track from "../trackComponent/Track";
-// import { useEffect, useRef } from "react";
-import Image from "next/image";
-import SongContainer from "./SongContainer";
-import { Suspense } from "react";
-import AlbumUpperContainer from "./AlbumUpperContainer";
-import AlbumUpperBackground from "./AlbumUpperBackground";
 import TableHeadBgChange from "./TableHeadBgChange";
 import TableHead from "./TableHead";
 import IconWrapper from "../general/IconWrapper";
 import { Clock } from "lucide-react";
-// import type { currentSongPlaylistAction } from "@/lib/zustand";
-// import { useCurrentPlayList } from "@/lib/zustand";
+import { getSongsReturn } from "@/database/data";
 export interface urlProp {
   url: string;
   duration: number;
@@ -24,77 +15,63 @@ export interface playlistProp {
   song: urlProp[];
 }
 function AudiosContainer({
-  url,
-  description,
+  playlistSong,
 }: {
-  url: playlistProp;
-  description: string;
+  playlistSong: getSongsReturn | null | undefined;
 }) {
   //for accessbility
   // const dataInc = useRef(0);
   // const rowCell = useRef(1);
 
-  return (
-    <div className=" w-full">
-      <AlbumUpperBackground>
-        <Suspense>
-          <AlbumUpperContainer description={description} />
-        </Suspense>
-      </AlbumUpperBackground>
+  return playlistSong && playlistSong.songs && playlistSong.songs.length > 0 ? (
+    <TableHeadBgChange>
+      <table className="w-full isolate">
+        <TableHead>
+          <tr className="text-left">
+            <th className=" w-14 p-2  text-center">#</th>
+            <th className="p-2">ခေါင်းစဉ်</th>
+            <th className="hidden p-2 sm:table-cell  ">အဆိုတော်</th>
 
-      {/* <div
-        className=""
-        for accessbility
-        tabIndex={0}
-        onKeyDown={(e) => {
-          ArrowNavi(e, dataInc, "ArrowDown", "ArrowUp", url.length, "cell");
-        }}
-      > */}
-      <TableHeadBgChange>
-        <table className=" w-full isolate">
-          <TableHead>
-            <tr className="text-left">
-              <th className=" w-14 p-2  text-center">#</th>
-              <th className="p-2">ခေါင်းစဉ်</th>
-              <th className="hidden p-2 sm:table-cell  ">အဆိုတော်</th>
+            <th className=" p-2 hidden md:table-cell ">အယ်လ်ဘမ်</th>
+            <th className=" p-2"></th>
 
-              <th className=" p-2 hidden md:table-cell ">အယ်လ်ဘမ်</th>
-              <th className=" p-2"></th>
-              <th className=" p-2 w-20 hidden sm:table-cell  text-center">
-                <span className="flex justify-center">
-                  <IconWrapper
-                    Icon={Clock}
-                    size="small"
-                    className=" text-right"
-                  />
-                </span>
-              </th>
-              <th className=" p-2 sm:hidden table-cell"></th>
-            </tr>
-          </TableHead>
+            <th className=" p-2 w-20 hidden sm:table-cell  text-center">
+              <span className="flex justify-center">
+                <IconWrapper
+                  Icon={Clock}
+                  size="small"
+                  className=" text-right"
+                />
+              </span>
+            </th>
+            <th className=" p-2"></th>
+          </tr>
+        </TableHead>
 
-          <SongContainer url={url.song}>
-            {url.song.map((_, index) => (
-              //need to test playlist url when click track of toggleElement
-              <Track
-                key={index}
-                playlistUrl={url}
-                name={url.song[index].name}
-                duration={url.song[index].duration}
-                index={index}
-                //for accessbility
-                // roleCell={rowCell}
-                // dataInc={dataInc}
-                sege={url.song[index].sege}
-                url={url.song[index].url}
-              />
-            ))}
-          </SongContainer>
-        </table>
-      </TableHeadBgChange>
-
-      {/* </div> */}
-    </div>
+        <tbody>
+          {playlistSong.songs.map((item, index) => (
+            <Track
+              key={playlistSong.might_repeat ? item.uni_id : item.id}
+              playlistSong={playlistSong}
+              name={item.name}
+              duration={item.duration}
+              index={index}
+              like={item.is_liked}
+              songId={item.id}
+              uni_id={item?.uni_id}
+              song_time_stamp={item.song_time_stamp}
+              sege={item.sege}
+              url={item.url}
+              artists={item.artists}
+              albumName={item.album.name}
+              albumId={item.album.id}
+            />
+          ))}
+        </tbody>
+      </table>
+    </TableHeadBgChange>
+  ) : (
+    <div> oops there is a empty </div>
   );
 }
 

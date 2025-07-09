@@ -30,6 +30,7 @@ function AudioSlider({
     abortController,
     fetching,
     bufferThreshold,
+    song_time_stamp,
   } = useContext(DataContext);
 
   return (
@@ -74,6 +75,7 @@ function AudioSlider({
             bufferThreshold,
             fetching,
             abortController,
+            song_time_stamp,
           });
         } else if (e.key !== "Tab") {
           e.preventDefault();

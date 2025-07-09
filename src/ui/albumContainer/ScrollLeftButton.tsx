@@ -8,10 +8,14 @@ import { ContainerContext } from "./ContextContainer";
 function ScrollLeftButton() {
   const { playlistWrapperRef } = useContext(ContainerContext);
   return (
-    <button onClick={() => ScrollHorizontal("left", playlistWrapperRef)}>
+    <button
+      onClick={() => ScrollHorizontal("left", playlistWrapperRef)}
+      className=" absolute z-20 left-0
+       top-[40%]"
+    >
       <IconWrapper
         size="medium"
-        className="text-white/70 bg-[#222222] hover:bg-[#333333] hover:text-white"
+        className="text-white/70 bg-[#222222] hover:bg-[#333333] rounded-full size-14 hover:text-white"
         Icon={ChevronLeft}
       />
     </button>

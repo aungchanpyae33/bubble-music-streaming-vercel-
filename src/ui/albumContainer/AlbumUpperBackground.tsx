@@ -22,23 +22,22 @@ function AlbumUpperBackground({ children }: Props) {
   const mainColor = bgValue ? `rgb(${R},${G},${B})` : "";
 
   const value = { bgValue, setBgValue };
+
   return (
-    <>
-      <ContextAlbum.Provider value={value}>
-        <div
-          className={clsx("relative", {})}
-          style={
-            bgValue
-              ? {
-                  backgroundColor: `${mainColor}`,
-                }
-              : {}
-          }
-        >
-          {children}
-        </div>
-      </ContextAlbum.Provider>
-    </>
+    <ContextAlbum.Provider value={value}>
+      <div
+        className={clsx("relative", {})}
+        style={
+          bgValue
+            ? {
+                backgroundColor: `${mainColor}`,
+              }
+            : {}
+        }
+      >
+        {children}
+      </div>
+    </ContextAlbum.Provider>
   );
 }
 

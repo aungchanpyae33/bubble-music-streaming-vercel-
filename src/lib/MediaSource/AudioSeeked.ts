@@ -34,7 +34,7 @@ const AudioSeeked = ({
     bufferThreshold,
     song_time_stamp,
   });
-  console.log(seekSeg, "seekSeg");
+
   AbortFetch(fetching, abortController, seekSeg);
   if (seekSeg !== fetching.current.fetchingseg) {
     // segments are start with 1 , change to 1 if 0

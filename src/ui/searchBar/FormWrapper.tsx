@@ -11,7 +11,7 @@ function FormWrapper({ children, inputRef, show }: FormWrapperProps) {
   const { setOpen } = useContext(ContextToggle);
   return (
     <Form
-      action="/test"
+      action="/search"
       onSubmit={() => {
         setOpen(false);
         inputRef.current?.blur();

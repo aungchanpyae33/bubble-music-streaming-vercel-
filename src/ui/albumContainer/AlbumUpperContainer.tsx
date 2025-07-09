@@ -1,10 +1,10 @@
 import { DeviceCheck } from "@/lib/DeviceCheck";
 import clsx from "clsx";
-import Image from "next/image";
 import AlbumImg from "./AlbumImg";
 
 async function AlbumUpperContainer({ description }: { description: string }) {
   const deviceFromUserAgent = await DeviceCheck();
+
   return (
     <div
       className={clsx("Container w-full flex  items-center p-5 ", {
@@ -17,7 +17,7 @@ async function AlbumUpperContainer({ description }: { description: string }) {
     >
       <AlbumImg />
       <div
-        className={clsx("pt-2 flex-1 ", {
+        className={clsx("pt-2 truncate flex-1 ", {
           "self-start":
             deviceFromUserAgent === "mobile" ||
             deviceFromUserAgent === "tablet",

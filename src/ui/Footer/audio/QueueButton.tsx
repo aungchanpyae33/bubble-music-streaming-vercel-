@@ -10,7 +10,7 @@ function QueueButton() {
   // console.log("queue", isQueue);
   return (
     <button
-      className=" p-1 hidden sm:inline-block"
+      className=" p-1 hidden md:inline-block"
       onClick={() => setIsQueue(!isQueue)}
     >
       <IconWrapper Icon={Logs} size="small" />

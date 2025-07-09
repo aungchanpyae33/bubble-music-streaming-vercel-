@@ -1,7 +1,7 @@
 import React from "react";
 import PlaylistContainer from "../playlist/PlaylistContainer";
 import EdgeFade from "../playlist/EdgeFade";
-import { getProps } from "@/database/data";
+import { getProps, getPropsTest } from "@/database/data";
 import ContextContainer from "./ContextContainer";
 import PlaylistWrapper from "./PlaylistWrapper";
 import ArrowNaviContainer from "./ArrowNaviContainer";
@@ -9,7 +9,7 @@ function Container({
   songs,
   description,
 }: {
-  songs: getProps;
+  songs: getPropsTest[];
   description: string;
 }) {
   return (
@@ -22,14 +22,14 @@ function Container({
         <EdgeFade className=" bg-gradient-to-r from-[#0808087f] to-transparent left-0" />
         <EdgeFade className="bg-gradient-to-l from-[#0808087f] to-transparent right-0  " />
         <PlaylistWrapper>
-          {songs.data &&
-            songs.data.map((item, index) => {
+          {songs &&
+            songs.map((item, index) => {
               return (
                 <PlaylistContainer
                   index={index}
                   key={item.id}
                   songs={item.name}
-                  testId={item.id}
+                  playlistId={item.id}
                   description={description}
                 />
               );

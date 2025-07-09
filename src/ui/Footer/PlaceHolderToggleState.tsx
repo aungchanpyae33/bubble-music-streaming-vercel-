@@ -173,7 +173,7 @@ function PlaceHolderToggleState({
           name: "autogenerate",
           related_id: "smooth",
           realted_name: "autogenerate",
-          is_owner: false,
+          source: "none",
           songs: data,
         };
         setPlayListArray({

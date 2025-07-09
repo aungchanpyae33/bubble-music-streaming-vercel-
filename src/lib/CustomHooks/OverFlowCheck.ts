@@ -59,7 +59,6 @@ const useOverflowCheck = (
     observer.observe(element!.current!);
 
     return () => {
-      console.log("nahh man");
       observer.disconnect();
     };
   }, [element, isOverFlow.clientWidth, isOverFlow.duration, open]);

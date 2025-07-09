@@ -17,8 +17,9 @@ function AudioCurImg() {
       <Image
         ref={imgRef}
         src={
-          "https://s3.tebi.io/test1345/photo-1739467372234-2aba33f6b7ee.avif"
+          "https://tebi.bubblemusic.dpdns.org/lee-hi/4-only/cover/photo_2025-05-23_14-51-24.jpg"
         }
+        sizes="(min-width: 1024px) 270px , 290px"
         alt="this is image element"
         fill
       />

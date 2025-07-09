@@ -33,7 +33,14 @@ function NavListUlWrapper({ open, setOpen, children }: NavListUlWrapperProp) {
             tabIndex={open ? 0 : -1}
           >
             <div className="logo relative   w-[90px] h-[70px]    bg-gradient-to-r">
-              <Image src={"/bubblelogo.svg"} fill alt="logo" className="" />
+              <Image
+                src={"/bubblelogo.svg"}
+                fill
+                priority={false}
+                sizes="70px"
+                alt="logo"
+                className=""
+              />
             </div>
           </button>
         </li>

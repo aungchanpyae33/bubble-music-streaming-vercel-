@@ -22,7 +22,7 @@ function useTest(
           setnavi((pre) => {
             const number = pre.number === -1 ? searchData - 1 : pre.number - 1;
             if (number >= 0) {
-              copyRef!.value = data[number].title;
+              copyRef!.value = data[number].name;
             }
 
             return {
@@ -34,7 +34,7 @@ function useTest(
           setnavi((pre) => {
             const number = pre.number === searchData - 1 ? -1 : pre.number + 1;
             if (number >= 0) {
-              copyRef!.value = data[number].title;
+              copyRef!.value = data[number].name;
             }
 
             return {

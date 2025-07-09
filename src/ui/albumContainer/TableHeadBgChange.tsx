@@ -38,7 +38,7 @@ function TableHeadBgChange({ children }: { children: React.ReactNode }) {
       observer.disconnect();
     };
   }, []);
-  console.log(isStuck);
+
   return (
     <>
       <div className=" w-full h-[1px]" ref={stickyRef}></div>
