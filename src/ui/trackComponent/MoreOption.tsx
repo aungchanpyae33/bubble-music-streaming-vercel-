@@ -1,19 +1,26 @@
 "use client";
 import { EllipsisVertical } from "lucide-react";
 import IconWrapper from "../general/IconWrapper";
-import { useContext, useRef, useState } from "react";
+import { useContext, useRef } from "react";
 import OutterClick from "@/lib/OutterClick";
 import ToggleContent from "./ToggleContent";
 import { DisableScroll } from "@/lib/CustomHooks/DisableScroll";
-import AddSongContentWrapper from "./AddSongContentWrapper";
-import AddSongContent from "./AddSongContent";
 import { ContextMoreOption } from "./MoreOptionContext";
 import { createPortal } from "react-dom";
 import ContextToggleContent from "./ContextToggleContent";
 import ContentChild from "./ContentChild";
+import SubOptionToggle from "./SubOptionToggle";
+import SubOpenContentWrapper from "./SubOpenContentWrapper";
 DisableScroll;
-interface MoreOptionProps extends React.ComponentProps<"div"> {}
-function MoreOption({ className }: MoreOptionProps) {
+interface MoreOptionProps extends React.ComponentProps<"div"> {
+  targetElement: React.ReactNode;
+  subOptionElement?: React.ReactNode;
+}
+function MoreOption({
+  className,
+  targetElement,
+  subOptionElement,
+}: MoreOptionProps) {
   const { show, setShow } = useContext(ContextMoreOption);
   const parentRef = useRef<HTMLDivElement>(null);
   const ignonreOutterClickRef = useRef<HTMLDivElement>(null);
@@ -33,22 +40,17 @@ function MoreOption({ className }: MoreOptionProps) {
       {show &&
         typeof window !== "undefined" &&
         createPortal(
-          <ContextToggleContent>
-            <ToggleContent
-              parentRef={parentRef}
-              ref={ignonreOutterClickRef}
-              contentChild={<ContentChild />}
-            >
-              <AddSongContentWrapper>
-                <AddSongContent />
-              </AddSongContentWrapper>
-            </ToggleContent>
-          </ContextToggleContent>,
-
+          <ToggleContent parentRef={parentRef} ref={ignonreOutterClickRef}>
+            <ContentChild>{targetElement}</ContentChild>
+          </ToggleContent>,
           document.body
         )}
     </div>
   );
 }
-
+// {subOptionElement ? (
+//               <SubOpenContentWrapper>
+//                 <SubOptionToggle>{subOptionElement}</SubOptionToggle>
+//               </SubOpenContentWrapper>
+//             ) : null}
 export default MoreOption;

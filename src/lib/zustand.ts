@@ -1,4 +1,4 @@
-import { PostgrestError } from "@supabase/supabase-js";
+import { artists, getSongsReturn, song } from "@/database/data";
 import { RefObject } from "react";
 import { persist } from "zustand/middleware";
 import { createWithEqualityFn as create } from "zustand/traditional";
@@ -153,13 +153,6 @@ export interface isChildOpen {
 
 export interface isChildOpenAction {
   setIsChildOpen: (value: isChildOpen["isChildOpen"]) => void;
-}
-
-export interface isBoxOpen {
-  isBoxOpen: boolean;
-}
-export interface setIsBoxOpen {
-  setIsBoxOpen: (value: boolean) => void;
 }
 
 // need to select them with object key as there will be used for many component
@@ -386,14 +379,7 @@ export const usePlaylistFolder = create<
     })),
 }));
 
-export const useShowAddBox = create<isBoxOpen & setIsBoxOpen>((set) => ({
-  isBoxOpen: false,
-  setIsBoxOpen: (value: boolean) =>
-    set(() => ({
-      isBoxOpen: value,
-    })),
-}));
-
+// only for trigger
 export const useSongsStoreData = create<addSongProps & addSongAction>(
   (set) => ({
     addSong: {},
@@ -440,3 +426,39 @@ export function releasePairStore(pairId: string) {
     storeMap.delete(pairId);
   }
 }
+export interface songExist {
+  playlistId: string;
+  songId: number;
+}
+export interface isSongExist {
+  isSongExist: songExist | {};
+}
+export interface songExistAction {
+  setIsSongExist: (songExist: songExist | {}) => void;
+}
+export const useIsExistSongs = create<isSongExist & songExistAction>((set) => ({
+  isSongExist: {},
+  setIsSongExist: (value) =>
+    set(() => ({
+      isSongExist: value,
+    })),
+}));
+
+export interface addSongsToPlaylistProps {
+  songId: number;
+}
+export interface songsToPlaylist {
+  songsToPlaylist: addSongsToPlaylistProps | {};
+}
+export interface addSongsToPlaylist {
+  addSongsToPlaylist: (value: addSongsToPlaylistProps | {}) => void;
+}
+export const useAddSongsToPlaylist = create<
+  songsToPlaylist & addSongsToPlaylist
+>((set) => ({
+  songsToPlaylist: {},
+  addSongsToPlaylist: (value) =>
+    set(() => ({
+      songsToPlaylist: value,
+    })),
+}));

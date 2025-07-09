@@ -5,11 +5,11 @@ import ToggleHeartButton from "./ToggleHeartButton";
 import { artists, getSongsReturn } from "@/database/data";
 import MoreOptionContext from "./MoreOptionContext";
 import MoreOption from "./MoreOption";
-import PlaylistInfoContext from "./PlaylistInfoContext";
 import LeadingRelax from "../general/LeadingRelax";
-
 import UnderLineLinkHover from "../general/UnderLineLinkHover";
 import ArtistWrapper from "../general/ArtistWrapper";
+import PlaylistInfoContextTrack from "./PlaylistInfoContextTrack";
+import TrackItemContainer from "./TrackItemContainer";
 
 function Track({
   name,
@@ -111,16 +111,16 @@ function Track({
         {TimeFormat(duration)}
       </td>
       <td className="w-14 text-center px-2">
-        <PlaylistInfoContext
+        <PlaylistInfoContextTrack
           songId={songId}
           playlistId={playlistSong!.id!}
-          is_owner={playlistSong!.is_owner!}
+          source={playlistSong?.source || "none"}
           isLike={like}
         >
           <MoreOptionContext>
-            <MoreOption />
+            <MoreOption targetElement={<TrackItemContainer />} />
           </MoreOptionContext>
-        </PlaylistInfoContext>
+        </PlaylistInfoContextTrack>
       </td>
     </tr>
   );

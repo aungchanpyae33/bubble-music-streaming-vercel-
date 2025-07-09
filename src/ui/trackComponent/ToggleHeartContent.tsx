@@ -1,13 +1,13 @@
-// "use client";
+"use client";
 import { useContext, useEffect } from "react";
-import { ContextPlaylistInfo } from "./PlaylistInfoContext";
 import { getPairStore, releasePairStore } from "@/lib/zustand";
 import { removeLike } from "@/actions/removeLike";
 import { addLike } from "@/actions/addLike";
 import { useKindeAuth } from "@kinde-oss/kinde-auth-nextjs";
+import { ContextPlaylistInfoTrack } from "./PlaylistInfoContextTrack";
 
 function ToggleHeartContent() {
-  const { isLike, songId } = useContext(ContextPlaylistInfo);
+  const { isLike, songId } = useContext(ContextPlaylistInfoTrack);
   const { user } = useKindeAuth();
   const userId = user && user.id;
   const store = getPairStore(`${songId}`);

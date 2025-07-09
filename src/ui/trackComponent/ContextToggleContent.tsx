@@ -1,4 +1,12 @@
-import { createContext, Dispatch, SetStateAction, useState } from "react";
+"use client";
+import {
+  createContext,
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useState,
+} from "react";
+import { ContextMoreOption } from "./MoreOptionContext";
 
 interface contextProps {
   hidden: boolean;
@@ -9,13 +17,8 @@ export const ToggleContentContext = createContext<contextProps>({
   setHidden: () => {},
 });
 
-function ContextToggleContent({
-  children,
-  show,
-}: {
-  children: React.ReactNode;
-  show: boolean;
-}) {
+function ContextToggleContent({ children }: { children: React.ReactNode }) {
+  const { show } = useContext(ContextMoreOption);
   const [hidden, setHidden] = useState(show);
   const value = { hidden, setHidden };
   return (
