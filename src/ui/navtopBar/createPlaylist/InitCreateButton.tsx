@@ -9,10 +9,10 @@ function InitCreateButton({
   setOpen,
 }: {
   open: boolean;
-  setOpen: React.Dispatch<SetStateAction<boolean>>;
+  setOpen: (value: boolean) => void;
 }) {
   const closeElementRef = useRef<HTMLButtonElement>(null);
-  console.log("open", open);
+  // console.log("open", open);
   const setIsChildOpen = useIsChildOpenCloseFunction(
     (state: isChildOpenAction) => state.setIsChildOpen
   );
