@@ -1,6 +1,7 @@
 import { PostgrestError } from "@supabase/supabase-js";
 import { supabase } from "./supabase";
 import { createClient } from "./server";
+import { Database } from "../../database.types";
 export interface Movie {
   id: number;
   name: string;
@@ -12,13 +13,10 @@ export interface MovieRe {
 export interface getProps {
   id: string;
   name: string;
-  type: "playlist" | "album" | "artist";
+  source: Database["public"]["Enums"]["media_source_type"];
+  type: Database["public"]["Enums"]["media_item_type"];
 }
 
-export interface getPropsTest {
-  id: string;
-  name: string;
-}
 export interface getPropItem {
   data: {
     id: string;
@@ -83,12 +81,14 @@ export const getLike = async (id: string) => {
 //   return chunkData;
 // };
 export const get = async () => {
-  const supabase = await createClient();
-  const { data: songs, error } = await supabase
-    .from("playlists")
-    .select("id,name");
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase.rpc("get_all_media_items");
 
-  return { data: songs, error };
+    return { data, error };
+  } catch (error) {
+    return { data: null, error };
+  }
 };
 
 export const getRecent = async () => {
