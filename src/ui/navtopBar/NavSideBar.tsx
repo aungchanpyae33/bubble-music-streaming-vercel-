@@ -9,7 +9,7 @@ import { getUserPlaylist } from "@/database/data";
 async function NavSideBar() {
   const deviceFromUserAgent = await DeviceCheck();
   const { data } = await getUserPlaylist();
-
+  if (!data) return null;
   return (
     <>
       <div

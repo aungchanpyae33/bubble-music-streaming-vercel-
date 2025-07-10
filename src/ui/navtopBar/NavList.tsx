@@ -12,7 +12,7 @@ interface childrenProp {
   childrenExplore: ReactNode;
   childrenLive: ReactNode;
   childrenPlaylist: ReactNode;
-  songs: getProps[] | null;
+  songs: getProps[];
 }
 function NavList({
   childrenExplore,
