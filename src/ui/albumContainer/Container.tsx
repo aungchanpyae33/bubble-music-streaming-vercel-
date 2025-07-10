@@ -1,17 +1,18 @@
 import React from "react";
-import PlaylistContainer from "../playlist/PlaylistContainer";
 import EdgeFade from "../playlist/EdgeFade";
-import { getProps, getPropsTest } from "@/database/data";
+import { getProps } from "@/database/data";
 import ContextContainer from "./ContextContainer";
 import PlaylistWrapper from "./PlaylistWrapper";
 import ArrowNaviContainer from "./ArrowNaviContainer";
+import SonglistsContainer from "../playlist/SonglistsContainer";
 function Container({
   songs,
   description,
 }: {
-  songs: getPropsTest[];
+  songs: getProps[];
   description: string;
 }) {
+  const source = "create";
   return (
     <ContextContainer>
       <div aria-label="song name is" className=" justify-between px-4  flex ">
@@ -25,11 +26,12 @@ function Container({
           {songs &&
             songs.map((item, index) => {
               return (
-                <PlaylistContainer
+                <SonglistsContainer
                   index={index}
                   key={item.id}
                   songs={item.name}
                   playlistId={item.id}
+                  source={source}
                   description={description}
                 />
               );

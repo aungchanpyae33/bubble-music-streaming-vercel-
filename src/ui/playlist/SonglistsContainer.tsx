@@ -6,15 +6,24 @@ import DirectPlayButton from "./DirectPlayButton";
 import UnderLineLinkHover from "../general/UnderLineLinkHover";
 import MoreOptionContext from "../trackComponent/MoreOptionContext";
 import MoreOption from "../trackComponent/MoreOption";
+import PlaylistContainerOption from "./playlistOption/PlaylistContainerOption";
+import ContextSongListContainer from "./playlistOption/ContextSongListContainer";
 
 interface prop {
   songs: string;
   description: string;
   index: number;
-  testId: string;
+  playlistId: string;
+  source: "create" | "reference" | "none";
 }
 
-function PlaylistContainer({ songs, description, index, testId }: prop) {
+function SonglistsContainer({
+  songs,
+  description,
+  index,
+  playlistId,
+  source,
+}: prop) {
   return (
     <div
       role={`cell${index + 1}`}
@@ -23,14 +32,15 @@ function PlaylistContainer({ songs, description, index, testId }: prop) {
       )}
     >
       <Link
-        href={`album/${testId}`}
+        href={`playlist/${playlistId}`}
         prefetch={false}
-        className="flex relative w-full imageContainer rounded-[4.5px] overflow-hidden    before:block before:pb-[100%] group hover:brightness-75"
+        className="flex relative w-full imageContainer rounded overflow-hidden    before:block before:pb-[100%] group hover:brightness-75"
       >
         <Image
-          src="https://s3.tebi.io/test1345/20250412_1240_Smiling%20Girl%20with%20Headphones_simple_compose_01jrm9wdxjegbtgsevnsbfjd63%20%286%29%20%282%29.png"
+          src="https://tebi.bubblemusic.dpdns.org/lee-hi/4-only/cover/photo_2025-05-23_14-51-24.jpg"
           fill
           alt="this is image element"
+          sizes="(min-width: 1024px) 185px, (min-width: 768px) 175px , 160px"
           priority={true}
           className=""
         />
@@ -41,11 +51,13 @@ function PlaylistContainer({ songs, description, index, testId }: prop) {
             e.stopPropagation();
           }}
         >
-          <MoreOptionContext>
-            <MoreOption />
-          </MoreOptionContext>
+          <ContextSongListContainer id={playlistId} source={source}>
+            <MoreOptionContext>
+              <MoreOption targetElement={<PlaylistContainerOption />} />
+            </MoreOptionContext>
+          </ContextSongListContainer>
         </span>
-        <DirectPlayButton playListId={testId} index={index} />
+        <DirectPlayButton playListId={playlistId} />
       </Link>
       <div className=" w-full">
         <UnderLineLinkHover
@@ -63,4 +75,4 @@ function PlaylistContainer({ songs, description, index, testId }: prop) {
   );
 }
 
-export default PlaylistContainer;
+export default SonglistsContainer;
