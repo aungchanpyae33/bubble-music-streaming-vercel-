@@ -12,7 +12,6 @@ function Container({
   songs: getProps[];
   description: string;
 }) {
-  const source = "create";
   return (
     <ContextContainer>
       <div aria-label="song name is" className=" justify-between px-4  flex ">
@@ -29,9 +28,10 @@ function Container({
                 <SonglistsContainer
                   index={index}
                   key={item.id}
-                  songs={item.name}
-                  playlistId={item.id}
-                  source={source}
+                  name={item.name}
+                  id={item.id}
+                  source={item.source}
+                  type={item.type}
                   description={description}
                 />
               );

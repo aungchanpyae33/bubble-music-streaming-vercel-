@@ -8,22 +8,21 @@ import MoreOptionContext from "../trackComponent/MoreOptionContext";
 import MoreOption from "../trackComponent/MoreOption";
 import PlaylistContainerOption from "./playlistOption/PlaylistContainerOption";
 import ContextSongListContainer from "./playlistOption/ContextSongListContainer";
+import { getProps } from "@/database/data";
 
-interface prop {
-  songs: string;
+interface SonglistsContainerProps extends getProps {
   description: string;
   index: number;
-  playlistId: string;
-  source: "create" | "reference" | "none";
 }
 
 function SonglistsContainer({
-  songs,
   description,
   index,
-  playlistId,
+  id,
+  name,
+  type,
   source,
-}: prop) {
+}: SonglistsContainerProps) {
   return (
     <div
       role={`cell${index + 1}`}
@@ -32,7 +31,7 @@ function SonglistsContainer({
       )}
     >
       <Link
-        href={`playlist/${playlistId}`}
+        href={`${type}/${id}`}
         prefetch={false}
         className="flex relative w-full imageContainer rounded overflow-hidden    before:block before:pb-[100%] group hover:brightness-75"
       >
@@ -51,13 +50,13 @@ function SonglistsContainer({
             e.stopPropagation();
           }}
         >
-          <ContextSongListContainer id={playlistId} source={source}>
+          <ContextSongListContainer id={id} source={source}>
             <MoreOptionContext>
               <MoreOption targetElement={<PlaylistContainerOption />} />
             </MoreOptionContext>
           </ContextSongListContainer>
         </span>
-        <DirectPlayButton playListId={playlistId} />
+        <DirectPlayButton playListId={id} />
       </Link>
       <div className=" w-full">
         <UnderLineLinkHover
@@ -65,7 +64,7 @@ function SonglistsContainer({
           prefetch={false}
           className=" block leading-relaxed w-full truncate text-start  "
         >
-          {songs}
+          {name}
         </UnderLineLinkHover>
         <span className=" block leading-relaxed w-full truncate text-start text-sm text-zinc-400">
           aspea,baby monster,bts,newjeans
