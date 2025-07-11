@@ -6,12 +6,7 @@ import { useEffect, useState } from "react";
 import { addLike } from "@/actions/addLike";
 import { removeLike } from "@/actions/removeLike";
 import { useKindeAuth } from "@kinde-oss/kinde-auth-nextjs";
-import {
-  getPairStore,
-  releasePairStore,
-  toggleLikeAction,
-  useLikeStoreData,
-} from "@/lib/zustand";
+import { usePairStoreZustand } from "@/lib/CustomHooks/PairStoreZustand";
 
 function ToggleHeartButton({
   like,
@@ -25,7 +20,8 @@ function ToggleHeartButton({
   const userId = user && user.id;
   const addLikeAction = addLike.bind(null, userId, songId);
 
-  const store = getPairStore(`${songId}`);
+  // const store = getPairStore(`${songId}`);
+  const store = usePairStoreZustand(`${songId}`);
   const setLike = store((s) => s.setLike);
 
   const removeLikeAction = removeLike.bind(null, userId, songId);
@@ -33,6 +29,7 @@ function ToggleHeartButton({
   useEffect(() => {
     if (likeZustand !== undefined) setIsLike(likeZustand);
   }, [likeZustand]);
+
   async function handleLike() {
     if (isLike) {
       const { error } = await removeLikeAction();
@@ -53,11 +50,6 @@ function ToggleHeartButton({
     }
   }
 
-  useEffect(() => {
-    return () => {
-      releasePairStore(`${songId}`);
-    };
-  }, [songId]);
   return (
     <button
       className=" group-hover:opacity-100 opacity-0 group-focus-within:opacity-100 "

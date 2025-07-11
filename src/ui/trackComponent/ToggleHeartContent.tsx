@@ -1,28 +1,21 @@
 "use client";
-import { useContext, useEffect } from "react";
-import { getPairStore, releasePairStore } from "@/lib/zustand";
+import { useContext } from "react";
 import { removeLike } from "@/actions/removeLike";
 import { addLike } from "@/actions/addLike";
 import { useKindeAuth } from "@kinde-oss/kinde-auth-nextjs";
 import { ContextPlaylistInfoTrack } from "./PlaylistInfoContextTrack";
+import { usePairStoreZustand } from "@/lib/CustomHooks/PairStoreZustand";
 
 function ToggleHeartContent() {
   const { isLike, songId } = useContext(ContextPlaylistInfoTrack);
   const { user } = useKindeAuth();
   const userId = user && user.id;
-  const store = getPairStore(`${songId}`);
+  const store = usePairStoreZustand(`${songId}`);
   const like = store((s) => s.like);
   const setLike = store((s) => s.setLike);
   const likeOutput = like === undefined ? isLike : like;
-
   const removeLikeAction = removeLike.bind(null, userId, songId);
   const addLikeAction = addLike.bind(null, userId, songId);
-
-  useEffect(() => {
-    return () => {
-      releasePairStore(`${songId}`);
-    };
-  }, [songId]);
 
   async function handleLike() {
     if (likeOutput) {
