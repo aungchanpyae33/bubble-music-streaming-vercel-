@@ -33,7 +33,7 @@ function SonglistsContainer({
       <Link
         href={`${type}/${id}`}
         prefetch={false}
-        className="flex relative w-full imageContainer rounded overflow-hidden    before:block before:pb-[100%] group hover:brightness-75"
+        className="flex relative w-full imageContainer  rounded overflow-hidden    before:block before:pb-[100%] group "
       >
         <Image
           src="https://tebi.bubblemusic.dpdns.org/lee-hi/4-only/cover/photo_2025-05-23_14-51-24.jpg"
@@ -41,7 +41,7 @@ function SonglistsContainer({
           alt="this is image element"
           sizes="(min-width: 1024px) 185px, (min-width: 768px) 175px , 160px"
           priority={true}
-          className=""
+          className=" group-hover:brightness-75 "
         />
         <span
           className=" absolute top-2 right-2 has-hover:opacity-0 has-hover:group-hover:opacity-100 has-hover:transition-opacity has-hover:duration-150"
