@@ -3,11 +3,16 @@ import { useContext } from "react";
 import { removeLike } from "@/actions/removeLike";
 import { addLike } from "@/actions/addLike";
 import { useKindeAuth } from "@kinde-oss/kinde-auth-nextjs";
-import { ContextPlaylistInfoTrack } from "./PlaylistInfoContextTrack";
 import { usePairStoreZustand } from "@/lib/CustomHooks/PairStoreZustand";
+import OptionIconEl from "../general/optionBox/OptionIconEl";
+import IconWrapper from "../general/IconWrapper";
+import { Heart } from "lucide-react";
+import clsx from "clsx";
+import OptionItem from "../general/optionBox/OptionItem";
+import { InfoTrackContext } from "./ContextInfoTrack";
 
 function ToggleHeartContent() {
-  const { isLike, songId } = useContext(ContextPlaylistInfoTrack);
+  const { isLike, songId } = useContext(InfoTrackContext);
   const { user } = useKindeAuth();
   const userId = user && user.id;
   const store = usePairStoreZustand(`${songId}`);
@@ -35,14 +40,21 @@ function ToggleHeartContent() {
     }
   }
 
-  return likeOutput ? (
-    <button className=" h-10" onClick={handleLike}>
-      Remove like
-    </button>
-  ) : (
-    <button className=" h-10" onClick={handleLike}>
-      add like
-    </button>
+  return (
+    <OptionItem>
+      <button className="flex items-center" onClick={handleLike}>
+        <OptionIconEl>
+          <IconWrapper
+            Icon={Heart}
+            size="small"
+            className={clsx("", {
+              "fill-white": likeOutput,
+            })}
+          />
+        </OptionIconEl>
+        <span>{likeOutput ? "Remove like" : "Add like"}</span>
+      </button>
+    </OptionItem>
   );
 }
 export default ToggleHeartContent;

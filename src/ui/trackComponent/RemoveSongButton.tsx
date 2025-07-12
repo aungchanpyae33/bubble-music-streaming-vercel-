@@ -2,38 +2,45 @@
 import { useContext } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { removeSongsFromPlaylist } from "@/actions/removeSongsFromPlaylist";
-import { ContextPlaylistInfoTrack } from "./PlaylistInfoContextTrack";
 import { ContextMoreOption } from "./MoreOptionContext";
+import OptionItem from "../general/optionBox/OptionItem";
+import { InfoTrackContext } from "./ContextInfoTrack";
 
-function RemoveSongButton() {
+function RemoveSongButtonChild({ children }: { children: React.ReactNode }) {
   const queryClient = useQueryClient();
   const { setShow } = useContext(ContextMoreOption);
-  const { songId, playlistId, source } = useContext(ContextPlaylistInfoTrack);
-
+  const { songId, id } = useContext(InfoTrackContext);
+  // console.log(playlistId, "rel");
   const mutation = useMutation({
-    mutationFn: async () => await removeSongsFromPlaylist(playlistId, songId!),
+    mutationFn: async () => await removeSongsFromPlaylist(id, songId!),
     onSuccess: (returnData, variables, context) => {
       const { data, error } = returnData;
       if (!data || error) return;
       const mutatedData = data[0];
       if (!error) {
-        queryClient.setQueryData(["playlist", playlistId], mutatedData);
+        queryClient.setQueryData(["playlist", id], mutatedData);
       }
       setShow(false);
     },
   });
-  if (source !== "create") return null;
+
   const handleRemove = () => {
     mutation.mutate();
   };
 
   return (
-    <div>
-      <button onClick={handleRemove} className="h-10">
-        remove from playlist
+    <OptionItem>
+      <button onClick={handleRemove} className="flex items-center">
+        {children}
       </button>
-    </div>
+    </OptionItem>
   );
+}
+
+function RemoveSongButton({ children }: { children: React.ReactNode }) {
+  const { source } = useContext(InfoTrackContext);
+  if (source !== "create") return null;
+  return <RemoveSongButtonChild>{children}</RemoveSongButtonChild>;
 }
 
 export default RemoveSongButton;

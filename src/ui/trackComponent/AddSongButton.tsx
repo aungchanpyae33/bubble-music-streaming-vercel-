@@ -1,27 +1,29 @@
 "use client";
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { addSongsToPlaylist, useAddSongsToPlaylist } from "@/lib/zustand";
-import { ContextPlaylistInfoTrack } from "./PlaylistInfoContextTrack";
+
 import { ContextMoreOption } from "./MoreOptionContext";
-function AddSongButton() {
-  const { songId } = useContext(ContextPlaylistInfoTrack);
+import OptionItem from "../general/optionBox/OptionItem";
+import { InfoTrackContext } from "./ContextInfoTrack";
+function AddSongButton({ children }: { children: React.ReactNode }) {
+  const { songId } = useContext(InfoTrackContext);
 
   const addSongsToPlaylist = useAddSongsToPlaylist(
     (state: addSongsToPlaylist) => state.addSongsToPlaylist
   );
   const { setShow } = useContext(ContextMoreOption);
   return (
-    <div>
+    <OptionItem>
       <button
         onClick={() => {
           addSongsToPlaylist({ songId: songId });
           setShow(false);
         }}
-        className=" h-10"
+        className="flex items-center"
       >
-        add to playlist
+        {children}
       </button>
-    </div>
+    </OptionItem>
   );
 }
 
