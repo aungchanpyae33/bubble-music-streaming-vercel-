@@ -39,7 +39,7 @@ function RemoveSongButtonChild() {
           <IconWrapper size="medium" Icon={ListX} />
         </OptionIconEl>
 
-        <span>remove </span>
+        <span>remove from playlist </span>
       </OptionButton>
     </OptionItem>
   );
