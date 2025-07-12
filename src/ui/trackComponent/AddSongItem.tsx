@@ -6,11 +6,8 @@ import {
   useAddSongsToPlaylist,
   useIsExistSongs,
 } from "@/lib/zustand";
-import { useContext } from "react";
-import { ContextMoreOption } from "./MoreOptionContext";
 import { checkSongsBeforeAdd } from "@/actions/checkSongsBeforeAdd";
 import useAddSongMutate from "@/lib/CustomHooks/AddSongMutate";
-import { ContextPlaylistInfoTrack } from "./PlaylistInfoContextTrack";
 
 function AddSongItem({
   playlistSongs,
@@ -32,10 +29,10 @@ function AddSongItem({
   ) as addSongsToPlaylistProps;
 
   const mutation = useAddSongMutate({ songId: songId, playlistId: playlistId });
-  const { setShow } = useContext(ContextMoreOption);
+
   async function handleAdd() {
     addSongsToPlaylist({});
-    setShow(false);
+
     const { exists } = await checkSongsBeforeAdd({
       playlistId: playlistId,
       songId: songId,
