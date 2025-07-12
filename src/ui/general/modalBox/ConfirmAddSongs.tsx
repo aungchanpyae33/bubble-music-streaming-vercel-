@@ -8,16 +8,15 @@ import {
 } from "@/lib/zustand";
 import { useEffect } from "react";
 import { createPortal } from "react-dom";
-function ConfirmAddSongs() {
+
+function ConfirmAddSongsChild() {
   const { playlistId, songId } = useIsExistSongs(
     (state: isSongExist) => state.isSongExist
   ) as songExist;
-
   const setIsSongExist = useIsExistSongs(
     (state: songExistAction) => state.setIsSongExist
   );
   const mutation = useAddSongMutate({ songId: songId, playlistId: playlistId });
-  // If no playlist or song ID, do not render the modal
   function handleAdd() {
     mutation.mutate();
   }
@@ -28,7 +27,6 @@ function ConfirmAddSongs() {
     }
   }, [mutation, setIsSongExist]);
 
-  if (!playlistId || !songId) return null;
   return (
     <div>
       {playlistId &&
@@ -52,6 +50,13 @@ function ConfirmAddSongs() {
         )}
     </div>
   );
+}
+function ConfirmAddSongs() {
+  const { playlistId, songId } = useIsExistSongs(
+    (state: isSongExist) => state.isSongExist
+  ) as songExist;
+  if (!playlistId || !songId) return null;
+  return <ConfirmAddSongsChild />;
 }
 
 export default ConfirmAddSongs;
