@@ -6,7 +6,10 @@ import { ContextMoreOption } from "./MoreOptionContext";
 import OptionItem from "../general/optionBox/OptionItem";
 import { InfoTrackContext } from "./ContextInfoTrack";
 import OptionButton from "../general/optionBox/OptionButton";
-function AddSongButton({ children }: { children: React.ReactNode }) {
+import OptionIconEl from "../general/optionBox/OptionIconEl";
+import { ListPlus } from "lucide-react";
+import IconWrapper from "../general/IconWrapper";
+function AddSongButton() {
   const { songId } = useContext(InfoTrackContext);
 
   const addSongsToPlaylist = useAddSongsToPlaylist(
@@ -21,7 +24,10 @@ function AddSongButton({ children }: { children: React.ReactNode }) {
           setShow(false);
         }}
       >
-        {children}
+        <OptionIconEl>
+          <IconWrapper size="medium" Icon={ListPlus} />
+        </OptionIconEl>
+        <span>Add to the playlist</span>
       </OptionButton>
     </OptionItem>
   );

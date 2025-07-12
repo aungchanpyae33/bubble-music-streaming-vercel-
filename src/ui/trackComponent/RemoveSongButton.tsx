@@ -6,8 +6,11 @@ import { ContextMoreOption } from "./MoreOptionContext";
 import OptionItem from "../general/optionBox/OptionItem";
 import { InfoTrackContext } from "./ContextInfoTrack";
 import OptionButton from "../general/optionBox/OptionButton";
+import OptionIconEl from "../general/optionBox/OptionIconEl";
+import IconWrapper from "../general/IconWrapper";
+import { ListX } from "lucide-react";
 
-function RemoveSongButtonChild({ children }: { children: React.ReactNode }) {
+function RemoveSongButtonChild() {
   const queryClient = useQueryClient();
   const { setShow } = useContext(ContextMoreOption);
   const { songId, id } = useContext(InfoTrackContext);
@@ -31,15 +34,21 @@ function RemoveSongButtonChild({ children }: { children: React.ReactNode }) {
 
   return (
     <OptionItem>
-      <OptionButton onClick={handleRemove}>{children}</OptionButton>
+      <OptionButton onClick={handleRemove}>
+        <OptionIconEl>
+          <IconWrapper size="medium" Icon={ListX} />
+        </OptionIconEl>
+
+        <span>remove </span>
+      </OptionButton>
     </OptionItem>
   );
 }
 
-function RemoveSongButton({ children }: { children: React.ReactNode }) {
+function RemoveSongButton() {
   const { source } = useContext(InfoTrackContext);
   if (source !== "create") return null;
-  return <RemoveSongButtonChild>{children}</RemoveSongButtonChild>;
+  return <RemoveSongButtonChild />;
 }
 
 export default RemoveSongButton;
