@@ -1,4 +1,4 @@
-import { ListPlus, ListX, OptionIcon } from "lucide-react";
+import { ListPlus, ListStart, ListX, OptionIcon } from "lucide-react";
 import IconWrapper from "../general/IconWrapper";
 import AddSongButton from "./AddSongButton";
 
@@ -9,6 +9,7 @@ import GoToArtist from "../general/optionBox/GoToArtist";
 import GoToAlbum from "../general/optionBox/GoToAlbum";
 import ShareButton from "../general/optionBox/ShareButton";
 import OptionContainer from "../general/optionBox/OptionContainer";
+import AddToQueeue from "../general/optionBox/AddToQueeue";
 
 function TrackItemContainer() {
   return (
@@ -19,7 +20,13 @@ function TrackItemContainer() {
         </OptionIconEl>
         <span>Add to the playlist</span>
       </AddSongButton>
-
+      <AddToQueeue
+        iconEl={
+          <OptionIconEl>
+            <IconWrapper size="medium" Icon={ListStart} />
+          </OptionIconEl>
+        }
+      />
       <RemoveSongButton>
         <OptionIconEl>
           <IconWrapper size="medium" Icon={ListX} />
