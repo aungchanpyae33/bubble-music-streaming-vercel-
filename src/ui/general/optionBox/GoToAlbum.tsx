@@ -1,3 +1,4 @@
+"use client";
 import { ContextMoreOption } from "@/ui/trackComponent/MoreOptionContext";
 import { useContext } from "react";
 import OptionItem from "./OptionItem";
