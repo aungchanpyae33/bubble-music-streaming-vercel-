@@ -8,8 +8,8 @@ import MoreOption from "./MoreOption";
 import LeadingRelax from "../general/LeadingRelax";
 import UnderLineLinkHover from "../general/UnderLineLinkHover";
 import ArtistWrapper from "../general/ArtistWrapper";
-import PlaylistInfoContextTrack from "./PlaylistInfoContextTrack";
 import TrackItemContainer from "./TrackItemContainer";
+import ContextInfoTrack from "./ContextInfoTrack";
 
 function Track({
   name,
@@ -111,16 +111,18 @@ function Track({
         {TimeFormat(duration)}
       </td>
       <td className="w-14 text-center px-2">
-        <PlaylistInfoContextTrack
+        <ContextInfoTrack
           songId={songId}
-          playlistId={playlistSong!.id!}
+          id={playlistSong!.id!}
+          artistId={artists[0].id}
+          albumId={albumId}
           source={playlistSong?.source || "none"}
           isLike={like}
         >
           <MoreOptionContext>
             <MoreOption targetElement={<TrackItemContainer />} />
           </MoreOptionContext>
-        </PlaylistInfoContextTrack>
+        </ContextInfoTrack>
       </td>
     </tr>
   );

@@ -11,8 +11,8 @@ import MoreOptionContext from "../trackComponent/MoreOptionContext";
 import MoreOption from "../trackComponent/MoreOption";
 import { useRef } from "react";
 import PlaceHolderQueue from "./PlaceHolderQueue";
-import PlaylistInfoContextTrack from "../trackComponent/PlaylistInfoContextTrack";
 import TrackItemContainer from "../trackComponent/TrackItemContainer";
+import ContextInfoTrack from "../trackComponent/ContextInfoTrack";
 
 function Queue() {
   const playListArray = useRepeatAndCurrentPlayList(
@@ -72,16 +72,16 @@ function Queue() {
                 {song.name}
               </div>
               <div className="w-[30px]">
-                <PlaylistInfoContextTrack
+                <ContextInfoTrack
                   songId={song.id}
-                  playlistId={playListArray.id}
+                  id={playListArray.id}
                   isLike={song.is_liked}
                   source={playListArray.source || "none"}
                 >
                   <MoreOptionContext>
                     <MoreOption targetElement={<TrackItemContainer />} />
                   </MoreOptionContext>
-                </PlaylistInfoContextTrack>
+                </ContextInfoTrack>
               </div>
             </div>
           </div>
