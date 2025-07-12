@@ -10,6 +10,7 @@ import { Heart } from "lucide-react";
 import clsx from "clsx";
 import OptionItem from "../general/optionBox/OptionItem";
 import { InfoTrackContext } from "./ContextInfoTrack";
+import OptionButton from "../general/optionBox/OptionButton";
 
 function ToggleHeartContent() {
   const { isLike, songId } = useContext(InfoTrackContext);
@@ -42,7 +43,7 @@ function ToggleHeartContent() {
 
   return (
     <OptionItem>
-      <button className="flex items-center" onClick={handleLike}>
+      <OptionButton onClick={handleLike}>
         <OptionIconEl>
           <IconWrapper
             Icon={Heart}
@@ -53,7 +54,7 @@ function ToggleHeartContent() {
           />
         </OptionIconEl>
         <span>{likeOutput ? "Remove like" : "Add like"}</span>
-      </button>
+      </OptionButton>
     </OptionItem>
   );
 }

@@ -5,6 +5,7 @@ import { removeSongsFromPlaylist } from "@/actions/removeSongsFromPlaylist";
 import { ContextMoreOption } from "./MoreOptionContext";
 import OptionItem from "../general/optionBox/OptionItem";
 import { InfoTrackContext } from "./ContextInfoTrack";
+import OptionButton from "../general/optionBox/OptionButton";
 
 function RemoveSongButtonChild({ children }: { children: React.ReactNode }) {
   const queryClient = useQueryClient();
@@ -30,9 +31,7 @@ function RemoveSongButtonChild({ children }: { children: React.ReactNode }) {
 
   return (
     <OptionItem>
-      <button onClick={handleRemove} className="flex items-center">
-        {children}
-      </button>
+      <OptionButton onClick={handleRemove}>{children}</OptionButton>
     </OptionItem>
   );
 }

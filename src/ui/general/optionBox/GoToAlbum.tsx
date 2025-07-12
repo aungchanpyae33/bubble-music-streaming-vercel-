@@ -6,20 +6,26 @@ import OptionIconEl from "./OptionIconEl";
 import { Disc } from "lucide-react";
 import Link from "next/link";
 import IconWrapper from "../IconWrapper";
+import OptionButton from "./OptionButton";
 
 function GoToAlbum() {
   const { albumId } = useContext(InfoTrackContext);
   const { setShow } = useContext(ContextMoreOption);
   return (
     <OptionItem>
-      <button className="flex items-center" onClick={() => setShow(false)}>
-        <OptionIconEl>
-          <IconWrapper size="medium" Icon={Disc} />
-        </OptionIconEl>
-        <Link href={`/album/${albumId}`} prefetch={false}>
+      <OptionButton onClick={() => setShow(false)}>
+        <Link
+          href={`/album/${albumId}`}
+          className="flex items-center"
+          prefetch={false}
+        >
+          <OptionIconEl>
+            <IconWrapper size="medium" Icon={Disc} />
+          </OptionIconEl>
+
           <span>go to the album </span>
         </Link>
-      </button>
+      </OptionButton>
     </OptionItem>
   );
 }

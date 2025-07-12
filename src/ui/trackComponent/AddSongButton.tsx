@@ -5,6 +5,7 @@ import { addSongsToPlaylist, useAddSongsToPlaylist } from "@/lib/zustand";
 import { ContextMoreOption } from "./MoreOptionContext";
 import OptionItem from "../general/optionBox/OptionItem";
 import { InfoTrackContext } from "./ContextInfoTrack";
+import OptionButton from "../general/optionBox/OptionButton";
 function AddSongButton({ children }: { children: React.ReactNode }) {
   const { songId } = useContext(InfoTrackContext);
 
@@ -14,15 +15,14 @@ function AddSongButton({ children }: { children: React.ReactNode }) {
   const { setShow } = useContext(ContextMoreOption);
   return (
     <OptionItem>
-      <button
+      <OptionButton
         onClick={() => {
           addSongsToPlaylist({ songId: songId });
           setShow(false);
         }}
-        className="flex items-center"
       >
         {children}
-      </button>
+      </OptionButton>
     </OptionItem>
   );
 }

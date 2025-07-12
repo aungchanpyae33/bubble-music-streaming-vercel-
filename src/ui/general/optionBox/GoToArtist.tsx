@@ -7,20 +7,26 @@ import IconWrapper from "../IconWrapper";
 import { UserSearch } from "lucide-react";
 import Link from "next/link";
 import { InfoTrackContext } from "@/ui/trackComponent/ContextInfoTrack";
+import OptionButton from "./OptionButton";
 
 function GoToArtist() {
   const { artistId } = useContext(InfoTrackContext);
   const { setShow } = useContext(ContextMoreOption);
   return (
     <OptionItem>
-      <button className="flex items-center" onClick={() => setShow(false)}>
-        <OptionIconEl>
-          <IconWrapper size="medium" Icon={UserSearch} />
-        </OptionIconEl>
-        <Link href={`/artist/${artistId}`} prefetch={false}>
+      <OptionButton onClick={() => setShow(false)}>
+        <Link
+          href={`/artist/${artistId}`}
+          prefetch={false}
+          className="flex items-center"
+        >
+          <OptionIconEl>
+            <IconWrapper size="medium" Icon={UserSearch} />
+          </OptionIconEl>
+
           <span>go to the artist </span>
         </Link>
-      </button>
+      </OptionButton>
     </OptionItem>
   );
 }
