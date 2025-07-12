@@ -1,0 +1,35 @@
+import { useContext } from "react";
+import OptionItem from "@/ui/general/optionBox/OptionItem";
+import OptionButton from "@/ui/general/optionBox/OptionButton";
+import { ContextMoreOption } from "@/ui/trackComponent/MoreOptionContext";
+import OptionIconEl from "@/ui/general/optionBox/OptionIconEl";
+import IconWrapper from "@/ui/general/IconWrapper";
+import { SquarePen } from "lucide-react";
+import { SongListContext } from "@/ui/playlist/playlistOption/ContextSongListContainer";
+
+function EditToPlaylistChild() {
+  const { setShow } = useContext(ContextMoreOption);
+  return (
+    <OptionItem>
+      <OptionButton
+        onClick={() => {
+          setShow(false);
+        }}
+      >
+        <OptionIconEl>
+          <IconWrapper size="medium" Icon={SquarePen} />
+        </OptionIconEl>
+        <span>edit the playlist</span>
+      </OptionButton>
+    </OptionItem>
+  );
+}
+
+function EditToPlaylist() {
+  const { source } = useContext(SongListContext);
+  if (source === "none" || source === "reference") return null;
+
+  return <EditToPlaylistChild />;
+}
+
+export default EditToPlaylist;

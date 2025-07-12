@@ -2,9 +2,9 @@ import React from "react";
 import EdgeFade from "../playlist/EdgeFade";
 import { getProps } from "@/database/data";
 import ContextContainer from "./ContextContainer";
-import PlaylistWrapper from "./PlaylistWrapper";
 import ArrowNaviContainer from "./ArrowNaviContainer";
 import SonglistsContainer from "../playlist/SonglistsContainer";
+import SonglistWrapper from "./SonglistWrapper";
 function Container({
   songs,
   description,
@@ -21,7 +21,7 @@ function Container({
       <div className="relative z-0 max-w-fit">
         <EdgeFade className=" bg-gradient-to-r from-[#0808087f] to-transparent left-0" />
         <EdgeFade className="bg-gradient-to-l from-[#0808087f] to-transparent right-0  " />
-        <PlaylistWrapper>
+        <SonglistWrapper>
           {songs &&
             songs.map((item, index) => {
               return (
@@ -36,7 +36,7 @@ function Container({
                 />
               );
             })}
-        </PlaylistWrapper>
+        </SonglistWrapper>
       </div>
     </ContextContainer>
   );

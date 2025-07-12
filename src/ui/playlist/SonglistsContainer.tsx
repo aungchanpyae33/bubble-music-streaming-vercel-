@@ -1,4 +1,3 @@
-"use client";
 import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
@@ -6,9 +5,9 @@ import DirectPlayButton from "./DirectPlayButton";
 import UnderLineLinkHover from "../general/UnderLineLinkHover";
 import MoreOptionContext from "../trackComponent/MoreOptionContext";
 import MoreOption from "../trackComponent/MoreOption";
-import PlaylistContainerOption from "./playlistOption/PlaylistContainerOption";
 import ContextSongListContainer from "./playlistOption/ContextSongListContainer";
 import { getProps } from "@/database/data";
+import SongListContainerOption from "../general/optionBox/SongListContainerOption";
 
 interface SonglistsContainerProps extends getProps {
   description: string;
@@ -43,19 +42,13 @@ function SonglistsContainer({
           priority={true}
           className=" group-hover:brightness-75 "
         />
-        <span
-          className=" absolute top-2 right-2 has-hover:opacity-0 has-hover:group-hover:opacity-100 has-hover:transition-opacity has-hover:duration-150"
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-          }}
-        >
-          <ContextSongListContainer id={id} source={source}>
-            <MoreOptionContext>
-              <MoreOption targetElement={<PlaylistContainerOption />} />
-            </MoreOptionContext>
-          </ContextSongListContainer>
-        </span>
+
+        <ContextSongListContainer id={id} source={source} type={type}>
+          <MoreOptionContext>
+            <MoreOption targetElement={<SongListContainerOption />} />
+          </MoreOptionContext>
+        </ContextSongListContainer>
+
         <DirectPlayButton playListId={id} />
       </Link>
       <div className=" w-full">
