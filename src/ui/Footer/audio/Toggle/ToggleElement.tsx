@@ -32,7 +32,7 @@ interface toggleElementProp extends React.ComponentProps<"button"> {
   name: string;
   song_time_stamp: Array<number>;
   playlistSong: getSongsReturn | undefined;
-  songId: number;
+  songId: string;
   might_repeat: boolean | undefined;
   uni_id: number | undefined;
   is_liked: boolean;

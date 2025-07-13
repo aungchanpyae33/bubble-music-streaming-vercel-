@@ -6,7 +6,7 @@ const useAddSongMutate = ({
   songId,
 }: {
   playlistId: string;
-  songId: number;
+  songId: string;
 }) => {
   const insertSongsToPlaylistAction = insertSongtoPlaylist.bind(
     null,

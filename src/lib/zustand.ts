@@ -440,7 +440,7 @@ export function releasePairStore(pairId: string) {
 }
 export interface songExist {
   playlistId: string;
-  songId: number;
+  songId: string;
 }
 export interface isSongExist {
   isSongExist: songExist | {};
@@ -457,7 +457,7 @@ export const useIsExistSongs = create<isSongExist & songExistAction>((set) => ({
 }));
 
 export interface addSongsToPlaylistProps {
-  songId: number;
+  songId: string;
 }
 export interface songsToPlaylist {
   songsToPlaylist: addSongsToPlaylistProps | {};

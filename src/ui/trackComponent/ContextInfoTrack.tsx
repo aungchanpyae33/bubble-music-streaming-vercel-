@@ -2,7 +2,7 @@
 import { createContext, ReactNode, SetStateAction, useState } from "react";
 
 interface InfoTrackContextProps {
-  songId: number;
+  songId: string;
   id: string;
   artistId: string;
   albumId: string;
@@ -11,7 +11,7 @@ interface InfoTrackContextProps {
 }
 
 export const InfoTrackContext = createContext<InfoTrackContextProps>({
-  songId: 0,
+  songId: "",
   id: "",
   artistId: "",
   albumId: "",
@@ -28,7 +28,7 @@ function ContextInfoTrack({
   isLike,
 }: {
   children: React.ReactNode;
-  songId: number;
+  songId: string;
   id: string;
   artistId: string;
   albumId: string;

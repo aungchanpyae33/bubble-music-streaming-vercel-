@@ -13,6 +13,8 @@ export interface MovieRe {
 export interface getProps {
   id: string;
   name: string;
+  related_id: string;
+  related_name: string;
   source: Database["public"]["Enums"]["media_source_type"];
   type: Database["public"]["Enums"]["media_item_type"];
 }
@@ -35,7 +37,7 @@ interface album {
   name: string;
 }
 export interface song {
-  id: number;
+  id: string;
   uni_id?: number;
   name: string;
   url: string;
@@ -132,6 +134,7 @@ export const getPlaylistSongs = async (playlistId: string) => {
     const { data, error } = (await supabase.rpc("get_playlist_songs", {
       p_id: playlistId,
     })) as { data: getSongsReturn[] | null; error: any };
+    console.log(data, error);
     return { data, error };
   } catch (error) {
     return { data: null, error };

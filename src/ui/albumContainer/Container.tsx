@@ -33,6 +33,8 @@ function Container({
                   source={item.source}
                   type={item.type}
                   description={description}
+                  related_id={item.related_id}
+                  related_name={item.related_name}
                 />
               );
             })}

@@ -13,7 +13,7 @@ function ToggleHeartButton({
   songId,
 }: {
   like: boolean;
-  songId: number;
+  songId: string;
 }) {
   const [isLike, setIsLike] = useState(like);
   const { user } = useKindeAuth();

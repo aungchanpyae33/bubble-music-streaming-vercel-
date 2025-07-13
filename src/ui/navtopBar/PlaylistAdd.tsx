@@ -53,9 +53,7 @@ function PlaylistAdd({ setSongsData }: PlaylistAddProp) {
                     );
                     console.log(data, error);
                     if (data && data.length > 0) {
-                      setSongsData((pre) => {
-                        return [...pre, ...data];
-                      });
+                      setSongsData(data);
                       addPlaylistFolder(data[0]);
                       setOpen(false);
                     }

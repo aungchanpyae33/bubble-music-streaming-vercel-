@@ -3,7 +3,7 @@
 import { createClient } from "@/database/server";
 import { redirect } from "next/navigation";
 
-export const removeLike = async (userId: string | null, songId: number) => {
+export const removeLike = async (userId: string | null, songId: string) => {
   if (!userId) {
     redirect("/login");
   }

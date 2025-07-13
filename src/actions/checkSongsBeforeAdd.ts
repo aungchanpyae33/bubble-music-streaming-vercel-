@@ -7,7 +7,7 @@ export const checkSongsBeforeAdd = async ({
   songId,
 }: {
   playlistId: string;
-  songId: number;
+  songId: string;
 }) => {
   const supabase = await createClient();
   const { data, error } = await supabase

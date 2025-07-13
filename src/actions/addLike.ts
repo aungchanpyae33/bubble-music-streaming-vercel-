@@ -2,7 +2,7 @@
 import { createClient } from "@/database/server";
 import { redirect } from "next/navigation";
 
-export const addLike = async (userId: string | null, songId: number) => {
+export const addLike = async (userId: string | null, songId: string) => {
   if (!userId) {
     redirect("/login");
   }

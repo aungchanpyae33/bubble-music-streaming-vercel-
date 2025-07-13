@@ -35,7 +35,7 @@ function Track({
   sege: number;
   index: number;
   like: boolean;
-  songId: number;
+  songId: string;
   song_time_stamp: Array<number>;
   artists: artists[];
   albumName: string;

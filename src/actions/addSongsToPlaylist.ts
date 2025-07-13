@@ -4,7 +4,7 @@ import { createClient } from "@/database/server";
 
 export const insertSongtoPlaylist = async (
   playlistId: string,
-  songId: number
+  songId: string
 ) => {
   try {
     const supabase = await createClient();
@@ -12,7 +12,6 @@ export const insertSongtoPlaylist = async (
       p_id: playlistId,
       s_id: songId,
     });
-    console.log(data, error);
     return { data, error };
   } catch (error) {
     return { data: null, error: error };
