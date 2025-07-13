@@ -21,7 +21,7 @@ function GoToAlbum() {
           prefetch={false}
         >
           <OptionIconEl>
-            <IconWrapper size="medium" Icon={Disc} />
+            <IconWrapper size="small" Icon={Disc} />
           </OptionIconEl>
 
           <span>go to the album </span>

@@ -12,7 +12,7 @@ function PlayNextQueue() {
     <OptionItem>
       <OptionButton onClick={() => setShow(false)}>
         <OptionIconEl>
-          <IconWrapper size="medium" Icon={ListStart} />
+          <IconWrapper size="small" Icon={ListStart} />
         </OptionIconEl>
         <span>Add to play next </span>
       </OptionButton>

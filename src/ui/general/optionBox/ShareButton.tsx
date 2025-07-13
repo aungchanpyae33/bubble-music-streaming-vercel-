@@ -14,7 +14,7 @@ function ShareButton() {
     <OptionItem>
       <button className="flex items-center" onClick={() => setShow(false)}>
         <OptionIconEl>
-          <IconWrapper size="medium" Icon={Link2} />
+          <IconWrapper size="small" Icon={Link2} />
         </OptionIconEl>
         <span>share </span>
       </button>

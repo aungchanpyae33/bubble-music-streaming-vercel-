@@ -17,7 +17,7 @@ function EditToPlaylistChild() {
         }}
       >
         <OptionIconEl>
-          <IconWrapper size="medium" Icon={SquarePen} />
+          <IconWrapper size="small" Icon={SquarePen} />
         </OptionIconEl>
         <span>edit the playlist</span>
       </OptionButton>

@@ -21,7 +21,7 @@ function GoToArtist() {
           className="flex items-center"
         >
           <OptionIconEl>
-            <IconWrapper size="medium" Icon={UserSearch} />
+            <IconWrapper size="small" Icon={UserSearch} />
           </OptionIconEl>
 
           <span>go to the artist </span>

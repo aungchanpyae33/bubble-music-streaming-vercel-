@@ -12,7 +12,7 @@ function AddToQueeue() {
     <OptionItem>
       <OptionButton onClick={() => setShow(false)}>
         <OptionIconEl>
-          <IconWrapper size="medium" Icon={ListEnd} />
+          <IconWrapper size="small" Icon={ListEnd} />
         </OptionIconEl>
 
         <span>add to the queeue </span>

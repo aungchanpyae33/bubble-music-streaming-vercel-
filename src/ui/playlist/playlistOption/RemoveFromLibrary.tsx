@@ -17,7 +17,7 @@ function RemoveFromLibraryChild() {
         }}
       >
         <OptionIconEl>
-          <IconWrapper size="medium" Icon={BookmarkX} />
+          <IconWrapper size="small" Icon={BookmarkX} />
         </OptionIconEl>
         <span>Remove from library</span>
       </OptionButton>

@@ -17,7 +17,7 @@ function AddToLibraryChild() {
         }}
       >
         <OptionIconEl>
-          <IconWrapper size="medium" Icon={BookmarkPlus} />
+          <IconWrapper size="small" Icon={BookmarkPlus} />
         </OptionIconEl>
         <span>Add to the library</span>
       </OptionButton>

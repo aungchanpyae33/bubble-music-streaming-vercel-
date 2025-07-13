@@ -36,7 +36,7 @@ function RemoveSongButtonChild() {
     <OptionItem>
       <OptionButton onClick={handleRemove}>
         <OptionIconEl>
-          <IconWrapper size="medium" Icon={ListX} />
+          <IconWrapper size="small" Icon={ListX} />
         </OptionIconEl>
 
         <span>remove from playlist </span>

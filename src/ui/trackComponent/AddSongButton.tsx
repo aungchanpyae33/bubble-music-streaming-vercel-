@@ -25,7 +25,7 @@ function AddSongButton() {
         }}
       >
         <OptionIconEl>
-          <IconWrapper size="medium" Icon={ListPlus} />
+          <IconWrapper size="small" Icon={ListPlus} />
         </OptionIconEl>
         <span>Add to the playlist</span>
       </OptionButton>
