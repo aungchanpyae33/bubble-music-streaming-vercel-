@@ -116,6 +116,7 @@ function Track({
           id={playlistSong!.id!}
           artistId={artists[0].id}
           albumId={albumId}
+          uni_id={uni_id!}
           source={playlistSong?.source || "none"}
           isLike={like}
         >

@@ -13,10 +13,10 @@ import { ListX } from "lucide-react";
 function RemoveSongButtonChild() {
   const queryClient = useQueryClient();
   const { setShow } = useContext(ContextMoreOption);
-  const { songId, id } = useContext(InfoTrackContext);
+  const { songId, id, uni_id } = useContext(InfoTrackContext);
   // console.log(playlistId, "rel");
   const mutation = useMutation({
-    mutationFn: async () => await removeSongsFromPlaylist(id, songId!),
+    mutationFn: async () => await removeSongsFromPlaylist(id, songId!, uni_id),
     onSuccess: (returnData, variables, context) => {
       const { data, error } = returnData;
       if (!data || error) return;

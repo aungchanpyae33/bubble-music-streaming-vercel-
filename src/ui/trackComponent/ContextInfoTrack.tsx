@@ -8,6 +8,7 @@ interface InfoTrackContextProps {
   albumId: string;
   source: "create" | "reference" | "none";
   isLike: boolean;
+  uni_id: number;
 }
 
 export const InfoTrackContext = createContext<InfoTrackContextProps>({
@@ -17,6 +18,7 @@ export const InfoTrackContext = createContext<InfoTrackContextProps>({
   albumId: "",
   source: "none",
   isLike: false,
+  uni_id: 0,
 });
 function ContextInfoTrack({
   children,
@@ -26,6 +28,7 @@ function ContextInfoTrack({
   albumId,
   source,
   isLike,
+  uni_id,
 }: {
   children: React.ReactNode;
   songId: string;
@@ -34,8 +37,9 @@ function ContextInfoTrack({
   albumId: string;
   source: "create" | "reference" | "none";
   isLike: boolean;
+  uni_id: number;
 }) {
-  const value = { songId, id, artistId, albumId, source, isLike };
+  const value = { songId, id, artistId, albumId, source, isLike, uni_id };
 
   return (
     <InfoTrackContext.Provider value={value}>
