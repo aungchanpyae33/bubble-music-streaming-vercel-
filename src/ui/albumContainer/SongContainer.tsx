@@ -16,21 +16,11 @@ function SongContainer() {
           <Track
             key={songsData.might_repeat ? item.uni_id : item.id}
             playlistSong={songsData}
-            name={item.name}
-            duration={item.duration}
             index={index}
-            like={item.is_liked}
-            songId={item.id}
-            song_time_stamp={item.song_time_stamp}
-            artists={item.artists}
-            albumName={item.album.name}
-            albumId={item.album.id}
-            uni_id={item.uni_id}
+            song={item}
             //for accessbility
             // roleCell={rowCell}
             // dataInc={dataInc}
-            sege={item.sege}
-            url={item.url}
           />
         ))}
     </tbody>

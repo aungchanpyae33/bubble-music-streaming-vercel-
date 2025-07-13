@@ -10,7 +10,8 @@ import { InfoTrackContext } from "@/ui/trackComponent/ContextInfoTrack";
 import OptionButton from "./OptionButton";
 
 function GoToArtist() {
-  const { artistId } = useContext(InfoTrackContext);
+  const { song } = useContext(InfoTrackContext);
+  const artistId = song?.artists[0].id;
   const { setShow } = useContext(ContextMoreOption);
   return (
     <OptionItem>

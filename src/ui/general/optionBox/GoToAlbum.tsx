@@ -10,7 +10,8 @@ import IconWrapper from "../IconWrapper";
 import OptionButton from "./OptionButton";
 
 function GoToAlbum() {
-  const { albumId } = useContext(InfoTrackContext);
+  const { song } = useContext(InfoTrackContext);
+  const albumId = song?.album.id;
   const { setShow } = useContext(ContextMoreOption);
   return (
     <OptionItem>

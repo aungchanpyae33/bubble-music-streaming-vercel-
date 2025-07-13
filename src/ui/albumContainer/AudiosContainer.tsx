@@ -4,6 +4,7 @@ import TableHead from "./TableHead";
 import IconWrapper from "../general/IconWrapper";
 import { Clock } from "lucide-react";
 import { getSongsReturn } from "@/database/data";
+
 export interface urlProp {
   url: string;
   duration: number;
@@ -53,18 +54,8 @@ function AudiosContainer({
             <Track
               key={playlistSong.might_repeat ? item.uni_id : item.id}
               playlistSong={playlistSong}
-              name={item.name}
-              duration={item.duration}
+              song={item}
               index={index}
-              like={item.is_liked}
-              songId={item.id}
-              uni_id={item?.uni_id}
-              song_time_stamp={item.song_time_stamp}
-              sege={item.sege}
-              url={item.url}
-              artists={item.artists}
-              albumName={item.album.name}
-              albumId={item.album.id}
             />
           ))}
         </tbody>

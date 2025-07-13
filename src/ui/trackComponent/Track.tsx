@@ -2,7 +2,7 @@ import { TimeFormat } from "@/lib/TimeFormat";
 import ToggleElement from "../Footer/audio/Toggle/ToggleElement";
 import ToolTip from "../general/ToolTip";
 import ToggleHeartButton from "./ToggleHeartButton";
-import { artists, getSongsReturn } from "@/database/data";
+import { getSongsReturn, song } from "@/database/data";
 import MoreOptionContext from "./MoreOptionContext";
 import MoreOption from "./MoreOption";
 import LeadingRelax from "../general/LeadingRelax";
@@ -12,35 +12,15 @@ import TrackItemContainer from "./TrackItemContainer";
 import ContextInfoTrack from "./ContextInfoTrack";
 
 function Track({
-  name,
   playlistSong,
-  duration,
-  url,
-  sege,
+  song,
   index,
-  like,
-  songId,
-  song_time_stamp,
-  artists,
-  albumName,
-  albumId,
-  uni_id,
 }: // roleCell,
 // dataInc,
 {
-  name: string;
   playlistSong: getSongsReturn | undefined;
-  duration: number;
-  url: string;
-  sege: number;
+  song: song;
   index: number;
-  like: boolean;
-  songId: string;
-  song_time_stamp: Array<number>;
-  artists: artists[];
-  albumName: string;
-  albumId: string;
-  uni_id: number | undefined;
   // roleCell: RefObject<number>;
   // dataInc: RefObject<number>;
 }) {
@@ -68,17 +48,8 @@ function Track({
     >
       <td className="px-2 max-w-[10px] ">
         <ToggleElement
-          url={url}
-          sege={sege}
-          duration={duration}
-          songId={songId}
-          name={name}
-          might_repeat={playlistSong?.might_repeat}
           playlistSong={playlistSong}
-          song_time_stamp={song_time_stamp}
-          uni_id={uni_id}
-          is_liked={like}
-          artists={artists}
+          song={song}
           className="w-full"
         />
       </td>
@@ -86,39 +57,35 @@ function Track({
       <td className=" max-w-[100px] px-2 ">
         <ToolTip tooltipContent={tooltipContent[index]}>
           <div className="text-ellipsis  overflow-x-hidden whitespace-nowrap pointer-events-none ">
-            <LeadingRelax>{name}</LeadingRelax>
+            <LeadingRelax>{song.name}</LeadingRelax>
           </div>
         </ToolTip>
         <div className="sm:hidden">{}</div>
       </td>
       <td className=" text-left hidden px-2  sm:table-cell   max-w-[100px] break-words truncate">
-        <ArtistWrapper artists={artists} />
+        <ArtistWrapper artists={song.artists} />
       </td>
 
       <td className=" max-w-[100px] px-2  hidden md:table-cell   truncate">
         <UnderLineLinkHover
-          href={`/album/${albumId}`}
+          href={`/album/${song.album.id}`}
           prefetch={false}
           className="  block leading-relaxed  w-fit  truncate text-start"
         >
-          {albumName}
+          {song.album.name}
         </UnderLineLinkHover>
       </td>
       <td>
-        <ToggleHeartButton like={like} songId={songId} />
+        <ToggleHeartButton like={song.is_liked} songId={song.id} />
       </td>
       <td className="px-2  hidden sm:table-cell   max-w-20 truncate text-center ">
-        {TimeFormat(duration)}
+        {TimeFormat(song.duration)}
       </td>
       <td className="w-14 text-center px-2">
         <ContextInfoTrack
-          songId={songId}
           id={playlistSong!.id!}
-          artistId={artists[0].id}
-          albumId={albumId}
-          uni_id={uni_id!}
           source={playlistSong?.source || "none"}
-          isLike={like}
+          song={song}
         >
           <MoreOptionContext>
             <MoreOption targetElement={<TrackItemContainer />} />

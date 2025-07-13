@@ -13,7 +13,9 @@ import { InfoTrackContext } from "./ContextInfoTrack";
 import OptionButton from "../general/optionBox/OptionButton";
 
 function ToggleHeartContent() {
-  const { isLike, songId } = useContext(InfoTrackContext);
+  const { song } = useContext(InfoTrackContext);
+  const isLike = song?.is_liked;
+  const songId = song?.id!;
   const { user } = useKindeAuth();
   const userId = user && user.id;
   const store = usePairStoreZustand(`${songId}`);

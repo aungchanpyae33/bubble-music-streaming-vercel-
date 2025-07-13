@@ -38,17 +38,8 @@ function Queue() {
           "
           >
             <ToggleElement
-              url={song.url}
-              songId={song.id}
-              name={song.name}
-              duration={song.duration}
-              sege={song.sege}
               playlistSong={playListArray}
-              song_time_stamp={song.song_time_stamp}
-              might_repeat={playListArray.might_repeat}
-              uni_id={song?.uni_id}
-              is_liked={song.is_liked}
-              artists={song.artists}
+              song={song}
               className="w-[50px] "
             />
             <div
@@ -73,10 +64,9 @@ function Queue() {
               </div>
               <div className="w-[30px]">
                 <ContextInfoTrack
-                  songId={song.id}
-                  id={playListArray.id}
-                  isLike={song.is_liked}
-                  source={playListArray.source || "none"}
+                  id={playListArray!.id!}
+                  source={playListArray?.source || "none"}
+                  song={song}
                 >
                   <MoreOptionContext>
                     <MoreOption targetElement={<TrackItemContainer />} />

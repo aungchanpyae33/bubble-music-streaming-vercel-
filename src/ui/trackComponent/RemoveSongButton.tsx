@@ -13,7 +13,9 @@ import { ListX } from "lucide-react";
 function RemoveSongButtonChild() {
   const queryClient = useQueryClient();
   const { setShow } = useContext(ContextMoreOption);
-  const { songId, id, uni_id } = useContext(InfoTrackContext);
+  const { id, song } = useContext(InfoTrackContext);
+  const songId = song?.id;
+  const uni_id = song?.uni_id!;
   // console.log(playlistId, "rel");
   const mutation = useMutation({
     mutationFn: async () => await removeSongsFromPlaylist(id, songId!, uni_id),

@@ -10,8 +10,8 @@ import OptionIconEl from "../general/optionBox/OptionIconEl";
 import { ListPlus } from "lucide-react";
 import IconWrapper from "../general/IconWrapper";
 function AddSongButton() {
-  const { songId } = useContext(InfoTrackContext);
-
+  const { song } = useContext(InfoTrackContext);
+  const songId = song?.id;
   const addSongsToPlaylist = useAddSongsToPlaylist(
     (state: addSongsToPlaylist) => state.addSongsToPlaylist
   );

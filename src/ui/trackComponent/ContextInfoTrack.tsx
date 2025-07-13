@@ -1,45 +1,33 @@
 "use client";
+import { song } from "@/database/data";
 import { createContext, ReactNode, SetStateAction, useState } from "react";
 
-interface InfoTrackContextProps {
-  songId: string;
+interface songContext {
+  song: song | undefined;
+}
+
+interface InfoTrackContextProps extends songContext {
   id: string;
-  artistId: string;
-  albumId: string;
   source: "create" | "reference" | "none";
-  isLike: boolean;
-  uni_id: number;
 }
 
 export const InfoTrackContext = createContext<InfoTrackContextProps>({
-  songId: "",
   id: "",
-  artistId: "",
-  albumId: "",
   source: "none",
-  isLike: false,
-  uni_id: 0,
+  song: undefined,
 });
 function ContextInfoTrack({
   children,
-  songId,
   id,
-  artistId,
-  albumId,
   source,
-  isLike,
-  uni_id,
+  song,
 }: {
   children: React.ReactNode;
-  songId: string;
   id: string;
-  artistId: string;
-  albumId: string;
   source: "create" | "reference" | "none";
-  isLike: boolean;
-  uni_id: number;
+  song: song | undefined;
 }) {
-  const value = { songId, id, artistId, albumId, source, isLike, uni_id };
+  const value = { id, source, song };
 
   return (
     <InfoTrackContext.Provider value={value}>
