@@ -21,6 +21,8 @@ function SonglistsContainer({
   name,
   type,
   source,
+  related_id,
+  related_name,
 }: SonglistsContainerProps) {
   return (
     <div
