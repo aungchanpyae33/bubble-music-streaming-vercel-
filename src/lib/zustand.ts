@@ -49,8 +49,11 @@ export interface currentSongPlaylistAction {
   setPlayListArray: (newList: currentSongPlaylist["playListArray"]) => void;
 }
 
+export interface currentSongPlaylisthuffleAction {
+  shufflePlayListArray: (nweList: currentSongPlaylist["playListArray"]) => void;
+}
 export interface previousSongPlaylist {
-  previousPlayListArray: {};
+  previousPlayListArray: getSongsReturn | {};
 }
 
 export interface resetAction {
@@ -176,12 +179,8 @@ export const usePreviousPlayList = create<
 >()((set) => ({
   previousPlayListArray: {},
   setPreviousPlayListArray: (newList) =>
-    set((state) => {
-      if (
-        Object.keys(newList)[0] !== Object.keys(state.previousPlayListArray)[0]
-      ) {
-        return { previousPlayListArray: { ...newList } };
-      } else return state.previousPlayListArray;
+    set(() => {
+      return { previousPlayListArray: { ...newList } };
     }),
   reset: () => {
     set({ previousPlayListArray: {} });
@@ -236,6 +235,7 @@ export const useDirectPlayBack = create<
 export const useRepeatAndCurrentPlayList = create<
   currentSongPlaylist &
     currentSongPlaylistAction &
+    currentSongPlaylisthuffleAction &
     IsRepeatState &
     RepeatAction &
     PrefetchAction &
@@ -243,6 +243,12 @@ export const useRepeatAndCurrentPlayList = create<
 >()((set, get) => ({
   playListArray: {},
   setPlayListArray: (newList) =>
+    set((state) => {
+      if (Object.keys(newList)[0] !== Object.keys(state.playListArray)[0]) {
+        return { playListArray: { ...newList } };
+      } else return state.playListArray;
+    }),
+  shufflePlayListArray: (newList) =>
     set(() => {
       return { playListArray: { ...newList } };
     }),

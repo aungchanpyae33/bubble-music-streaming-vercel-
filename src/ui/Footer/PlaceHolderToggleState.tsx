@@ -6,7 +6,6 @@ import {
   currentSongPlaylistAction,
   DirectPlayBackAction,
   IsRepeatState,
-  previousSongPlaylistAction,
   SongActions,
   SongDetail,
   SongFunctionActions,
@@ -15,14 +14,12 @@ import {
   StorePlayListIdState,
   StorePlayListIdStateAction,
   useDirectPlayBack,
-  usePreviousPlayList,
   useRepeatAndCurrentPlayList,
   useSong,
   useSongFunction,
   useStorePlayListId,
 } from "@/lib/zustand";
 import { useContext, useEffect } from "react";
-import ToggleButtonSpaceKey from "./audio/Toggle/ToggleButtonSpaceKey";
 import { supabase } from "@/database/supabase";
 import outputUniUrl from "@/lib/CustomHooks/OutputUniUrl";
 import outputCurrentIndex from "@/lib/CustomHooks/OutputCurrentIndex";
@@ -68,9 +65,7 @@ function PlaceHolderToggleState({
   const setPlayListArray = useRepeatAndCurrentPlayList(
     (state: currentSongPlaylistAction) => state.setPlayListArray
   );
-  const setPreviousPlayListArray = usePreviousPlayList(
-    (state: previousSongPlaylistAction) => state.setPreviousPlayListArray
-  );
+
   const updateSongCu = useSong((state: SongActions) => state.updateSongCu);
   const isRepeat = useRepeatAndCurrentPlayList(
     (state: IsRepeatState) => state.isRepeat
@@ -155,7 +150,8 @@ function PlaceHolderToggleState({
   ]);
   useEffect(() => {
     async function addRecentFn() {
-      const { error } = await addRecent(playlistIdString, playlistIdName);
+      // console.log("bolder");
+      // const { error } = await addRecent(playlistIdString, playlistIdName);
     }
     addRecentFn();
   }, [playlistIdString, playlistIdName]);
@@ -179,21 +175,10 @@ function PlaceHolderToggleState({
         setPlayListArray({
           ["smooth"]: data1,
         });
-        setPreviousPlayListArray({
-          ["smooth"]: data1,
-        });
-        console.log(data);
       }
       console.log(get());
     }
-  }, [
-    Isplay,
-    playListArray,
-    songId,
-    setPlayListArray,
-    setPreviousPlayListArray,
-    name,
-  ]);
+  }, [Isplay, playListArray, songId, setPlayListArray, name]);
   return children;
 }
 

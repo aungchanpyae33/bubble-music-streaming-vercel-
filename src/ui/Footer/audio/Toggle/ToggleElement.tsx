@@ -1,12 +1,10 @@
 "use client";
 import {
   useDirectPlayBack,
-  usePreviousPlayList,
   useRepeatAndCurrentPlayList,
   useSong,
   useSongFunction,
   useStorePlayListId,
-  // useStorePlayListId,
 } from "@/lib/zustand";
 import React from "react";
 import type {
@@ -15,7 +13,6 @@ import type {
   SongFunctionState,
   SongFunctionActions,
   currentSongPlaylistAction,
-  previousSongPlaylistAction,
   DirectPlayBackAction,
   StorePlayListIdStateAction,
   // StorePlayListIdState,
@@ -62,9 +59,7 @@ const ToggleElement = ({
     (state: currentSongPlaylistAction) => state.setPlayListArray
   );
   const updateSongCu = useSong((state: SongActions) => state.updateSongCu);
-  const setPreviousPlayListArray = usePreviousPlayList(
-    (state: previousSongPlaylistAction) => state.setPreviousPlayListArray
-  );
+
   const setPlayList = useDirectPlayBack(
     (state: DirectPlayBackAction) => state.setPlayList
   );
@@ -87,9 +82,7 @@ const ToggleElement = ({
         setPlayListArray({
           [playlistId || ""]: playlistSong,
         });
-        setPreviousPlayListArray({
-          [playlistId || ""]: playlistSong,
-        });
+
         // to handle same song but different playlist or album
         const { uniUrl: checkForToggle } = outputUniUrl(
           playlistSong,

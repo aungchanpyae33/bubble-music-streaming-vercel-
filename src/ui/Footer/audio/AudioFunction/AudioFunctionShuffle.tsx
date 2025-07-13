@@ -4,13 +4,14 @@ import excludeCurrentSongs from "@/lib/excludeCurrentSongs";
 import shufflePlaylist from "@/lib/shufflePlaylist";
 import {
   currentSongPlaylistAction,
+  currentSongPlaylisthuffleAction,
   previousSongPlaylist,
+  previousSongPlaylistAction,
   StorePlayListIdState,
   usePreviousPlayList,
   useRepeatAndCurrentPlayList,
   useStorePlayListId,
 } from "@/lib/zustand";
-import { urlProp } from "@/ui/albumContainer/AudiosContainer";
 import IconWrapper from "@/ui/general/IconWrapper";
 import clsx from "clsx";
 import { Shuffle } from "lucide-react";
@@ -23,17 +24,21 @@ interface Props extends React.ComponentProps<"button"> {
 function AudioFunctionShuffle({ className, urlProp, url, uni_id }: Props) {
   const [isShuffle, setIsShuffle] = useState(false);
   const previousPlayListArray = usePreviousPlayList(
-    (state: previousSongPlaylist) =>
-      Object.values(state.previousPlayListArray)[0] || []
+    (state: previousSongPlaylist) => state.previousPlayListArray
   ) as getSongsReturn;
 
   const playlistId = useStorePlayListId(
     (state: StorePlayListIdState) => Object.values(state.playlistId)[0] || []
   ) as string[];
 
-  const setPlayListArray = useRepeatAndCurrentPlayList(
-    (state: currentSongPlaylistAction) => state.setPlayListArray
+  const shufflePlayListArray = useRepeatAndCurrentPlayList(
+    (state: currentSongPlaylisthuffleAction) => state.shufflePlayListArray
   );
+  console.log(urlProp);
+  const setPreviousPlayListArray = usePreviousPlayList(
+    (state: previousSongPlaylistAction) => state.setPreviousPlayListArray
+  );
+
   function shuffle(currentUrl: string = url) {
     if (!urlProp.songs || urlProp.songs.length === 0) return;
 
@@ -47,7 +52,8 @@ function AudioFunctionShuffle({ className, urlProp, url, uni_id }: Props) {
       currentSong,
       previousPlayListArray
     );
-    setPlayListArray({
+    setPreviousPlayListArray(urlProp);
+    shufflePlayListArray({
       [playlistId[0] || ""]: shufflePlaylistOutput,
     });
     setIsShuffle(!isShuffle);

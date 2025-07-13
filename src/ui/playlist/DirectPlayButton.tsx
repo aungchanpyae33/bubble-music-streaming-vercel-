@@ -4,14 +4,11 @@ import {
   currentSongPlaylistAction,
   DirectPlayBackAction,
   DirectPlayBackState,
-  previousSongPlaylistAction,
   SongActions,
-  SongDetail,
   SongFunctionActions,
   StorePlayListIdState,
   StorePlayListIdStateAction,
   useDirectPlayBack,
-  usePreviousPlayList,
   useRepeatAndCurrentPlayList,
   useSong,
   useSongFunction,
@@ -67,10 +64,6 @@ function DirectPlayButton({ playListId }: { playListId: string }) {
     (state: currentSongPlaylistAction) => state.setPlayListArray
   );
 
-  const setPreviousPlayListArray = usePreviousPlayList(
-    (state: previousSongPlaylistAction) => state.setPreviousPlayListArray
-  );
-
   const handlePlayClick = async () => {
     const playlistData = !playlistId
       ? await hasData(dataFromFetch, playListId)
@@ -107,9 +100,6 @@ function DirectPlayButton({ playListId }: { playListId: string }) {
         url
       );
 
-      setPreviousPlayListArray({
-        [playListId || ""]: playlistData,
-      });
       setPlayListArray({
         [playListId || ""]: playlistData,
       });
