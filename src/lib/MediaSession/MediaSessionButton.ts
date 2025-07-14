@@ -50,6 +50,7 @@ const MediaSessionButton = (
       duration,
       name,
       song_time_stamp,
+      id,
       uni_id,
       is_liked,
       artists,
@@ -59,7 +60,8 @@ const MediaSessionButton = (
       duration: number;
       name: string;
       song_time_stamp: number[];
-      uni_id?: number | undefined;
+      id: string;
+      uni_id: string;
       is_liked: boolean;
       artists: artists[];
     }) {
@@ -96,6 +98,7 @@ const MediaSessionButton = (
           name,
           duration,
           song_time_stamp,
+          id,
           uni_id,
           is_liked,
           artists,
@@ -106,6 +109,7 @@ const MediaSessionButton = (
           duration,
           name,
           song_time_stamp,
+          id,
           uni_id,
           is_liked,
           artists,
@@ -125,6 +129,7 @@ const MediaSessionButton = (
           name,
           duration,
           song_time_stamp,
+          id,
           uni_id,
           is_liked,
           artists,
@@ -135,6 +140,7 @@ const MediaSessionButton = (
           duration,
           name,
           song_time_stamp,
+          id,
           uni_id,
           is_liked,
           artists,

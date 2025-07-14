@@ -42,7 +42,7 @@ function PlaceHolderToggleState({
   const Isplay = useSongFunction(
     (state: SongFunctionState) => Object.values(state.Isplay)[0]
   );
-  const { songId, name } = useSong(
+  const { id, name } = useSong(
     (state: SongState) => state.songCu
   ) as SongDetail;
 
@@ -94,6 +94,7 @@ function PlaceHolderToggleState({
           duration,
           name,
           song_time_stamp,
+          id,
           uni_id,
           is_liked,
           artists,
@@ -105,6 +106,7 @@ function PlaceHolderToggleState({
           duration,
           name,
           song_time_stamp,
+          id,
           uni_id,
           is_liked,
           artists,
@@ -156,7 +158,7 @@ function PlaceHolderToggleState({
       console.log("time to fetchsome");
       async function get() {
         const { data, error } = await supabase.rpc("get_similar_songs", {
-          input_song_id: songId,
+          input_song_id: id,
           similarity_threshold: 0.3,
         });
         const data1 = {
@@ -173,7 +175,7 @@ function PlaceHolderToggleState({
       }
       console.log(get());
     }
-  }, [Isplay, playListArray, songId, setPlayListArray, name]);
+  }, [Isplay, playListArray, id, setPlayListArray, name]);
   return children;
 }
 

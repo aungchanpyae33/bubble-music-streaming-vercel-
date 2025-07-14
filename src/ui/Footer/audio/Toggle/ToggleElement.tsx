@@ -101,7 +101,7 @@ const ToggleElement = ({
             duration: song.duration,
             name: song.name,
             song_time_stamp: song.song_time_stamp,
-            songId: song.id,
+            id: song.id,
             uni_id: song.uni_id,
             is_liked: song.is_liked,
             artists: song.artists,
