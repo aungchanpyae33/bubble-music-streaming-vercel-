@@ -19,7 +19,7 @@ import outputCurrentIndex from "../CustomHooks/OutputCurrentIndex";
 
 const MediaSessionButton = (
   currentUrl: string,
-  uni_id_scope: number | undefined
+  uni_id_scope: string | undefined
 ) => {
   //[todo] need to add more code to align with audiofunction pre and next but can safe remove some code as there will be no ui when page refresh
   // const [playListArrayKey, playListArray] = useRepeatAndCurrentPlayList(

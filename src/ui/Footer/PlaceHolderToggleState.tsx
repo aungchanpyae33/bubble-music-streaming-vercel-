@@ -30,7 +30,7 @@ function PlaceHolderToggleState({
   children,
 }: {
   url: string;
-  uni_id: number | undefined;
+  uni_id: string | undefined;
   children: React.ReactNode;
 }) {
   const { dataAudio, segNum, loadNextSegment } = useContext(DataContext);

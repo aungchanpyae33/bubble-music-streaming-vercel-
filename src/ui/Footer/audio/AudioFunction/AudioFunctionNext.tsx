@@ -19,7 +19,7 @@ import outputUniUrl from "@/lib/CustomHooks/OutputUniUrl";
 import outputCurrentIndex from "@/lib/CustomHooks/OutputCurrentIndex";
 interface Props extends React.ComponentProps<"button"> {
   urlProp: getSongsReturn;
-  uni_id?: number | undefined;
+  uni_id?: string | undefined;
   url: string;
 }
 function AudioFunctionNext({ urlProp, url, className, uni_id }: Props) {

@@ -4,7 +4,7 @@ import { createClient } from "@/database/server";
 export const removeSongsFromPlaylist = async (
   playlistId: string,
   songId: string,
-  uni_id: number
+  uni_id: string
 ) => {
   try {
     const supabase = await createClient();

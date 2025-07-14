@@ -19,7 +19,7 @@ import IconWrapper from "@/ui/general/IconWrapper";
 import { SkipBack } from "lucide-react";
 interface Props extends React.ComponentProps<"button"> {
   urlProp: getSongsReturn;
-  uni_id?: number | undefined;
+  uni_id?: string | undefined;
   url: string;
 }
 function AudioFunctionPre({ urlProp, url, className, uni_id }: Props) {

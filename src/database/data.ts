@@ -38,7 +38,7 @@ interface album {
 }
 export interface song {
   id: string;
-  uni_id?: number;
+  uni_id: string;
   name: string;
   url: string;
   sege: number;
