@@ -12,7 +12,7 @@ function AudioDisplayFooter({ urlImage }: { urlImage: string }) {
           sizes="62px"
           alt="test image"
           className="w-full h-full"
-          priority={true}
+          priority={false}
         />
       </div>
     </div>

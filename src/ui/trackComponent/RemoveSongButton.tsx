@@ -16,7 +16,6 @@ function RemoveSongButtonChild() {
   const { id, song } = useContext(InfoTrackContext);
   const songId = song?.id;
   const uni_id = song?.uni_id!;
-  // console.log(playlistId, "rel");
   const mutation = useMutation({
     mutationFn: async () => await removeSongsFromPlaylist(id, songId!, uni_id),
     onSuccess: (returnData, variables, context) => {

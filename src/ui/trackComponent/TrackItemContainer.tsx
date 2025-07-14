@@ -1,3 +1,4 @@
+"use client";
 import AddSongButton from "./AddSongButton";
 import RemoveSongButton from "./RemoveSongButton";
 import ToggleHeartContent from "./ToggleHeartContent";

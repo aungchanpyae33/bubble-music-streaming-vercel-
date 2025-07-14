@@ -1,7 +1,6 @@
 import { artists } from "@/database/data";
 import { useEffect } from "react";
 const MediaSessionDes = (name: string, artists: artists[]) => {
-  console.log(artists);
   // console.log(urlSongs)
   useEffect(() => {
     if ("mediaSession" in navigator) {

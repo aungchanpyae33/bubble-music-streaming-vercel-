@@ -15,8 +15,6 @@ import type {
   currentSongPlaylistAction,
   DirectPlayBackAction,
   StorePlayListIdStateAction,
-  // StorePlayListIdState,
-  // StorePlayListIdStateAction,
 } from "@/lib/zustand";
 import IconWrapper from "@/ui/general/IconWrapper";
 import { Pause, Play } from "lucide-react";
@@ -31,7 +29,6 @@ const ToggleElement = ({
   className,
   song,
 }: toggleElementProp) => {
-  // console.log(playlistSong, "playlistsong");
   const { playlistId, uniUrl } = outputUniUrl(
     playlistSong,
     song.uni_id,
@@ -106,8 +103,6 @@ const ToggleElement = ({
             is_liked: song.is_liked,
             artists: song.artists,
           };
-
-          // console.log(data);
           updateSongCu(data);
           setPlaylistId({
             [playlistId || ""]: [playlistId, song.url],

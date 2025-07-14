@@ -34,7 +34,6 @@ function AudioFunctionShuffle({ className, urlProp, url, uni_id }: Props) {
   const shufflePlayListArray = useRepeatAndCurrentPlayList(
     (state: currentSongPlaylisthuffleAction) => state.shufflePlayListArray
   );
-  console.log(urlProp);
   const setPreviousPlayListArray = usePreviousPlayList(
     (state: previousSongPlaylistAction) => state.setPreviousPlayListArray
   );

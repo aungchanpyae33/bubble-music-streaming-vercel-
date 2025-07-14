@@ -31,7 +31,7 @@ const MediaSessionButton = (
   const playListArray = useRepeatAndCurrentPlayList(
     (state: currentSongPlaylist) => Object.values(state.playListArray)[0] || []
   ) as getSongsReturn;
-  console.log(playListArray, "i am playlist");
+  // console.log(playListArray, "i am playlist");
   const setPlay = useSongFunction(
     (state: SongFunctionActions) => state.setPlay
   );
