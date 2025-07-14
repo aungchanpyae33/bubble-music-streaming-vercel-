@@ -52,6 +52,9 @@ export interface currentSongPlaylistAction {
 export interface currentSongPlaylisthuffleAction {
   shufflePlayListArray: (nweList: currentSongPlaylist["playListArray"]) => void;
 }
+export interface currentAddToQueueAction {
+  currentAddToQueue: (song: song[]) => void;
+}
 export interface previousSongPlaylist {
   previousPlayListArray: getSongsReturn | {};
 }
@@ -236,6 +239,7 @@ export const useRepeatAndCurrentPlayList = create<
   currentSongPlaylist &
     currentSongPlaylistAction &
     currentSongPlaylisthuffleAction &
+    currentAddToQueueAction &
     IsRepeatState &
     RepeatAction &
     PrefetchAction &
@@ -252,6 +256,26 @@ export const useRepeatAndCurrentPlayList = create<
     set(() => {
       return { playListArray: { ...newList } };
     }),
+  currentAddToQueue: (song) =>
+    set((state) => {
+      const playListArray = (Object.values(state.playListArray)[0] ||
+        undefined) as getSongsReturn | undefined;
+      const playListArrayKey = Object.keys(state.playListArray)[0] as string;
+
+      if (playListArray && "songs" in playListArray) {
+        return {
+          playListArray: {
+            [playListArrayKey || ""]: {
+              ...playListArray,
+              songs: [...playListArray.songs, ...song],
+            },
+          },
+        };
+      } else {
+        return state;
+      }
+    }),
+
   isRepeat: false,
   setRepeat: () => set((state) => ({ isRepeat: !state.isRepeat })),
   // if it check as isRepeat in function component, it will re-render entrire component
