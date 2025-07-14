@@ -15,7 +15,8 @@ export interface FetchingState {
 const useMediaSourceBuffer = (
   url: string,
   sege: number,
-  song_time_stamp: Array<number>
+  song_time_stamp: Array<number>,
+  uni_id: string
 ) => {
   const fetching = useRef<FetchingState>({
     isFetch: false,
@@ -246,7 +247,7 @@ const useMediaSourceBuffer = (
     return () => {
       clearUpPreviousSong();
     };
-  }, [startUp, url, clearUpPreviousSong]);
+  }, [startUp, url, clearUpPreviousSong, uni_id]);
   return {
     dataAudio,
     segNum,
