@@ -100,8 +100,11 @@ function DirectPlayButton({ playListId }: { playListId: string }) {
         [playListId || ""]: playlistData,
       });
       if (playlistId) {
-        setPlay(uniUrl || "", undefined);
-        setPlayList(playListId || "", undefined);
+        setPlay("unknown", undefined);
+        setPlayList("unknown", undefined);
+        setPlaylistId({
+          [playListId || ""]: [playListId, url],
+        });
       } else {
         updateSongCu({
           [uniUrl || ""]: url,

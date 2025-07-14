@@ -89,8 +89,8 @@ const ToggleElement = ({
           songCuUrl
         );
         if (uniUrl === checkForToggle) {
-          setPlay(uniUrl || "", undefined);
-          setPlayList(playlistId || "", undefined);
+          setPlay("unknown", undefined);
+          setPlayList("unknown", undefined);
           setPlaylistId({
             [playlistId || ""]: [playlistId, song.url],
           });
