@@ -34,7 +34,6 @@ const ToggleElement = ({
   // console.log(playlistSong, "playlistsong");
   const { playlistId, uniUrl } = outputUniUrl(
     playlistSong,
-    playlistSong!.might_repeat,
     song.uni_id,
     song.url
   );
@@ -86,7 +85,6 @@ const ToggleElement = ({
         // to handle same song but different playlist or album
         const { uniUrl: checkForToggle } = outputUniUrl(
           playlistSong,
-          playlistSong!.might_repeat,
           song.uni_id,
           songCuUrl
         );

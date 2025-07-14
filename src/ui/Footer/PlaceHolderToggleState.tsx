@@ -98,12 +98,7 @@ function PlaceHolderToggleState({
           is_liked,
           artists,
         } = songList[currentIndex + 1];
-        const { uniUrl } = outputUniUrl(
-          playListArray,
-          playListArray?.might_repeat,
-          uni_id,
-          url
-        );
+        const { uniUrl } = outputUniUrl(playListArray, uni_id, url);
         updateSongCu({
           [uniUrl || ""]: url,
           sege,

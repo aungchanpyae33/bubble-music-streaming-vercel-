@@ -55,12 +55,7 @@ function AudioFunctionNext({ urlProp, url, className, uni_id }: Props) {
       artists,
     } = songList[currentIndex + 1];
 
-    const { uniUrl } = outputUniUrl(
-      urlProp,
-      urlProp?.might_repeat,
-      uni_id,
-      url
-    );
+    const { uniUrl } = outputUniUrl(urlProp, uni_id, url);
     updateSongCu({
       [uniUrl || ""]: url,
       sege,

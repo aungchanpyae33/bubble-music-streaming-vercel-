@@ -63,12 +63,7 @@ const MediaSessionButton = (
       is_liked: boolean;
       artists: artists[];
     }) {
-      const { playlistId, uniUrl } = outputUniUrl(
-        playListArray,
-        playListArray?.might_repeat,
-        uni_id,
-        url
-      );
+      const { playlistId, uniUrl } = outputUniUrl(playListArray, uni_id, url);
 
       updateSongCu({
         [uniUrl || ""]: url,

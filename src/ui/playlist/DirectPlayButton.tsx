@@ -93,12 +93,7 @@ function DirectPlayButton({ playListId }: { playListId: string }) {
         }
         return playlistData.songs[0];
       })();
-      const { uniUrl } = outputUniUrl(
-        playlistData,
-        playlistData?.might_repeat,
-        uni_id,
-        url
-      );
+      const { uniUrl } = outputUniUrl(playlistData, uni_id, url);
 
       setPlayListArray({
         [playListId || ""]: playlistData,

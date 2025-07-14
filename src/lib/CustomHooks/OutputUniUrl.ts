@@ -7,13 +7,12 @@ interface outputUniUrlRetrun {
 
 const outputUniUrl = (
   playlistSong: getSongsReturn | undefined,
-  might_repeat: boolean | undefined,
-  uni_id: number | undefined,
+  uni_id: string | undefined,
   url: string
 ): outputUniUrlRetrun => {
   let playlistId: string =
     playlistSong && playlistSong.id ? playlistSong.id : `create-on-fly-${url}`;
-  let outputUrl = might_repeat ? uni_id + url : url;
+  let outputUrl = uni_id + url;
   const uniUrl = `${outputUrl},${playlistId}`;
   return { playlistId, uniUrl };
 };
