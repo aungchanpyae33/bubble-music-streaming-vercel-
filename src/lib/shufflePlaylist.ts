@@ -14,10 +14,7 @@ const shufflePlaylist = (
   }
   return !isShuffle
     ? {
-        id: urlProp.id,
-        name: urlProp.name,
-        related_id: urlProp.related_id,
-        related_name: urlProp.related_name,
+        ...urlProp,
         songs: [currentSongs, ...newCopyArray],
       }
     : previousPlayListArray;
