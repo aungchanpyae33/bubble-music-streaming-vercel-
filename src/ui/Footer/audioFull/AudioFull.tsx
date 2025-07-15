@@ -29,7 +29,7 @@ function AudioFull({
 }: {
   footerRef: React.RefObject<HTMLDivElement | null>;
   url: string;
-  uni_id?: string | undefined;
+  uni_id: string;
   duration: number;
   toggleRef: React.RefObject<HTMLButtonElement | null>;
 }) {

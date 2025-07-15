@@ -18,7 +18,7 @@ import { Shuffle } from "lucide-react";
 import { useState } from "react";
 interface Props extends React.ComponentProps<"button"> {
   urlProp: getSongsReturn;
-  uni_id?: string | undefined;
+  uni_id: string;
   url: string;
 }
 function AudioFunctionShuffle({ className, urlProp, url, uni_id }: Props) {

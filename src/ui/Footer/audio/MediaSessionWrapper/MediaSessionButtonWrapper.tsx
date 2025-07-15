@@ -9,7 +9,7 @@ function MediaSessionButtonWrapper({
 }: {
   children: ReactNode;
   url: string;
-  uni_id?: string | undefined;
+  uni_id: string;
 }) {
   MediaSessionButton(url, uni_id);
   MediaSessionToggle();

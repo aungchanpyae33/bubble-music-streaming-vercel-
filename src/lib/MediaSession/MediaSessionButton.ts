@@ -17,10 +17,7 @@ import { artists, getSongsReturn, song } from "@/database/data";
 import outputUniUrl from "../CustomHooks/OutputUniUrl";
 import outputCurrentIndex from "../CustomHooks/OutputCurrentIndex";
 
-const MediaSessionButton = (
-  currentUrl: string,
-  uni_id_scope: string | undefined
-) => {
+const MediaSessionButton = (currentUrl: string, uni_id_scope: string) => {
   //[todo] need to add more code to align with audiofunction pre and next but can safe remove some code as there will be no ui when page refresh
   // const [playListArrayKey, playListArray] = useRepeatAndCurrentPlayList(
   //   (state: currentSongPlaylist) =>

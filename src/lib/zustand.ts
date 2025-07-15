@@ -8,8 +8,8 @@ export interface SongDetail {
   duration: number;
   song_time_stamp: Array<number>;
   name: string;
-  id: number;
-  uni_id?: string;
+  id: string;
+  uni_id: string;
   is_liked: boolean;
   artists: artists[];
 }
