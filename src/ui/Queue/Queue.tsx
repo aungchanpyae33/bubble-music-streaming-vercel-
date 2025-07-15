@@ -30,56 +30,53 @@ function Queue() {
       <PlaceHolderQueue queueRef={queueRef} />
       {playListArray &&
         playListArray.id &&
-        playListArray.songs.map((song) => {
-          console.log(song.uni_id + song.id);
-          return (
-            <div
-              key={song.uni_id + song.id}
-              data-song-url={song.url}
-              className="flex py-1  hover:bg-[#333333] items-stretch
+        playListArray.songs.map((song) => (
+          <div
+            key={song.uni_id + song.id}
+            data-song-id={song.uni_id + song.id}
+            className="flex py-1  hover:bg-[#333333] items-stretch
           "
-            >
-              <ToggleElement
-                playlistSong={playListArray}
-                song={song}
-                className="w-[50px] "
-              />
+          >
+            <ToggleElement
+              playlistSong={playListArray}
+              song={song}
+              className="w-[50px] "
+            />
 
-              <div
-                className="flex-1 overflow-hidden
+            <div
+              className="flex-1 overflow-hidden
               flex gap-2 items-center"
-              >
-                <Image
-                  src={
-                    "https://tebi.bubblemusic.dpdns.org/lee-hi/4-only/cover/photo_2025-05-23_14-51-24.jpg"
-                  }
-                  width={50}
-                  height={50}
-                  className=" rounded"
-                  alt="test image"
-                  priority={false}
-                />
-                <div
-                  className=" flex-1 truncate
+            >
+              <Image
+                src={
+                  "https://tebi.bubblemusic.dpdns.org/lee-hi/4-only/cover/photo_2025-05-23_14-51-24.jpg"
+                }
+                width={50}
+                height={50}
+                className=" rounded"
+                alt="test image"
+                priority={false}
+              />
+              <div
+                className=" flex-1 truncate
               "
+              >
+                {song.name}
+              </div>
+              <div className="w-[30px]">
+                <ContextInfoTrack
+                  id={playListArray!.id!}
+                  source={playListArray?.source || "none"}
+                  song={song}
                 >
-                  {song.name}
-                </div>
-                <div className="w-[30px]">
-                  <ContextInfoTrack
-                    id={playListArray!.id!}
-                    source={playListArray?.source || "none"}
-                    song={song}
-                  >
-                    <MoreOptionContext>
-                      <MoreOption targetElement={<TrackItemContainer />} />
-                    </MoreOptionContext>
-                  </ContextInfoTrack>
-                </div>
+                  <MoreOptionContext>
+                    <MoreOption targetElement={<TrackItemContainer />} />
+                  </MoreOptionContext>
+                </ContextInfoTrack>
               </div>
             </div>
-          );
-        })}
+          </div>
+        ))}
     </div>
   );
 }
