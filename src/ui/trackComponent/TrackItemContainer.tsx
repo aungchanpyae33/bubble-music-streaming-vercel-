@@ -6,15 +6,16 @@ import GoToArtist from "../general/optionBox/GoToArtist";
 import GoToAlbum from "../general/optionBox/GoToAlbum";
 import ShareButton from "../general/optionBox/ShareButton";
 import OptionContainer from "../general/optionBox/OptionContainer";
-import AddToQueeue from "../general/optionBox/AddToQueeue";
+
 import PlayNextQueue from "../general/optionBox/PlayNextQueue";
+import AddToQueue from "../general/optionBox/AddToQueeue";
 
 function TrackItemContainer() {
   return (
     <OptionContainer>
       <AddSongButton />
       <PlayNextQueue />
-      <AddToQueeue />
+      <AddToQueue />
       <RemoveSongButton />
       <ToggleHeartContent />
       <GoToArtist />

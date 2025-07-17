@@ -105,9 +105,9 @@ const appendBufferFn = (
         sourceBuffer.current.addEventListener("updateend", onUpdateEnd);
         sourceBuffer.current.appendBuffer(buffer);
       } else {
-        reject(
-          new Error("SourceBuffer or MediaSource not available or not open")
-        );
+        // reject(
+        //   new Error("SourceBuffer or MediaSource not available or not open")
+        // );
       }
     } catch (error) {
       reject(error);

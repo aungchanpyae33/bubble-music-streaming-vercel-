@@ -11,13 +11,13 @@ import {
   useRepeatAndCurrentPlayList,
 } from "@/lib/zustand";
 
-function AddToQueeue() {
+function AddToQueue() {
   const { setShow } = useContext(ContextMoreOption);
   const { song } = useContext(InfoTrackContext);
   const currentAddToQueue = useRepeatAndCurrentPlayList(
     (state: currentAddToQueueAction) => state.currentAddToQueue
   );
-  if (!song?.uni_id) return null;
+  if (!song) return null;
   const addUniIdSong = { ...song, uni_id: crypto.randomUUID() };
   const queueSong = addUniIdSong && [addUniIdSong];
   function addToQueue() {
@@ -37,4 +37,4 @@ function AddToQueeue() {
   );
 }
 
-export default AddToQueeue;
+export default AddToQueue;

@@ -1,13 +1,7 @@
 "use client";
 import type { getSongsReturn } from "@/database/data";
-import {
-  createContext,
-  type ReactNode,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
-import { QueryClient, useQuery } from "@tanstack/react-query";
+import { createContext, type ReactNode, useEffect, useRef } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 interface SongsDataContextType {
   songsData: getSongsReturn | null;

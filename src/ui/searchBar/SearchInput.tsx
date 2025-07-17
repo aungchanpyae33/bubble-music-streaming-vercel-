@@ -10,14 +10,14 @@ function SearchInput() {
   const [value, setValue] = useState<string | null>(null);
   const searchAbortController = useRef<AbortController | null>(null);
 
-  async function fetchInput(params: string) {
+  async function fetchInput(params: string | null) {
     if (searchAbortController.current) {
       searchAbortController.current.abort();
     }
     searchAbortController.current = new AbortController();
     const signal = searchAbortController.current.signal;
 
-    if (params.length > 0) {
+    if (params && params.length > 0) {
       const fetchData = await fetch(`/api/search?with=${params}`, {
         signal,
       });
