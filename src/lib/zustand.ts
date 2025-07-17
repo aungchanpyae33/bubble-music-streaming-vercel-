@@ -55,6 +55,10 @@ export interface currentSongPlaylisthuffleAction {
 export interface currentAddToQueueAction {
   currentAddToQueue: (song: song[]) => void;
 }
+
+export interface currentAddToNextAction {
+  currentAddToNext: (song: song[], id: string, uni_id: string) => void;
+}
 export interface previousSongPlaylist {
   previousPlayListArray: getSongsReturn | {};
 }
@@ -240,6 +244,7 @@ export const useRepeatAndCurrentPlayList = create<
     currentSongPlaylistAction &
     currentSongPlaylisthuffleAction &
     currentAddToQueueAction &
+    currentAddToNextAction &
     IsRepeatState &
     RepeatAction &
     PrefetchAction &
@@ -275,7 +280,35 @@ export const useRepeatAndCurrentPlayList = create<
         return state;
       }
     }),
+  currentAddToNext: (song, id, un_id) =>
+    set((state) => {
+      const playListArray = (Object.values(state.playListArray)[0] ||
+        undefined) as getSongsReturn | undefined;
+      const playListArrayKey = Object.keys(state.playListArray)[0] as string;
 
+      if (playListArray && "songs" in playListArray) {
+        const currentIndex = outputCurrentIndexV2(
+          playListArray.songs,
+          id,
+          un_id
+        );
+
+        if (currentIndex === -1) return state;
+        const newSongs = [...playListArray.songs];
+        newSongs.splice(currentIndex + 1, 0, ...song);
+
+        return {
+          playListArray: {
+            [playListArrayKey || ""]: {
+              ...playListArray,
+              songs: newSongs,
+            },
+          },
+        };
+      } else {
+        return state;
+      }
+    }),
   isRepeat: false,
   setRepeat: () => set((state) => ({ isRepeat: !state.isRepeat })),
   // if it check as isRepeat in function component, it will re-render entrire component
@@ -433,6 +466,7 @@ export const useLikeStoreData = create<toggleLikeProps & toggleLikeAction>(
 );
 
 import { StoreApi, UseBoundStore } from "zustand";
+import outputCurrentIndexV2 from "./CustomHooks/OutputCurrentIndexV2";
 type PairState = {
   like: boolean | undefined;
   setLike: (v: boolean) => void;
