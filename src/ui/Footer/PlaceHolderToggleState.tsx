@@ -73,11 +73,18 @@ function PlaceHolderToggleState({
   useEffect(() => {
     const copyDataAudio = dataAudio!.current!;
     function handlePlay() {
-      if (dataAudio.current?.readyState) {
+      if (
+        dataAudio.current &&
+        dataAudio.current.readyState >= HTMLMediaElement.HAVE_FUTURE_DATA
+      ) {
         if (Isplay) {
-          dataAudio.current.play();
+          if (dataAudio.current.paused) {
+            dataAudio.current.play();
+          }
         } else {
-          dataAudio.current.pause();
+          if (!dataAudio.current.paused) {
+            dataAudio.current.pause();
+          }
         }
       }
     }
