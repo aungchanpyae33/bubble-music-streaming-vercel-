@@ -4,13 +4,13 @@ import AddToLibrary from "@/ui/general/optionBox/AddToLibrary";
 import RemoveFromLibrary from "./RemoveFromLibrary";
 import EditToPlaylist from "./EditToPlaylist";
 import PlayNextQueueSongList from "@/ui/general/optionBox/PlayNextQueueSongList";
-import AddSSonglistToQueue from "@/ui/general/optionBox/AddSSonglistToQueue";
+import AddSonglistToQueue from "@/ui/general/optionBox/AddSonglistToQueue";
 
 function PlaylistContainerOption() {
   return (
     <OptionContainer>
       <PlayNextQueueSongList />
-      <AddSSonglistToQueue />
+      <AddSonglistToQueue />
       <AddToLibrary />
       <RemoveFromLibrary />
       <EditToPlaylist />

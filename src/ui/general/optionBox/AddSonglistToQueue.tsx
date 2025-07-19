@@ -7,17 +7,24 @@ import IconWrapper from "../IconWrapper";
 import OptionIconEl from "./OptionIconEl";
 import {
   currentAddToQueueAction,
+  SongDetail,
+  SongState,
   useRepeatAndCurrentPlayList,
+  useSong,
 } from "@/lib/zustand";
 import { generateUUID } from "@/lib/GenerateUUID";
 import { fetcher } from "@/database/dataApi";
 import { SongListContext } from "@/ui/playlist/playlistOption/ContextSongListContainer";
-function AddSSonglistToQueue() {
+function AddSonglistToQueue() {
   const { setShow } = useContext(ContextMoreOption);
   const { id, type } = useContext(SongListContext);
   const currentAddToQueue = useRepeatAndCurrentPlayList(
     (state: currentAddToQueueAction) => state.currentAddToQueue
   );
+  const { id: songId } = useSong(
+    (state: SongState) => state.songCu
+  ) as SongDetail;
+  if (!songId) return null;
   async function addSongListToQueue() {
     const data = await fetcher(id);
     const updatedSongs = data!.songs.map((song) => ({
@@ -40,4 +47,4 @@ function AddSSonglistToQueue() {
   );
 }
 
-export default AddSSonglistToQueue;
+export default AddSonglistToQueue;
