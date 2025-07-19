@@ -1,16 +1,16 @@
-import AddToQueeue from "@/ui/general/optionBox/AddToQueeue";
 import OptionContainer from "@/ui/general/optionBox/OptionContainer";
 import ShareButton from "@/ui/general/optionBox/ShareButton";
 import AddToLibrary from "@/ui/general/optionBox/AddToLibrary";
 import RemoveFromLibrary from "./RemoveFromLibrary";
 import EditToPlaylist from "./EditToPlaylist";
-import PlayNextQueue from "@/ui/general/optionBox/PlayNextQueue";
+import PlayNextQueueSongList from "@/ui/general/optionBox/PlayNextQueueSongList";
+import AddSSonglistToQueue from "@/ui/general/optionBox/AddSSonglistToQueue";
 
 function PlaylistContainerOption() {
   return (
     <OptionContainer>
-      <PlayNextQueue />
-      <AddToQueeue />
+      <PlayNextQueueSongList />
+      <AddSSonglistToQueue />
       <AddToLibrary />
       <RemoveFromLibrary />
       <EditToPlaylist />
