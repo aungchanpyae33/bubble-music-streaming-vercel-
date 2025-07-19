@@ -59,6 +59,9 @@ export interface currentAddToQueueAction {
 export interface currentAddToNextAction {
   currentAddToNext: (song: song[], id: string, uni_id: string) => void;
 }
+export interface removeFromQueueAction {
+  removeFromQueue: (id: string, uni_id: string) => void;
+}
 export interface previousSongPlaylist {
   previousPlayListArray: getSongsReturn | {};
 }
@@ -245,6 +248,7 @@ export const useRepeatAndCurrentPlayList = create<
     currentSongPlaylisthuffleAction &
     currentAddToQueueAction &
     currentAddToNextAction &
+    removeFromQueueAction &
     IsRepeatState &
     RepeatAction &
     PrefetchAction &
@@ -297,6 +301,35 @@ export const useRepeatAndCurrentPlayList = create<
         const newSongs = [...playListArray.songs];
         newSongs.splice(currentIndex + 1, 0, ...song);
 
+        return {
+          playListArray: {
+            [playListArrayKey || ""]: {
+              ...playListArray,
+              songs: newSongs,
+            },
+          },
+        };
+      } else {
+        return state;
+      }
+    }),
+
+  removeFromQueue: (id, un_id) =>
+    set((state) => {
+      const playListArray = (Object.values(state.playListArray)[0] ||
+        undefined) as getSongsReturn | undefined;
+      const playListArrayKey = Object.keys(state.playListArray)[0] as string;
+
+      if (playListArray && "songs" in playListArray) {
+        const currentIndex = outputCurrentIndexV2(
+          playListArray.songs,
+          id,
+          un_id
+        );
+
+        if (currentIndex === -1) return state;
+        const newSongs = [...playListArray.songs];
+        newSongs.splice(currentIndex, 1);
         return {
           playListArray: {
             [playListArrayKey || ""]: {
