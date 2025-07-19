@@ -5,34 +5,31 @@ import { useContext } from "react";
 import { ListEnd } from "lucide-react";
 import IconWrapper from "../IconWrapper";
 import OptionIconEl from "./OptionIconEl";
-import { InfoTrackContext } from "@/ui/trackComponent/ContextInfoTrack";
 import {
   currentAddToQueueAction,
-  SongDetail,
-  SongState,
   useRepeatAndCurrentPlayList,
-  useSong,
 } from "@/lib/zustand";
 import { generateUUID } from "@/lib/GenerateUUID";
-
-function AddToQueue() {
+import { fetcher } from "@/database/dataApi";
+import { SongListContext } from "@/ui/playlist/playlistOption/ContextSongListContainer";
+function AddSSonglistToQueue() {
   const { setShow } = useContext(ContextMoreOption);
-  const { song } = useContext(InfoTrackContext);
+  const { id, type } = useContext(SongListContext);
   const currentAddToQueue = useRepeatAndCurrentPlayList(
     (state: currentAddToQueueAction) => state.currentAddToQueue
   );
-  const { id } = useSong((state: SongState) => state.songCu) as SongDetail;
-  if (!song || !id) return null;
-  const uuid = generateUUID();
-  const addUniIdSong = { ...song, uni_id: uuid };
-  const queueSong = addUniIdSong && [addUniIdSong];
-  function addToQueue() {
-    currentAddToQueue(queueSong);
+  async function addSongListToQueue() {
+    const data = await fetcher(id);
+    const updatedSongs = data!.songs.map((song) => ({
+      ...song,
+      uni_id: generateUUID(),
+    }));
+    currentAddToQueue(updatedSongs);
     setShow(false);
   }
   return (
     <OptionItem>
-      <OptionButton onClick={addToQueue}>
+      <OptionButton onClick={addSongListToQueue}>
         <OptionIconEl>
           <IconWrapper size="small" Icon={ListEnd} />
         </OptionIconEl>
@@ -43,4 +40,4 @@ function AddToQueue() {
   );
 }
 
-export default AddToQueue;
+export default AddSSonglistToQueue;

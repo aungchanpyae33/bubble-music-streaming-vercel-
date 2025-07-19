@@ -13,6 +13,7 @@ import {
   useSong,
 } from "@/lib/zustand";
 import { InfoTrackContext } from "@/ui/trackComponent/ContextInfoTrack";
+import { generateUUID } from "@/lib/GenerateUUID";
 
 function PlayNextQueue() {
   const { setShow } = useContext(ContextMoreOption);
@@ -23,12 +24,12 @@ function PlayNextQueue() {
   const { id, uni_id } = useSong(
     (state: SongState) => state.songCu
   ) as SongDetail;
-  if (!song) return null;
-
-  const addUniIdSong = { ...song, uni_id: crypto.randomUUID() };
+  console.log(id, uni_id);
+  if (!song || !id || !uni_id) return null;
+  const uuid = generateUUID();
+  const addUniIdSong = { ...song, uni_id: uuid };
   const queueSong = addUniIdSong && [addUniIdSong];
   function addToNext() {
-    console.log("hi");
     currentAddToNext(queueSong, id, uni_id);
     setShow(false);
   }
