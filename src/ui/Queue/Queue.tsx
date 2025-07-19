@@ -11,10 +11,10 @@ import MoreOptionContext from "../trackComponent/MoreOptionContext";
 import MoreOption from "../trackComponent/MoreOption";
 import { useRef } from "react";
 import PlaceHolderQueue from "./PlaceHolderQueue";
-import TrackItemContainer from "../trackComponent/TrackItemContainer";
 import ContextInfoTrack from "../trackComponent/ContextInfoTrack";
 import { AnimatePresence } from "motion/react";
 import { motion } from "motion/react";
+import QueueItemContainer from "./QueueItemContainer";
 function Queue() {
   const playListArray = useRepeatAndCurrentPlayList(
     (state: currentSongPlaylist) => Object.values(state.playListArray)[0] || []
@@ -77,7 +77,7 @@ function Queue() {
                     song={song}
                   >
                     <MoreOptionContext>
-                      <MoreOption targetElement={<TrackItemContainer />} />
+                      <MoreOption targetElement={<QueueItemContainer />} />
                     </MoreOptionContext>
                   </ContextInfoTrack>
                 </div>
