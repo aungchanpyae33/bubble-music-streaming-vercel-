@@ -2,6 +2,7 @@
 import type { getSongsReturn } from "@/database/data";
 import { createContext, type ReactNode, useEffect, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { fetcher } from "@/database/dataApi";
 
 interface SongsDataContextType {
   songsData: getSongsReturn | null;
@@ -20,14 +21,10 @@ function ContextSongsData({
   children: ReactNode;
   songs: getSongsReturn | null;
 }) {
-  const fetcher = async (): Promise<getSongsReturn | null> => {
-    const fetchData = await fetch(`/api/playlist/${playlistId}`);
-    return await fetchData.json();
-  };
   const skipInitialFetch = useRef(true);
   const { data } = useQuery({
     queryKey: ["playlist", playlistId],
-    queryFn: fetcher,
+    queryFn: () => fetcher(playlistId),
     initialData: songs,
     staleTime: Infinity,
     enabled: !skipInitialFetch.current,
