@@ -5,11 +5,21 @@ import { Compass, ListMusic, Radio } from "lucide-react";
 import IconWrapper from "../general/IconWrapper";
 
 import { getUserPlaylist } from "@/database/data";
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from "@tanstack/react-query";
 
 async function NavSideBar() {
   const deviceFromUserAgent = await DeviceCheck();
-  const { data } = await getUserPlaylist();
-  if (!data) return null;
+  const queryClient = new QueryClient();
+  const { data, error } = await queryClient.fetchQuery({
+    queryKey: ["user-library"],
+    queryFn: getUserPlaylist,
+  });
+  if (!data || error) return null;
+
   return (
     <>
       <div
@@ -17,24 +27,25 @@ async function NavSideBar() {
           hidden: deviceFromUserAgent !== "desktop",
         })}
       >
-        <NavList
-          songs={data}
-          childrenExplore={
-            <div className=" w-[70px] max-w-[70px] h-[70px]   flex items-center justify-center     ">
-              <IconWrapper size="large" Icon={Compass} />
-            </div>
-          }
-          childrenLive={
-            <div className=" w-[70px]  h-[70px]  flex items-center justify-center  ">
-              <IconWrapper size="large" Icon={Radio} />
-            </div>
-          }
-          childrenPlaylist={
-            <div className=" w-[70px] h-[70px]  flex items-center justify-center  ">
-              <IconWrapper size="large" Icon={ListMusic} />
-            </div>
-          }
-        />
+        <HydrationBoundary state={dehydrate(queryClient)}>
+          <NavList
+            childrenExplore={
+              <div className=" w-[70px] max-w-[70px] h-[70px]   flex items-center justify-center     ">
+                <IconWrapper size="large" Icon={Compass} />
+              </div>
+            }
+            childrenLive={
+              <div className=" w-[70px]  h-[70px]  flex items-center justify-center  ">
+                <IconWrapper size="large" Icon={Radio} />
+              </div>
+            }
+            childrenPlaylist={
+              <div className=" w-[70px] h-[70px]  flex items-center justify-center  ">
+                <IconWrapper size="large" Icon={ListMusic} />
+              </div>
+            }
+          />
+        </HydrationBoundary>
       </div>
       <div
         className={clsx("", {

@@ -12,13 +12,11 @@ interface childrenProp {
   childrenExplore: ReactNode;
   childrenLive: ReactNode;
   childrenPlaylist: ReactNode;
-  songs: getProps[];
 }
 function NavList({
   childrenExplore,
   childrenLive,
   childrenPlaylist,
-  songs,
 }: childrenProp) {
   // console.log("render");
   const [open, setOpen] = useState(false);
@@ -70,11 +68,7 @@ function NavList({
           >
             {childrenLive}
           </NavSideLink>
-          <PlaylistFolderContainer
-            open={open}
-            setOpen={setOpen}
-            songs={songs}
-          />
+          <PlaylistFolderContainer open={open} setOpen={setOpen} />
         </div>
       </NavListUlWrapper>
 

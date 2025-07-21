@@ -7,25 +7,17 @@ import TitleInput from "./createPlaylist/TitleInput";
 import DescriptionInput from "./createPlaylist/DescriptionInput";
 import SubmitButton from "./createPlaylist/SubmitButton";
 import InitCreateButton from "./createPlaylist/InitCreateButton";
-import { getProps } from "@/database/data";
 import { insertDataAction } from "@/actions/createPlaylist";
-import { useKindeAuth } from "@kinde-oss/kinde-auth-nextjs";
-import { addPlaylistFolderAction, usePlaylistFolder } from "@/lib/zustand";
+import { useQueryClient } from "@tanstack/react-query";
 
-interface PlaylistAddProp {
-  setSongsData: React.Dispatch<React.SetStateAction<getProps[]>>;
-}
-function PlaylistAdd({ setSongsData }: PlaylistAddProp) {
+function PlaylistAdd() {
+  const queryClient = useQueryClient();
   const [open, setOpen] = useState(false);
   const formParentRef = useRef<HTMLDivElement>(null);
-  const { user } = useKindeAuth();
   useEffect(() => {
     open && formParentRef.current?.focus();
   }, [open, formParentRef]);
   const [isPending, startTransition] = useTransition();
-  const addPlaylistFolder = usePlaylistFolder(
-    (state: addPlaylistFolderAction) => state.addPlaylistFolder
-  );
   return (
     <>
       <InitCreateButton open={open} setOpen={setOpen} />
@@ -51,10 +43,12 @@ function PlaylistAdd({ setSongsData }: PlaylistAddProp) {
                     const { data, error } = await insertDataAction(
                       playlistname
                     );
-                    console.log(data, error);
+
                     if (data && data.length > 0) {
-                      setSongsData(data);
-                      addPlaylistFolder(data[0]);
+                      queryClient.setQueryData(["user-library"], {
+                        data,
+                        error: null,
+                      });
                       setOpen(false);
                     }
                   });
@@ -75,12 +69,6 @@ function PlaylistAdd({ setSongsData }: PlaylistAddProp) {
                       <IconWrapper size="large" Icon={X} />
                     </button>
                   </legend>
-                  <input
-                    type="text"
-                    name="userId"
-                    defaultValue={user?.id}
-                    hidden
-                  />
                   <TitleInput />
                   <DescriptionInput />
                   <SubmitButton isPending={isPending} />

@@ -29,7 +29,7 @@ function EditableAudiosContainer({
   // const dataInc = useRef(0);
   // const rowCell = useRef(1);
   return (
-    <ContextSongsData songs={playlistSong} playlistId={playlistId}>
+    <ContextSongsData playlistId={playlistId}>
       <ConRenderSong
         container={
           <TableHeadBgChange>

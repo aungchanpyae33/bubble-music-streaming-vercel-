@@ -1,5 +1,5 @@
 "use client";
-import useAddSongMutate from "@/lib/CustomHooks/AddSongMutate";
+import useAddSongMutate from "@/lib/CustomHooks/mutation/AddSongMutate";
 import {
   isSongExist,
   songExist,
@@ -15,9 +15,12 @@ function ConfirmAddSong() {
   const setIsSongExist = useIsExistSongs(
     (state: songExistAction) => state.setIsSongExist
   );
-  const mutation = useAddSongMutate({ songId: songId, playlistId: playlistId });
+  const mutation = useAddSongMutate(playlistId);
   function handleAdd() {
-    mutation.mutate();
+    mutation.mutate({
+      playlistId,
+      songId,
+    });
   }
   useEffect(() => {
     if (mutation.isSuccess) {
