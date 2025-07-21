@@ -6,16 +6,23 @@ import OptionIconEl from "@/ui/general/optionBox/OptionIconEl";
 import IconWrapper from "@/ui/general/IconWrapper";
 import { SquarePen } from "lucide-react";
 import { SongListContext } from "@/ui/playlist/playlistOption/ContextSongListContainer";
+import { editToPlaylistAction, useEditToPlaylist } from "@/lib/zustand";
 
 function EditToPlaylistChild() {
   const { setShow } = useContext(ContextMoreOption);
+  const { id, name } = useContext(SongListContext);
+  const EditToPlaylistAction = useEditToPlaylist(
+    (state: editToPlaylistAction) => state.editToPlaylistAction
+  );
+  if (!id || !name) return null;
+
+  function handleEdit() {
+    EditToPlaylistAction({ id, name });
+    setShow(false);
+  }
   return (
     <OptionItem>
-      <OptionButton
-        onClick={() => {
-          setShow(false);
-        }}
-      >
+      <OptionButton onClick={handleEdit}>
         <OptionIconEl>
           <IconWrapper size="small" Icon={SquarePen} />
         </OptionIconEl>

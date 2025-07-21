@@ -1,11 +1,13 @@
 import AddSongsToPlaylistBox from "./AddSongsToPlaylistBox";
-import ConfirmAddSongs from "./ConfirmAddSongs";
+import ConfirmAddSongBox from "./ConfirmAddSongBox";
+import EditPlaylistBox from "./EditPlaylistBox";
 
 function ModalBox() {
   return (
     <>
-      <ConfirmAddSongs />
+      <ConfirmAddSongBox />
       <AddSongsToPlaylistBox />
+      <EditPlaylistBox />
     </>
   );
 }

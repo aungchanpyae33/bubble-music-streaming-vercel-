@@ -1,8 +1,8 @@
 import { focusStateAction, useNotInputFocus } from "@/lib/zustand";
 import { useState } from "react";
 
-function DescriptionInput() {
-  const [textValue, setTextValue] = useState("");
+function DescriptionInput({ initValue }: { initValue?: string }) {
+  const [textValue, setTextValue] = useState(initValue ? initValue : "");
   const setIsInputFocus = useNotInputFocus(
     (state: focusStateAction) => state.setIsInputFocus
   );

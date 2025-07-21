@@ -60,6 +60,15 @@ export interface getSongsReturn {
   songs: song[];
 }
 
+export interface getUserLibraryReturn {
+  id: string;
+  name: string;
+  related_id: string;
+  related_name: string;
+  source: Database["public"]["Enums"]["media_source_type"];
+  type: Database["public"]["Enums"]["media_item_type"];
+}
+
 export interface getLikeSongsReturn {
   songs: song[][];
 }
@@ -134,7 +143,7 @@ export const getPlaylistSongs = async (playlistId: string) => {
     const { data, error } = (await supabase.rpc("get_playlist_songs", {
       p_id: playlistId,
     })) as { data: getSongsReturn[] | null; error: any };
-    console.log(data, error);
+
     return { data, error };
   } catch (error) {
     return { data: null, error };

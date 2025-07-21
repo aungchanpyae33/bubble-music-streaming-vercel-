@@ -4,6 +4,7 @@ import { createContext, ReactNode } from "react";
 
 interface SongListContextProps {
   id: getProps["id"];
+  name: getProps["name"];
   source: getProps["source"];
   type: getProps["type"];
 }
@@ -11,6 +12,7 @@ interface SongListContextProps {
 // Default context value
 export const SongListContext = createContext<SongListContextProps>({
   id: "",
+  name: "",
   source: "none",
   type: "album", //for default data(forced) no meaningful
 });
@@ -20,13 +22,15 @@ function ContextSongListContainer({
   id,
   source,
   type,
+  name,
 }: {
   children: ReactNode;
   id: getProps["id"];
+  name: getProps["name"];
   source: getProps["source"];
   type: getProps["type"];
 }) {
-  const value = { id, source, type };
+  const value = { id, name, source, type };
 
   return (
     <SongListContext.Provider value={value}>

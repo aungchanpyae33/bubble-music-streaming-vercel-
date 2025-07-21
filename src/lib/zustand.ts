@@ -571,3 +571,23 @@ export const useAddSongsToPlaylist = create<
       songsToPlaylist: value,
     })),
 }));
+
+export interface editToPlaylistProps {
+  id: string;
+  name: string;
+}
+export interface editToPlaylist {
+  editToPlaylist: editToPlaylistProps | {};
+}
+export interface editToPlaylistAction {
+  editToPlaylistAction: (value: editToPlaylistProps | {}) => void;
+}
+export const useEditToPlaylist = create<editToPlaylist & editToPlaylistAction>(
+  (set) => ({
+    editToPlaylist: {},
+    editToPlaylistAction: (value) =>
+      set(() => ({
+        editToPlaylist: value,
+      })),
+  })
+);

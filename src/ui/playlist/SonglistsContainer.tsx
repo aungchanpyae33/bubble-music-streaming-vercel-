@@ -45,7 +45,12 @@ function SonglistsContainer({
           className=" group-hover:brightness-75 "
         />
 
-        <ContextSongListContainer id={id} source={source} type={type}>
+        <ContextSongListContainer
+          id={id}
+          source={source}
+          type={type}
+          name={name}
+        >
           <MoreOptionContext>
             <MoreOption targetElement={<SongListContainerOption />} />
           </MoreOptionContext>
