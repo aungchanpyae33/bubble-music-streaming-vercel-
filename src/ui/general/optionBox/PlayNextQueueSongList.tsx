@@ -6,7 +6,7 @@ import IconWrapper from "../IconWrapper";
 import { ContextMoreOption } from "@/ui/trackComponent/MoreOptionContext";
 import { useContext } from "react";
 import { SongListContext } from "@/ui/playlist/playlistOption/ContextSongListContainer";
-import { fetcher } from "@/database/dataApi";
+import { getPlaylistSongsApi } from "@/database/dataApi";
 import { generateUUID } from "@/lib/GenerateUUID";
 import {
   currentAddToNextAction,
@@ -28,8 +28,10 @@ function PlayNextQueueSongList() {
   ) as SongDetail;
   if (!songId) return null;
   async function addToNextSonglist() {
-    const data = await fetcher(id);
-    const updatedSongs = data!.songs.map((song) => ({
+    const { data, error } = await getPlaylistSongsApi(id);
+    if (!data || error) return;
+    const songsData = data[0];
+    const updatedSongs = songsData.songs!.map((song) => ({
       ...song,
       uni_id: generateUUID(),
     }));

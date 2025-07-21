@@ -19,20 +19,24 @@ import IconWrapper from "../general/IconWrapper";
 import { Pause, Play } from "lucide-react";
 import { getSongsReturn } from "@/database/data";
 import outputUniUrl from "@/lib/CustomHooks/OutputUniUrl";
+import { getPlaylistSongsApi } from "@/database/dataApi";
 const hasData = async (
-  dataFromFetch: RefObject<Promise<getSongsReturn> | null>,
+  dataFromFetch: RefObject<Promise<{
+    data: getSongsReturn[] | null;
+    error: any;
+  }> | null>,
   playlistId: string
 ) => {
-  console.log(playlistId);
   if (!dataFromFetch.current) {
-    dataFromFetch.current = fetch(`/api/playlist/${playlistId}`).then((res) =>
-      res.json()
-    );
+    dataFromFetch.current = getPlaylistSongsApi(playlistId);
   }
   return dataFromFetch.current;
 };
 function DirectPlayButton({ playListId }: { playListId: string }) {
-  const dataFromFetch = useRef<Promise<getSongsReturn> | null>(null);
+  const dataFromFetch = useRef<Promise<{
+    data: getSongsReturn[] | null;
+    error: any;
+  }> | null>(null);
 
   // toggle playlistfolder
   const IsPlayList = useDirectPlayBack(
@@ -63,11 +67,15 @@ function DirectPlayButton({ playListId }: { playListId: string }) {
   const setPlayListArray = useRepeatAndCurrentPlayList(
     (state: currentSongPlaylistAction) => state.setPlayListArray
   );
-
+  async function getData() {
+    const returnData = await hasData(dataFromFetch, playListId);
+    const { data, error } = returnData;
+    if (error || !data) return;
+    const songsData = data[0];
+    return songsData;
+  }
   const handlePlayClick = async () => {
-    const playlistData = !playlistId
-      ? await hasData(dataFromFetch, playListId)
-      : playListArray;
+    const playlistData = !playlistId ? await getData() : playListArray;
     console.log(playlistData);
     if (playlistData) {
       const currentIndex = (() => {

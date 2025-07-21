@@ -13,8 +13,9 @@ import {
   useSong,
 } from "@/lib/zustand";
 import { generateUUID } from "@/lib/GenerateUUID";
-import { fetcher } from "@/database/dataApi";
 import { SongListContext } from "@/ui/playlist/playlistOption/ContextSongListContainer";
+import { getPlaylistSongsApi } from "@/database/dataApi";
+
 function AddSonglistToQueue() {
   const { setShow } = useContext(ContextMoreOption);
   const { id, type } = useContext(SongListContext);
@@ -26,8 +27,10 @@ function AddSonglistToQueue() {
   ) as SongDetail;
   if (!songId) return null;
   async function addSongListToQueue() {
-    const data = await fetcher(id);
-    const updatedSongs = data!.songs.map((song) => ({
+    const { data, error } = await getPlaylistSongsApi(id);
+    if (!data || error) return;
+    const songsData = data[0];
+    const updatedSongs = songsData.songs.map((song) => ({
       ...song,
       uni_id: generateUUID(),
     }));
