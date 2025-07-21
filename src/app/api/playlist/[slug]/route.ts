@@ -6,30 +6,42 @@ export async function GET(
   _request: NextRequest,
   { params }: { params: Promise<{ slug: string }> }
 ) {
-  const { slug } = await params;
-  if (!slug) {
+  try {
+    const { slug } = await params;
+    if (!slug) {
+      return NextResponse.json(
+        { error: "id is required" },
+        {
+          status: 400,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+    }
+    const { data, error } = await getPlaylistSongs(slug);
+    if (error || !data) {
+      return NextResponse.json(
+        { error: "Internal server error", details: error },
+        {
+          status: 500,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+    }
+
     return NextResponse.json(
-      { error: "Playlist id is required" },
+      { data, error: null },
       {
-        status: 400,
+        status: 200,
         headers: { "Content-Type": "application/json" },
       }
     );
-  }
-  const { data, error } = await getPlaylistSongs(slug);
-  const returnData = data && data[0];
-  if (error || !data || !returnData) {
+  } catch (error) {
     return NextResponse.json(
-      { error: "Internal server error", details: error },
+      { error },
       {
         status: 500,
         headers: { "Content-Type": "application/json" },
       }
     );
   }
-
-  return NextResponse.json(returnData, {
-    status: 200,
-    headers: { "Content-Type": "application/json" },
-  });
 }

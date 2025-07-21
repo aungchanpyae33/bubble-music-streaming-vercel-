@@ -16,11 +16,13 @@ function AddSongButton() {
     (state: addSongsToPlaylist) => state.addSongsToPlaylist
   );
   const { setShow } = useContext(ContextMoreOption);
+  if (!songId) return null;
+
   return (
     <OptionItem>
       <OptionButton
         onClick={() => {
-          addSongsToPlaylist({ songId: songId });
+          addSongsToPlaylist({ songId });
           setShow(false);
         }}
       >

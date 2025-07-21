@@ -7,7 +7,7 @@ import {
   useIsExistSongs,
 } from "@/lib/zustand";
 import { checkSongsBeforeAdd } from "@/actions/checkSongsBeforeAdd";
-import useAddSongMutate from "@/lib/CustomHooks/AddSongMutate";
+import useAddSongMutate from "@/lib/CustomHooks/mutation/AddSongMutate";
 
 function AddSongItem({
   playlistSongs,
@@ -27,19 +27,19 @@ function AddSongItem({
   const { songId } = useAddSongsToPlaylist(
     (state: songsToPlaylist) => state.songsToPlaylist
   ) as addSongsToPlaylistProps;
-
-  const mutation = useAddSongMutate({ songId: songId, playlistId: playlistId });
-
+  const mutation = useAddSongMutate(playlistId);
   async function handleAdd() {
     addSongsToPlaylist({});
-
     const { exists } = await checkSongsBeforeAdd({
       playlistId: playlistId,
       songId: songId,
     });
-    console.log(exists);
+
     if (!exists) {
-      mutation.mutate();
+      mutation.mutate({
+        playlistId: playlistId,
+        songId: songId,
+      });
     } else {
       setIsSongExist({ playlistId: playlistId, songId: songId });
     }

@@ -2,10 +2,13 @@
 
 import { createClient } from "@/database/server";
 
-export const insertSongtoPlaylist = async (
-  playlistId: string,
-  songId: string
-) => {
+export const insertSongtoPlaylist = async ({
+  playlistId,
+  songId,
+}: {
+  playlistId: string;
+  songId: string;
+}) => {
   try {
     const supabase = await createClient();
     let { data, error } = await supabase.rpc("add_playlist_song", {
