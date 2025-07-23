@@ -90,6 +90,12 @@ function PlaceHolderToggleState({
     }
 
     function playNext() {
+      if (isRepeat) {
+        dataAudio!.current!.currentTime = 0;
+        segNum.current = 1;
+        dataAudio!.current!.play();
+        return;
+      }
       if (!playListArray.songs || playListArray.songs.length === 0) return;
       const currentIndex = outputCurrentIndex(playListArray, url, uni_id);
       if (!isRepeat) {
@@ -125,10 +131,6 @@ function PlaceHolderToggleState({
         setPlay(uniUrl, true);
         // [todo] need to check if there is a new playlist or not
         setPlayList(playlistId[0], true);
-      } else {
-        dataAudio!.current!.currentTime = 0;
-        segNum.current = 1;
-        dataAudio!.current!.play();
       }
     }
     // console.log("whyyyyyyyyyyyy");

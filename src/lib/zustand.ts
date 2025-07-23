@@ -351,10 +351,12 @@ export const useRepeatAndCurrentPlayList = create<
     prefetchedUrl,
     prefetchPromiseRef,
   }: PrefetchParams) => {
+    if (get().isRepeat) return null;
     // later need to change another abort
     const fetchOptions: RequestInit = {
       signal: abortController!.current!.signal,
     };
+
     const playlistArray = Object.values(
       get().playListArray
     )[0] as getSongsReturn;
@@ -364,7 +366,7 @@ export const useRepeatAndCurrentPlayList = create<
     const extract = Math.min(currentIndex + 1, playlistArray.songs.length - 1);
     const url = playlistArray.songs[extract].url;
     // Early return if repeat is enabled
-    if (get().isRepeat) return null;
+
     // if (url !== currentUrl) {
     const initUrl = url;
     const seg1Url = url.replace("init.mp4", "seg-1.m4s");
