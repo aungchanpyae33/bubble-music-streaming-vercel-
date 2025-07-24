@@ -1,6 +1,7 @@
-import { useContext } from "react";
+import { useContext, useRef } from "react";
 import { ContextToggle } from "./ToggleContext";
 import { focusStateAction, useNotInputFocus } from "@/lib/zustand";
+import { useSearchParams } from "next/navigation";
 interface InputComponentProps {
   inputRef: React.RefObject<HTMLInputElement | null>;
   setValue: React.Dispatch<React.SetStateAction<string | null>>;
@@ -11,6 +12,8 @@ function InputComponent({ inputRef, setShow, setValue }: InputComponentProps) {
   const setIsInputFocus = useNotInputFocus(
     (state: focusStateAction) => state.setIsInputFocus
   );
+  const searchParams = useSearchParams();
+  const defaultValueRef = useRef(searchParams.get("query") || "");
   return (
     <>
       <label htmlFor="search">
@@ -24,6 +27,7 @@ function InputComponent({ inputRef, setShow, setValue }: InputComponentProps) {
         required
         autoComplete="off"
         spellCheck="false"
+        defaultValue={defaultValueRef.current}
         ref={inputRef}
         onBlur={() => {
           setOpen(false);
