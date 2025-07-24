@@ -52,7 +52,7 @@ function Queue() {
 
               <div
                 className="flex-1 overflow-hidden
-              flex gap-2 items-center"
+              flex gap-2 size-[50px] bg-[#333333] items-center"
               >
                 <Image
                   src={
