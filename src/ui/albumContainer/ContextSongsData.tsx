@@ -1,8 +1,8 @@
 "use client";
 import type { getSongsReturn } from "@/database/data";
-import { createContext, type ReactNode, useEffect, useRef } from "react";
+import { createContext, type ReactNode } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { getPlaylistSongsApi } from "@/database/dataApi";
+import { getPlaylistSongsClient } from "@/database/client-data";
 
 interface SongsDataContextType {
   songsData: getSongsReturn | null;
@@ -21,7 +21,7 @@ function ContextSongsData({
 }) {
   const { data: queryData, error: queryError } = useQuery({
     queryKey: ["playlist", playlistId],
-    queryFn: () => getPlaylistSongsApi(playlistId),
+    queryFn: () => getPlaylistSongsClient(playlistId),
   });
   const { data, error } = queryData || {};
   if (!data || error) {

@@ -1,11 +1,11 @@
 "use client";
 import AddSongItem from "./AddSongItem";
 import { useQuery } from "@tanstack/react-query";
-import { getUserLibraryApi } from "@/database/dataApi";
+import { getUserLibClient } from "@/database/client-data";
 function AddSongContent() {
   const { data: queryData, error: queryError } = useQuery({
     queryKey: ["user-library"],
-    queryFn: () => getUserLibraryApi(),
+    queryFn: () => getUserLibClient(),
   });
   const { data, error } = queryData || {};
   console.log(data, error);

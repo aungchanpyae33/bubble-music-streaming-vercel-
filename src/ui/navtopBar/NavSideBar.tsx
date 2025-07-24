@@ -4,7 +4,7 @@ import clsx from "clsx";
 import { Compass, ListMusic, Radio } from "lucide-react";
 import IconWrapper from "../general/IconWrapper";
 
-import { getUserPlaylist } from "@/database/data";
+import { getUserLib } from "@/database/data";
 import {
   dehydrate,
   HydrationBoundary,
@@ -16,7 +16,7 @@ async function NavSideBar() {
   const queryClient = new QueryClient();
   const { data, error } = await queryClient.fetchQuery({
     queryKey: ["user-library"],
-    queryFn: getUserPlaylist,
+    queryFn: getUserLib,
   });
   if (!data || error) return null;
 

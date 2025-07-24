@@ -1,5 +1,4 @@
 import { PostgrestError } from "@supabase/supabase-js";
-import { supabase } from "./supabase";
 import { createClient } from "./server";
 import { Database } from "../../database.types";
 export interface Movie {
@@ -73,14 +72,6 @@ export interface getLikeSongsReturn {
   songs: song[][];
 }
 
-export const getLike = async (id: string) => {
-  const { data, error } = await supabase.rpc("get_songs_with_likes", {
-    current_user_id: id,
-  });
-  if (error) console.error(error);
-  else console.log(data);
-};
-
 // export const getLikeSongs = async (
 //   userId: string
 // ): Promise<getLikeSongsReturn["songs"]> => {
@@ -113,7 +104,7 @@ export const getRecent = async () => {
     return { data: null, error };
   }
 };
-export const getUserPlaylist = async () => {
+export const getUserLib = async () => {
   try {
     const supabase = await createClient();
     let { data: songs, error } = await supabase.rpc("get_user_library");
@@ -130,6 +121,18 @@ export const getSearchSong = async (query: string) => {
     const { data, error } = await supabase.rpc("get_similar_songs_text", {
       input_song_text: query,
       similarity_threshold: 0.2,
+    });
+    return { data, error };
+  } catch (err) {
+    return { data: null, error: err };
+  }
+};
+
+export const getSearchPage = async (query: string) => {
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase.rpc("search_dropdown", {
+      query,
     });
     return { data, error };
   } catch (err) {
@@ -160,10 +163,4 @@ export const getAlbumSongs = async (albumId: string) => {
   } catch (error) {
     return { data: null, error };
   }
-};
-
-export const test = async () => {
-  const { data, error } = await supabase.from("song").select("");
-
-  return { data, error };
 };

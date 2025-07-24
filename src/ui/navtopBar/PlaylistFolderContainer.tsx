@@ -4,8 +4,8 @@ import IconWrapper from "../general/IconWrapper";
 import { ListMusic } from "lucide-react";
 import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
-import { getUserLibraryApi } from "@/database/dataApi";
 import PlaylistAdd from "./PlaylistAdd";
+import { getUserLibClient } from "@/database/client-data";
 
 function PlaylistFolderContainer({
   open,
@@ -16,9 +16,8 @@ function PlaylistFolderContainer({
 }) {
   const { data: queryData, error: queryError } = useQuery({
     queryKey: ["user-library"],
-    queryFn: () => getUserLibraryApi(),
+    queryFn: () => getUserLibClient(),
   });
-  // console.log(data, error);
   const { data, error } = queryData || {};
   return (
     <div>
@@ -43,6 +42,7 @@ function PlaylistFolderContainer({
             href={`/${item.type}/${item.id}`}
             className=" mt-2  h-[50px] hover:bg-[#333333] leading-relaxed  flex items-center"
             key={item.id}
+            onClick={() => setOpen(false)}
           >
             <div className="w-[70px]  cursor-pointer text-center">icon</div>
             <div className=" flex-1  truncate pr-2">{item.name}</div>
