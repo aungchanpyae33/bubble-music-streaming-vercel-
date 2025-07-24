@@ -7,8 +7,8 @@ interface songContext {
 }
 
 interface InfoTrackContextProps extends songContext {
-  id: string;
-  source: "create" | "reference" | "none";
+  id?: string;
+  source?: "create" | "reference" | "none";
 }
 
 export const InfoTrackContext = createContext<InfoTrackContextProps>({
@@ -23,8 +23,8 @@ function ContextInfoTrack({
   song,
 }: {
   children: React.ReactNode;
-  id: string;
-  source: "create" | "reference" | "none";
+  id?: string;
+  source?: "create" | "reference" | "none";
   song: song | undefined;
 }) {
   const value = { id, source, song };

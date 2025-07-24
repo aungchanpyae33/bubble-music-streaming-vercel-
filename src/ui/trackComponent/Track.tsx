@@ -18,21 +18,19 @@ function Track({
 }: // roleCell,
 // dataInc,
 {
-  playlistSong: getSongsReturn | undefined;
+  playlistSong?: getSongsReturn | undefined;
   song: song;
   index: number;
   // roleCell: RefObject<number>;
   // dataInc: RefObject<number>;
 }) {
-  console.log(playlistSong?.might_repeat);
   // console.log(like, playlistSong, "sdfl");
   const tooltipContent = [
     "ထားသော ကိုယ်ပိုင် ဝက်ဘ်အက်ပ် ပရောဂျက်တစ်ခုဖြစ်ပါသည်။ရိူးရှင်းပြီး အသုံးပြုရ လွယ်ကူသောဒီဇိုင်းဖြင့် ဖန်တီးထားပြီး အသုံးပြုသူ အနေဖြင့် သီချင်းနားထောင်ခြင်း ၊ သိမ်းဆည်းခြင်း အပြင် အခြားသူများဖြင့်ပါ တိုက်ရိုက်နားဆင်နိုင်ပါသည်။",
   ];
   return (
     <tr
-      className=" transition-colors duration-150  [&:has(:focus-visible)]:ring-4 h-[72px]  hover:bg-[#1E2328] group focus-within:bg-[#333333]
-      focus-within:hover:bg-[#333333]
+      className=" transition-colors duration-150  [&:has(:focus-visible)]:ring-4 h-[72px]  hover:bg-[#1E2328] group
       "
       // tabIndex={0}
       id="uni1"
@@ -46,7 +44,7 @@ function Track({
       //   FocusElement(e.currentTarget, "rowCell", roleCell);
       // }}
     >
-      <td className="px-2 max-w-[10px] ">
+      <td className="px-2 w-[50px] ">
         <ToggleElement
           playlistSong={playlistSong}
           song={song}
@@ -83,8 +81,8 @@ function Track({
       </td>
       <td className="w-14 text-center px-2">
         <ContextInfoTrack
-          id={playlistSong!.id!}
-          source={playlistSong?.source || "none"}
+          id={playlistSong ? playlistSong.id : undefined}
+          source={playlistSong ? playlistSong.source : undefined}
           song={song}
         >
           <MoreOptionContext>
