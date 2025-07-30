@@ -9,17 +9,13 @@ import clsx from "clsx";
 function AlbumImg() {
   const imgRef = useRef<HTMLImageElement | null>(null);
   const { setBgValue } = useContext(ContextAlbum);
-  const [isImageLoaded] = useGetDominantColor({ setBgValue, imgRef });
+  useGetDominantColor({ setBgValue, imgRef });
   return (
     <div
-      className=" lg:w-[250px] rounded overflow-hidden md:w-[200px] shrink-0 w-[180px]  aspect-square  object-cover relative bg-[#343333]
+      className=" lg:w-[250px] rounded overflow-hidden md:w-[200px] shrink-0 w-[180px]  aspect-square  object-cover relative bg-[#222222]
     "
     >
       <Image
-        className={clsx("transition-opacity duration-1000", {
-          "opacity-0": isImageLoaded === "initial",
-          "opacity-100": isImageLoaded === "success",
-        })}
         ref={imgRef}
         src={
           "https://tebi.bubblemusic.dpdns.org/lee-hi/4-only/cover/photo_2025-05-23_14-51-24.jpg"

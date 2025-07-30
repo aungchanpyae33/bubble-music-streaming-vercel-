@@ -4,10 +4,9 @@ const useGetDominantColor = ({
   setBgValue,
   imgRef,
 }: {
-  setBgValue: React.Dispatch<SetStateAction<number[] | undefined>>;
+  setBgValue: React.Dispatch<SetStateAction<number[]>>;
   imgRef: RefObject<HTMLImageElement | null>;
 }) => {
-  const [isImageLoaded, setIsImageLoaded] = useState("initial");
   useEffect(() => {
     const img = imgRef!.current!;
     let isMounted = true;
@@ -20,11 +19,8 @@ const useGetDominantColor = ({
       canvas.height = img.height;
 
       const ctx = canvas.getContext("2d");
-
-      if (ctx) {
-        ctx.drawImage(img, 0, 0, img.width, img.height);
-      } // 2. Get the average color (simple example - improve as needed)
-
+      if (!ctx) return;
+      ctx.drawImage(img, 0, 0, img.width, img.height);
       const imageData = ctx!.getImageData(0, 0, img.width, img.height).data;
 
       let r = 0,
@@ -40,30 +36,24 @@ const useGetDominantColor = ({
       }
       const mainR = Math.round(r / (imageData.length / 4));
       const mainG = Math.round(g / (imageData.length / 4));
-      const maninB = Math.round(b / (imageData.length / 4));
-
-      setIsImageLoaded("success");
-      setBgValue([mainR, mainG, maninB]);
+      const mainB = Math.round(b / (imageData.length / 4));
+      if (isNaN(mainR) || isNaN(mainG) || isNaN(mainB)) return;
+      setBgValue([mainR, mainG, mainB]);
     }
 
-    function handleError() {
-      setIsImageLoaded("error");
-    }
+    // Check if the image has already been loaded (e.g., from cache)
     if (img.complete) {
+      // If already loaded, extract the color immediately
       getColor();
     } else {
+      // If not yet loaded, wait for the 'load' event to fire before extracting color
       img.addEventListener("load", getColor);
     }
-    img.addEventListener("error", handleError);
-
     return () => {
       isMounted = false;
       img.removeEventListener("load", getColor);
-      img.removeEventListener("error", handleError);
     };
   }, [imgRef, setBgValue]);
-
-  return [isImageLoaded];
 };
 
 export default useGetDominantColor;
