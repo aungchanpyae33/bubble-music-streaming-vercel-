@@ -16,7 +16,7 @@ const useMediaSourceBuffer = (
   url: string,
   sege: number,
   song_time_stamp: Array<number>,
-  uni_id: string
+  id: string
 ) => {
   const fetching = useRef<FetchingState>({
     isFetch: false,
@@ -39,12 +39,12 @@ const useMediaSourceBuffer = (
   // function to wait data from prefetchSegment
   const checkFeching = useCallback(async () => {
     return prefetchSegment({
-      currentUrl: url,
+      id,
       abortController,
       prefetchedUrl,
       prefetchPromiseRef,
     });
-  }, [prefetchSegment, url]);
+  }, [prefetchSegment, id]);
 
   const fetchAudioSegment = useCallback(
     async (Num: number) => {
@@ -247,7 +247,7 @@ const useMediaSourceBuffer = (
     return () => {
       clearUpPreviousSong();
     };
-  }, [startUp, url, clearUpPreviousSong, uni_id]);
+  }, [startUp, url, clearUpPreviousSong, id]);
   return {
     dataAudio,
     segNum,

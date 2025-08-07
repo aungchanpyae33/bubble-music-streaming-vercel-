@@ -5,11 +5,13 @@ import DirectPlayButton from "./DirectPlayButton";
 import UnderLineLinkHover from "../general/UnderLineLinkHover";
 import MoreOptionContext from "../trackComponent/MoreOptionContext";
 import MoreOption from "../trackComponent/MoreOption";
-import ContextSongListContainer from "./playlistOption/ContextSongListContainer";
-import { getProps } from "@/database/data";
-import SongListContainerOption from "../general/optionBox/SongListContainerOption";
 
-interface SonglistsContainerProps extends getProps {
+import SongListContainerOption from "../general/optionBox/SongListContainerOption";
+import SonglistContainerWrapper from "./playlistOption/SonglistContainerWrapper";
+import ContextSongListContainer from "./playlistOption/ContextSongListContainer";
+import { listInfo } from "@/database/data";
+
+interface SonglistsContainerProps extends listInfo {
   description: string;
   index: number;
 }
@@ -45,18 +47,30 @@ function SonglistsContainer({
           className=" group-hover:brightness-75 "
         />
 
-        <ContextSongListContainer
-          id={id}
-          source={source}
-          type={type}
-          name={name}
-        >
+        <SonglistContainerWrapper className="absolute top-2 right-2 has-hover:opacity-0 has-hover:group-hover:opacity-100 has-hover:transition-opacity has-hover:duration-150">
           <MoreOptionContext>
-            <MoreOption targetElement={<SongListContainerOption />} />
+            <MoreOption
+              targetElement={
+                <ContextSongListContainer
+                  id={id}
+                  name={name}
+                  type={type}
+                  source={source}
+                >
+                  <SongListContainerOption />
+                </ContextSongListContainer>
+              }
+            />
           </MoreOptionContext>
-        </ContextSongListContainer>
+        </SonglistContainerWrapper>
 
-        <DirectPlayButton playListId={id} />
+        <DirectPlayButton
+          playlistIdDeft={id}
+          className=" absolute z-10 bottom-4 right-2  has-hover:transition-[transform,opacity,background-color] has-hover:duration-150 has-hover:group-hover:-translate-y-2 has-hover:opacity-0 has-hover:peer-focus:-translate-y-2  has-hover:peer-focus:opacity-100 
+      has-hover:focus:-translate-y-2 
+      has-hover:focus:opacity-100 
+      has-hover:group-hover:opacity-100  p-2 bg-[#222222]"
+        />
       </Link>
       <div className=" w-full">
         <UnderLineLinkHover

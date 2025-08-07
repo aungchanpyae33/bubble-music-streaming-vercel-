@@ -2,7 +2,7 @@ import { TimeFormat } from "@/lib/TimeFormat";
 import ToggleElement from "../Footer/audio/Toggle/ToggleElement";
 import ToolTip from "../general/ToolTip";
 import ToggleHeartButton from "./ToggleHeartButton";
-import { getSongsReturn, song } from "@/database/data";
+import { listSongsSection, song } from "@/database/data";
 import MoreOptionContext from "./MoreOptionContext";
 import MoreOption from "./MoreOption";
 import LeadingRelax from "../general/LeadingRelax";
@@ -12,13 +12,13 @@ import TrackItemContainer from "./TrackItemContainer";
 import ContextInfoTrack from "./ContextInfoTrack";
 
 function Track({
-  playlistSong,
+  listSong,
   song,
   index,
 }: // roleCell,
 // dataInc,
 {
-  playlistSong?: getSongsReturn | undefined;
+  listSong: listSongsSection | undefined;
   song: song;
   index: number;
   // roleCell: RefObject<number>;
@@ -45,11 +45,7 @@ function Track({
       // }}
     >
       <td className="px-2 w-[50px] ">
-        <ToggleElement
-          playlistSong={playlistSong}
-          song={song}
-          className="w-full"
-        />
+        <ToggleElement playlistSong={listSong} song={song} className="w-full" />
       </td>
 
       <td className=" max-w-[100px] px-2 ">
@@ -74,15 +70,15 @@ function Track({
         </UnderLineLinkHover>
       </td>
       <td>
-        <ToggleHeartButton like={song.is_liked} songId={song.id} />
+        <ToggleHeartButton like={song.is_liked} songId={song.song_id} />
       </td>
       <td className="px-2  hidden sm:table-cell   max-w-20 truncate text-center ">
         {TimeFormat(song.duration)}
       </td>
       <td className="w-14 text-center px-2">
         <ContextInfoTrack
-          id={playlistSong ? playlistSong.id : undefined}
-          source={playlistSong ? playlistSong.source : undefined}
+          id={listSong ? listSong.id : undefined}
+          source={listSong ? listSong.source : undefined}
           song={song}
         >
           <MoreOptionContext>

@@ -1,6 +1,5 @@
-import { getSongsReturn } from "@/database/data";
+import { listSongsSection } from "@/database/data";
 import outputCurrentIndex from "@/lib/CustomHooks/OutputCurrentIndex";
-import outputUniUrl from "@/lib/CustomHooks/OutputUniUrl";
 import {
   useDirectPlayBack,
   useSong,
@@ -14,20 +13,18 @@ import type {
   StorePlayListIdState,
   StorePlayListIdStateAction,
 } from "@/lib/zustand";
-import type { urlProp } from "@/ui/albumContainer/AudiosContainer";
 import IconWrapper from "@/ui/general/IconWrapper";
 import { SkipBack } from "lucide-react";
 interface Props extends React.ComponentProps<"button"> {
-  urlProp: getSongsReturn;
-  uni_id: string;
-  url: string;
+  listSong: listSongsSection;
+  id: string;
 }
-function AudioFunctionPre({ urlProp, url, className, uni_id }: Props) {
+function AudioFunctionPre({ listSong, className, id }: Props) {
   const updateSongCu = useSong((state: SongActions) => state.updateSongCu);
   const playlistId = useStorePlayListId(
     (state: StorePlayListIdState) => Object.values(state.playlistId)[0] || []
   ) as string[];
-  // console.log(urlProp);
+  // console.log(listSong);
 
   const setPlay = useSongFunction(
     (state: SongFunctionActions) => state.setPlay
@@ -39,10 +36,10 @@ function AudioFunctionPre({ urlProp, url, className, uni_id }: Props) {
     (state: DirectPlayBackAction) => state.setPlayList
   );
 
-  function songFunctionPre(currentUrl: string = url, uni_id_scope = uni_id) {
-    if (!urlProp.songs || urlProp.songs.length === 0) return;
-    const currentIndex = outputCurrentIndex(urlProp, currentUrl, uni_id_scope);
-    const songList = urlProp.songs;
+  function songFunctionPre(id_scope = id) {
+    if (!listSong.songs || listSong.idArray.length === 0) return;
+    const currentIndex = outputCurrentIndex(listSong.idArray, id_scope);
+    const songList = listSong.songs;
     if (currentIndex <= 0) return;
     const {
       url,
@@ -51,12 +48,12 @@ function AudioFunctionPre({ urlProp, url, className, uni_id }: Props) {
       name,
       song_time_stamp,
       id,
-      uni_id,
+      song_id,
       is_liked,
       artists,
-    } = songList[currentIndex - 1];
+    } = songList[listSong.idArray[currentIndex - 1]];
 
-    const { uniUrl } = outputUniUrl(urlProp, uni_id, url);
+    const uniUrl = id;
     updateSongCu({
       [uniUrl || ""]: url,
       sege,
@@ -64,12 +61,12 @@ function AudioFunctionPre({ urlProp, url, className, uni_id }: Props) {
       name,
       song_time_stamp,
       id,
-      uni_id,
+      song_id,
       is_liked,
       artists,
     });
     // [todo] need to check if there is a new playlist or not
-    setPlaylistId({ [playlistId[0] || ""]: [playlistId[0], url] });
+    setPlaylistId({ [playlistId[0] || ""]: [playlistId[0], id] });
     setPlayList(playlistId[0], true);
     setPlay(uniUrl || "", true);
   }

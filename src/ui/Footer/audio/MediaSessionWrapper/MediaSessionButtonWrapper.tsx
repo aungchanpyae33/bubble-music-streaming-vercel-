@@ -4,14 +4,12 @@ import { ReactNode } from "react";
 
 function MediaSessionButtonWrapper({
   children,
-  url,
-  uni_id,
+  id,
 }: {
   children: ReactNode;
-  url: string;
-  uni_id: string;
+  id: string;
 }) {
-  MediaSessionButton(url, uni_id);
+  MediaSessionButton(id);
   MediaSessionToggle();
   return children;
 }

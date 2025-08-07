@@ -3,7 +3,6 @@ import TableHeadBgChange from "./TableHeadBgChange";
 import TableHead from "./TableHead";
 import IconWrapper from "../general/IconWrapper";
 import { Clock } from "lucide-react";
-import { getSongsReturn } from "@/database/data";
 import ContextSongsData from "./ContextSongsData";
 import ConRenderSong from "./ConRenderSong";
 export interface urlProp {
@@ -18,11 +17,9 @@ export interface playlistProp {
 }
 function EditableAudiosContainer({
   playlistId,
-  playlistSong,
   description,
 }: {
   playlistId: string;
-  playlistSong: getSongsReturn | null;
   description: string;
 }) {
   //for accessbility

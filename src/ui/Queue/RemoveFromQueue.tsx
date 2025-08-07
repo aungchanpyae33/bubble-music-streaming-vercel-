@@ -19,10 +19,10 @@ function RemoveFromQueue() {
   );
 
   if (!song) return null;
-  const { id, uni_id } = song;
+  const { id } = song;
 
   function removeFromQueueFn() {
-    removeFromQueue(id, uni_id);
+    removeFromQueue(id);
     setShow(false);
   }
   return (

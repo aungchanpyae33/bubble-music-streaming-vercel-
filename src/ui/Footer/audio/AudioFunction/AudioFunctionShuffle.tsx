@@ -1,4 +1,4 @@
-import { getSongsReturn } from "@/database/data";
+import { getSongsReturn, listSongsSection } from "@/database/data";
 import outputCurrentIndex from "@/lib/CustomHooks/OutputCurrentIndex";
 import excludeCurrentSongs from "@/lib/excludeCurrentSongs";
 import shufflePlaylist from "@/lib/shufflePlaylist";
@@ -17,15 +17,14 @@ import clsx from "clsx";
 import { Shuffle } from "lucide-react";
 import { useState } from "react";
 interface Props extends React.ComponentProps<"button"> {
-  urlProp: getSongsReturn;
-  uni_id: string;
-  url: string;
+  listSong: listSongsSection;
+  id: string;
 }
-function AudioFunctionShuffle({ className, urlProp, url, uni_id }: Props) {
+function AudioFunctionShuffle({ className, listSong, id }: Props) {
   const [isShuffle, setIsShuffle] = useState(false);
   const previousPlayListArray = usePreviousPlayList(
     (state: previousSongPlaylist) => state.previousPlayListArray
-  ) as getSongsReturn;
+  ) as listSongsSection;
 
   const playlistId = useStorePlayListId(
     (state: StorePlayListIdState) => Object.values(state.playlistId)[0] || []
@@ -38,20 +37,23 @@ function AudioFunctionShuffle({ className, urlProp, url, uni_id }: Props) {
     (state: previousSongPlaylistAction) => state.setPreviousPlayListArray
   );
 
-  function shuffle(currentUrl: string = url) {
-    if (!urlProp.songs || urlProp.songs.length === 0) return;
+  function shuffle() {
+    if (!listSong.idArray || listSong.idArray.length === 0) return;
 
-    const currentIndex = outputCurrentIndex(urlProp, currentUrl, uni_id);
-    const currentSong = urlProp.songs[currentIndex];
-    const excludeCurrentSongsArray = excludeCurrentSongs(urlProp, currentIndex);
+    const currentIndex = outputCurrentIndex(listSong.idArray, id);
+    const currentSong = listSong.idArray[currentIndex];
+    const excludeCurrentSongsArray = excludeCurrentSongs(
+      listSong,
+      currentIndex
+    );
     const shufflePlaylistOutput = shufflePlaylist(
       excludeCurrentSongsArray,
       isShuffle,
-      urlProp,
+      listSong,
       currentSong,
       previousPlayListArray
     );
-    setPreviousPlayListArray(urlProp);
+    setPreviousPlayListArray(listSong);
     shufflePlayListArray({
       [playlistId[0] || ""]: shufflePlaylistOutput,
     });

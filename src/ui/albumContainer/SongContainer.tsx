@@ -11,18 +11,22 @@ function SongContainer() {
   return (
     <tbody className=" ">
       {songsData &&
-        songsData.songs.map((item, index) => (
-          //need to test playlist url when click track of toggleElement
-          <Track
-            key={songsData.might_repeat ? item.uni_id : item.id}
-            playlistSong={songsData}
-            index={index}
-            song={item}
-            //for accessbility
-            // roleCell={rowCell}
-            // dataInc={dataInc}
-          />
-        ))}
+        songsData.idArray.map((id, index) => {
+          const item = songsData.songs[`${id}`];
+          if (!item) return;
+          return (
+            //need to test playlist url when click track of toggleElement
+            <Track
+              key={item.id}
+              listSong={songsData}
+              index={index}
+              song={item}
+              //for accessbility
+              // roleCell={rowCell}
+              // dataInc={dataInc}
+            />
+          );
+        })}
     </tbody>
   );
 }

@@ -10,13 +10,8 @@ function ConRenderSong({
 }) {
   const { songsData } = useContext(SongsDataContext);
   // console.log(songsData);
-  return (
-    <>
-      {songsData && songsData.songs && songsData.songs.length > 0
-        ? container
-        : empty}
-    </>
-  );
+
+  return songsData && songsData.idArray.length > 0 ? container : empty;
 }
 
 export default ConRenderSong;

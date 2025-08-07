@@ -501,7 +501,7 @@ export const useLikeStoreData = create<toggleLikeProps & toggleLikeAction>(
 );
 
 import { StoreApi, UseBoundStore } from "zustand";
-import outputCurrentIndexV2 from "./CustomHooks/OutputCurrentIndexV2";
+import outputCurrentIndex from "./CustomHooks/OutputCurrentIndex";
 type PairState = {
   like: boolean | undefined;
   setLike: (v: boolean) => void;

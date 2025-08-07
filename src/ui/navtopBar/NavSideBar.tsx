@@ -14,12 +14,12 @@ import {
 async function NavSideBar() {
   const deviceFromUserAgent = await DeviceCheck();
   const queryClient = new QueryClient();
-  const { data, error } = await queryClient.fetchQuery({
+  await queryClient.prefetchQuery({
     queryKey: ["user-library"],
     queryFn: getUserLib,
   });
-  if (!data || error) return null;
-
+  // if (!data || error) return null;
+  // console.log(data, error);
   return (
     <>
       <div

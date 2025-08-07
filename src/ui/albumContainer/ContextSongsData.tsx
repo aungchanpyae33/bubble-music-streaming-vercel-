@@ -1,11 +1,11 @@
 "use client";
-import type { getSongsReturn } from "@/database/data";
+import type { getPlaylistPageProps, getSongsReturn } from "@/database/data";
 import { createContext, type ReactNode } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getPlaylistSongsClient } from "@/database/client-data";
 
 interface SongsDataContextType {
-  songsData: getSongsReturn | null;
+  songsData: getPlaylistPageProps["songs"];
 }
 
 export const SongsDataContext = createContext<SongsDataContextType>({
@@ -29,8 +29,8 @@ function ContextSongsData({
     return null;
   }
 
-  const songsData = data[0];
-  const value = { songsData };
+  const { songs } = data;
+  const value = { songsData: songs };
   return (
     <SongsDataContext.Provider value={value}>
       {children}

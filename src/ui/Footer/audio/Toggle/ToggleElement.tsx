@@ -18,10 +18,9 @@ import type {
 } from "@/lib/zustand";
 import IconWrapper from "@/ui/general/IconWrapper";
 import { Pause, Play } from "lucide-react";
-import { getSongsReturn, song } from "@/database/data";
-import outputUniUrl from "@/lib/CustomHooks/OutputUniUrl";
+import { listSongsSection, song } from "@/database/data";
 interface toggleElementProp extends React.ComponentProps<"button"> {
-  playlistSong: getSongsReturn | undefined;
+  playlistSong: listSongsSection | undefined;
   song: song;
 }
 const ToggleElement = ({
@@ -29,12 +28,8 @@ const ToggleElement = ({
   className,
   song,
 }: toggleElementProp) => {
-  const { playlistId, uniUrl } = outputUniUrl(
-    playlistSong,
-    song.uni_id,
-    song.url
-  );
-  // console.log(uniUrl);
+  const uniUrl = song.id;
+  const playlistId = playlistSong ? playlistSong.id : `create-on-fly-${uniUrl}`;
   // for toggle audio
   const Isplay = useSongFunction(
     (state: SongFunctionState) => state.Isplay[uniUrl || ""]
@@ -59,7 +54,6 @@ const ToggleElement = ({
   const setPlayList = useDirectPlayBack(
     (state: DirectPlayBackAction) => state.setPlayList
   );
-
   return (
     <button
       role="rowCell1"
@@ -80,17 +74,11 @@ const ToggleElement = ({
         });
 
         // to handle same song but different playlist or album
-        const { uniUrl: checkForToggle } = outputUniUrl(
-          playlistSong,
-          song.uni_id,
-          songCuUrl
-        );
-        if (uniUrl === checkForToggle) {
+
+        // safe to check currentsong exist because it will only one source of truth
+        if (songCuUrl) {
           setPlay("unknown", undefined);
           setPlayList("unknown", undefined);
-          setPlaylistId({
-            [playlistId || ""]: [playlistId, song.url],
-          });
         } else {
           const data = {
             [uniUrl || ""]: song.url,
@@ -99,13 +87,13 @@ const ToggleElement = ({
             name: song.name,
             song_time_stamp: song.song_time_stamp,
             id: song.id,
-            uni_id: song.uni_id,
+            song_id: song.song_id,
             is_liked: song.is_liked,
             artists: song.artists,
           };
           updateSongCu(data);
           setPlaylistId({
-            [playlistId || ""]: [playlistId, song.url],
+            [playlistId || ""]: [playlistId, song.id],
           });
           setPlayList(playlistId || "", true);
           setPlay(uniUrl || "", true);
@@ -116,9 +104,9 @@ const ToggleElement = ({
     >
       <span className=" flex justify-center">
         {song.url === songCuUrl && Isplay ? (
-          <IconWrapper className="w-5 h-5 fill-white" Icon={Pause} />
+          <IconWrapper className="fill-white" Icon={Pause} size="medium" />
         ) : (
-          <IconWrapper className="w-5 h-5 fill-white" Icon={Play} />
+          <IconWrapper className="fill-white" Icon={Play} size="medium" />
         )}
       </span>
     </button>

@@ -1,15 +1,14 @@
 import { useRepeatAndCurrentPlayList } from "@/lib/zustand";
 import { ReactNode } from "react";
 import type { currentSongPlaylist } from "@/lib/zustand";
-import { getSongsReturn } from "@/database/data";
+import { listSongsSection } from "@/database/data";
 interface AudioFunctionButtonProps {
-  children: (playListArray: getSongsReturn) => ReactNode;
+  children: (playListArray: listSongsSection) => ReactNode;
 }
 function AudioFunctionButton({ children }: AudioFunctionButtonProps) {
   const playListArray = useRepeatAndCurrentPlayList(
     (state: currentSongPlaylist) => Object.values(state.playListArray)[0] || []
-  ) as getSongsReturn;
-
+  ) as listSongsSection;
   return children(playListArray);
 }
 

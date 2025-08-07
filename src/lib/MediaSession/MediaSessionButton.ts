@@ -13,11 +13,10 @@ import type {
   DirectPlayBackAction,
   StorePlayListIdStateAction,
 } from "../zustand";
-import { artists, getSongsReturn, song } from "@/database/data";
-import outputUniUrl from "../CustomHooks/OutputUniUrl";
+import { artists, listSongsSection } from "@/database/data";
 import outputCurrentIndex from "../CustomHooks/OutputCurrentIndex";
 
-const MediaSessionButton = (currentUrl: string, uni_id_scope: string) => {
+const MediaSessionButton = (id_scope: string) => {
   //[todo] need to add more code to align with audiofunction pre and next but can safe remove some code as there will be no ui when page refresh
   // const [playListArrayKey, playListArray] = useRepeatAndCurrentPlayList(
   //   (state: currentSongPlaylist) =>
@@ -27,7 +26,7 @@ const MediaSessionButton = (currentUrl: string, uni_id_scope: string) => {
   // );
   const playListArray = useRepeatAndCurrentPlayList(
     (state: currentSongPlaylist) => Object.values(state.playListArray)[0] || []
-  ) as getSongsReturn;
+  ) as listSongsSection;
   // console.log(playListArray, "i am playlist");
   const setPlay = useSongFunction(
     (state: SongFunctionActions) => state.setPlay
@@ -48,7 +47,7 @@ const MediaSessionButton = (currentUrl: string, uni_id_scope: string) => {
       name,
       song_time_stamp,
       id,
-      uni_id,
+      song_id,
       is_liked,
       artists,
     }: {
@@ -58,34 +57,34 @@ const MediaSessionButton = (currentUrl: string, uni_id_scope: string) => {
       name: string;
       song_time_stamp: number[];
       id: string;
-      uni_id: string;
+      song_id: string;
       is_liked: boolean;
       artists: artists[];
     }) {
-      const { playlistId, uniUrl } = outputUniUrl(playListArray, uni_id, url);
-
+      const playlistId = playListArray.id;
+      const uniUrl = id;
       updateSongCu({
         [uniUrl || ""]: url,
         sege,
         duration,
         name,
         song_time_stamp,
-        uni_id,
+        id,
+        song_id,
         is_liked,
         artists,
       });
-      setPlaylistId({ [playlistId || ""]: [playlistId, url] });
+      setPlaylistId({ [playlistId || ""]: [playlistId, id] });
       setPlayList(playlistId, true);
       // url is also  keyName
       setPlay(uniUrl || "", true);
     }
     if ("mediaSession" in navigator) {
       navigator.mediaSession.setActionHandler("previoustrack", () => {
-        if (!playListArray || playListArray.songs.length === 0) return;
+        if (!playListArray || playListArray.idArray.length === 0) return;
         const currentIndex = outputCurrentIndex(
-          playListArray,
-          currentUrl,
-          uni_id_scope
+          playListArray.idArray,
+          id_scope
         );
         if (currentIndex <= 0) return;
 
@@ -96,10 +95,10 @@ const MediaSessionButton = (currentUrl: string, uni_id_scope: string) => {
           duration,
           song_time_stamp,
           id,
-          uni_id,
+          song_id,
           is_liked,
           artists,
-        } = playListArray.songs[currentIndex - 1];
+        } = playListArray.songs[playListArray.idArray[currentIndex - 1]];
         MediaSessionButtonTaks({
           url,
           sege,
@@ -107,19 +106,18 @@ const MediaSessionButton = (currentUrl: string, uni_id_scope: string) => {
           name,
           song_time_stamp,
           id,
-          uni_id,
+          song_id,
           is_liked,
           artists,
         });
       });
       navigator.mediaSession.setActionHandler("nexttrack", () => {
-        if (!playListArray || playListArray.songs.length === 0) return;
+        if (!playListArray || playListArray.idArray.length === 0) return;
         const currentIndex = outputCurrentIndex(
-          playListArray,
-          currentUrl,
-          uni_id_scope
+          playListArray.idArray,
+          id_scope
         );
-        if (currentIndex >= playListArray.songs.length - 1) return;
+        if (currentIndex >= playListArray.idArray.length - 1) return;
         const {
           url,
           sege,
@@ -127,10 +125,10 @@ const MediaSessionButton = (currentUrl: string, uni_id_scope: string) => {
           duration,
           song_time_stamp,
           id,
-          uni_id,
+          song_id,
           is_liked,
           artists,
-        } = playListArray.songs[currentIndex + 1];
+        } = playListArray.songs[playListArray.idArray[currentIndex + 1]];
         MediaSessionButtonTaks({
           url,
           sege,
@@ -138,7 +136,7 @@ const MediaSessionButton = (currentUrl: string, uni_id_scope: string) => {
           name,
           song_time_stamp,
           id,
-          uni_id,
+          song_id,
           is_liked,
           artists,
         });
@@ -152,8 +150,7 @@ const MediaSessionButton = (currentUrl: string, uni_id_scope: string) => {
     playListArray,
     setPlay,
     updateSongCu,
-    currentUrl,
-    uni_id_scope,
+    id_scope,
     setPlaylistId,
     setPlayList,
   ]);

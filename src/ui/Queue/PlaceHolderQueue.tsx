@@ -10,16 +10,14 @@ function PlaceHolderQueue({
   // scrollIntoView only in initial render
   const dataSongId = useSong((state: SongState) =>
     !showScroll.current
-      ? `${(state.songCu as Record<string, string>).uni_id}${
-          (state.songCu as Record<string, string>).id
-        }`
+      ? `${(state.songCu as Record<string, string>).id}`
       : undefined
   );
   //to make scroll to the current play when open and only track first ,not sub
   useEffect(() => {
     if (dataSongId) {
       const element = queueRef.current?.querySelector(
-        `[data-song-id="${dataSongId}"]`
+        `[data-id="${dataSongId}"]`
       );
       if (!element) return;
 

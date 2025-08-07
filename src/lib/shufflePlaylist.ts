@@ -1,11 +1,11 @@
-import { getSongsReturn, song } from "@/database/data";
+import { listSongsSection, song } from "@/database/data";
 
 const shufflePlaylist = (
-  array: song[],
+  array: string[],
   isShuffle: boolean,
-  urlProp: getSongsReturn,
-  currentSongs: song,
-  previousPlayListArray: getSongsReturn
+  listProp: listSongsSection,
+  currentSongs: string,
+  previousPlayListArray: listSongsSection
 ) => {
   const newCopyArray = array.slice();
   for (let i = newCopyArray.length - 1; i > 0; i--) {
@@ -14,8 +14,8 @@ const shufflePlaylist = (
   }
   return !isShuffle
     ? {
-        ...urlProp,
-        songs: [currentSongs, ...newCopyArray],
+        ...listProp,
+        idArray: [currentSongs, ...newCopyArray],
       }
     : previousPlayListArray;
 };
