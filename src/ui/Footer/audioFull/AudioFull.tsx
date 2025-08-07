@@ -20,16 +20,18 @@ import { X } from "lucide-react";
 import IconWrapper from "@/ui/general/IconWrapper";
 import clsx from "clsx";
 import MotionFull from "./MotionFull";
+import FocusTrap from "./FocusTrap";
+
 function AudioFull({
   footerRef,
   url,
-  uni_id,
+  id,
   duration,
   toggleRef,
 }: {
   footerRef: React.RefObject<HTMLDivElement | null>;
   url: string;
-  uni_id: string;
+  id: string;
   duration: number;
   toggleRef: React.RefObject<HTMLButtonElement | null>;
 }) {
@@ -120,21 +122,18 @@ function AudioFull({
                           >
                             <AudioFunctionShuffle
                               className="bg-pink-300 p-2  md:text-base text-2xl"
-                              urlProp={playListArray}
-                              url={url}
-                              uni_id={uni_id}
+                              listSong={playListArray}
+                              id={id}
                             />
                             <AudioFunctionPre
-                              url={url}
-                              uni_id={uni_id}
-                              urlProp={playListArray}
+                              id={id}
+                              listSong={playListArray}
                               className="bg-pink-300 p-2  md:text-base text-2xl"
                             />
                             <ToggleButton className=" bg-red-300 md:text-base text-2xl " />
                             <AudioFunctionNext
-                              url={url}
-                              uni_id={uni_id}
-                              urlProp={playListArray}
+                              id={id}
+                              listSong={playListArray}
                               className="bg-pink-300 p-2  md:text-base text-2xl"
                             />
                             <AudioFunctionRepeat className="bg-pink-300 p-2  md:text-base text-2xl" />

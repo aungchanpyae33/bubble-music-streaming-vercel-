@@ -28,13 +28,14 @@ import PlaceHolderToggleState from "./PlaceHolderToggleState";
 import ToggleButtonSpaceKey from "./audio/Toggle/ToggleButtonSpaceKey";
 import ArtistWrapper from "../general/ArtistWrapper";
 import MediaSessionDesWrapper from "./audio/MediaSessionWrapper/MediaSessionDesWrapper";
+import PlaceHolderFetchQueue from "./PlaceHolderFetchQueue";
 function AudioPlayer({
   footerRef,
 }: {
   footerRef: React.RefObject<HTMLDivElement | null>;
 }) {
   const toggleRef = useRef<HTMLButtonElement | null>(null);
-  const { sege, name, duration, song_time_stamp, uni_id, is_liked, artists } =
+  const { sege, name, duration, song_time_stamp, id, is_liked, artists } =
     useSong((state: SongState) => state.songCu) as SongDetail;
   const url = useSong(
     (state: SongState) =>
@@ -47,7 +48,7 @@ function AudioPlayer({
     abortController,
     fetching,
     bufferThreshold,
-  } = useMediaSourceBuffer(url, sege, song_time_stamp, uni_id!);
+  } = useMediaSourceBuffer(url, sege, song_time_stamp, id!);
   return (
     <ContextMedia
       data={{
@@ -72,7 +73,8 @@ function AudioPlayer({
             ref={footerRef}
           >
             <MediaSessionDesWrapper name={name} artists={artists} />
-            <PlaceHolderToggleState url={url} uni_id={uni_id}>
+            <PlaceHolderToggleState url={url} id={id}>
+              <PlaceHolderFetchQueue />
               <ToggleButtonSpaceKey />
               {/* this is for space key to toggle play and pause */}
             </PlaceHolderToggleState>
@@ -80,7 +82,7 @@ function AudioPlayer({
               <AudioFull
                 footerRef={footerRef}
                 url={url}
-                uni_id={uni_id}
+                id={id}
                 duration={duration}
                 toggleRef={toggleRef}
               />
@@ -105,7 +107,7 @@ function AudioPlayer({
               <div className="max-w-[600px] sm:flex-1 w-fit  flex    ">
                 <div className="audioFunctionContainer flex  flex-col flex-1 items-end sm:items-center pr-2 sm:pr-0  justify-center">
                   <div className="upContainer ">
-                    <MediaSessionButtonWrapper url={url} uni_id={uni_id}>
+                    <MediaSessionButtonWrapper id={id}>
                       <AudioFunctionButton>
                         {/* in jsx when use arrow and {} , react expect to return elemetn , if it does not have  return ,  implicitly returns void, or undefined, so, react think nothing to render  */}
                         {(playListArray) => {
@@ -118,21 +120,18 @@ function AudioPlayer({
                             >
                               <AudioFunctionShuffle
                                 className="text-white/70 hover:text-white  p-1  sm:inline-block text-sm md:text-base hidden"
-                                urlProp={playListArray}
-                                uni_id={uni_id}
-                                url={url}
+                                listSong={playListArray}
+                                id={id}
                               />
                               <AudioFunctionPre
                                 className="text-white/70 hover:text-white  p-1  sm:inline-block text-sm md:text-base hidden"
-                                url={url}
-                                uni_id={uni_id}
-                                urlProp={playListArray}
+                                id={id}
+                                listSong={playListArray}
                               />
                               <ToggleButton className="p-1" />
                               <AudioFunctionNext
-                                url={url}
-                                uni_id={uni_id}
-                                urlProp={playListArray}
+                                id={id}
+                                listSong={playListArray}
                                 className="text-white/70 hover:text-white  p-1 text-sm md:text-base"
                               />
                               <AudioFunctionRepeat className="text-white/70 hover:text-white  p-1  sm:inline-block text-sm md:text-base hidden" />
