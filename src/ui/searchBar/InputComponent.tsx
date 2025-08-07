@@ -23,6 +23,7 @@ function InputComponent({ inputRef, setShow, setValue }: InputComponentProps) {
         className="placeholder:text-slate-400 placeholder:leading-relaxed block bg-blue w-full h-[40px]  pl-4 shadow-sm focus:outline-none text-base bg-[#222222]"
         placeholder="ရှာဖွေမည်"
         type="search"
+        id="search"
         name="query"
         required
         autoComplete="off"
