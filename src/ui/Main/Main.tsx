@@ -7,7 +7,7 @@ async function Main({ children }: { children: ReactNode }) {
   return (
     <main
       className={clsx(
-        " h-full flex-1 overflow-y-auto [transform:translateZ(0)] ",
+        " h-full  flex-1 overflow-y-auto [transform:translateZ(0)]",
         // [transform:translateZ(0)] for hardware acceleration , without this , it feels junky in chrome and some webkit browser
         {
           // padding pl-[70px] make extra bleed width overflow when children element is sticky top
@@ -15,7 +15,9 @@ async function Main({ children }: { children: ReactNode }) {
         }
       )}
     >
-      {children}
+      <div className="max-w-[1324px] mx-auto lg:p-10 md:p-6 sm:p-3 p-2 ">
+        {children}
+      </div>
     </main>
   );
 }

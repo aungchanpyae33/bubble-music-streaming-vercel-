@@ -13,7 +13,7 @@ import TimeIndicatorCur from "../audio/Time/TimeIndicatorCur";
 import AudioFullInfoWrapper from "./AudioFullInfoWrapper";
 import CloseFunctoionForFull from "@/lib/CloseFunctionForFull";
 import Volume from "../volume/Volume";
-import FocusTrap from "./FocusTrap";
+
 import { AnimatePresence } from "motion/react";
 import AudioCurImg from "./AudioCurImg";
 import { X } from "lucide-react";

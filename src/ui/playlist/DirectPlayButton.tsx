@@ -18,7 +18,6 @@ import React, { RefObject, useRef } from "react";
 import IconWrapper from "../general/IconWrapper";
 import { Pause, Play } from "lucide-react";
 import { getPlaylistPageProps, listSongsSection } from "@/database/data";
-import { getPlaylistSongsApi } from "@/database/dataApi";
 import { PostgrestError } from "@supabase/supabase-js";
 import { getPlaylistSongsClient } from "@/database/client-data";
 const hasData = async (
