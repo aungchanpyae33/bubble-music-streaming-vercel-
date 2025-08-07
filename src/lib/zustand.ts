@@ -5,8 +5,9 @@ import {
   song,
 } from "@/database/data";
 import { RefObject } from "react";
-import { persist } from "zustand/middleware";
 import { createWithEqualityFn as create } from "zustand/traditional";
+import { persist } from "zustand/middleware";
+
 export interface SongDetail {
   url: string;
   sege: number;
@@ -45,6 +46,15 @@ export interface StorePlayListIdState {
 }
 export interface StorePlayListIdStateAction {
   setPlaylistId: (id: StorePlayListIdState["playlistId"]) => void;
+}
+
+export interface ShouldFetchSongsListId {
+  FetchSongsListId: string | undefined;
+}
+export interface ShouldFetchSongsListIdAction {
+  FetchSongsListIdAction: (
+    id: ShouldFetchSongsListId["FetchSongsListId"]
+  ) => void;
 }
 export interface currentSongPlaylist {
   playListArray: getSongsReturn | {};
@@ -233,6 +243,16 @@ export const useStorePlayListId = create<
   reset: () => {
     set({ playlistId: {} });
   },
+}));
+
+export const useShouldFetchSongsList = create<
+  ShouldFetchSongsListId & ShouldFetchSongsListIdAction
+>()((set) => ({
+  FetchSongsListId: undefined,
+  FetchSongsListIdAction: (id) =>
+    set(() => ({
+      FetchSongsListId: id,
+    })),
 }));
 
 export const useDirectPlayBack = create<
@@ -430,14 +450,19 @@ export const useAudioDragging = create<
     })),
 }));
 
-export const useVolumeValue = create<VolumeValueState & VolumeValueActions>(
-  (set) => ({
-    value: 0,
-    setValue: (newValue: number) =>
-      set(() => ({
-        value: newValue,
-      })),
-  })
+export const useVolumeValue = create<VolumeValueState & VolumeValueActions>()(
+  persist(
+    (set) => ({
+      value: 0,
+      setValue: (newValue: number) =>
+        set(() => ({
+          value: newValue,
+        })),
+    }),
+    {
+      name: "volume-storage", // key in localStorage
+    }
+  )
 );
 
 export const useVolumeDragging = create<

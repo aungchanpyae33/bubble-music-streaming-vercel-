@@ -2,6 +2,7 @@
 import {
   useDirectPlayBack,
   useRepeatAndCurrentPlayList,
+  useShouldFetchSongsList,
   useSong,
   useSongFunction,
   useStorePlayListId,
@@ -15,6 +16,7 @@ import type {
   currentSongPlaylistAction,
   DirectPlayBackAction,
   StorePlayListIdStateAction,
+  ShouldFetchSongsListIdAction,
 } from "@/lib/zustand";
 import IconWrapper from "@/ui/general/IconWrapper";
 import { Pause, Play } from "lucide-react";
@@ -37,6 +39,10 @@ const ToggleElement = ({
   //  for current song with presist
   const songCuUrl = useSong(
     (state: SongState) => (state.songCu as Record<string, string>)[uniUrl || ""]
+  );
+
+  const FetchSongsListIdAction = useShouldFetchSongsList(
+    (state: ShouldFetchSongsListIdAction) => state.FetchSongsListIdAction
   );
   // for current playlist(id and song currentSongUrl as to know for directplayback button)
   const setPlaylistId = useStorePlayListId(
@@ -69,9 +75,25 @@ const ToggleElement = ({
       //   e.stopPropagation();
       // }}
       onClick={() => {
-        setPlayListArray({
-          [playlistId || ""]: playlistSong,
-        });
+        if (playlistSong) {
+          setPlayListArray({
+            [playlistId || ""]: playlistSong,
+          });
+        } else {
+          const data = {
+            id: playlistId,
+            name: "autogenerate",
+            related_id: "smooth",
+            realted_name: "autogenerate",
+            source: "none",
+            songs: [song],
+          };
+          setPlayListArray({
+            [playlistId || ""]: data,
+          });
+
+          FetchSongsListIdAction(playlistId);
+        }
 
         // to handle same song but different playlist or album
 
