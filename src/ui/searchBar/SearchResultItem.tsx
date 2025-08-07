@@ -1,5 +1,6 @@
 import clsx from "clsx";
-import { useRouter } from "next/navigation";
+import { useRouter } from "nextjs-toploader/app";
+
 import React, { memo } from "react";
 interface prop {
   title: string;
@@ -23,8 +24,12 @@ const SearchResultItem = memo(({ title, index, show }: prop) => {
         }
       )}
       key={title}
-      onMouseDown={() => router.push(`/search?query=${title}`)}
-      onTouchStart={() => router.push(`/search?query=${title}`)}
+      onMouseDown={() => {
+        router.push(`/search?query=${title}`);
+      }}
+      onTouchStart={() => {
+        router.push(`/search?query=${title}`);
+      }}
     >
       <div className=" leading-relaxed truncate">{title}</div>
     </div>

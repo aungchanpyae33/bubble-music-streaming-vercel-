@@ -7,11 +7,17 @@ interface FormWrapperProps {
   inputRef: React.RefObject<HTMLInputElement | null>;
   show: boolean;
 }
+import { useRouter } from "nextjs-toploader/app";
 function FormWrapper({ children, inputRef, show }: FormWrapperProps) {
   const { setOpen } = useContext(ContextToggle);
+  const route = useRouter();
+  function goSearch(FormData: FormData) {
+    const input = FormData.get("query") as string;
+    route.push(`/search?query=${input}`);
+  }
   return (
     <Form
-      action="/search"
+      action={goSearch}
       onSubmit={() => {
         setOpen(false);
         inputRef.current?.blur();
