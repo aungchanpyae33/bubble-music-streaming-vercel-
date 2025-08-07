@@ -12,9 +12,8 @@ import {
   useRepeatAndCurrentPlayList,
   useSong,
 } from "@/lib/zustand";
-import { generateUUID } from "@/lib/GenerateUUID";
 import { SongListContext } from "@/ui/playlist/playlistOption/ContextSongListContainer";
-import { getPlaylistSongsApi } from "@/database/dataApi";
+import { getSongListForQueue } from "@/database/client-data";
 
 function AddSonglistToQueue() {
   const { setShow } = useContext(ContextMoreOption);
@@ -27,14 +26,12 @@ function AddSonglistToQueue() {
   ) as SongDetail;
   if (!songId) return null;
   async function addSongListToQueue() {
-    const { data, error } = await getPlaylistSongsApi(id);
+    const { data, error } = await getSongListForQueue(id, type);
+    console.log(data);
     if (!data || error) return;
-    const songsData = data[0];
-    const updatedSongs = songsData.songs.map((song) => ({
-      ...song,
-      uni_id: generateUUID(),
-    }));
-    currentAddToQueue(updatedSongs);
+    const { songs } = data;
+    if (!songs) return null;
+    currentAddToQueue(songs, songs.idArray);
     setShow(false);
   }
   return (

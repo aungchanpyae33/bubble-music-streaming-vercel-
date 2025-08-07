@@ -1,4 +1,9 @@
-import { artists, getSongsReturn, song } from "@/database/data";
+import {
+  artists,
+  getSongsReturn,
+  listSongsSection,
+  song,
+} from "@/database/data";
 import { RefObject } from "react";
 import { persist } from "zustand/middleware";
 import { createWithEqualityFn as create } from "zustand/traditional";
@@ -9,7 +14,7 @@ export interface SongDetail {
   song_time_stamp: Array<number>;
   name: string;
   id: string;
-  uni_id: string;
+  song_id: string;
   is_liked: boolean;
   artists: artists[];
 }
@@ -24,7 +29,7 @@ export interface PrefetchAction {
   prefetchSegment: (params: PrefetchParams) => Promise<ArrayBuffer[] | null>;
 }
 export interface PrefetchParams {
-  currentUrl: string;
+  id: string;
   abortController: RefObject<AbortController | null>;
   prefetchedUrl: RefObject<string>;
   prefetchPromiseRef: RefObject<Promise<ArrayBuffer[]> | null>;
@@ -53,14 +58,18 @@ export interface currentSongPlaylisthuffleAction {
   shufflePlayListArray: (nweList: currentSongPlaylist["playListArray"]) => void;
 }
 export interface currentAddToQueueAction {
-  currentAddToQueue: (song: song[]) => void;
+  currentAddToQueue: (song: Record<string, song>, id: string[]) => void;
 }
 
 export interface currentAddToNextAction {
-  currentAddToNext: (song: song[], id: string, uni_id: string) => void;
+  currentAddToNext: (
+    song: Record<string, song>,
+    id: string[],
+    curId: string
+  ) => void;
 }
 export interface removeFromQueueAction {
-  removeFromQueue: (id: string, uni_id: string) => void;
+  removeFromQueue: (id: string) => void;
 }
 export interface previousSongPlaylist {
   previousPlayListArray: getSongsReturn | {};
@@ -259,24 +268,28 @@ export const useRepeatAndCurrentPlayList = create<
     set((state) => {
       if (Object.keys(newList)[0] !== Object.keys(state.playListArray)[0]) {
         return { playListArray: { ...newList } };
-      } else return state.playListArray;
+      } else {
+        return state.playListArray;
+      }
     }),
   shufflePlayListArray: (newList) =>
     set(() => {
       return { playListArray: { ...newList } };
     }),
-  currentAddToQueue: (song) =>
+  currentAddToQueue: (song, id) =>
     set((state) => {
       const playListArray = (Object.values(state.playListArray)[0] ||
-        undefined) as getSongsReturn | undefined;
+        undefined) as listSongsSection;
       const playListArrayKey = Object.keys(state.playListArray)[0] as string;
 
       if (playListArray && "songs" in playListArray) {
+        playListArray.songs = { ...playListArray.songs, ...song };
+        console.log(playListArray.songs);
         return {
           playListArray: {
             [playListArrayKey || ""]: {
               ...playListArray,
-              songs: [...playListArray.songs, ...song],
+              idArray: [...playListArray.idArray, ...id],
             },
           },
         };
@@ -284,28 +297,23 @@ export const useRepeatAndCurrentPlayList = create<
         return state;
       }
     }),
-  currentAddToNext: (song, id, un_id) =>
+  currentAddToNext: (song, id, curId) =>
     set((state) => {
       const playListArray = (Object.values(state.playListArray)[0] ||
-        undefined) as getSongsReturn | undefined;
+        undefined) as listSongsSection;
       const playListArrayKey = Object.keys(state.playListArray)[0] as string;
 
       if (playListArray && "songs" in playListArray) {
-        const currentIndex = outputCurrentIndexV2(
-          playListArray.songs,
-          id,
-          un_id
-        );
-
+        playListArray.songs = { ...playListArray.songs, ...song };
+        const currentIndex = outputCurrentIndex(playListArray.idArray, curId);
         if (currentIndex === -1) return state;
-        const newSongs = [...playListArray.songs];
-        newSongs.splice(currentIndex + 1, 0, ...song);
-
+        const newSongs = [...playListArray.idArray];
+        newSongs.splice(currentIndex + 1, 0, ...id);
         return {
           playListArray: {
             [playListArrayKey || ""]: {
               ...playListArray,
-              songs: newSongs,
+              idArray: newSongs,
             },
           },
         };
@@ -314,27 +322,24 @@ export const useRepeatAndCurrentPlayList = create<
       }
     }),
 
-  removeFromQueue: (id, un_id) =>
+  removeFromQueue: (id) =>
     set((state) => {
       const playListArray = (Object.values(state.playListArray)[0] ||
-        undefined) as getSongsReturn | undefined;
+        undefined) as listSongsSection;
       const playListArrayKey = Object.keys(state.playListArray)[0] as string;
 
       if (playListArray && "songs" in playListArray) {
-        const currentIndex = outputCurrentIndexV2(
-          playListArray.songs,
-          id,
-          un_id
-        );
+        delete playListArray.songs[id];
+        const currentIndex = outputCurrentIndex(playListArray.idArray, id);
 
         if (currentIndex === -1) return state;
-        const newSongs = [...playListArray.songs];
+        const newSongs = [...playListArray.idArray];
         newSongs.splice(currentIndex, 1);
         return {
           playListArray: {
             [playListArrayKey || ""]: {
               ...playListArray,
-              songs: newSongs,
+              idArray: newSongs,
             },
           },
         };
@@ -346,7 +351,7 @@ export const useRepeatAndCurrentPlayList = create<
   setRepeat: () => set((state) => ({ isRepeat: !state.isRepeat })),
   // if it check as isRepeat in function component, it will re-render entrire component
   prefetchSegment: async ({
-    currentUrl,
+    id,
     abortController,
     prefetchedUrl,
     prefetchPromiseRef,
@@ -359,14 +364,20 @@ export const useRepeatAndCurrentPlayList = create<
 
     const playlistArray = Object.values(
       get().playListArray
-    )[0] as getSongsReturn;
-    const currentIndex = playlistArray.songs.findIndex(
-      (song) => song.url === currentUrl
-    );
-    const extract = Math.min(currentIndex + 1, playlistArray.songs.length - 1);
-    const url = playlistArray.songs[extract].url;
-    // Early return if repeat is enabled
+    )[0] as listSongsSection;
+    const currentIndex = outputCurrentIndex(playlistArray.idArray, id);
 
+    const extract = Math.min(
+      currentIndex + 1,
+      playlistArray.idArray.length - 1
+    );
+    const { id: id_scope, url } =
+      playlistArray.songs[playlistArray.idArray[extract]];
+
+    if (currentIndex >= playlistArray.idArray.length - 1 && id === id_scope) {
+      console.log("nooo");
+      return prefetchPromiseRef.current;
+    }
     // if (url !== currentUrl) {
     const initUrl = url;
     const seg1Url = url.replace("init.mp4", "seg-1.m4s");

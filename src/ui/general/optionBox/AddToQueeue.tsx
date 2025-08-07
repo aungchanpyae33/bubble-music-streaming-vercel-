@@ -21,13 +21,19 @@ function AddToQueue() {
   const currentAddToQueue = useRepeatAndCurrentPlayList(
     (state: currentAddToQueueAction) => state.currentAddToQueue
   );
+
   const { id } = useSong((state: SongState) => state.songCu) as SongDetail;
   if (!song || !id) return null;
   const uuid = generateUUID();
-  const addUniIdSong = { ...song, uni_id: uuid };
-  const queueSong = addUniIdSong && [addUniIdSong];
+  const addUniIdSong = {
+    [uuid]: {
+      ...song,
+      id: uuid,
+    },
+  };
+  const queueSong = addUniIdSong && addUniIdSong;
   function addToQueue() {
-    currentAddToQueue(queueSong);
+    currentAddToQueue(queueSong, [uuid]);
     setShow(false);
   }
   return (

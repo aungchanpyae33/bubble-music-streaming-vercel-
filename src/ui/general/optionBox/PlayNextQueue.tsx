@@ -21,16 +21,14 @@ function PlayNextQueue() {
   const currentAddToNext = useRepeatAndCurrentPlayList(
     (state: currentAddToNextAction) => state.currentAddToNext
   );
-  const { id, uni_id } = useSong(
-    (state: SongState) => state.songCu
-  ) as SongDetail;
-  console.log(id, uni_id);
-  if (!song || !id || !uni_id) return null;
+  const { id } = useSong((state: SongState) => state.songCu) as SongDetail;
+
+  if (!song || !id) return null;
   const uuid = generateUUID();
-  const addUniIdSong = { ...song, uni_id: uuid };
-  const queueSong = addUniIdSong && [addUniIdSong];
+  const addUniIdSong = { [uuid]: { ...song, id: uuid } };
+  const queueSong = addUniIdSong && addUniIdSong;
   function addToNext() {
-    currentAddToNext(queueSong, id, uni_id);
+    currentAddToNext(queueSong, [uuid], id);
     setShow(false);
   }
   return (
