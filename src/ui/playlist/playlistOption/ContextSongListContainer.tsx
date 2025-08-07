@@ -1,12 +1,16 @@
 "use client";
-import { getProps } from "@/database/data";
-import { createContext, ReactNode } from "react";
+import { getUserLibClient } from "@/database/client-data";
+import { generateValue } from "@/lib/generateValue";
+import { useQuery } from "@tanstack/react-query";
+import { createContext } from "react";
+import { Database } from "../../../../database.types";
 
-interface SongListContextProps {
-  id: getProps["id"];
-  name: getProps["name"];
-  source: getProps["source"];
-  type: getProps["type"];
+export interface SongListContextProps {
+  id: string;
+  name: string;
+  source: Database["public"]["Enums"]["media_source_type"];
+  type: Database["public"]["Enums"]["media_item_type"];
+  isPage?: boolean | undefined;
 }
 
 // Default context value
@@ -14,35 +18,38 @@ export const SongListContext = createContext<SongListContextProps>({
   id: "",
   name: "",
   source: "none",
-  type: "album", //for default data(forced) no meaningful
+  type: "album",
+  isPage: false,
 });
-
+interface ContextSongListContainerProps extends React.ComponentProps<"div"> {
+  id: string;
+  name: string;
+  source: Database["public"]["Enums"]["media_source_type"];
+  type: Database["public"]["Enums"]["media_item_type"];
+  isPage?: boolean | undefined;
+}
 function ContextSongListContainer({
   children,
   id,
   source,
   type,
   name,
-}: {
-  children: ReactNode;
-  id: getProps["id"];
-  name: getProps["name"];
-  source: getProps["source"];
-  type: getProps["type"];
-}) {
-  const value = { id, name, source, type };
+  isPage,
+}: ContextSongListContainerProps) {
+  const { data: queryData, error: queryError } = useQuery({
+    queryKey: ["user-library"],
+    queryFn: () => getUserLibClient(),
+  });
+  const { data, error } = queryData || {};
+  if (!data || error) return;
+  const { userLib } = data;
+  const isDataExist = userLib[id];
+  const defaultValue = { id, name, source, type, isPage };
+  const value = generateValue(isDataExist, defaultValue, isPage);
 
   return (
     <SongListContext.Provider value={value}>
-      <span
-        className=" absolute top-2 right-2 has-hover:opacity-0 has-hover:group-hover:opacity-100 has-hover:transition-opacity has-hover:duration-150"
-        onClick={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-        }}
-      >
-        {children}
-      </span>
+      {children}
     </SongListContext.Provider>
   );
 }
