@@ -1,20 +1,27 @@
 import Link from "next/link";
 import UserProfile from "./UserProfile";
-import {
-  getKindeServerSession,
-  LoginLink,
-  LogoutLink,
-} from "@kinde-oss/kinde-auth-nextjs/server";
+
 import TestCom from "../TestCom";
+import { createClient } from "@/database/server";
 
 async function UserInfo() {
-  const { getUser } = getKindeServerSession();
-  const user = await getUser();
+  const supabase = await createClient();
+
+  // You can also use getUser() which will be slower.
+  const { data } = await supabase.auth.getClaims();
+
+  const user = data?.claims;
+  // console.log(user);
 
   return (
     <>
       {user ? (
-        <UserProfile name={user && user.given_name + user.family_name!}>
+        <UserProfile
+          name={
+            user &&
+            user.user_metadata.first_name + " " + user.user_metadata.last_name
+          }
+        >
           <Link
             href={"/profile"}
             className="hover:bg-[#333333] p-2 flex gap-x-3 "
@@ -57,15 +64,14 @@ async function UserInfo() {
             <div>icon</div>
             <div>အကူအညီ နှင့် အကြံပြုချက် </div>{" "}
           </Link>
-          <TestCom>
-            <div>icon</div>
-            <div>ထွက်ရန်</div>
-          </TestCom>
+          <TestCom />
         </UserProfile>
       ) : (
-        <LoginLink className="bg-[#222222] h-[40px] px-2 hover:bg-[#333333] border-opacity-15 border border-neutral-200 rounded-sm flex items-center ">
-          ဝင်ရန်
-        </LoginLink>
+        <Link href={"/auth/login"}>
+          <button className="bg-[#222222] h-[40px] px-2 hover:bg-[#333333] border-opacity-15 border border-neutral-200 rounded-sm flex items-center ">
+            ဝင်ရန်
+          </button>
+        </Link>
       )}
     </>
   );
