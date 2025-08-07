@@ -1,11 +1,11 @@
-import { addRecent } from "@/actions/addRecent";
-import { getSongsReturn } from "@/database/data";
 import { DataContext } from "@/lib/MediaSource/ContextMedia";
 import {
+  currentAddToQueueAction,
   currentSongPlaylist,
   currentSongPlaylistAction,
   DirectPlayBackAction,
   IsRepeatState,
+  ShouldFetchSongsListId,
   SongActions,
   SongDetail,
   SongFunctionActions,
@@ -15,42 +15,49 @@ import {
   StorePlayListIdStateAction,
   useDirectPlayBack,
   useRepeatAndCurrentPlayList,
+  useShouldFetchSongsList,
   useSong,
   useSongFunction,
   useStorePlayListId,
 } from "@/lib/zustand";
-import { useContext, useEffect } from "react";
-import { supabase } from "@/database/supabase";
-import outputUniUrl from "@/lib/CustomHooks/OutputUniUrl";
+import { useContext, useEffect, useRef } from "react";
 import outputCurrentIndex from "@/lib/CustomHooks/OutputCurrentIndex";
+import { generateUUID } from "@/lib/GenerateUUID";
+import { getSimilarSongQueue } from "@/database/client-data";
+import { listSongsSection } from "@/database/data";
 
 function PlaceHolderToggleState({
   url,
-  uni_id,
+  id,
   children,
 }: {
   url: string;
-  uni_id: string;
+  id: string;
   children: React.ReactNode;
 }) {
   const { dataAudio, segNum, loadNextSegment } = useContext(DataContext);
+  const FetchSongsListIdPreRef = useRef<string | null>(null);
   const playListArray = useRepeatAndCurrentPlayList(
     (state: currentSongPlaylist) =>
       Object.values(state.playListArray)[0] || undefined
-  ) as getSongsReturn;
+  ) as listSongsSection;
   // console.log(playListArray, "adad");
   const Isplay = useSongFunction(
     (state: SongFunctionState) => Object.values(state.Isplay)[0]
   );
-  const { id, name } = useSong(
+  const { song_id, name } = useSong(
     (state: SongState) => state.songCu
   ) as SongDetail;
-
+  const currentAddToQueue = useRepeatAndCurrentPlayList(
+    (state: currentAddToQueueAction) => state.currentAddToQueue
+  );
   const playlistId = useStorePlayListId(
     (state: StorePlayListIdState) => Object.values(state.playlistId)[0] || []
   ) as string[];
   const playlistIdString = playlistId[0];
-
+  const FetchSongsListId = useShouldFetchSongsList(
+    (state: ShouldFetchSongsListId) => state.FetchSongsListId
+  );
   const playlistIdName = playlistId[1];
   const setPlay = useSongFunction(
     (state: SongFunctionActions) => state.setPlay
@@ -96,11 +103,17 @@ function PlaceHolderToggleState({
         dataAudio!.current!.play();
         return;
       }
-      if (!playListArray.songs || playListArray.songs.length === 0) return;
-      const currentIndex = outputCurrentIndex(playListArray, url, uni_id);
+      if (!playListArray.idArray || playListArray.idArray.length === 0) return;
+      const currentIndex = Math.min(
+        outputCurrentIndex(playListArray.idArray, id),
+        playListArray.idArray.length - 1
+      );
+      const nextIndex = Math.min(
+        currentIndex + 1,
+        playListArray.idArray.length - 1
+      );
       if (!isRepeat) {
         const songList = playListArray.songs;
-        if (currentIndex >= playListArray.songs.length - 1) return;
         const {
           url,
           sege,
@@ -108,11 +121,16 @@ function PlaceHolderToggleState({
           name,
           song_time_stamp,
           id,
-          uni_id,
+          song_id,
           is_liked,
           artists,
-        } = songList[currentIndex + 1];
-        const { uniUrl } = outputUniUrl(playListArray, uni_id, url);
+        } = songList[playListArray.idArray[nextIndex]];
+        const uniUrl = id;
+        if (currentIndex >= playListArray.idArray.length - 1 && uniUrl === id) {
+          setPlay("unknown", undefined);
+          setPlayList("unknown", undefined);
+          return;
+        }
         updateSongCu({
           [uniUrl || ""]: url,
           sege,
@@ -120,13 +138,13 @@ function PlaceHolderToggleState({
           name,
           song_time_stamp,
           id,
-          uni_id,
+          song_id,
           is_liked,
           artists,
         });
         // [todo] need to check if there is a new playlist or not
         setPlaylistId({
-          [playlistId[0] || ""]: [playlistId[0], url],
+          [playlistId[0] || ""]: [playlistId[0], id],
         });
         setPlay(uniUrl, true);
         // [todo] need to check if there is a new playlist or not
@@ -151,40 +169,47 @@ function PlaceHolderToggleState({
     playListArray,
     playlistId,
     url,
-    uni_id,
+    id,
     setPlaylistId,
   ]);
-  useEffect(() => {
-    async function addRecentFn() {
-      // console.log("bolder");
-      // const { error } = await addRecent(playlistIdString, playlistIdName);
-    }
-    addRecentFn();
-  }, [playlistIdString, playlistIdName]);
+  // useEffect(() => {
+  //   async function addRecentFn() {
+  //     // console.log("bolder");
+  //     // const { error } = await addRecent(playlistIdString, playlistIdName);
+  //   }
+  //   addRecentFn();
+  // }, [playlistIdString, playlistIdName]);
 
-  useEffect(() => {
-    if (Isplay && !playListArray) {
-      console.log("time to fetchsome");
-      async function get() {
-        const { data, error } = await supabase.rpc("get_similar_songs", {
-          input_song_id: id,
-          similarity_threshold: 0.3,
-        });
-        const data1 = {
-          id: `create-on-fly-${name}`,
-          name: "autogenerate",
-          related_id: "smooth",
-          realted_name: "autogenerate",
-          source: "none",
-          songs: data,
-        };
-        setPlayListArray({
-          ["smooth"]: data1,
-        });
-      }
-      console.log(get());
-    }
-  }, [Isplay, playListArray, id, setPlayListArray, name]);
+  // useEffect(() => {
+  //   console.log(
+  //     FetchSongsListId,
+  //     FetchSongsListIdPreRef.current,
+  //     FetchSongsListId
+  //   );
+  //   (async () => {
+  //     if (
+  //       FetchSongsListId &&
+  //       FetchSongsListIdPreRef.current !== FetchSongsListId
+  //     ) {
+  //       const { data, error } = await getSimilarSongQueue(id);
+  //       if (!data || error) return null;
+  //       console.log("run");
+  //       const updatedSongs = data.map((song) => ({
+  //         ...song,
+  //         uni_id: generateUUID(),
+  //       }));
+  //       if (
+  //         FetchSongsListId &&
+  //         FetchSongsListIdPreRef.current !== FetchSongsListId
+  //       ) {
+  //       console.log("run twice");
+  //       currentAddToQueue(updatedSongs);
+  //       }
+
+  //       FetchSongsListIdPreRef.current = FetchSongsListId;
+  //     }
+  //   })();
+  // }, [id, FetchSongsListId, currentAddToQueue]);
   return children;
 }
 
