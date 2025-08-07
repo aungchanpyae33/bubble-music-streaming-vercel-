@@ -1,5 +1,3 @@
-"use client";
-
 import AddSonglistToQueue from "../general/optionBox/AddSonglistToQueue";
 import AddToLibrary from "../general/optionBox/AddToLibrary";
 import GoToArtist from "../general/optionBox/GoToArtist";
@@ -8,7 +6,7 @@ import PlayNextQueueSongList from "../general/optionBox/PlayNextQueueSongList";
 import ShareButton from "../general/optionBox/ShareButton";
 import RemoveFromLibrary from "../playlist/playlistOption/RemoveFromLibrary";
 
-function AlbumContainerOption() {
+function ArtistContainerOption() {
   return (
     <OptionContainer>
       <PlayNextQueueSongList />
@@ -21,4 +19,4 @@ function AlbumContainerOption() {
   );
 }
 
-export default AlbumContainerOption;
+export default ArtistContainerOption;
