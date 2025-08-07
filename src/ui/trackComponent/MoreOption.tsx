@@ -30,7 +30,8 @@ function MoreOption({
   return (
     <div className={className} ref={parentRef}>
       <button
-        onClick={() => {
+        onClick={(e) => {
+          e.nativeEvent.stopImmediatePropagation();
           setShow(!show);
         }}
         className="w-full h-full flex justify-center"
