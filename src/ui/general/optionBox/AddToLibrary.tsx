@@ -5,19 +5,27 @@ import { ContextMoreOption } from "@/ui/trackComponent/MoreOptionContext";
 import OptionIconEl from "@/ui/general/optionBox/OptionIconEl";
 import IconWrapper from "@/ui/general/IconWrapper";
 import { BookmarkPlus } from "lucide-react";
-import { SongListContext } from "@/ui/playlist/playlistOption/ContextSongListContainer";
+
 import { addToLibrary } from "@/actions/AddToLibrary";
+import { useQueryClient } from "@tanstack/react-query";
+import { SongListContext } from "@/ui/playlist/playlistOption/ContextSongListContainer";
 
 function AddToLibraryChild() {
   const { setShow } = useContext(ContextMoreOption);
-  const { id, type } = useContext(SongListContext);
+  const { id, type, isPage } = useContext(SongListContext);
+  const queryClient = useQueryClient();
   async function addToLibraryFn() {
     setShow(false);
     const { data, error } = await addToLibrary(id, type);
     if (error) {
       console.log(error);
     } else {
-      console.log(data);
+      if (data) {
+        queryClient.setQueryData(["user-library"], {
+          data,
+          error: null,
+        });
+      }
     }
   }
   return (

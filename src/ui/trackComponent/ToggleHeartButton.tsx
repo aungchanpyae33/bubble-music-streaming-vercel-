@@ -5,7 +5,6 @@ import clsx from "clsx";
 import { useEffect, useState } from "react";
 import { addLike } from "@/actions/addLike";
 import { removeLike } from "@/actions/removeLike";
-import { useKindeAuth } from "@kinde-oss/kinde-auth-nextjs";
 import { usePairStoreZustand } from "@/lib/CustomHooks/PairStoreZustand";
 
 function ToggleHeartButton({
@@ -16,25 +15,23 @@ function ToggleHeartButton({
   songId: string;
 }) {
   const [isLike, setIsLike] = useState(like);
-  const { user } = useKindeAuth();
-  const userId = user && user.id;
-  const addLikeAction = addLike.bind(null, userId, songId);
-
+  const addLikeAction = addLike.bind(null, songId);
   // const store = getPairStore(`${songId}`);
   const store = usePairStoreZustand(`${songId}`);
   const setLike = store((s) => s.setLike);
 
-  const removeLikeAction = removeLike.bind(null, userId, songId);
+  const removeLikeAction = removeLike.bind(null, songId);
   const likeZustand = store((s) => s.like);
   useEffect(() => {
     if (likeZustand !== undefined) setIsLike(likeZustand);
   }, [likeZustand]);
 
   async function handleLike() {
+    console.log(songId);
     if (isLike) {
       const { error } = await removeLikeAction();
       if (error) {
-        console.log("failed to removelike");
+        console.log("failed to removelike", error);
       } else {
         setIsLike(false);
         setLike(false);
@@ -42,7 +39,7 @@ function ToggleHeartButton({
     } else {
       const { error } = await addLikeAction();
       if (error) {
-        console.log("failed to like");
+        console.log("failed to like", error);
       } else {
         setIsLike(true);
         setLike(true);
@@ -59,7 +56,7 @@ function ToggleHeartButton({
         Icon={Heart}
         size="small"
         className={clsx("", {
-          "fill-white": isLike,
+          "fill-[#3664ba] text-[#3664ba] ": isLike,
         })}
       />
     </button>

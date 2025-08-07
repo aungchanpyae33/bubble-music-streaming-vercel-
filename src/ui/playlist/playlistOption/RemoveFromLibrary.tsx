@@ -5,21 +5,38 @@ import { ContextMoreOption } from "@/ui/trackComponent/MoreOptionContext";
 import OptionIconEl from "@/ui/general/optionBox/OptionIconEl";
 import IconWrapper from "@/ui/general/IconWrapper";
 import { BookmarkX } from "lucide-react";
-import { SongListContext } from "@/ui/playlist/playlistOption/ContextSongListContainer";
 import { removeFromLibrary } from "@/actions/removeFromLibrary";
+import { SongListContext } from "./ContextSongListContainer";
+import { useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 
 function RemoveFromLibraryChild() {
   const { setShow } = useContext(ContextMoreOption);
 
-  const { id, source } = useContext(SongListContext) as {
+  const router = useRouter();
+  const { id, source, isPage } = useContext(SongListContext) as {
     id: string;
     source: "create" | "reference";
+    isPage: boolean;
   };
+  const queryClient = useQueryClient();
   async function removeFromLibraryFn() {
     setShow(false);
-    const { error } = await removeFromLibrary(id, source);
+    const { data, error } = await removeFromLibrary(id, source);
+    console.log(error);
     if (error) {
       console.log("something wrong");
+    } else {
+      if (data) {
+        console.log(data, error);
+        queryClient.setQueryData(["user-library"], {
+          data,
+          error: null,
+        });
+        if (source === "create") {
+          router.push("/");
+        }
+      }
     }
   }
   return (

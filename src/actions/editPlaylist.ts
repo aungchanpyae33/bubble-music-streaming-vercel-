@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "@/database/server";
+import { deepMapById } from "@/lib/returnById";
 
 export const editPlaylist = async ({
   playlistId,
@@ -15,7 +16,12 @@ export const editPlaylist = async ({
       p_playlist_id: playlistId,
       p_new_name: playlistName,
     });
-    return { data, error };
+    const userLib = {
+      userLib: data,
+    };
+    console.log(data, error);
+    const mappedData = data ? deepMapById(userLib, ["userLib"]) : null;
+    return { data: mappedData, error };
   } catch (error) {
     console.error("Unexpected error:", error);
     return { data: null, error };

@@ -10,7 +10,7 @@ const useRemoveSongMutate = (id: string) => {
     onSuccess: (queryData, variables, context) => {
       const { data, error } = queryData;
       if (!data || error) return;
-      if (!error) {
+      if (!error && data) {
         queryClient.setQueryData(["playlist", id], { data, error: null });
       }
       setShow(false);

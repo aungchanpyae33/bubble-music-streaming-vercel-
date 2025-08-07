@@ -44,7 +44,7 @@ function PlaylistAdd() {
                       playlistname
                     );
 
-                    if (data && data.length > 0) {
+                    if (data) {
                       queryClient.setQueryData(["user-library"], {
                         data,
                         error: null,

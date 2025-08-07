@@ -11,14 +11,13 @@ import useRemoveSongMutate from "@/lib/CustomHooks/mutation/RemoveSongMutate";
 
 function RemoveSongButtonChild() {
   const { id, song } = useContext(InfoTrackContext);
-  const songId = song?.id;
-  const uni_id = song?.uni_id!;
-  const mutation = useRemoveSongMutate(id);
+  const id_scope = song?.id;
+  console.log(id);
+  const mutation = useRemoveSongMutate(id!);
   const handleRemove = () => {
     mutation.mutate({
-      playlistId: id,
-      songId: songId!,
-      uni_id: uni_id!,
+      playlistId: id!,
+      id: id_scope!,
     });
   };
 

@@ -6,7 +6,7 @@ import NavListUlWrapper from "./NavListUlWrapper";
 import { Menu } from "lucide-react";
 import IconWrapper from "../general/IconWrapper";
 import PlaylistFolderContainer from "./PlaylistFolderContainer";
-import { getProps } from "@/database/data";
+
 import NavSideLinkNotOpen from "./NavSideLinkNotOpen";
 interface childrenProp {
   childrenExplore: ReactNode;

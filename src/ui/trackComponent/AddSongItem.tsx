@@ -6,8 +6,8 @@ import {
   useAddSongsToPlaylist,
   useIsExistSongs,
 } from "@/lib/zustand";
-import { checkSongsBeforeAdd } from "@/actions/checkSongsBeforeAdd";
 import useAddSongMutate from "@/lib/CustomHooks/mutation/AddSongMutate";
+import { checkSongsBeforeAdd } from "@/database/client-data";
 
 function AddSongItem({
   playlistSongs,

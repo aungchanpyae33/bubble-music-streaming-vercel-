@@ -5,8 +5,9 @@ import { ContextMoreOption } from "@/ui/trackComponent/MoreOptionContext";
 import OptionIconEl from "@/ui/general/optionBox/OptionIconEl";
 import IconWrapper from "@/ui/general/IconWrapper";
 import { SquarePen } from "lucide-react";
-import { SongListContext } from "@/ui/playlist/playlistOption/ContextSongListContainer";
+
 import { editToPlaylistAction, useEditToPlaylist } from "@/lib/zustand";
+import { SongListContext } from "./ContextSongListContainer";
 
 function EditToPlaylistChild() {
   const { setShow } = useContext(ContextMoreOption);

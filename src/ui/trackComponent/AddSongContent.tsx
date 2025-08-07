@@ -8,13 +8,16 @@ function AddSongContent() {
     queryFn: () => getUserLibClient(),
   });
   const { data, error } = queryData || {};
-  console.log(data, error);
+  if (!data || error) return;
+  const { userLib } = data;
   return (
     <>
       Add songs to playlist
-      {data &&
-        data.length > 0 &&
-        data.map((item) => <AddSongItem key={item.id} playlistSongs={item} />)}
+      {userLib.idArray.length > 0 &&
+        userLib.idArray.map((id) => {
+          const item = userLib[id];
+          return <AddSongItem key={item.id} playlistSongs={item} />;
+        })}
     </>
   );
 }
