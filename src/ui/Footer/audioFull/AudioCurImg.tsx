@@ -7,7 +7,7 @@ import useGetDominantColor from "@/lib/GetDominantColor";
 function AudioCurImg() {
   const { setBgValue } = useContext(ContextBackGround);
   const imgRef = useRef<HTMLImageElement | null>(null);
-  const [isImageLoaded] = useGetDominantColor({ setBgValue, imgRef });
+  useGetDominantColor({ setBgValue, imgRef });
   return (
     <div
       className={clsx(
@@ -23,11 +23,11 @@ function AudioCurImg() {
         alt="this is image element"
         fill
       />
-      {isImageLoaded === "error" && (
+      {/* {isImageLoaded === "error" && (
         <div className="absolute top-1/2 left-1/2 -translate-y-1/2 whitespace-nowrap    -translate-x-1/2">
           some image to show image
         </div>
-      )}
+      )} */}
     </div>
   );
 }
