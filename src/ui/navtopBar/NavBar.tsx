@@ -6,9 +6,9 @@ import { Suspense } from "react";
 import Image from "next/image";
 function NavBar() {
   return (
-    <nav className="navBarContainer flex w-full   h-[70px]   items-center justify-between border-opacity-15 bg-[#0A0A0A] border-b border-neutral-200 ">
+    <nav className="navBarContainer flex w-full   h-[70px] z-10   items-center justify-between border-opacity-15 bg-[#0A0A0A] border-b border-neutral-200 ">
       <Suspense fallback={<div className=" w-[160px] h-[70px]"></div>}>
-        <div className=" z-30 flex  w-[160px]">
+        <div className="flex  w-[160px]">
           <NavSideBar />
           <div className="logo relative   w-[90px] h-[70px] flex items-center    bg-gradient-to-r">
             <Link href={"/"} className=" relative h-full w-full">
