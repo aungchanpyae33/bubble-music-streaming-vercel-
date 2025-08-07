@@ -1,29 +1,39 @@
+export const dynamic = "force-dynamic";
+import { getSearchPage } from "@/database/data";
+import SearchAlbum from "@/ui/searchPage/SearchAlbum";
+import SearchArtist from "@/ui/searchPage/SearchArtist";
+import SearchPlaylist from "@/ui/searchPage/SearchPlaylist";
+import SearchSongs from "@/ui/searchPage/SearchSongs";
+import TopResult from "@/ui/searchPage/TopResult";
 import React from "react";
-import GenreContainer from "@/ui/genreContainer/GenreContainer";
-import { getData } from "@/database/data";
+
 async function page(props: {
   searchParams?: Promise<{
     query?: string;
   }>;
 }) {
-  // const searchParams = await props.searchParams;
-  // const query = searchParams?.query || "";
-  const data = await getData("go");
-  console.log(data);
+  const searchParams = await props.searchParams;
+  const query = searchParams?.query || "";
+  const { data, error } = await getSearchPage(query);
+  console.log(data, "data");
+  if (!data || error) return null;
+  const { top_result, songs, albums, artists, playlists, profiles } = data;
+  console.log(songs);
   return (
-    <div>
-      {/* <div className="grid grid-cols-12 gap-5  p-5  bg-yellow-600">
-        {query.length < 1 && (
-          <>
-            <GenreContainer description={"supanova"} />
-            <GenreContainer description={"supanova"} />
-            <GenreContainer description={"supanova"} />
-            <GenreContainer description={"supanova"} />
-            <GenreContainer description={"supanova"} />
-            <GenreContainer description={"supanova"} />
-          </>
-        )}
-      </div> */}
+    <div className="  space-y-5">
+      <h1 className="p-2">Search results for {`"${query}"`}</h1>
+      {top_result && <TopResult key={top_result.id} />}
+      {songs && <SearchSongs songs={songs} title="Song" />}
+
+      {artists && artists.length > 0 && (
+        <SearchArtist title="Artist" artists={artists} />
+      )}
+      {albums && albums.length > 0 && (
+        <SearchAlbum title="Albums" albums={albums} />
+      )}
+      {playlists && playlists.length > 0 && (
+        <SearchPlaylist title="Playlist" playlists={playlists} />
+      )}
     </div>
   );
 }

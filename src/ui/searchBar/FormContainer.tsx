@@ -65,7 +65,7 @@ function FormContainer({
               <IconWrapper
                 size="large"
                 Icon={X}
-                className="rounded-full scale-100 text-zinc-400 hover:text-white hover:scale-105  active:bg-[#333333]"
+                className="rounded-full scale-100 text-zinc-400 hover:text-white hover:scale-105 transition-[scale] duration-200  "
               />
             </button>
           </div>
