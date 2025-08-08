@@ -13,7 +13,7 @@ function InputComponent({ inputRef, setShow, setValue }: InputComponentProps) {
     (state: focusStateAction) => state.setIsInputFocus
   );
   const searchParams = useSearchParams();
-  const defaultValueRef = useRef(searchParams.get("query") || "");
+  const defaultValueRef = searchParams.get("query") || "";
   return (
     <>
       <label htmlFor="search">
@@ -28,7 +28,7 @@ function InputComponent({ inputRef, setShow, setValue }: InputComponentProps) {
         required
         autoComplete="off"
         spellCheck="false"
-        defaultValue={defaultValueRef.current}
+        defaultValue={defaultValueRef}
         ref={inputRef}
         onBlur={() => {
           setOpen(false);

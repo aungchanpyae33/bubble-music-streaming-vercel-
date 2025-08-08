@@ -10,18 +10,16 @@ interface FormWrapperProps {
 import { useRouter } from "nextjs-toploader/app";
 function FormWrapper({ children, inputRef, show }: FormWrapperProps) {
   const { setOpen } = useContext(ContextToggle);
-  const route = useRouter();
+  const router = useRouter();
   function goSearch(FormData: FormData) {
+    setOpen(false);
+    inputRef.current?.blur();
     const input = FormData.get("query") as string;
-    route.push(`/search?query=${input}`);
+    router.push(`/search?query=${encodeURIComponent(input)}`);
   }
   return (
     <Form
       action={goSearch}
-      onSubmit={() => {
-        setOpen(false);
-        inputRef.current?.blur();
-      }}
       className={clsx(
         "w-full px-2  hidden sm:flex h-[70px] bg-inherit  top-0 left-0  absolute items-center  sm:w-auto md:bg-transparent sm:h-auto  sm:static  sm:flex-none sm:items-start",
         {
