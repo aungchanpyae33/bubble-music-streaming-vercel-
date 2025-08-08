@@ -10,6 +10,7 @@ import SongListContainerOption from "../general/optionBox/SongListContainerOptio
 import SonglistContainerWrapper from "./playlistOption/SonglistContainerWrapper";
 import ContextSongListContainer from "./playlistOption/ContextSongListContainer";
 import { listInfo } from "@/database/data";
+import { outputRelatedType } from "@/lib/prototypeOuputRelatedType";
 
 interface SonglistsContainerProps extends listInfo {
   description: string;
@@ -26,6 +27,7 @@ function SonglistsContainer({
   related_id,
   related_name,
 }: SonglistsContainerProps) {
+  const relatedType = outputRelatedType(type);
   return (
     <div
       role={`cell${index + 1}`}
@@ -74,15 +76,21 @@ function SonglistsContainer({
       </Link>
       <div className=" w-full">
         <UnderLineLinkHover
-          href={"album/supanova"}
+          href={`${type}/${id}`}
           prefetch={false}
           className=" block leading-relaxed w-full truncate text-start  "
         >
           {name}
         </UnderLineLinkHover>
-        <span className=" block leading-relaxed w-full truncate text-start text-sm text-zinc-400">
-          aspea,baby monster,bts,newjeans
-        </span>
+        {relatedType && (
+          <UnderLineLinkHover
+            href={`${relatedType}/${related_id}`}
+            prefetch={false}
+            className=" block leading-relaxed w-full truncate text-start text-sm text-zinc-400 "
+          >
+            {related_name}
+          </UnderLineLinkHover>
+        )}
       </div>
     </div>
   );

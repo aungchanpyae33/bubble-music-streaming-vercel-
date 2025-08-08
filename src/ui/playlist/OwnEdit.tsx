@@ -30,7 +30,7 @@ function OwnEdit({
     <HydrationBoundary state={dehydrate(queryClient)}>
       <div className=" w-full">
         <AlbumUpperBackground>
-          <AlbumUpperContainer description={songs.name} />
+          <AlbumUpperContainer songs={songs} />
         </AlbumUpperBackground>
         <ContextSongListContainer
           id={songs.id}

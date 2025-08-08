@@ -23,7 +23,7 @@ async function page(props: { params: Promise<{ album: string }> }) {
     <div className=" w-full">
       <AlbumUpperBackground>
         <Suspense fallback={<p>nice</p>}>
-          <AlbumUpperContainer description={"jello"} />
+          <AlbumUpperContainer songs={songs} />
         </Suspense>
       </AlbumUpperBackground>
       <ContextSongListContainer

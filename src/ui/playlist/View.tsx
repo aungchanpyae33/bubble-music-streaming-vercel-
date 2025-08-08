@@ -13,7 +13,7 @@ function View({ songs }: { songs: listSongsSection }) {
   return (
     <div className=" w-full">
       <AlbumUpperBackground>
-        <AlbumUpperContainer description={"jello"} />
+        <AlbumUpperContainer songs={songs} />
       </AlbumUpperBackground>
       <ContextSongListContainer
         id={songs.id}

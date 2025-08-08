@@ -1,0 +1,10 @@
+import { Database } from "../../database.types";
+
+export const outputRelatedType = (
+  type: Database["public"]["Enums"]["media_item_type"]
+) => {
+  if (type === "playlist") return "user";
+  if (type === "album") return "artist";
+  if (type === "artist") return null;
+  if (type === "track") return "artist";
+};

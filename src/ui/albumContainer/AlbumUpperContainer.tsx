@@ -1,10 +1,13 @@
 import { DeviceCheck } from "@/lib/DeviceCheck";
 import clsx from "clsx";
 import AlbumImg from "./AlbumImg";
+import { listSongsSection } from "@/database/data";
+import UnderLineLinkHover from "../general/UnderLineLinkHover";
+import { outputRelatedType } from "@/lib/prototypeOuputRelatedType";
 
-async function AlbumUpperContainer({ description }: { description: string }) {
+async function AlbumUpperContainer({ songs }: { songs: listSongsSection }) {
   const deviceFromUserAgent = await DeviceCheck();
-
+  const relatedType = outputRelatedType(songs.type);
   return (
     <div
       className={clsx("Container w-full flex  items-center p-5 ", {
@@ -23,7 +26,7 @@ async function AlbumUpperContainer({ description }: { description: string }) {
             deviceFromUserAgent === "tablet",
         })}
       >
-        <h1 className="">playlist</h1>
+        <h1 className="">{songs.type}</h1>
         <h1
           className={clsx("", {
             "text-3xl": deviceFromUserAgent === "desktop",
@@ -32,9 +35,17 @@ async function AlbumUpperContainer({ description }: { description: string }) {
               deviceFromUserAgent === "tablet",
           })}
         >
-          {description}
+          {songs.name}
         </h1>
-        <span className="">by Bubble</span>
+        {relatedType && (
+          <UnderLineLinkHover
+            href={`/${relatedType}/${songs.related_id}`}
+            prefetch={false}
+            className=""
+          >
+            {songs.related_name}
+          </UnderLineLinkHover>
+        )}
       </div>
     </div>
   );
