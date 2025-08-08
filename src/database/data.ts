@@ -224,6 +224,7 @@ export const getAlbumSongs = async (
 export interface listSongsSection extends listInfo {
   idArray: string[];
   songs: Record<string, SongInfo>;
+  is_official: boolean;
 }
 
 export interface SongInfo {

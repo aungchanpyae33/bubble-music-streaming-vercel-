@@ -4,10 +4,12 @@ import AlbumImg from "./AlbumImg";
 import { listSongsSection } from "@/database/data";
 import UnderLineLinkHover from "../general/UnderLineLinkHover";
 import { outputRelatedType } from "@/lib/prototypeOuputRelatedType";
+import OfficialBadgeName from "./OfficialBadgeName";
 
 async function AlbumUpperContainer({ songs }: { songs: listSongsSection }) {
   const deviceFromUserAgent = await DeviceCheck();
   const relatedType = outputRelatedType(songs.type);
+  const is_official_exist = songs?.is_official;
   return (
     <div
       className={clsx("Container w-full flex  items-center p-5 ", {
@@ -37,15 +39,18 @@ async function AlbumUpperContainer({ songs }: { songs: listSongsSection }) {
         >
           {songs.name}
         </h1>
-        {relatedType && (
-          <UnderLineLinkHover
-            href={`/${relatedType}/${songs.related_id}`}
-            prefetch={false}
-            className=""
-          >
-            {songs.related_name}
-          </UnderLineLinkHover>
-        )}
+        <div className=" flex">
+          {is_official_exist && <OfficialBadgeName />}
+          {relatedType && (
+            <UnderLineLinkHover
+              href={`/${relatedType}/${songs.related_id}`}
+              prefetch={false}
+              className=""
+            >
+              {songs.related_name}
+            </UnderLineLinkHover>
+          )}
+        </div>
       </div>
     </div>
   );
