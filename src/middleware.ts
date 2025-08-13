@@ -30,7 +30,21 @@ async function updateSession(request: NextRequest) {
       },
     }
   );
-
+  function getUnAuthfn() {
+    let existingUnAuthId = request.cookies.get("unAuth");
+    if (!existingUnAuthId) {
+      const unAuthId = crypto.randomUUID();
+      supabaseResponse.cookies.set("unAuth", unAuthId, {
+        httpOnly: true,
+        path: "/",
+        maxAge: 60 * 60 * 24 * 365, // 1 year
+        sameSite: "lax",
+        secure: process.env.NODE_ENV === "production",
+      });
+      return unAuthId;
+    }
+    return existingUnAuthId;
+  }
   // Do not run code between createServerClient and
   // supabase.auth.getClaims(). A simple mistake could make it very hard to debug
   // issues with users being randomly logged out.
@@ -38,18 +52,28 @@ async function updateSession(request: NextRequest) {
   // IMPORTANT: If you remove getClaims() and you use server-side rendering
   // with the Supabase client, your users may be randomly logged out.
   const { data } = await supabase.auth.getClaims();
-  const user = data?.claims;
-  console.log(user);
+  const userId = data?.claims?.sub ?? getUnAuthfn();
+  console.log(userId);
+  const rateLimit = await fetch(
+    `https://ratelimit.bubblemusic.dpdns.org?userId=${userId}`
+  );
+
+  const isSuccess = await rateLimit.text();
+
+  if (isSuccess !== "success") {
+    const url = request.nextUrl.clone();
+    url.pathname = "/fdd";
+    return NextResponse.redirect(url);
+  }
   if (
     request.nextUrl.pathname !== "/" &&
-    !user &&
+    !userId &&
     !request.nextUrl.pathname.startsWith("/login") &&
     !request.nextUrl.pathname.startsWith("/auth")
   ) {
     // no user, potentially respond by redirecting the user to the login page
     const url = request.nextUrl.clone();
     url.pathname = "/auth/login";
-    console.log(url);
     return NextResponse.redirect(url);
   }
 
@@ -70,7 +94,6 @@ async function updateSession(request: NextRequest) {
 }
 
 export default async function middleware(request: NextRequest) {
-  console.log("kslnd");
   return await updateSession(request);
 }
 
