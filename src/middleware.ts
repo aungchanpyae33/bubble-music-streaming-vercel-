@@ -39,7 +39,6 @@ async function updateSession(request: NextRequest) {
   // with the Supabase client, your users may be randomly logged out.
   const { data } = await supabase.auth.getClaims();
   const user = data?.claims;
-  console.log(user);
   if (
     request.nextUrl.pathname !== "/" &&
     !user &&
@@ -70,13 +69,12 @@ async function updateSession(request: NextRequest) {
 }
 
 export default async function middleware(request: NextRequest) {
-  console.log("kslnd");
   return await updateSession(request);
 }
 
 export const config = {
   matcher: [
     // Run on everything but Next internals and static files
-    "/((?!_next|api/search|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
+    "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
   ],
 };
