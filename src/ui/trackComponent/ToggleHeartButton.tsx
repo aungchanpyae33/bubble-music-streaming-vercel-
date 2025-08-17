@@ -27,7 +27,6 @@ function ToggleHeartButton({
   }, [likeZustand]);
 
   async function handleLike() {
-    console.log(songId);
     if (isLike) {
       const { error } = await removeLikeAction();
       if (error) {
@@ -56,7 +55,7 @@ function ToggleHeartButton({
         Icon={Heart}
         size="small"
         className={clsx("", {
-          "fill-[#3664ba] text-[#3664ba] ": isLike,
+          "fill-white": isLike,
         })}
       />
     </button>

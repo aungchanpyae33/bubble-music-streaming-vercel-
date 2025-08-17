@@ -67,7 +67,8 @@ function SonglistsContainer({
         </SonglistContainerWrapper>
 
         <DirectPlayButton
-          playlistIdDeft={id}
+          listId={id}
+          type={type}
           className=" absolute z-10 bottom-4 right-2  has-hover:transition-[transform,opacity,background-color] has-hover:duration-150 has-hover:group-hover:-translate-y-2 has-hover:opacity-0 has-hover:peer-focus:-translate-y-2  has-hover:peer-focus:opacity-100 
       has-hover:focus:-translate-y-2 
       has-hover:focus:opacity-100 

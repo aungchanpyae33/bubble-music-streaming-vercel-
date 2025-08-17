@@ -15,9 +15,7 @@ function AudioFooterContainer({
     // <div className="cursor-not-allowed">
     // in chrome , when use top-0 and -translate-x- that is close and bigger the parent height make a little edge between , not found in firefox , use -top parent height
     <div
-      className={clsx(
-        "w-full h-full  border-t border-opacity-15  border-neutral-200 "
-      )}
+      className={clsx("w-full h-full  border-t border-divided ")}
       tabIndex={0}
       onKeyDown={(e) => {
         if (e.key === "Enter") {

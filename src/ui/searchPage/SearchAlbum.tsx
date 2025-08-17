@@ -1,11 +1,12 @@
 import SearchContainer from "./SearchContainer";
 import SearchListContainerTitle from "./SearchListContainerTitle";
 import SearchListContainer from "./SearchListContainer";
-import { getProps } from "@/database/data";
+
 import SearchArtistItem from "./SearchArtistItem";
+import { listInfo } from "@/database/data";
 interface SearchAlbumProps {
   title: string;
-  albums: getProps[];
+  albums: listInfo[];
 }
 function SearchAlbum({ title, albums }: SearchAlbumProps) {
   return (

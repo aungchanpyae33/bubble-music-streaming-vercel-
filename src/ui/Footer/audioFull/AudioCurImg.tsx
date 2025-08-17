@@ -17,7 +17,7 @@ function AudioCurImg() {
       <Image
         ref={imgRef}
         src={
-          "https://tebi.bubblemusic.dpdns.org/lee-hi/4-only/cover/photo_2025-05-23_14-51-24.jpg"
+          "https://tebi.bubblemusic.dpdns.org/seventeen/happy-burstday/cover/photo_2025-08-08_15-49-55.jpg"
         }
         sizes="(min-width: 1024px) 270px , 290px"
         alt="this is image element"

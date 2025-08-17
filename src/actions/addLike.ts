@@ -2,10 +2,7 @@
 import { createClient } from "@/database/server";
 import { redirect } from "next/navigation";
 
-export const addLike = async (userId: string | null, songId: string) => {
-  if (!userId) {
-    redirect("/login");
-  }
+export const addLike = async (songId: string) => {
   const supabase = await createClient();
   const { error } = await supabase.rpc("addlike", {
     song_id: songId,

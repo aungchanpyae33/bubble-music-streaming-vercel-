@@ -32,6 +32,7 @@ function Queue() {
       <PlaceHolderQueue queueRef={queueRef} />
       <AnimatePresence initial={false}>
         {playListArray &&
+          playListArray.idArray &&
           playListArray.idArray.map((id) => {
             const item = playListArray.songs[`${id}`];
             return (
