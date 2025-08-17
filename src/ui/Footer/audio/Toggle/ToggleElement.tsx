@@ -83,10 +83,15 @@ const ToggleElement = ({
           const data = {
             id: playlistId,
             name: "autogenerate",
-            related_id: "smooth",
+            is_official: false,
+            related_id: "autogenerate",
             realted_name: "autogenerate",
             source: "none",
-            songs: [song],
+            type: "playlist",
+            songs: {
+              [uniUrl]: song,
+            },
+            idArray: [uniUrl],
           };
           setPlayListArray({
             [playlistId || ""]: data,
