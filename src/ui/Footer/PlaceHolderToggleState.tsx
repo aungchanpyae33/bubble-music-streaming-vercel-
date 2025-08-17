@@ -1,11 +1,8 @@
 import { DataContext } from "@/lib/MediaSource/ContextMedia";
 import {
-  currentAddToQueueAction,
   currentSongPlaylist,
-  currentSongPlaylistAction,
   DirectPlayBackAction,
   IsRepeatState,
-  ShouldFetchSongsListId,
   SongActions,
   SongDetail,
   SongFunctionActions,
@@ -15,16 +12,15 @@ import {
   StorePlayListIdStateAction,
   useDirectPlayBack,
   useRepeatAndCurrentPlayList,
-  useShouldFetchSongsList,
   useSong,
   useSongFunction,
   useStorePlayListId,
 } from "@/lib/zustand";
-import { useContext, useEffect, useRef } from "react";
+import { useContext, useEffect } from "react";
 import outputCurrentIndex from "@/lib/CustomHooks/OutputCurrentIndex";
-import { generateUUID } from "@/lib/GenerateUUID";
-import { getSimilarSongQueue } from "@/database/client-data";
 import { listSongsSection } from "@/database/data";
+import { addRecentlyPlayedList } from "@/actions/addRecentPlayedList";
+import { addRecentlySong } from "@/actions/addRecentSong";
 
 function PlaceHolderToggleState({
   url,
@@ -36,7 +32,6 @@ function PlaceHolderToggleState({
   children: React.ReactNode;
 }) {
   const { dataAudio, segNum, loadNextSegment } = useContext(DataContext);
-  const FetchSongsListIdPreRef = useRef<string | null>(null);
   const playListArray = useRepeatAndCurrentPlayList(
     (state: currentSongPlaylist) =>
       Object.values(state.playListArray)[0] || undefined
@@ -45,20 +40,12 @@ function PlaceHolderToggleState({
   const Isplay = useSongFunction(
     (state: SongFunctionState) => Object.values(state.Isplay)[0]
   );
-  const { song_id, name } = useSong(
-    (state: SongState) => state.songCu
-  ) as SongDetail;
-  const currentAddToQueue = useRepeatAndCurrentPlayList(
-    (state: currentAddToQueueAction) => state.currentAddToQueue
-  );
+  const { song_id } = useSong((state: SongState) => state.songCu) as SongDetail;
+
   const playlistId = useStorePlayListId(
     (state: StorePlayListIdState) => Object.values(state.playlistId)[0] || []
   ) as string[];
-  const playlistIdString = playlistId[0];
-  const FetchSongsListId = useShouldFetchSongsList(
-    (state: ShouldFetchSongsListId) => state.FetchSongsListId
-  );
-  const playlistIdName = playlistId[1];
+
   const setPlay = useSongFunction(
     (state: SongFunctionActions) => state.setPlay
   );
@@ -68,9 +55,6 @@ function PlaceHolderToggleState({
   );
   const setPlayList = useDirectPlayBack(
     (state: DirectPlayBackAction) => state.setPlayList
-  );
-  const setPlayListArray = useRepeatAndCurrentPlayList(
-    (state: currentSongPlaylistAction) => state.setPlayListArray
   );
 
   const updateSongCu = useSong((state: SongActions) => state.updateSongCu);
@@ -172,44 +156,29 @@ function PlaceHolderToggleState({
     id,
     setPlaylistId,
   ]);
-  // useEffect(() => {
-  //   async function addRecentFn() {
-  //     // console.log("bolder");
-  //     // const { error } = await addRecent(playlistIdString, playlistIdName);
-  //   }
-  //   addRecentFn();
-  // }, [playlistIdString, playlistIdName]);
 
-  // useEffect(() => {
-  //   console.log(
-  //     FetchSongsListId,
-  //     FetchSongsListIdPreRef.current,
-  //     FetchSongsListId
-  //   );
-  //   (async () => {
-  //     if (
-  //       FetchSongsListId &&
-  //       FetchSongsListIdPreRef.current !== FetchSongsListId
-  //     ) {
-  //       const { data, error } = await getSimilarSongQueue(id);
-  //       if (!data || error) return null;
-  //       console.log("run");
-  //       const updatedSongs = data.map((song) => ({
-  //         ...song,
-  //         uni_id: generateUUID(),
-  //       }));
-  //       if (
-  //         FetchSongsListId &&
-  //         FetchSongsListIdPreRef.current !== FetchSongsListId
-  //       ) {
-  //       console.log("run twice");
-  //       currentAddToQueue(updatedSongs);
-  //       }
+  useEffect(() => {
+    async function addRecentList() {
+      console.log(playListArray.id, playListArray.type);
+      if (playListArray.id.startsWith("create-on-fly")) return;
+      const { error } = await addRecentlyPlayedList(
+        playListArray.id,
+        playListArray.type
+      );
+      if (error) console.log(error);
+    }
+    addRecentList();
+  }, [playListArray.id, playListArray.type]);
 
-  //       FetchSongsListIdPreRef.current = FetchSongsListId;
-  //     }
-  //   })();
-  // }, [id, FetchSongsListId, currentAddToQueue]);
+  useEffect(() => {
+    async function addRecentSong() {
+      console.log(song_id);
+      const { error } = await addRecentlySong(song_id);
+      if (error) console.log(error);
+    }
+    addRecentSong();
+  }, [song_id]);
+
   return children;
 }
 
