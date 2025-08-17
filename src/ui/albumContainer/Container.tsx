@@ -1,6 +1,6 @@
 import React from "react";
 import EdgeFade from "../playlist/EdgeFade";
-import { getDataProps } from "@/database/data";
+import { getDataProps, listInfo } from "@/database/data";
 import ContextContainer from "./ContextContainer";
 import ArrowNaviContainer from "./ArrowNaviContainer";
 import SonglistsContainer from "../playlist/SonglistsContainer";
@@ -9,20 +9,20 @@ function Container({
   songs,
   description,
 }: {
-  songs: getDataProps["getAllTest"];
+  songs: getDataProps[keyof getDataProps];
   description: string;
 }) {
   return (
     <ContextContainer>
       <div aria-label="song name is" className=" justify-between px-4  flex ">
-        <button>{description}</button>
+        <h3>{description}</h3>
         <ArrowNaviContainer />
       </div>
       <div className="relative z-0 max-w-fit">
         <SonglistWrapper>
           {songs &&
             songs.idArray.map((id, index) => {
-              const item = songs[`${id}`];
+              const item = songs[`${id}`] as listInfo;
               return (
                 <SonglistsContainer
                   index={index}
