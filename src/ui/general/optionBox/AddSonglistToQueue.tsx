@@ -13,7 +13,7 @@ import {
   useSong,
 } from "@/lib/zustand";
 import { SongListContext } from "@/ui/playlist/playlistOption/ContextSongListContainer";
-import { getSongListForQueue } from "@/database/client-data";
+import { getSongListClient } from "@/database/client-data";
 
 function AddSonglistToQueue() {
   const { setShow } = useContext(ContextMoreOption);
@@ -26,7 +26,7 @@ function AddSonglistToQueue() {
   ) as SongDetail;
   if (!songId) return null;
   async function addSongListToQueue() {
-    const { data, error } = await getSongListForQueue(id, type);
+    const { data, error } = await getSongListClient(id, type);
     console.log(data);
     if (!data || error) return;
     const { songs } = data;

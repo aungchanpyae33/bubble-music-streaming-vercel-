@@ -7,7 +7,7 @@ import {
   useIsExistSongs,
 } from "@/lib/zustand";
 import useAddSongMutate from "@/lib/CustomHooks/mutation/AddSongMutate";
-import { checkSongsBeforeAdd } from "@/database/client-data";
+import { checkSongsBeforeAddClient } from "@/database/client-data";
 
 function AddSongItem({
   playlistSongs,
@@ -30,7 +30,7 @@ function AddSongItem({
   const mutation = useAddSongMutate(playlistId);
   async function handleAdd() {
     addSongsToPlaylist({});
-    const { exists } = await checkSongsBeforeAdd({
+    const { exists } = await checkSongsBeforeAddClient({
       playlistId: playlistId,
       songId: songId,
     });

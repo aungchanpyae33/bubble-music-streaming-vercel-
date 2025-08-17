@@ -21,8 +21,8 @@ function SearchInput() {
       const fetchData = await fetch(`/api/search?with=${params}`, {
         signal,
       });
-      const returnData = await fetchData.json();
-      return returnData.data;
+      const { data, error } = await fetchData.json();
+      return data;
     }
     return [];
   }

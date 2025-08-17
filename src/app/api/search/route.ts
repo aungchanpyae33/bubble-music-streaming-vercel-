@@ -1,5 +1,5 @@
 export const runtime = "edge";
-import { getData } from "@/database/client-data";
+import { getData } from "@/database/data";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
@@ -8,12 +8,11 @@ export async function GET(request: NextRequest) {
   if (query) {
     try {
       const { data, error } = await getData(query);
-      if (error) {
+      if (error || !data) {
         return new NextResponse(
           JSON.stringify({
-            data: [],
+            data: null,
             error: "Internal server error",
-            details: error,
           }),
           {
             status: 500,
@@ -22,23 +21,22 @@ export async function GET(request: NextRequest) {
         );
       }
 
-      if (!data || data.length === 0) {
-        return new NextResponse(JSON.stringify({ data: [] }), {
+      if (data.length === 0) {
+        return new NextResponse(JSON.stringify({ data: [], error: null }), {
           status: 200,
           headers: { "Content-Type": "application/json" },
         });
       }
 
-      return new NextResponse(JSON.stringify({ data }), {
+      return new NextResponse(JSON.stringify({ data, error: null }), {
         status: 200,
         headers: { "Content-Type": "application/json" },
       });
     } catch (error) {
       return new NextResponse(
         JSON.stringify({
-          data: [],
-          error: "Internal server error",
-          details: error,
+          data: null,
+          error: `Internal server error ,${error}`,
         }),
         {
           status: 500,

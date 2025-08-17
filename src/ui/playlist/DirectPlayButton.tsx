@@ -19,7 +19,8 @@ import IconWrapper from "../general/IconWrapper";
 import { Pause, Play } from "lucide-react";
 import { getPlaylistPageProps, listSongsSection } from "@/database/data";
 import { PostgrestError } from "@supabase/supabase-js";
-import { getPlaylistSongsClient } from "@/database/client-data";
+import { getListDirectClient } from "@/database/client-data";
+import { Database } from "../../../database.types";
 const hasData = async (
   dataFromFetch: RefObject<Promise<{
     data: getPlaylistPageProps | null;
@@ -28,7 +29,7 @@ const hasData = async (
   playlistId: string
 ) => {
   if (!dataFromFetch.current) {
-    dataFromFetch.current = getPlaylistSongsClient(playlistId);
+    dataFromFetch.current = getListDirectClient(listId, type);
   }
   return dataFromFetch.current;
 };

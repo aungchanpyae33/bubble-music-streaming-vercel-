@@ -2,6 +2,7 @@ import { PostgrestError } from "@supabase/supabase-js";
 import { createClient } from "./server";
 import { Database } from "../../database.types";
 import { deepMapById } from "@/lib/returnById";
+import { create } from "domain";
 export interface Movie {
   id: number;
   name: string;
@@ -85,7 +86,7 @@ export interface getLikeSongsReturn {
 // };
 
 export interface getDataProps {
-  getAllTest: Record<string, listInfo> & { idArray: string[] };
+  [key: string]: Record<string, listInfo | song> & { idArray: string[] };
 }
 
 export const get = async (): Promise<{
@@ -95,28 +96,28 @@ export const get = async (): Promise<{
   try {
     const supabase = await createClient();
     const { data, error } = await supabase.rpc("get_all_media_items");
-    const getAllTest = {
-      getAllTest: data,
-    };
-    const mappedData = data ? deepMapById(getAllTest, ["getAllTest"]) : null;
-
+    if (!data) throw "no data";
+    const keys = Object.keys(data);
+    console.log(keys);
+    const mappedData = data ? deepMapById(data, keys) : null;
+    console.log(mappedData);
     return { data: mappedData, error };
   } catch (error) {
     return { data: null, error };
   }
 };
 
-export const getRecent = async () => {
-  try {
-    const supabase = await createClient();
-    const { data, error } = await supabase
-      .from("recently_played_playlists")
-      .select("playlist_id,playlist_name");
-    return { data, error };
-  } catch (error) {
-    return { data: null, error };
-  }
-};
+// export const getRecent = async () => {
+//   try {
+//     const supabase = await createClient();
+//     const { data, error } = await supabase
+//       .from("recently_played_playlists")
+//       .select("playlist_id,playlist_name");
+//     return { data, error };
+//   } catch (error) {
+//     return { data: null, error };
+//   }
+// };
 
 export interface UserLibMappedProps {
   userLib: Record<string, listInfo> & { idArray: string[] };
@@ -132,6 +133,7 @@ export const getUserLib = async (): Promise<{
     const userLib = {
       userLib: data,
     };
+
     const mappedData = deepMapById(userLib, ["userLib"]);
     return { data: mappedData, error };
   } catch (error) {
@@ -224,7 +226,7 @@ export const getAlbumSongs = async (
 export interface listSongsSection extends listInfo {
   idArray: string[];
   songs: Record<string, SongInfo>;
-  is_official: boolean;
+  is_official?: boolean;
 }
 
 export interface SongInfo {
@@ -270,5 +272,160 @@ export const getArtistPage = async (
     return { data: mappedData, error };
   } catch (error) {
     return { data: null, error };
+  }
+};
+
+export const getData = async (query: string) => {
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase.rpc("search_songs", {
+      query,
+    });
+    return { data, error };
+  } catch (error) {
+    return { data: null, error };
+  }
+};
+
+export interface getSongListProps {
+  songs: Record<string, SongInfo> & { idArray: string[] };
+}
+
+const fetchSongListByType = async (
+  id: string,
+  type: Database["public"]["Enums"]["media_item_type"]
+) => {
+  try {
+    const supabase = await createClient();
+    if (type === "playlist") {
+      return await supabase.rpc("get_playlist_songs_queue", {
+        p_id: id,
+      });
+    } else if (type === "album") {
+      return await supabase.rpc("get_album_songs_queue", {
+        p_album_id: id,
+      });
+    } else if (type === "artist") {
+      return await supabase.rpc("get_artist_songs_queue", {
+        p_artist_id: id,
+      });
+    } else {
+      return { data: null, error: null };
+    }
+  } catch (error) {
+    return { data: null, error };
+  }
+};
+
+export const getSongList = async (
+  id: string,
+  type: Database["public"]["Enums"]["media_item_type"]
+): Promise<{
+  data: getSongListProps | null;
+  error: PostgrestError | any | null;
+}> => {
+  try {
+    const { data, error } = (await fetchSongListByType(id, type)) as {
+      data: SongInfo | null;
+      error: PostgrestError | null;
+    };
+    const listQueue = {
+      songs: data,
+    };
+    const mappedData = data ? deepMapById(listQueue, ["songs"]) : null;
+
+    return { data: mappedData, error };
+  } catch (error) {
+    return { data: null, error };
+  }
+};
+
+export interface getListDirectProps {
+  songs: listSongsSection | null;
+}
+
+const fetchListDirectByType = async (
+  id: string,
+  type: Database["public"]["Enums"]["media_item_type"]
+) => {
+  try {
+    const supabase = await createClient();
+    if (type === "playlist") {
+      return await supabase.rpc("get_playlist_direct", {
+        p_id: id,
+      });
+    } else if (type === "album") {
+      return await supabase.rpc("get_album_direct", {
+        p_album_id: id,
+      });
+    } else if (type === "artist") {
+      return await supabase.rpc("get_artist_direct", {
+        p_artist_id: id,
+      });
+    } else {
+      return { data: null, error: null };
+    }
+  } catch (error) {
+    return { data: null, error };
+  }
+};
+
+export const getListDirect = async (
+  id: string,
+  type: Database["public"]["Enums"]["media_item_type"]
+): Promise<{
+  data: getListDirectProps | null;
+  error: PostgrestError | any | null;
+}> => {
+  try {
+    const { data, error } = (await fetchListDirectByType(id, type)) as {
+      data: getListDirectProps | null;
+      error: PostgrestError | null;
+    };
+    const mappedData = data ? deepMapById(data, ["songs.songs"]) : null;
+    return { data: mappedData, error };
+  } catch (error) {
+    return { data: null, error };
+  }
+};
+
+export const checkSongsBeforeAdd = async (
+  playlistId: string,
+  songId: string
+) => {
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase.from("playlist_songs").select("id");
+    if (error) {
+      console.error("Error checking playlist:", error);
+      return { exists: false, error };
+    }
+    const exists = !!data; // true if song already in playlist
+    return { exists, error: null };
+  } catch (error) {
+    return { exists: false, error };
+  }
+};
+
+export const getSimilarSongQueue = async (
+  id: string
+): Promise<{
+  data: getSongListProps | null;
+  error: PostgrestError | any | null;
+}> => {
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase.rpc("get_similar_songs", {
+      input_song_id: id,
+      similarity_threshold: 0.3,
+    });
+    const listQueue = {
+      songs: data,
+    };
+    console.log(data);
+    const mappedData = data ? deepMapById(listQueue, ["songs"]) : null;
+    return { data: mappedData, error };
+  } catch (err) {
+    return { data: null, error: err };
   }
 };
