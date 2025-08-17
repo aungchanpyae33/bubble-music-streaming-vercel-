@@ -26,7 +26,8 @@ const hasData = async (
     data: getPlaylistPageProps | null;
     error: PostgrestError | any | null;
   }> | null>,
-  playlistId: string
+  listId: string,
+  type: Database["public"]["Enums"]["media_item_type"]
 ) => {
   if (!dataFromFetch.current) {
     dataFromFetch.current = getListDirectClient(listId, type);
@@ -35,12 +36,10 @@ const hasData = async (
 };
 
 interface DirectPlayButtonProps extends React.ComponentProps<"div"> {
-  playlistIdDeft: string;
+  listId: string;
+  type: Database["public"]["Enums"]["media_item_type"];
 }
-function DirectPlayButton({
-  playlistIdDeft,
-  className,
-}: DirectPlayButtonProps) {
+function DirectPlayButton({ listId, type, className }: DirectPlayButtonProps) {
   const dataFromFetch = useRef<Promise<{
     data: getPlaylistPageProps | null;
     error: PostgrestError | any | null;
@@ -48,18 +47,18 @@ function DirectPlayButton({
 
   // toggle playlistfolder
   const IsPlayList = useDirectPlayBack(
-    (state: DirectPlayBackState) => state.IsPlayList[playlistIdDeft || ""]
+    (state: DirectPlayBackState) => state.IsPlayList[listId || ""]
   );
   // current playlist id and current song
   const playlistId = useStorePlayListId(
     (state: StorePlayListIdState) =>
-      (state.playlistId as Record<string, Array<string>>)[playlistIdDeft || ""]
+      (state.playlistId as Record<string, Array<string>>)[listId || ""]
   );
   const playlist_songId = playlistId ? playlistId[1] : undefined;
   const playListArray = useRepeatAndCurrentPlayList(
     (state: currentSongPlaylist) =>
       (state.playListArray as Record<string, listSongsSection | undefined>)[
-        playlistIdDeft
+        listId
       ]
   );
 
@@ -79,7 +78,7 @@ function DirectPlayButton({
     (state: currentSongPlaylistAction) => state.setPlayListArray
   );
   async function getData() {
-    const returnData = await hasData(dataFromFetch, playlistIdDeft);
+    const returnData = await hasData(dataFromFetch, listId, type);
     const { data, error } = returnData;
     console.log(data, error);
     if (error || !data) return;
@@ -109,7 +108,7 @@ function DirectPlayButton({
       })();
       const uniUrl = id;
       setPlayListArray({
-        [playlistIdDeft || ""]: playlistData,
+        [listId || ""]: playlistData,
       });
       if (playlistId) {
         setPlay("unknown", undefined);
@@ -127,9 +126,9 @@ function DirectPlayButton({
           artists,
         });
         setPlaylistId({
-          [playlistIdDeft || ""]: [playlistIdDeft, id],
+          [listId || ""]: [listId, id],
         });
-        setPlayList(playlistIdDeft || "", true);
+        setPlayList(listId || "", true);
         setPlay(uniUrl || "", true);
       }
     }
