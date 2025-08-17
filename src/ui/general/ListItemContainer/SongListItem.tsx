@@ -1,0 +1,56 @@
+import ToggleElement from "@/ui/Footer/audio/Toggle/ToggleElement";
+import Image from "next/image";
+import LeadingRelax from "../LeadingRelax";
+import ArtistWrapper from "../ArtistWrapper";
+import ToggleHeartButton from "@/ui/trackComponent/ToggleHeartButton";
+import ContextInfoTrack from "@/ui/trackComponent/ContextInfoTrack";
+import MoreOptionContext from "@/ui/trackComponent/MoreOptionContext";
+import TrackItemContainer from "@/ui/trackComponent/TrackItemContainer";
+import MoreOption from "@/ui/trackComponent/MoreOption";
+import { song } from "@/database/data";
+
+function SongListItem({ song }: { song: song }) {
+  return (
+    <div className="h-[60px] w-[300px] rounded-sm outline outline-slate-200   flex items-center  gap-3">
+      <div className="w-[50px] pl-2  relative group  ">
+        <div className="size-[50px] group-hover:brightness-75 relative">
+          <Image
+            src="https://tebi.bubblemusic.dpdns.org/lee-hi/4-only/cover/photo_2025-05-23_14-51-24.jpg"
+            fill
+            alt="img"
+            sizes="50px"
+          />
+        </div>
+        <ToggleElement
+          playlistSong={undefined}
+          song={song}
+          className=" z-10  hidden group-hover:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+        />
+      </div>
+      {/* Flex items have `min-width: auto` by default */}
+      <div className="min-w-0 flex-1  p-2">
+        {/* <ToolTip tooltipContent={tooltipContent[index]}> */}
+        <div className="truncate text-sm">
+          <LeadingRelax>{song.name}</LeadingRelax>
+        </div>
+        {/* </ToolTip> */}
+
+        <div className="truncate text-sm">
+          <ArtistWrapper artists={song.artists} />
+        </div>
+      </div>
+      <div className=" w-fit max-w-fit">
+        <ToggleHeartButton like={song.is_liked} songId={song.song_id} />
+      </div>
+      <div className=" w-[80px]  text-center px-2">
+        <ContextInfoTrack id={undefined} source={undefined} song={song}>
+          <MoreOptionContext>
+            <MoreOption targetElement={<TrackItemContainer />} />
+          </MoreOptionContext>
+        </ContextInfoTrack>
+      </div>
+    </div>
+  );
+}
+
+export default SongListItem;
