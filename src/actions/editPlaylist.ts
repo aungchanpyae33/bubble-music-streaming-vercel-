@@ -6,15 +6,18 @@ import { deepMapById } from "@/lib/returnById";
 export const editPlaylist = async ({
   playlistId,
   playlistName,
+  check_type,
 }: {
   playlistId: string;
   playlistName: string;
+  check_type: boolean;
 }) => {
   try {
     const supabase = await createClient();
     const { data, error } = await supabase.rpc("edit_playlist", {
       p_playlist_id: playlistId,
       p_new_name: playlistName,
+      check_type,
     });
     const userLib = {
       userLib: data,

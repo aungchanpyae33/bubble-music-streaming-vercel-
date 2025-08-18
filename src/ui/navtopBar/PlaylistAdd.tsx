@@ -9,6 +9,7 @@ import SubmitButton from "./createPlaylist/SubmitButton";
 import InitCreateButton from "./createPlaylist/InitCreateButton";
 import { insertDataAction } from "@/actions/createPlaylist";
 import { useQueryClient } from "@tanstack/react-query";
+import CheckTypeCreate from "./createPlaylist/CheckTypeCreate";
 
 function PlaylistAdd() {
   const queryClient = useQueryClient();
@@ -37,11 +38,17 @@ function PlaylistAdd() {
                 action={async (formData: FormData) => {
                   startTransition(async () => {
                     const playlistname = formData.get("playlistname");
-                    if (!playlistname || typeof playlistname !== "string") {
+                    const type = formData.get("typeCheck");
+                    const check_type = type === "public" ? true : false;
+                    if (
+                      typeof playlistname !== "string" ||
+                      typeof type !== "string"
+                    ) {
                       return;
                     }
                     const { data, error } = await insertDataAction(
-                      playlistname
+                      playlistname,
+                      check_type
                     );
 
                     if (data) {
@@ -70,6 +77,7 @@ function PlaylistAdd() {
                     </button>
                   </legend>
                   <TitleInput />
+                  <CheckTypeCreate />
                   <DescriptionInput />
                   <SubmitButton isPending={isPending} />
                 </fieldset>

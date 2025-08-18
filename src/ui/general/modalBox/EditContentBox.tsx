@@ -12,6 +12,7 @@ import {
 } from "@/lib/zustand";
 import { useTransition } from "react";
 import useEditPlaylistMutate from "@/lib/CustomHooks/mutation/EditPlaylistMutate";
+import CheckType from "@/ui/navtopBar/createPlaylist/CheckType";
 
 function EditContentBox() {
   const { id, name } = useEditToPlaylist(
@@ -22,9 +23,8 @@ function EditContentBox() {
   );
   const [isPending, startTransition] = useTransition();
   const mutation = useEditPlaylistMutate();
-  function handleEdit(id: string, updateName: string) {
-    mutation.mutate({ playlistId: id, playlistName: updateName });
-    editToPlaylistAction({});
+  function handleEdit(id: string, updateName: string, check_type: boolean) {
+    mutation.mutate({ playlistId: id, playlistName: updateName, check_type });
   }
   return (
     <Form
@@ -32,17 +32,23 @@ function EditContentBox() {
         startTransition(async () => {
           const playlistname = formData.get("playlistname");
           const id = formData.get("id");
-          if (typeof playlistname !== "string" || typeof id !== "string") {
+          const type = formData.get("typeCheck");
+          const check_type = type === "public" ? true : false;
+          if (
+            typeof playlistname !== "string" ||
+            typeof id !== "string" ||
+            typeof type !== "string"
+          ) {
             console.error("Invalid form data");
             return;
           }
-          handleEdit(id, playlistname);
+          handleEdit(id, playlistname, check_type);
         });
       }}
       className=""
       id="createPlaylist"
     >
-      <fieldset className=" flex flex-col gap-2 items-start">
+      <fieldset className="flex flex-col gap-2 items-start">
         <legend className="text-lg font-semibold flex w-full justify-between items-center  text-white mb-4">
           <h3 className="">သီချင်းစာရင်း အသစ်</h3>
           <button
@@ -57,6 +63,8 @@ function EditContentBox() {
         </legend>
         <input type="text" name="id" defaultValue={id} hidden />
         <TitleInput initValue={name} />
+        <CheckType id={id} />
+
         <DescriptionInput initValue="vloo" />
         <SubmitButton isPending={isPending} />
       </fieldset>

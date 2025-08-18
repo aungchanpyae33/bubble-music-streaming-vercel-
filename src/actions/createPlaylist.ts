@@ -5,7 +5,8 @@ import { createClient } from "@/database/server";
 import { deepMapById } from "@/lib/returnById";
 
 export const insertDataAction = async (
-  playlist_name: string
+  playlist_name: string,
+  check_type: boolean
 ): Promise<{
   data: UserLibMappedProps | null;
   error: any;
@@ -14,7 +15,9 @@ export const insertDataAction = async (
     const supabase = await createClient();
     let { data, error } = await supabase.rpc("insert_playlist", {
       playlist_name,
+      check_type,
     });
+    console.log(error);
     const userLib = {
       userLib: data,
     };

@@ -117,8 +117,11 @@ export const get = async (): Promise<{
 //   }
 // };
 
+export interface navbarList extends listInfo {
+  is_public: boolean;
+}
 export interface UserLibMappedProps {
-  userLib: Record<string, listInfo> & { idArray: string[] };
+  userLib: Record<string, navbarList> & { idArray: string[] };
 }
 
 export const getUserLib = async (): Promise<{
@@ -131,7 +134,7 @@ export const getUserLib = async (): Promise<{
     const userLib = {
       userLib: data,
     };
-
+    console.log(error);
     const mappedData = deepMapById(userLib, ["userLib"]);
     return { data: mappedData, error };
   } catch (error) {
