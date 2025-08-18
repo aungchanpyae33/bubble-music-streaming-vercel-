@@ -66,8 +66,6 @@ export const useToggleContentPosition = ({
 
       setPosition({
         transform: `translate(${roundedX}px, ${roundedY}px)`,
-        maxHeight: `${initialHeightRef.current}px`,
-        ...(roundedY === 0 ? { height: "100%" } : {}),
       });
     };
 
