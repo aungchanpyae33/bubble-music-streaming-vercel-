@@ -40,7 +40,7 @@ function AudioFunctionNext({ listSong, className, id }: Props) {
     if (!listSong.songs || listSong.idArray.length === 0) return;
     const currentIndex = outputCurrentIndex(listSong.idArray, id_scope);
     const songList = listSong.songs;
-    console.log(currentIndex);
+
     if (currentIndex >= listSong.idArray.length - 1) return;
     const {
       url,

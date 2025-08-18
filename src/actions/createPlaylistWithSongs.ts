@@ -11,6 +11,6 @@ export const insertDataActionWithSongs = async (queryData: FormData) => {
     song_ids: [2, 5, 6],
   });
   if (error) console.error(error);
-  else console.log(data);
+
   return { data, error };
 };

@@ -80,7 +80,7 @@ function DirectPlayButton({ listId, type, className }: DirectPlayButtonProps) {
   async function getData() {
     const returnData = await hasData(dataFromFetch, listId, type);
     const { data, error } = returnData;
-    console.log(data, error);
+
     if (error || !data) return;
     const { songs } = data;
     if (!songs) return;
@@ -88,7 +88,6 @@ function DirectPlayButton({ listId, type, className }: DirectPlayButtonProps) {
   }
   const handlePlayClick = async () => {
     const playlistData = !playlistId ? await getData() : playListArray;
-    console.log(playlistData);
     if (playlistData) {
       const {
         url,

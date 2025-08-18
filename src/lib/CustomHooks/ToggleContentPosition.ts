@@ -40,7 +40,6 @@ export const useToggleContentPosition = ({
 
       const x = (() => {
         if (targetLeft < containerWidth) {
-          console.log("one");
           return targetRight;
         } else {
           if (targetLeft > windowWidth) {
@@ -64,7 +63,7 @@ export const useToggleContentPosition = ({
 
       const roundedY = Math.max(Math.round(y), 0);
       const roundedX = Math.max(Math.round(x), 0);
-      console.log(roundedX);
+
       setPosition({
         transform: `translate(${roundedX}px, ${roundedY}px)`,
         maxHeight: `${initialHeightRef.current}px`,

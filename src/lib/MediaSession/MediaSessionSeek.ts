@@ -18,7 +18,6 @@ const MediaSessionSeek = (
   useEffect(() => {
     if ("mediaSession" in navigator) {
       navigator.mediaSession.setActionHandler("seekto", (details) => {
-        console.log(details.seekTime);
         const data = +details.seekTime!;
         // Abort fetching if necessary
 

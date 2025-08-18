@@ -16,14 +16,13 @@ export const insertSongtoPlaylist = async ({
   error: PostgrestError | any | null;
 }> => {
   try {
-    console.log(playlistId, songId);
     const supabase = await createClient();
     let { data, error } = (await supabase.rpc("add_playlist_song", {
       p_id: playlistId,
       s_id: songId,
     })) as { data: getPlaylistPageProps | null; error: PostgrestError | null };
     const mappedData = data ? deepMapById(data, ["songs.songs"]) : null;
-    console.log(mappedData);
+
     return { data: mappedData, error };
   } catch (error) {
     return { data: null, error: error };

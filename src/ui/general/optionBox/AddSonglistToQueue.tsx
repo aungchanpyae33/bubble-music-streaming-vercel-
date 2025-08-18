@@ -27,7 +27,7 @@ function AddSonglistToQueue() {
   if (!songId) return null;
   async function addSongListToQueue() {
     const { data, error } = await getSongListClient(id, type);
-    console.log(data);
+
     if (!data || error) return;
     const { songs } = data;
     if (!songs) return null;

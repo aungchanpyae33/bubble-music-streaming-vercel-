@@ -98,9 +98,7 @@ export const get = async (): Promise<{
     const { data, error } = await supabase.rpc("get_all_media_items");
     if (!data) throw "no data";
     const keys = Object.keys(data);
-    console.log(keys);
     const mappedData = data ? deepMapById(data, keys) : null;
-    console.log(mappedData);
     return { data: mappedData, error };
   } catch (error) {
     return { data: null, error };
@@ -180,7 +178,7 @@ export const getPlaylistSongs = async (
     const { data, error } = (await supabase.rpc("get_playlist_page", {
       p_id: playlistId,
     })) as { data: getPlaylistPageProps | null; error: PostgrestError | null };
-    console.log(data, error);
+
     const mappedData = data ? deepMapById(data, ["songs.songs"]) : null;
     return { data: mappedData, error };
   } catch (error) {
@@ -422,7 +420,7 @@ export const getSimilarSongQueue = async (
     const listQueue = {
       songs: data,
     };
-    console.log(data);
+
     const mappedData = data ? deepMapById(listQueue, ["songs"]) : null;
     return { data: mappedData, error };
   } catch (err) {

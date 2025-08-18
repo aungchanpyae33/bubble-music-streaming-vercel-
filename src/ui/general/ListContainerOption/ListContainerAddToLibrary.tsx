@@ -34,7 +34,7 @@ function isAdd(source: Database["public"]["Enums"]["media_source_type"]) {
 function ListContainerAddToLibrary() {
   const { id, type, source } = useContext(SongListContext);
   const router = useRouter();
-  console.log(source);
+
   const queryClient = useQueryClient();
   const [itemSource, setItemSource] = useState(isAdd(source));
   useEffect(() => {
@@ -43,7 +43,6 @@ function ListContainerAddToLibrary() {
   async function ActionToLibraryFn() {
     setItemSource(!itemSource);
     const { data, error } = await modifyLib({ id, type, source });
-    console.log(data, error);
     if (error) {
       console.log(error);
     } else {

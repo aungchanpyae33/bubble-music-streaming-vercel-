@@ -23,12 +23,11 @@ function RemoveFromLibraryChild() {
   async function removeFromLibraryFn() {
     setShow(false);
     const { data, error } = await removeFromLibrary(id, source);
-    console.log(error);
+
     if (error) {
-      console.log("something wrong");
+      console.log("something wrong", error);
     } else {
       if (data) {
-        console.log(data, error);
         queryClient.setQueryData(["user-library"], {
           data,
           error: null,

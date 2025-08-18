@@ -26,7 +26,7 @@ function PlaceHolderTrackInstantPlay({
 }) {
   const playlistId = playlistSong?.id;
   const uniUrl = song.id;
-  console.log("i expect 3 render");
+
   const FetchSongsListIdAction = useShouldFetchSongsList(
     (state: ShouldFetchSongsListIdAction) => state.FetchSongsListIdAction
   );
@@ -64,7 +64,7 @@ function PlaceHolderTrackInstantPlay({
       setPlayListArray({
         [playlistId || ""]: data,
       });
-      console.log(playlistId);
+
       FetchSongsListIdAction(playlistId);
     }
 

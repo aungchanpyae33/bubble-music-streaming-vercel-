@@ -19,7 +19,6 @@ function Queue() {
   const playListArray = useRepeatAndCurrentPlayList(
     (state: currentSongPlaylist) => Object.values(state.playListArray)[0] || []
   ) as listSongsSection;
-  console.log(playListArray);
   const queueRef = useRef<HTMLDivElement | null>(null);
   return (
     <div

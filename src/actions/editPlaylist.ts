@@ -19,7 +19,7 @@ export const editPlaylist = async ({
     const userLib = {
       userLib: data,
     };
-    console.log(data, error);
+
     const mappedData = data ? deepMapById(userLib, ["userLib"]) : null;
     return { data: mappedData, error };
   } catch (error) {

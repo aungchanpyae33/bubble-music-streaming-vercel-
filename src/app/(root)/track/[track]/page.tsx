@@ -10,17 +10,17 @@ async function page(props: { params: Promise<{ track: string }> }) {
   const { data, error } = await getSongTrack(
     "02357c3e-d80b-49d4-b1bf-c8b35a6dd927"
   );
-  console.log(error, data);
+
   if (!data || error || data.length === 0) return;
   const returnData = data[0];
   return (
     <AlbumUpperBackground>
       <Suspense fallback={<p>nice</p>}>
-        <AlbumUpperContainer description={returnData.name} />
+        {/* <AlbumUpperContainer songs={returnData} /> */}
       </Suspense>
       <PlaceHolderTrackInstantPlay
-        listSong={returnData}
-        song={returnData.songs[0]}
+      // listSong={returnData}
+      // song={returnData.songs[0]}
       />
     </AlbumUpperBackground>
   );

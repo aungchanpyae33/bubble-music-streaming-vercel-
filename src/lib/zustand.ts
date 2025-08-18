@@ -304,7 +304,7 @@ export const useRepeatAndCurrentPlayList = create<
 
       if (playListArray && "songs" in playListArray) {
         playListArray.songs = { ...playListArray.songs, ...song };
-        console.log(playListArray.songs);
+
         return {
           playListArray: {
             [playListArrayKey || ""]: {
@@ -395,7 +395,6 @@ export const useRepeatAndCurrentPlayList = create<
       playlistArray.songs[playlistArray.idArray[extract]];
 
     if (currentIndex >= playlistArray.idArray.length - 1 && id === id_scope) {
-      console.log("nooo");
       return prefetchPromiseRef.current;
     }
     // if (url !== currentUrl) {

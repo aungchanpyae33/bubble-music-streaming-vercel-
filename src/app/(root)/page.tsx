@@ -6,13 +6,12 @@ import TapNavi from "@/ui/Home/TapNavi";
 
 async function page() {
   const { data, error } = await get();
-  console.log(data, error);
+
   if (!data || error) return null;
   return (
     <div className="space-y-3">
       <TapNavi />
       {(Object.keys(data) as string[]).map((itemKey) => {
-        console.log(itemKey);
         if (data[itemKey].idArray.length < 1) return null;
         if (itemKey === "trendingSongs") {
           return (

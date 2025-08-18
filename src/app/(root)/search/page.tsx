@@ -15,10 +15,10 @@ async function page(props: {
   const searchParams = await props.searchParams;
   const query = searchParams?.query || "";
   const { data, error } = await getSearchPage(query);
-  console.log(data, "data");
+
   if (!data || error) return null;
   const { top_result, songs, albums, artists, playlists, profiles } = data;
-  console.log(songs);
+
   return (
     <div className="  space-y-5">
       <h1 className="p-2">Search results for {`"${query}"`}</h1>

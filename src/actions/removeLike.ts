@@ -7,6 +7,6 @@ export const removeLike = async (songId: string) => {
   const { error } = await supabase.rpc("removelike", {
     song_id: songId,
   });
-  console.log(error);
+
   return { error };
 };
