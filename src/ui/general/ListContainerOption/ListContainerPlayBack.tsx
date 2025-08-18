@@ -50,7 +50,7 @@ function ListContainerPlayBack({ list }: ListContainerPlayBackProps) {
   const setPlayListArray = useRepeatAndCurrentPlayList(
     (state: currentSongPlaylistAction) => state.setPlayListArray
   );
-
+  if (list?.idArray.length === 0) return null; // no render the toggle playback
   const handlePlayClick = async () => {
     if (list) {
       const {
