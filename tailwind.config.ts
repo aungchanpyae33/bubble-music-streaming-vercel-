@@ -25,6 +25,7 @@ const config: Config = {
       animation: {
         showtextoverflow:
           "showtextoverflowF var(--animate-translate-duration) linear 500ms forwards, showtextoverflowB var(--animate-translate-duration) linear calc(1000ms + var(--animate-translate-duration)) forwards",
+        headshake: "headshake 0.5s ease-in-out",
       },
       keyframes: {
         showtextoverflowF: {
@@ -40,6 +41,15 @@ const config: Config = {
               "translateX(calc(-100% + var(--animate-translate-info)))",
           },
           to: { transform: "translateX(0)" },
+        },
+        headshake: {
+          "0%": { transform: "translateX(0) rotate(0)" },
+          "15%": { transform: "translateX(-3px) rotate(-1deg)" },
+          "30%": { transform: "translateX(3px) rotate(1deg)" },
+          "45%": { transform: "translateX(-2px) rotate(-0.7deg)" },
+          "60%": { transform: "translateX(2px) rotate(0.7deg)" },
+          "75%": { transform: "translateX(-1px) rotate(-0.3deg)" },
+          "100%": { transform: "translateX(0) rotate(0)" },
         },
       },
       colors: {
