@@ -8,7 +8,10 @@ import { ContextMoreOption } from "../trackComponent/MoreOptionContext";
 import { InfoTrackContext } from "../trackComponent/ContextInfoTrack";
 import {
   removeFromQueueAction,
+  SongDetail,
+  SongState,
   useRepeatAndCurrentPlayList,
+  useSong,
 } from "@/lib/zustand";
 
 function RemoveFromQueue() {
@@ -17,9 +20,14 @@ function RemoveFromQueue() {
   const removeFromQueue = useRepeatAndCurrentPlayList(
     (state: removeFromQueueAction) => state.removeFromQueue
   );
-
+  const { id: id_scope } = useSong(
+    (state: SongState) => state.songCu
+  ) as SongDetail;
+  console.log("sonsg", song, id_scope);
   if (!song) return null;
   const { id } = song;
+  // Prevent removing the currently playing song from the queue
+  if (id === id_scope) return null;
 
   function removeFromQueueFn() {
     removeFromQueue(id);
