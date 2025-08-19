@@ -21,6 +21,7 @@ import IconWrapper from "@/ui/general/IconWrapper";
 import clsx from "clsx";
 import MotionFull from "./MotionFull";
 import FocusTrap from "./FocusTrap";
+import LyricToggleBtn from "./LyricToggleBtn";
 
 function AudioFull({
   footerRef,
@@ -109,8 +110,8 @@ function AudioFull({
                       </div>
                     </div>
                     <div className="upContainer w-full flex justify-center md:justify-between">
-                      <div className="hidden md:flex w-[20%] max-w-[250px]  items-center">
-                        hiello
+                      <div className=" md:flex w-[20%] max-w-[250px]  items-center">
+                        <LyricToggleBtn />
                       </div>
                       <AudioFunctionButton>
                         {/* in jsx when use arrow and {} , react expect to return elemetn , if it does not have  return ,  implicitly returns void, or undefined, so, react think nothing to render  */}

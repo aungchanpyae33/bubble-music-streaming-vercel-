@@ -628,3 +628,21 @@ export const useEditToPlaylist = create<editToPlaylist & editToPlaylistAction>(
       })),
   })
 );
+
+export interface lyricShowState {
+  lyricShow: boolean;
+}
+export interface lyricShowAction {
+  setLyricShow: (value?: boolean) => void;
+}
+
+export const useLyric = create<lyricShowState & lyricShowAction>((set) => ({
+  lyricShow: false,
+  setLyricShow: (value?) =>
+    set((state) => {
+      if (value !== undefined) {
+        return { lyricShow: value };
+      }
+      return { lyricShow: !state.lyricShow };
+    }),
+}));
