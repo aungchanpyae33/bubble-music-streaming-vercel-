@@ -12,6 +12,9 @@ const useGetDominantColor = ({
     let isMounted = true;
     function getColor() {
       if (!isMounted) return; //early return when click close
+      if (!img) return;
+      // Early return if image is broken
+      if (!img.naturalWidth || !img.naturalHeight) return;
       const canvas = document.createElement("canvas");
 
       canvas.width = img.width;
@@ -19,6 +22,7 @@ const useGetDominantColor = ({
       canvas.height = img.height;
 
       const ctx = canvas.getContext("2d");
+
       if (!ctx) return;
       ctx.drawImage(img, 0, 0, img.width, img.height);
       const imageData = ctx!.getImageData(0, 0, img.width, img.height).data;
