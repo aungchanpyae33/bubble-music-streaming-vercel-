@@ -18,7 +18,7 @@ function PlaceHolderQueue({
     if (dataSongId) {
       const element = queueRef.current?.querySelector(
         `[data-id="${dataSongId}"]`
-      );
+      ) as HTMLElement | null;
       if (!element) return;
 
       element.scrollIntoView({ behavior: "smooth" });
