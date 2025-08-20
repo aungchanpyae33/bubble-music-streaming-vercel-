@@ -13,7 +13,7 @@ import type {
   DirectPlayBackAction,
   StorePlayListIdStateAction,
 } from "../zustand";
-import { artists, listSongsSection } from "@/database/data";
+import { Artist, listSongsSection } from "@/database/data";
 import outputCurrentIndex from "../CustomHooks/OutputCurrentIndex";
 
 const MediaSessionButton = (id_scope: string) => {
@@ -59,7 +59,7 @@ const MediaSessionButton = (id_scope: string) => {
       id: string;
       song_id: string;
       is_liked: boolean;
-      artists: artists[];
+      artists: Artist[];
     }) {
       const playlistId = playListArray.id;
       const uniUrl = id;

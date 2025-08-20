@@ -1,4 +1,4 @@
-import { getProps } from "@/database/data";
+import { listInfo, listSongsSection } from "@/database/data";
 import SongListContainerOption from "../general/optionBox/SongListContainerOption";
 import ContextSongListContainer from "../playlist/playlistOption/ContextSongListContainer";
 import MoreOption from "../trackComponent/MoreOption";
@@ -11,7 +11,7 @@ import SearchItemWrapper from "./SearchItemWrapper";
 interface SearchArtistItemProps {
   description: string;
   index: number;
-  Itemdata: getProps;
+  Itemdata: listInfo;
 }
 function SearchArtistItem({
   description,
@@ -31,7 +31,8 @@ function SearchArtistItem({
           />
         </div>
         <DirectPlayButton
-          playListId={id}
+          type={type}
+          listId={id}
           className="z-10  hidden group-hover:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 "
         />
       </div>

@@ -1,4 +1,4 @@
-import { getSongsReturn, listSongsSection } from "@/database/data";
+import { listSongsSection } from "@/database/data";
 
 const excludeCurrentSongs = (
   urlProp: listSongsSection,

@@ -20,10 +20,10 @@ import type {
 } from "@/lib/zustand";
 import IconWrapper from "@/ui/general/IconWrapper";
 import { Pause, Play } from "lucide-react";
-import { listSongsSection, song } from "@/database/data";
+import { listSongsSection, SongInfo } from "@/database/data";
 interface toggleElementProp extends React.ComponentProps<"button"> {
   playlistSong: listSongsSection | undefined;
-  song: song;
+  song: SongInfo;
 }
 const ToggleElement = ({
   playlistSong,
@@ -114,6 +114,7 @@ const ToggleElement = ({
             name: song.name,
             song_time_stamp: song.song_time_stamp,
             id: song.id,
+            is_lyric: song.is_lyric,
             song_id: song.song_id,
             is_liked: song.is_liked,
             artists: song.artists,

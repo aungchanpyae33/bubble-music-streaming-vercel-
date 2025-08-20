@@ -1,9 +1,10 @@
 "use client";
-import { song } from "@/database/data";
-import { createContext, ReactNode, SetStateAction, useState } from "react";
+
+import { SongInfo } from "@/database/data";
+import { createContext } from "react";
 
 interface songContext {
-  song: song | undefined;
+  song: SongInfo | undefined;
 }
 
 interface InfoTrackContextProps extends songContext {
@@ -25,7 +26,7 @@ function ContextInfoTrack({
   children: React.ReactNode;
   id?: string;
   source?: "create" | "reference" | "none";
-  song: song | undefined;
+  song: SongInfo | undefined;
 }) {
   const value = { id, source, song };
 

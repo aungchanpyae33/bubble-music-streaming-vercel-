@@ -3,10 +3,8 @@ import {
   getListDirectProps,
   getPlaylistPageProps,
   getSongListProps,
-  song,
   UserLibMappedProps,
 } from "./data";
-import { supabase } from "./supabase";
 import { PostgrestError } from "@supabase/supabase-js";
 import { Database } from "../../database.types";
 

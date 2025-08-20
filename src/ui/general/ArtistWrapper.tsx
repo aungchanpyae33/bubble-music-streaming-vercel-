@@ -1,7 +1,7 @@
-import { artists } from "@/database/data";
+import { Artist } from "@/database/data";
 import UnderLineLinkHover from "./UnderLineLinkHover";
 
-function ArtistWrapper({ artists }: { artists: artists[] }) {
+function ArtistWrapper({ artists }: { artists: Artist[] }) {
   return (
     <>
       {artists.map((item, index) => (

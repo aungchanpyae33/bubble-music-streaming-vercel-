@@ -2,7 +2,6 @@ import { PostgrestError } from "@supabase/supabase-js";
 import { createClient } from "./server";
 import { Database } from "../../database.types";
 import { deepMapById } from "@/lib/returnById";
-import { create } from "domain";
 export interface Movie {
   id: number;
   name: string;
@@ -19,61 +18,6 @@ export interface listInfo {
   source: Database["public"]["Enums"]["media_source_type"];
   type: Database["public"]["Enums"]["media_item_type"];
 }
-
-export interface getPropItem {
-  data: {
-    id: string;
-    name: any;
-  } | null;
-  error: PostgrestError | null;
-}
-
-export interface artists {
-  id: string;
-  name: string;
-  role: string;
-}
-interface album {
-  id: string;
-  name: string;
-}
-export interface song {
-  id: string;
-  song_id: string;
-  name: string;
-  url: string;
-  sege: number;
-  duration: number;
-  song_time_stamp: Array<number>;
-  is_liked: boolean;
-  artists: artists[];
-  album: album;
-}
-
-export interface getSongsReturn {
-  id: string;
-  name: string;
-  related_id: string;
-  related_name: string;
-  might_repeat?: boolean;
-  source: "create" | "reference" | "none";
-  type: "playlist" | "album" | "artist" | "track";
-  songs: song[];
-}
-
-export interface getUserLibraryReturn {
-  id: string;
-  name: string;
-  related_id: string;
-  related_name: string;
-  source: Database["public"]["Enums"]["media_source_type"];
-  type: Database["public"]["Enums"]["media_item_type"];
-}
-
-export interface getLikeSongsReturn {
-  songs: song[][];
-}
-
 // export const getLikeSongs = async (
 //   userId: string
 // ): Promise<getLikeSongsReturn["songs"]> => {
@@ -86,7 +30,7 @@ export interface getLikeSongsReturn {
 // };
 
 export interface getDataProps {
-  [key: string]: Record<string, listInfo | song> & { idArray: string[] };
+  [key: string]: Record<string, listInfo | SongInfo> & { idArray: string[] };
 }
 
 export const get = async (): Promise<{
@@ -237,6 +181,7 @@ export interface SongInfo {
   url: string;
   sege: number;
   duration: number;
+  is_lyric: boolean;
   song_time_stamp: number[];
   is_liked: boolean;
   artists: Artist[];

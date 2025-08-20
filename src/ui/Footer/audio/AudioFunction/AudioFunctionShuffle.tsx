@@ -1,4 +1,4 @@
-import { getSongsReturn, listSongsSection } from "@/database/data";
+import { listSongsSection } from "@/database/data";
 import outputCurrentIndex from "@/lib/CustomHooks/OutputCurrentIndex";
 import excludeCurrentSongs from "@/lib/excludeCurrentSongs";
 import shufflePlaylist from "@/lib/shufflePlaylist";

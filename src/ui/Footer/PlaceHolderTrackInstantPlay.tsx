@@ -1,6 +1,6 @@
 "use client";
 
-import { getSongsReturn, song } from "@/database/data";
+import { listSongsSection, SongInfo } from "@/database/data";
 import {
   currentSongPlaylistAction,
   DirectPlayBackAction,
@@ -21,8 +21,8 @@ function PlaceHolderTrackInstantPlay({
   playlistSong,
   song,
 }: {
-  playlistSong: getSongsReturn | undefined;
-  song: song;
+  playlistSong: listSongsSection | undefined;
+  song: SongInfo;
 }) {
   const playlistId = playlistSong?.id;
   const uniUrl = song.id;

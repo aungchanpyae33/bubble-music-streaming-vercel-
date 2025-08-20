@@ -1,4 +1,4 @@
-import { artists } from "@/database/data";
+import { Artist } from "@/database/data";
 import MediaSessionDes from "@/lib/MediaSession/MediaSessionDescription";
 
 function MediaSessionDesWrapper({
@@ -6,7 +6,7 @@ function MediaSessionDesWrapper({
   artists,
 }: {
   name: string;
-  artists: artists[];
+  artists: Artist[];
 }) {
   MediaSessionDes(name, artists);
   return null;

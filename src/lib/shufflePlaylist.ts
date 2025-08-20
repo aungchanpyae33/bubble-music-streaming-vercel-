@@ -1,4 +1,4 @@
-import { listSongsSection, song } from "@/database/data";
+import { listSongsSection } from "@/database/data";
 
 const shufflePlaylist = (
   array: string[],

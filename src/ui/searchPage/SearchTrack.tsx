@@ -1,4 +1,3 @@
-import { getSongsReturn, song } from "@/database/data";
 import ToggleElement from "../Footer/audio/Toggle/ToggleElement";
 import ToolTip from "../general/ToolTip";
 import LeadingRelax from "../general/LeadingRelax";
@@ -10,6 +9,7 @@ import MoreOption from "../trackComponent/MoreOption";
 import TrackItemContainer from "../trackComponent/TrackItemContainer";
 import Image from "next/image";
 import SearchItemWrapper from "./SearchItemWrapper";
+import { SongInfo } from "@/database/data";
 
 function SearchTrack({
   song,
@@ -17,7 +17,7 @@ function SearchTrack({
 }: // roleCell,
 // dataInc,
 {
-  song: song;
+  song: SongInfo;
   index: number;
   // roleCell: RefObject<number>;
   // dataInc: RefObject<number>;

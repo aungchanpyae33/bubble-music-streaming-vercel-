@@ -1,9 +1,4 @@
-import {
-  artists,
-  getSongsReturn,
-  listSongsSection,
-  song,
-} from "@/database/data";
+import { Artist, listSongsSection, SongInfo } from "@/database/data";
 import { RefObject } from "react";
 import { createWithEqualityFn as create } from "zustand/traditional";
 import { persist } from "zustand/middleware";
@@ -16,8 +11,9 @@ export interface SongDetail {
   name: string;
   id: string;
   song_id: string;
+  is_lyric: boolean;
   is_liked: boolean;
-  artists: artists[];
+  artists: Artist[];
 }
 
 export interface IsRepeatState {
@@ -57,7 +53,7 @@ export interface ShouldFetchSongsListIdAction {
   ) => void;
 }
 export interface currentSongPlaylist {
-  playListArray: getSongsReturn | {};
+  playListArray: listSongsSection | {};
 }
 
 export interface currentSongPlaylistAction {
@@ -68,12 +64,12 @@ export interface currentSongPlaylisthuffleAction {
   shufflePlayListArray: (nweList: currentSongPlaylist["playListArray"]) => void;
 }
 export interface currentAddToQueueAction {
-  currentAddToQueue: (song: Record<string, song>, id: string[]) => void;
+  currentAddToQueue: (song: Record<string, SongInfo>, id: string[]) => void;
 }
 
 export interface currentAddToNextAction {
   currentAddToNext: (
-    song: Record<string, song>,
+    song: Record<string, SongInfo>,
     id: string[],
     curId: string
   ) => void;
@@ -82,7 +78,7 @@ export interface removeFromQueueAction {
   removeFromQueue: (id: string) => void;
 }
 export interface previousSongPlaylist {
-  previousPlayListArray: getSongsReturn | {};
+  previousPlayListArray: listSongsSection | {};
 }
 
 export interface resetAction {

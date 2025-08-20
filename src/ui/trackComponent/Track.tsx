@@ -2,7 +2,7 @@ import { TimeFormat } from "@/lib/TimeFormat";
 import ToggleElement from "../Footer/audio/Toggle/ToggleElement";
 import ToolTip from "../general/ToolTip";
 import ToggleHeartButton from "./ToggleHeartButton";
-import { listSongsSection, song } from "@/database/data";
+import { listSongsSection, SongInfo } from "@/database/data";
 import MoreOptionContext from "./MoreOptionContext";
 import MoreOption from "./MoreOption";
 import LeadingRelax from "../general/LeadingRelax";
@@ -19,7 +19,7 @@ function Track({
 // dataInc,
 {
   listSong: listSongsSection | undefined;
-  song: song;
+  song: SongInfo;
   index: number;
   // roleCell: RefObject<number>;
   // dataInc: RefObject<number>;

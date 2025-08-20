@@ -1,5 +1,4 @@
-import { getDataProps, song } from "@/database/data";
-import { ReactNode } from "react";
+import { getDataProps, SongInfo } from "@/database/data";
 import SongListItem from "./SongListItem";
 
 function ListItemContainer({
@@ -10,7 +9,7 @@ function ListItemContainer({
   return (
     <div className="   h-full grid grid-cols-4 shrink-0 gap-4   justify-between">
       {songs.idArray.map((id) => {
-        const item = songs[id] as song;
+        const item = songs[id] as SongInfo;
         return <SongListItem song={item} key={id} />;
       })}
     </div>

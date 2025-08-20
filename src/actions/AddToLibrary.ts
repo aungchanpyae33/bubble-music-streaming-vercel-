@@ -1,12 +1,12 @@
 "use server";
 
-import { getSongsReturn, UserLibMappedProps } from "@/database/data";
+import { listSongsSection, UserLibMappedProps } from "@/database/data";
 import { createClient } from "@/database/server";
 import { deepMapById } from "@/lib/returnById";
 
 export const addToLibrary = async (
   id: string,
-  type: getSongsReturn["type"]
+  type: listSongsSection["type"]
 ): Promise<{
   data: UserLibMappedProps | null;
   error: any;

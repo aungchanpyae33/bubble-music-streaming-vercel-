@@ -1,5 +1,4 @@
 import SearchItemWrapper from "./SearchItemWrapper";
-import { getProps } from "@/database/data";
 import SongListContainerOption from "../general/optionBox/SongListContainerOption";
 import ContextSongListContainer from "../playlist/playlistOption/ContextSongListContainer";
 import MoreOption from "../trackComponent/MoreOption";
@@ -7,10 +6,11 @@ import MoreOptionContext from "../trackComponent/MoreOptionContext";
 import LeadingRelax from "../general/LeadingRelax";
 import DirectPlayButton from "../playlist/DirectPlayButton";
 import Image from "next/image";
+import { listInfo } from "@/database/data";
 interface SearchListContainerItemProps {
   description: string;
   index: number;
-  Itemdata: getProps;
+  Itemdata: listInfo;
 }
 function SearchListContainerItem({
   description,
@@ -30,7 +30,8 @@ function SearchListContainerItem({
           />
         </div>
         <DirectPlayButton
-          playListId={id}
+          listId={id}
+          type={type}
           className="z-10  hidden group-hover:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 "
         />
       </div>

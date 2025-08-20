@@ -7,9 +7,9 @@ import ContextInfoTrack from "@/ui/trackComponent/ContextInfoTrack";
 import MoreOptionContext from "@/ui/trackComponent/MoreOptionContext";
 import TrackItemContainer from "@/ui/trackComponent/TrackItemContainer";
 import MoreOption from "@/ui/trackComponent/MoreOption";
-import { song } from "@/database/data";
+import { SongInfo } from "@/database/data";
 
-function SongListItem({ song }: { song: song }) {
+function SongListItem({ song }: { song: SongInfo }) {
   return (
     <div className="h-[60px] w-[300px] rounded-sm outline outline-slate-200   flex items-center  gap-3">
       <div className="w-[50px] pl-2  relative group  ">

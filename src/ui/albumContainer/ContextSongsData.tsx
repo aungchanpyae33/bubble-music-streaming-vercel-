@@ -1,5 +1,5 @@
 "use client";
-import type { getPlaylistPageProps, getSongsReturn } from "@/database/data";
+import type { getPlaylistPageProps } from "@/database/data";
 import { createContext, type ReactNode } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getPlaylistSongsClient } from "@/database/client-data";
