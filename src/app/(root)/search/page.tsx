@@ -3,6 +3,7 @@ import { getSearchPage } from "@/database/data";
 import SearchAlbum from "@/ui/searchPage/SearchAlbum";
 import SearchArtist from "@/ui/searchPage/SearchArtist";
 import SearchPlaylist from "@/ui/searchPage/SearchPlaylist";
+import SearchProfile from "@/ui/searchPage/SearchProfile";
 import SearchSongs from "@/ui/searchPage/SearchSongs";
 import TopResult from "@/ui/searchPage/TopResult";
 import React from "react";
@@ -22,17 +23,23 @@ async function page(props: {
   return (
     <div className="  space-y-5">
       <h1 className="p-2">Search results for {`"${query}"`}</h1>
-      {top_result && <TopResult key={top_result.id} />}
-      {songs && <SearchSongs songs={songs} title="Song" />}
+      {top_result && <TopResult />}
+      {songs && songs.idArray.length > 0 && (
+        <SearchSongs songs={songs} title="Song" />
+      )}
 
-      {artists && artists.length > 0 && (
+      {artists && artists.idArray.length > 0 && (
         <SearchArtist title="Artist" artists={artists} />
       )}
-      {albums && albums.length > 0 && (
+      {albums && albums.idArray.length > 0 && (
         <SearchAlbum title="Albums" albums={albums} />
       )}
-      {playlists && playlists.length > 0 && (
+      {playlists && playlists.idArray.length > 0 && (
         <SearchPlaylist title="Playlist" playlists={playlists} />
+      )}
+
+      {profiles && profiles.idArray.length > 0 && (
+        <SearchProfile title="Profiles" profiles={profiles} />
       )}
     </div>
   );

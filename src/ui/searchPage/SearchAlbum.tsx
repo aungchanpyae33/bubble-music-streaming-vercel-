@@ -3,24 +3,27 @@ import SearchListContainerTitle from "./SearchListContainerTitle";
 import SearchListContainer from "./SearchListContainer";
 
 import SearchArtistItem from "./SearchArtistItem";
-import { listInfo } from "@/database/data";
+import { getSearchPageReturn, listInfo } from "@/database/data";
 interface SearchAlbumProps {
   title: string;
-  albums: listInfo[];
+  albums: getSearchPageReturn["artists"];
 }
 function SearchAlbum({ title, albums }: SearchAlbumProps) {
   return (
     <SearchContainer>
       <SearchListContainerTitle title={title} />
       <SearchListContainer>
-        {albums.map((item, index) => (
-          <SearchArtistItem
-            key={item.id}
-            description="test"
-            index={index}
-            Itemdata={item}
-          />
-        ))}
+        {albums?.idArray.map((id, index) => {
+          const item = albums[id];
+          return (
+            <SearchArtistItem
+              key={item.id}
+              description="test"
+              index={index}
+              Itemdata={item}
+            />
+          );
+        })}
       </SearchListContainer>
     </SearchContainer>
   );

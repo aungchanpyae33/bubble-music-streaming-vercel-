@@ -1,21 +1,23 @@
 import SearchContainer from "./SearchContainer";
 import SearchListContainerTitle from "./SearchListContainerTitle";
 import SearchListContainer from "./SearchListContainer";
+
 import SearchArtistItem from "./SearchArtistItem";
 import { getSearchPageReturn, listInfo } from "@/database/data";
-interface SearchArtistProps {
+import SearchProfileItem from "./SearchProfileItem";
+interface SearchProfileProps {
   title: string;
-  artists: getSearchPageReturn["artists"];
+  profiles: getSearchPageReturn["profiles"];
 }
-function SearchArtist({ title, artists }: SearchArtistProps) {
+function SearchProfile({ title, profiles }: SearchProfileProps) {
   return (
     <SearchContainer>
       <SearchListContainerTitle title={title} />
       <SearchListContainer>
-        {artists?.idArray.map((id, index) => {
-          const item = artists[id];
+        {profiles?.idArray.map((id, index) => {
+          const item = profiles[id];
           return (
-            <SearchArtistItem
+            <SearchProfileItem
               key={item.id}
               description="test"
               index={index}
@@ -28,4 +30,4 @@ function SearchArtist({ title, artists }: SearchArtistProps) {
   );
 }
 
-export default SearchArtist;
+export default SearchProfile;
