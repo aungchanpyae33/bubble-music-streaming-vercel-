@@ -99,13 +99,41 @@ export const getSearchSong = async (query: string) => {
   }
 };
 
-export const getSearchPage = async (query: string) => {
+export interface SearchProfile {
+  id: string;
+  name: string;
+  type: Database["public"]["Enums"]["media_item_type"];
+}
+
+export interface getSearchPageReturn {
+  songs: (Record<string, SongInfo> & { idArray: string[] }) | null;
+  albums: (Record<string, listInfo> & { idArray: string[] }) | null;
+  artists: (Record<string, listInfo> & { idArray: string[] }) | null;
+  playlists: (Record<string, listInfo> & { idArray: string[] }) | null;
+  profiles: (Record<string, SearchProfile> & { idArray: string[] }) | null;
+  top_result:
+    | SongInfo
+    | (Record<string, listInfo> & { idArray: string[] }) // for albums, artists, playlists
+    | (Record<string, SearchProfile> & { idArray: string[] }) // for profiles
+    | null;
+}
+
+export const getSearchPage = async (
+  query: string
+): Promise<{
+  data: getSearchPageReturn | null;
+  error: PostgrestError | any | null;
+}> => {
   try {
     const supabase = await createClient();
     const { data, error } = await supabase.rpc("search_dropdown", {
       query,
     });
-    return { data, error };
+    if (!data) throw "no data";
+    const keys = Object.keys(data);
+    const mappedData = data ? deepMapById(data, keys) : null;
+
+    return { data: mappedData, error };
   } catch (err) {
     return { data: null, error: err };
   }
