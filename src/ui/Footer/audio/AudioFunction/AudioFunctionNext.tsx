@@ -52,6 +52,7 @@ function AudioFunctionNext({ listSong, className, id }: Props) {
       song_id,
       is_liked,
       artists,
+      is_lyric,
     } = songList[listSong.idArray[currentIndex + 1]];
 
     const uniUrl = id;
@@ -65,6 +66,7 @@ function AudioFunctionNext({ listSong, className, id }: Props) {
       song_id,
       is_liked,
       artists,
+      is_lyric,
     });
     // [todo] need to check if there is a new playlist or not
     setPlaylistId({ [playlistId[0] || ""]: [playlistId[0], id] });

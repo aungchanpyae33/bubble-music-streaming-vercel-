@@ -1,10 +1,10 @@
 import clsx from "clsx";
 import { motion } from "motion/react";
 import LyricPaddingBlock from "./LyricPaddingBlock";
-import Lyric from "./Lyric";
 import { lyricShowAction, lyricShowState, useLyric } from "@/lib/zustand";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import LyricClose from "./LyricClose";
+import LyricContainer from "./LyricContainer";
 function AudioFullInfoWrapper({ children }: { children: React.ReactNode }) {
   const lyricShow = useLyric((state: lyricShowState) => state.lyricShow);
   const setLyricShow = useLyric((state: lyricShowAction) => state.setLyricShow);
@@ -77,7 +77,7 @@ function AudioFullInfoWrapper({ children }: { children: React.ReactNode }) {
       </motion.div>
       <div
         className={clsx(
-          " bg-black  left-auto  lg:w-[50%] w-full   px-5 inset-0 top-[60px] absolute grid grid-rows-[35px_1fr_35px] transition-[opacity,transform] duration-500",
+          " bg-black  left-auto  lg:w-[50%] w-full   px-[35px] inset-0 top-[60px] absolute grid grid-rows-[35px_1fr_35px] transition-[opacity,transform] duration-500",
           {
             "translate-y-0": lyricShow,
             "translate-y-full": !lyricShow,
@@ -87,7 +87,7 @@ function AudioFullInfoWrapper({ children }: { children: React.ReactNode }) {
       >
         <LyricPaddingBlock />
         {lyricShow && <LyricClose />}
-        <Lyric />
+        <LyricContainer lyricShow={lyricShow} />
         <LyricPaddingBlock />
       </div>
     </div>

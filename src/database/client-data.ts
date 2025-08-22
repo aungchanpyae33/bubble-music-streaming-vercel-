@@ -1,6 +1,7 @@
 import { RefObject } from "react";
 import {
   getListDirectProps,
+  getLyricReturn,
   getPlaylistPageProps,
   getSongListProps,
   UserLibMappedProps,
@@ -119,5 +120,25 @@ export const checkSongsBeforeAddClient = async ({
     return { exists, error };
   } catch (error) {
     return { exists: false, error };
+  }
+};
+
+export const getLyricClient = async (
+  songId: string
+): Promise<{
+  data: getLyricReturn | null;
+  error: PostgrestError | any | null;
+}> => {
+  await new Promise((resolve) => setTimeout(resolve, 3000));
+  const params = new URLSearchParams({
+    id: songId,
+  });
+  try {
+    const fetchData = await fetch(`/api/getLyric?${params}`);
+    const { data, error } = await fetchData.json();
+    console.log(data, error);
+    return { data, error };
+  } catch (error) {
+    return { data: null, error };
   }
 };

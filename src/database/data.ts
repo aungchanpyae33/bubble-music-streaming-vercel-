@@ -375,3 +375,34 @@ export const getSimilarSongQueue = async (
     return { data: null, error: err };
   }
 };
+
+export interface getLyricReturn {
+  song_id: string;
+  lyric_data: {
+    time: number;
+    line: string;
+  }[];
+}
+
+export const getLyric = async (
+  songId: string
+): Promise<{
+  data: getLyricReturn | null;
+  error: PostgrestError | any | null;
+}> => {
+  try {
+    const supabase = await createClient();
+    const { data, error } = (await supabase
+      .from("lyric")
+      .select("*")
+      .eq("song_id", songId)
+      .maybeSingle()) as {
+      data: getLyricReturn | null;
+      error: PostgrestError | null;
+    };
+    console.log(data, error);
+    return { data, error };
+  } catch (error) {
+    return { data: null, error };
+  }
+};

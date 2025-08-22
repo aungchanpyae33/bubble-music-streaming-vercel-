@@ -80,6 +80,7 @@ function PlaceHolderTrackInstantPlay({
       song_id: song.song_id,
       is_liked: song.is_liked,
       artists: song.artists,
+      is_lyric: song.is_liked,
     };
     updateSongCu(data);
     setPlaylistId({

@@ -9,6 +9,8 @@ export interface prop {
   sege: number | undefined;
   song_time_stamp: Array<number>;
   bufferThreshold: number;
+  song_id: string;
+  is_lyric: boolean;
 }
 
 import { ReactNode } from "react";
@@ -23,6 +25,8 @@ export const DataContext = createContext<prop>({
   loadNextSegment: () => {},
   sege: undefined,
   bufferThreshold: 0,
+  song_id: "",
+  is_lyric: false,
 });
 function ContextMedia({ children, data }: { children: ReactNode; data: prop }) {
   const value = { ...data };

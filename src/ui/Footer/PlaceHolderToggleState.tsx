@@ -108,6 +108,7 @@ function PlaceHolderToggleState({
           song_id,
           is_liked,
           artists,
+          is_lyric,
         } = songList[playListArray.idArray[nextIndex]];
         const uniUrl = id;
         if (currentIndex >= playListArray.idArray.length - 1 && uniUrl === id) {
@@ -125,6 +126,7 @@ function PlaceHolderToggleState({
           song_id,
           is_liked,
           artists,
+          is_lyric,
         });
         // [todo] need to check if there is a new playlist or not
         setPlaylistId({

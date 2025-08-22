@@ -35,8 +35,16 @@ function AudioPlayer({
   footerRef: React.RefObject<HTMLDivElement | null>;
 }) {
   const toggleRef = useRef<HTMLButtonElement | null>(null);
-  const { sege, name, duration, song_time_stamp, id, is_liked, artists } =
-    useSong((state: SongState) => state.songCu) as SongDetail;
+  const {
+    sege,
+    name,
+    duration,
+    song_time_stamp,
+    id,
+    song_id,
+    is_lyric,
+    artists,
+  } = useSong((state: SongState) => state.songCu) as SongDetail;
   const url = useSong(
     (state: SongState) =>
       Object.values(state.songCu as Record<string, string>)[0]
@@ -61,6 +69,8 @@ function AudioPlayer({
         loadNextSegment,
         sege,
         bufferThreshold,
+        song_id,
+        is_lyric,
       }}
     >
       <AnimatePresence>

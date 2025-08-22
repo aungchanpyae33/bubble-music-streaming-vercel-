@@ -50,6 +50,7 @@ const MediaSessionButton = (id_scope: string) => {
       song_id,
       is_liked,
       artists,
+      is_lyric,
     }: {
       url: string;
       sege: number;
@@ -60,6 +61,7 @@ const MediaSessionButton = (id_scope: string) => {
       song_id: string;
       is_liked: boolean;
       artists: Artist[];
+      is_lyric: boolean;
     }) {
       const playlistId = playListArray.id;
       const uniUrl = id;
@@ -73,6 +75,7 @@ const MediaSessionButton = (id_scope: string) => {
         song_id,
         is_liked,
         artists,
+        is_lyric,
       });
       setPlaylistId({ [playlistId || ""]: [playlistId, id] });
       setPlayList(playlistId, true);
@@ -98,6 +101,7 @@ const MediaSessionButton = (id_scope: string) => {
           song_id,
           is_liked,
           artists,
+          is_lyric,
         } = playListArray.songs[playListArray.idArray[currentIndex - 1]];
         MediaSessionButtonTaks({
           url,
@@ -109,6 +113,7 @@ const MediaSessionButton = (id_scope: string) => {
           song_id,
           is_liked,
           artists,
+          is_lyric,
         });
       });
       navigator.mediaSession.setActionHandler("nexttrack", () => {
@@ -128,6 +133,7 @@ const MediaSessionButton = (id_scope: string) => {
           song_id,
           is_liked,
           artists,
+          is_lyric,
         } = playListArray.songs[playListArray.idArray[currentIndex + 1]];
         MediaSessionButtonTaks({
           url,
@@ -139,6 +145,7 @@ const MediaSessionButton = (id_scope: string) => {
           song_id,
           is_liked,
           artists,
+          is_lyric,
         });
       });
     }
