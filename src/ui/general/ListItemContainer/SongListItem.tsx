@@ -20,12 +20,12 @@ function SongListItem({ song }: { song: SongInfo }) {
             alt="img"
             sizes="50px"
           />
+          <ToggleElement
+            playlistSong={undefined}
+            song={song}
+            className=" z-10  hidden group-hover:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+          />
         </div>
-        <ToggleElement
-          playlistSong={undefined}
-          song={song}
-          className=" z-10  hidden group-hover:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-        />
       </div>
       {/* Flex items have `min-width: auto` by default */}
       <div className="min-w-0 flex-1  p-2">
