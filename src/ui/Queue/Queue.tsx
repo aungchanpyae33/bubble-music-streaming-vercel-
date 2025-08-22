@@ -74,8 +74,8 @@ function Queue() {
                   </div>
                   <div className="w-[30px]">
                     <ContextInfoTrack
-                      id={playListArray!.id!}
-                      source={playListArray?.source || "none"}
+                      id={undefined}
+                      source={undefined}
                       song={item}
                     >
                       <MoreOptionContext>
