@@ -57,7 +57,7 @@ function SearchTrack({
       <div className=" w-fit max-w-fit">
         <ToggleHeartButton like={song.is_liked} songId={song.song_id} />
       </div>
-      <div className=" w-[80px]  text-center px-2">
+      <div className="   text-center">
         <ContextInfoTrack id={undefined} source={undefined} song={song}>
           <MoreOptionContext>
             <MoreOption targetElement={<TrackItemContainer />} />
