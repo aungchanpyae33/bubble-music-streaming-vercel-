@@ -8,7 +8,7 @@ import LyricClose from "./LyricClose";
 function AudioFullInfoWrapper({ children }: { children: React.ReactNode }) {
   const lyricShow = useLyric((state: lyricShowState) => state.lyricShow);
   const setLyricShow = useLyric((state: lyricShowAction) => state.setLyricShow);
-  const scrollRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     return () => {
       setLyricShow(false);
@@ -52,7 +52,7 @@ function AudioFullInfoWrapper({ children }: { children: React.ReactNode }) {
           >
             <p
               className={clsx(
-                " text-zinc-100  text-xl lg:text-2xl transition-transform origin-left duration-[3000ms]",
+                " text-zinc-100  text-xl lg:text-2xl transition-transform origin-left duration-500",
                 {
                   " scale-90 lg:scale-100 ": lyricShow,
                   "scale-100 ": !lyricShow,
@@ -63,7 +63,7 @@ function AudioFullInfoWrapper({ children }: { children: React.ReactNode }) {
             </p>
             <p
               className={clsx(
-                " text-zinc-100  lg:text-xl text-base transition-transform origin-left  duration-[3000ms]",
+                " text-zinc-100  lg:text-xl text-base transition-transform origin-left  duration-500",
                 {
                   " scale-90 lg:scale-100 ": lyricShow,
                   "scale-100 ": !lyricShow,
@@ -77,20 +77,18 @@ function AudioFullInfoWrapper({ children }: { children: React.ReactNode }) {
       </motion.div>
       <div
         className={clsx(
-          " bg-black  left-auto  lg:w-[50%] w-full  overflow-auto px-5 inset-0 absolute bottom-0 transition-[opacity,transform] no-scrollbar pb-[60px] duration-500",
+          " bg-black  left-auto  lg:w-[50%] w-full   px-5 inset-0 top-[60px] absolute grid grid-rows-[35px_1fr_35px] transition-[opacity,transform] duration-500",
           {
-            "translate-y-[60px]": lyricShow,
+            "translate-y-0": lyricShow,
             "translate-y-full": !lyricShow,
           }
         )}
-        ref={scrollRef}
         tabIndex={-1}
       >
-        <LyricPaddingBlock className="top-0">
-          {lyricShow && <LyricClose />}
-        </LyricPaddingBlock>
-        <Lyric scrollRef={scrollRef} />
-        <LyricPaddingBlock className=" bottom-0" />
+        <LyricPaddingBlock />
+        {lyricShow && <LyricClose />}
+        <Lyric />
+        <LyricPaddingBlock />
       </div>
     </div>
   );

@@ -3,12 +3,9 @@ import clsx from "clsx";
 import { useEffect, useRef, useState } from "react";
 import PlaceholderLyric from "./PlaceholderLyric";
 
-function Lyric({
-  scrollRef,
-}: {
-  scrollRef: React.RefObject<HTMLDivElement | null>;
-}) {
+function Lyric() {
   const [currentIndex, setCurrentIndex] = useState(0);
+
   const lyricRef = useRef<HTMLDivElement>(null);
   //test data for now
   const lyrics = [
@@ -83,13 +80,16 @@ function Lyric({
       `[data-id="${currentIndex}"]`
     ) as HTMLElement | null;
     if (!element) return;
-    scrollRef.current!.scrollTo({
-      top: element.offsetTop - 30 - scrollRef.current!.clientHeight / 3,
+    lyricRef.current!.scrollTo({
+      top: element.offsetTop - 30 - lyricRef.current!.clientHeight / 3,
       behavior: "smooth",
     });
-  }, [currentIndex, scrollRef]);
+  }, [currentIndex, lyricRef]);
   return (
-    <div ref={lyricRef}>
+    <div
+      ref={lyricRef}
+      className=" overflow-auto no-scrollbar [transform:translateZ(0)] py-2 "
+    >
       <PlaceholderLyric lyrics={lyrics} setCurrentIndex={setCurrentIndex} />
       {lyrics.map((item, idx) => (
         <p

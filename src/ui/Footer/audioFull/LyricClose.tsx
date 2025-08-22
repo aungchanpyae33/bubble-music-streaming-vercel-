@@ -6,7 +6,7 @@ function LyricClose() {
   const setLyricShow = useLyric((state: lyricShowAction) => state.setLyricShow);
   return (
     <button
-      className=" absolute px-2 border border-gray-100/65 py-1 right-0"
+      className=" absolute px-2 border-b border-l border-gray-100/65 py-1 right-0 "
       onClick={() => setLyricShow(false)}
     >
       <IconWrapper Icon={ChevronDown} size="medium" />
