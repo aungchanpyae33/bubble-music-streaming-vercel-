@@ -22,6 +22,7 @@ function SearchInput() {
         signal,
       });
       const { data, error } = await fetchData.json();
+      if (error) throw new Error(error);
       return data;
     }
     return [];

@@ -252,7 +252,7 @@ export const getArtistPage = async (
 export const getData = async (query: string) => {
   try {
     const supabase = await createClient();
-    const { data, error } = await supabase.rpc("search_songs", {
+    const { data, error } = await supabase.rpc("search_all", {
       query,
     });
     return { data, error };
