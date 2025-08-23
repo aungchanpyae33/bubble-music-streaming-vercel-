@@ -1,8 +1,8 @@
 import clsx from "clsx";
 import { ReactNode, SetStateAction, useRef } from "react";
 import NavSidebarToggle from "./NavSideBarToggle";
-import Image from "next/image";
 import FocusTrap from "../Footer/audioFull/FocusTrap";
+import Logo from "../icon/Logo";
 
 interface NavListUlWrapperProp {
   open: boolean;
@@ -32,16 +32,7 @@ function NavListUlWrapper({ open, setOpen, children }: NavListUlWrapperProp) {
             aria-hidden={true}
             tabIndex={open ? 0 : -1}
           >
-            <div className="logo relative   w-[90px] h-[70px]    bg-gradient-to-r">
-              <Image
-                src={"/bubblelogo.svg"}
-                fill
-                priority={false}
-                sizes="70px"
-                alt="logo"
-                className=""
-              />
-            </div>
+            <Logo width={90} height={70} />
           </button>
         </li>
         {children}
