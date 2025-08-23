@@ -1,14 +1,12 @@
 import { DeviceCheck } from "@/lib/DeviceCheck";
 import clsx from "clsx";
 import AlbumImg from "./AlbumImg";
-import { listSongsSection } from "@/database/data";
-import UnderLineLinkHover from "../general/UnderLineLinkHover";
-import { outputRelatedType } from "@/lib/prototypeOuputRelatedType";
-import OfficialBadgeName from "./OfficialBadgeName";
+import { listInfo, listSongsSection } from "@/database/data";
+import InfoList from "../searchPage/topResult/InfoList";
 
 async function AlbumUpperContainer({ songs }: { songs: listSongsSection }) {
   const deviceFromUserAgent = await DeviceCheck();
-  const relatedType = outputRelatedType(songs.type);
+
   const is_official_exist = songs?.is_official;
   return (
     <div
@@ -22,34 +20,33 @@ async function AlbumUpperContainer({ songs }: { songs: listSongsSection }) {
     >
       <AlbumImg />
       <div
-        className={clsx("pt-2 truncate flex-1 ", {
-          "self-start":
+        className={clsx("pt-2 max-w-full space-y-4  truncate flex-1 ", {
+          "self-start ":
             deviceFromUserAgent === "mobile" ||
             deviceFromUserAgent === "tablet",
         })}
       >
-        <h1 className="">{songs.type}</h1>
-        <h1
-          className={clsx("", {
-            "text-3xl": deviceFromUserAgent === "desktop",
-            "text-2xl":
+        <p
+          className={clsx("font-black truncate", {
+            "text-3xl md:text-5xl lg:text-6xl":
+              deviceFromUserAgent === "desktop",
+            "text-2xl md:text-4xl lg:text-6xl ":
               deviceFromUserAgent === "mobile" ||
               deviceFromUserAgent === "tablet",
           })}
         >
           {songs.name}
-        </h1>
-        <div className=" flex">
-          {is_official_exist && <OfficialBadgeName />}
-          {relatedType && (
-            <UnderLineLinkHover
-              href={`/${relatedType}/${songs.related_id}`}
-              prefetch={false}
-              className=""
-            >
-              {songs.related_name}
-            </UnderLineLinkHover>
-          )}
+        </p>
+        <div className="flex items-center ">
+          <span className=" border text-base lg:text-lg font-medium p-1 mr-2">
+            {songs.type.toUpperCase()}
+          </span>
+          <span className=" flex">
+            <InfoList
+              list={songs as listInfo}
+              is_official={is_official_exist}
+            />
+          </span>
         </div>
       </div>
     </div>

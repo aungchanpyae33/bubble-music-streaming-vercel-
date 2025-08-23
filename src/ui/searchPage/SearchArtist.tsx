@@ -7,6 +7,7 @@ interface SearchArtistProps {
   title: string;
   artists: getSearchPageReturn["artists"];
 }
+
 function SearchArtist({ title, artists }: SearchArtistProps) {
   return (
     <SearchContainer>

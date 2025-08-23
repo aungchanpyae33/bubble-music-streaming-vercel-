@@ -3,12 +3,12 @@ import IconWrapper from "../general/IconWrapper";
 
 function OfficialBadgeName() {
   return (
-    <div title="official">
+    <span title="official">
       <IconWrapper
         Icon={BadgeCheck}
-        className=" mr-1 fill-[#3664ba] hover:scale-100 active:scale-100 "
+        className=" ml-1 inline fill-[#3664ba] hover:scale-100 active:scale-100 "
       />
-    </div>
+    </span>
   );
 }
 

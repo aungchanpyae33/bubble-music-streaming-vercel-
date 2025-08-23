@@ -5,7 +5,7 @@ import SearchArtist from "@/ui/searchPage/SearchArtist";
 import SearchPlaylist from "@/ui/searchPage/SearchPlaylist";
 import SearchProfile from "@/ui/searchPage/SearchProfile";
 import SearchSongs from "@/ui/searchPage/SearchSongs";
-import TopResult from "@/ui/searchPage/TopResult";
+import TopResult from "@/ui/searchPage/topResult/TopResult";
 import React from "react";
 
 async function page(props: {
@@ -23,7 +23,7 @@ async function page(props: {
   return (
     <div className="  space-y-5">
       <h1 className="p-2">Search results for {`"${query}"`}</h1>
-      {top_result && <TopResult />}
+      {top_result && <TopResult topResult={top_result} />}
       {songs && songs.idArray.length > 0 && (
         <SearchSongs songs={songs} title="Song" />
       )}

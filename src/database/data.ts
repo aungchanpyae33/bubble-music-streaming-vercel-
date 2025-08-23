@@ -111,11 +111,7 @@ export interface getSearchPageReturn {
   artists: (Record<string, listInfo> & { idArray: string[] }) | null;
   playlists: (Record<string, listInfo> & { idArray: string[] }) | null;
   profiles: (Record<string, SearchProfile> & { idArray: string[] }) | null;
-  top_result:
-    | SongInfo
-    | (Record<string, listInfo> & { idArray: string[] }) // for albums, artists, playlists
-    | (Record<string, SearchProfile> & { idArray: string[] }) // for profiles
-    | null;
+  top_result: SongInfo | listInfo | SearchProfile | null;
 }
 
 export const getSearchPage = async (
@@ -210,6 +206,7 @@ export interface SongInfo {
   sege: number;
   duration: number;
   is_lyric: boolean;
+  type?: "track";
   song_time_stamp: number[];
   is_liked: boolean;
   artists: Artist[];
