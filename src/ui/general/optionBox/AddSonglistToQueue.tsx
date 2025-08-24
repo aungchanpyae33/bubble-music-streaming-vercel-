@@ -30,7 +30,8 @@ function AddSonglistToQueue() {
 
     if (!data || error) return;
     const { songs } = data;
-    if (!songs) return null;
+    console.log(songs);
+    if (!songs || songs.idArray.length < 1) return null;
     currentAddToQueue(songs, songs.idArray);
     setShow(false);
   }

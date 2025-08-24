@@ -29,7 +29,7 @@ function PlayNextQueueSongList() {
     const { data, error } = await getSongListClient(id, type);
     if (!data || error) return;
     const { songs } = data;
-
+    if (!songs || songs.idArray.length < 1) return;
     currentAddToNext(songs, songs.idArray, id_scoope);
     setShow(false);
   }
