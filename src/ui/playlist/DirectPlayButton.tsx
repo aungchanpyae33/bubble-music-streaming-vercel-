@@ -83,7 +83,7 @@ function DirectPlayButton({ listId, type, className }: DirectPlayButtonProps) {
 
     if (error || !data) return;
     const { songs } = data;
-    if (!songs) return;
+    if (!songs || songs.idArray.length < 1) return;
     return songs;
   }
   const handlePlayClick = async () => {
