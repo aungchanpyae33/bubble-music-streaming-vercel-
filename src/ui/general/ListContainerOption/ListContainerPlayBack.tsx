@@ -4,6 +4,7 @@ import {
   currentSongPlaylistAction,
   DirectPlayBackAction,
   DirectPlayBackState,
+  ShouldFetchSongsListIdAction,
   SongActions,
   SongDetail,
   SongFunctionActions,
@@ -12,6 +13,7 @@ import {
   StorePlayListIdStateAction,
   useDirectPlayBack,
   useRepeatAndCurrentPlayList,
+  useShouldFetchSongsList,
   useSong,
   useSongFunction,
   useStorePlayListId,
@@ -46,12 +48,15 @@ function ListContainerPlayBack({ list }: ListContainerPlayBackProps) {
     (state: DirectPlayBackAction) => state.setPlayList
   );
   const updateSongCu = useSong((state: SongActions) => state.updateSongCu);
-
+  const FetchSongsListIdAction = useShouldFetchSongsList(
+    (state: ShouldFetchSongsListIdAction) => state.FetchSongsListIdAction
+  );
   const setPlayListArray = useRepeatAndCurrentPlayList(
     (state: currentSongPlaylistAction) => state.setPlayListArray
   );
   if (list?.idArray.length === 0) return null; // no render the toggle playback
   const handlePlayClick = async () => {
+    FetchSongsListIdAction(undefined);
     if (list) {
       const {
         url,

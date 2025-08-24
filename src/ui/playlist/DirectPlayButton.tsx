@@ -4,12 +4,15 @@ import {
   currentSongPlaylistAction,
   DirectPlayBackAction,
   DirectPlayBackState,
+  ShouldFetchSongsListId,
+  ShouldFetchSongsListIdAction,
   SongActions,
   SongFunctionActions,
   StorePlayListIdState,
   StorePlayListIdStateAction,
   useDirectPlayBack,
   useRepeatAndCurrentPlayList,
+  useShouldFetchSongsList,
   useSong,
   useSongFunction,
   useStorePlayListId,
@@ -77,6 +80,9 @@ function DirectPlayButton({ listId, type, className }: DirectPlayButtonProps) {
   const setPlayListArray = useRepeatAndCurrentPlayList(
     (state: currentSongPlaylistAction) => state.setPlayListArray
   );
+  const FetchSongsListIdAction = useShouldFetchSongsList(
+    (state: ShouldFetchSongsListIdAction) => state.FetchSongsListIdAction
+  );
   async function getData() {
     const returnData = await hasData(dataFromFetch, listId, type);
     const { data, error } = returnData;
@@ -87,6 +93,8 @@ function DirectPlayButton({ listId, type, className }: DirectPlayButtonProps) {
     return songs;
   }
   const handlePlayClick = async () => {
+    //to reset auto fetch key after playing autogenerate playlist,
+    FetchSongsListIdAction(undefined);
     const playlistData = !playlistId ? await getData() : playListArray;
     if (playlistData) {
       const {

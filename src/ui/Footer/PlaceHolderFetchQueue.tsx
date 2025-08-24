@@ -50,6 +50,11 @@ function PlaceHolderFetchQueue() {
         }
       }
     })();
+    return () => {
+      if (!FetchSongsListId) {
+        FetchSongsListIdPreRef.current = null;
+      }
+    };
   }, [song_id, FetchSongsListId, currentAddToQueue]);
   return null;
 }

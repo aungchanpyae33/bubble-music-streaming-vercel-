@@ -79,6 +79,7 @@ const ToggleElement = ({
           setPlayListArray({
             [playlistId || ""]: playlistSong,
           });
+          FetchSongsListIdAction(undefined);
         } else {
           const data = {
             id: playlistId,
