@@ -1,5 +1,6 @@
-import { get } from "@/database/data";
+import { get, getRecentReturn } from "@/database/data";
 import Container from "@/ui/albumContainer/Container";
+import RecentlyListContainer from "@/ui/albumContainer/RecentlyListContainer";
 import ListItemContainer from "@/ui/general/ListItemContainer/ListItemContainer";
 import ListItemScrollHz from "@/ui/general/ListItemContainer/ListItemScrollHz";
 import TapNavi from "@/ui/Home/TapNavi";
@@ -18,6 +19,15 @@ async function page() {
             <ListItemScrollHz description={itemKey} key={itemKey}>
               <ListItemContainer songs={data[itemKey]} />
             </ListItemScrollHz>
+          );
+        }
+        if (itemKey === "recentlyPlayed") {
+          return (
+            <RecentlyListContainer
+              key={itemKey}
+              songs={data[itemKey] as getRecentReturn[keyof getRecentReturn]}
+              description={itemKey}
+            />
           );
         }
         return (
