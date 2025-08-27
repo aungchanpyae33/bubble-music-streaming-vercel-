@@ -3,6 +3,7 @@ import {
   getListDirectProps,
   getLyricReturn,
   getPlaylistPageProps,
+  getRecentReturn,
   getSongListProps,
   UserLibMappedProps,
 } from "./data";
@@ -39,6 +40,22 @@ export const getUserLibClient = async (): Promise<{
     return { data, error };
   } catch (error) {
     return { data: null, error };
+  }
+};
+
+export const getRecentClient = async (): Promise<
+  getRecentReturn["recentlyPlayed"]
+> => {
+  try {
+    const fetchData = await fetch("/api/getRecent");
+    const { data, error } = await fetchData.json();
+    if (error) throw error;
+    if ("recentlyPlayed" in data) {
+      return data["recentlyPlayed"];
+    }
+    return data;
+  } catch (error) {
+    throw error;
   }
 };
 
