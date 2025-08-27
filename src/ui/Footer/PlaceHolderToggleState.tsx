@@ -3,6 +3,8 @@ import {
   currentSongPlaylist,
   DirectPlayBackAction,
   IsRepeatState,
+  SetListTrackAction,
+  SetSongTrackAction,
   SongActions,
   SongDetail,
   SongFunctionActions,
@@ -11,16 +13,19 @@ import {
   StorePlayListIdState,
   StorePlayListIdStateAction,
   useDirectPlayBack,
+  useListTrack,
   useRepeatAndCurrentPlayList,
   useSong,
   useSongFunction,
+  useSongTrack,
   useStorePlayListId,
 } from "@/lib/zustand";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useRef } from "react";
 import outputCurrentIndex from "@/lib/CustomHooks/OutputCurrentIndex";
 import { listSongsSection } from "@/database/data";
 import { addRecentlyPlayedList } from "@/actions/addRecentPlayedList";
 import { addRecentlySong } from "@/actions/addRecentSong";
+import { useQueryClient } from "@tanstack/react-query";
 
 function PlaceHolderToggleState({
   url,
@@ -31,6 +36,7 @@ function PlaceHolderToggleState({
   id: string;
   children: React.ReactNode;
 }) {
+  const setTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { dataAudio, segNum, loadNextSegment } = useContext(DataContext);
   const playListArray = useRepeatAndCurrentPlayList(
     (state: currentSongPlaylist) =>
@@ -49,18 +55,23 @@ function PlaceHolderToggleState({
   const setPlay = useSongFunction(
     (state: SongFunctionActions) => state.setPlay
   );
-
+  const setListTrack = useListTrack(
+    (state: SetListTrackAction) => state.setListTrack
+  );
   const setPlaylistId = useStorePlayListId(
     (state: StorePlayListIdStateAction) => state.setPlaylistId
   );
   const setPlayList = useDirectPlayBack(
     (state: DirectPlayBackAction) => state.setPlayList
   );
-
+  const setSongTrack = useSongTrack(
+    (state: SetSongTrackAction) => state.setSongTrack
+  );
   const updateSongCu = useSong((state: SongActions) => state.updateSongCu);
   const isRepeat = useRepeatAndCurrentPlayList(
     (state: IsRepeatState) => state.isRepeat
   );
+  const queryClient = useQueryClient();
   useEffect(() => {
     const copyDataAudio = dataAudio!.current!;
     function handlePlay() {
@@ -137,7 +148,7 @@ function PlaceHolderToggleState({
         setPlayList(playlistId[0], true);
       }
     }
-    // console.log("whyyyyyyyyyyyy");
+
     handlePlay();
     copyDataAudio.addEventListener("ended", playNext);
     return () => {
@@ -162,22 +173,41 @@ function PlaceHolderToggleState({
   useEffect(() => {
     async function addRecentList() {
       if (playListArray.id.startsWith("create-on-fly")) return;
-      const { error } = await addRecentlyPlayedList(
-        playListArray.id,
-        playListArray.type
+      const { songs, idArray, is_official, ...data } = playListArray;
+      const { data: recentList, error } = await addRecentlyPlayedList(data);
+      if (!recentList || error) return;
+      queryClient.setQueryData(["recentlyPlayed"], recentList);
+      setListTrack(
+        playListArray.type as "playlist" | "artist" | "album",
+        playListArray.id
       );
-      if (error) console.log(error);
     }
     addRecentList();
-  }, [playListArray.id, playListArray.type]);
-
+  }, [playListArray, setListTrack, queryClient]);
+  //to prevent fast skipping song to add many times and user fast skip songs should not store in user perference
   useEffect(() => {
-    async function addRecentSong() {
-      const { error } = await addRecentlySong(song_id);
-      if (error) console.log(error);
+    function addRecentSong() {
+      //to prevent paused case
+      if (!Isplay && setTimeoutRef.current) {
+        clearTimeout(setTimeoutRef.current);
+        setTimeoutRef.current = null;
+        return;
+      }
+      //to prevent fast skip case
+      if (setTimeoutRef.current) {
+        clearTimeout(setTimeoutRef.current);
+        setTimeoutRef.current = null;
+      }
+      setTimeoutRef.current = setTimeout(async () => {
+        if (setTimeoutRef.current) {
+          await addRecentlySong(song_id);
+          // if (error) console.log(error);
+          setSongTrack(song_id);
+        }
+      }, 10000);
     }
     addRecentSong();
-  }, [song_id]);
+  }, [song_id, setSongTrack, Isplay]);
 
   return children;
 }

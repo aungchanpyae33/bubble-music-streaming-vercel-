@@ -642,3 +642,96 @@ export const useLyric = create<lyricShowState & lyricShowAction>((set) => ({
       return { lyricShow: !state.lyricShow };
     }),
 }));
+
+export interface SongTrackState {
+  songTrack:
+    | {
+        count: number;
+        songsId: string[];
+      }
+    | undefined;
+}
+export interface SetSongTrackAction {
+  setSongTrack: (songId: string) => void;
+}
+export const useSongTrack = create<SongTrackState & SetSongTrackAction>()(
+  persist(
+    (set) => ({
+      songTrack: undefined,
+      setSongTrack: (songId) =>
+        set((state) => {
+          if (!songId) return state;
+
+          if (!state.songTrack) {
+            return {
+              songTrack: {
+                count: 0,
+                songsId: [songId],
+              },
+            };
+          }
+
+          if (state.songTrack.count >= 10) {
+            return {
+              songTrack: {
+                count: 1,
+                songsId: [songId],
+              },
+            };
+          }
+          if (songId === "increment") {
+            return {
+              songTrack: {
+                count: ++state.songTrack.count,
+                songsId: state.songTrack.songsId,
+              },
+            };
+          }
+          if (state.songTrack.songsId.includes(songId)) {
+            return {
+              songTrack: {
+                count: ++state.songTrack.count,
+                songsId: state.songTrack.songsId,
+              },
+            };
+          }
+          return {
+            songTrack: {
+              count: state.songTrack.count + 1,
+              songsId: [...state.songTrack.songsId, songId],
+            },
+          };
+        }),
+    }),
+    {
+      name: "track-song-storage",
+    }
+  )
+);
+
+export interface listTrackState {
+  listTrack:
+    | {
+        type: "playlist" | "album" | "artist";
+        id: string;
+      }
+    | undefined;
+}
+export interface SetListTrackAction {
+  setListTrack: (type: "playlist" | "album" | "artist", id: string) => void;
+}
+export const useListTrack = create<listTrackState & SetListTrackAction>(
+  (set) => ({
+    listTrack: undefined,
+    setListTrack: (type, id) =>
+      set((state) => {
+        if (!id) return state;
+        return {
+          listTrack: {
+            type,
+            id,
+          },
+        };
+      }),
+  })
+);

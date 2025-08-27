@@ -29,6 +29,7 @@ import ToggleButtonSpaceKey from "./audio/Toggle/ToggleButtonSpaceKey";
 import ArtistWrapper from "../general/ArtistWrapper";
 import MediaSessionDesWrapper from "./audio/MediaSessionWrapper/MediaSessionDesWrapper";
 import PlaceHolderFetchQueue from "./PlaceHolderFetchQueue";
+import PlaceHolderTrackUser from "./PlaceHolderTrackUser";
 function AudioPlayer({
   footerRef,
 }: {
@@ -88,6 +89,7 @@ function AudioPlayer({
               <ToggleButtonSpaceKey />
               {/* this is for space key to toggle play and pause */}
             </PlaceHolderToggleState>
+            <PlaceHolderTrackUser />
             <AudioFooterContainer footerRef={footerRef}>
               <AudioFull
                 footerRef={footerRef}
