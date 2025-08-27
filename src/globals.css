@@ -2,44 +2,46 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-  --animate-translate-info: 0px;
-  --border: red;
-  --animate-translate-duration: 0ms;
-  input[type="search"]::-webkit-search-cancel-button,
-  input[type="search"]::-webkit-search-decoration,
-  input[type="search"]::-webkit-search-results-button,
-  input[type="search"]::-webkit-search-results-decoration {
-    display: none;
-  }
-  input[type="search"]::-ms-clear {
-    display: none;
-    height: 0;
-    width: 0;
-  }
-
-  input[type="search"]::-ms-reveal {
-    display: none;
-    height: 0;
-    width: 0;
-  }
-}
-/* custom varient */
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+    --background: 0 33% 99%;
+    --foreground: 0 0% 3.9%;
+    --border: 0 0% 50.8%;
+    --bordersecondary: 0 2% 3%;
+    --input: 0 0% 89.8%;
+    --animate-translate-info: 0px;
+    --animate-translate-duration: 0ms;
+    input[type="search"]::-webkit-search-cancel-button,
+    input[type="search"]::-webkit-search-decoration,
+    input[type="search"]::-webkit-search-results-button,
+    input[type="search"]::-webkit-search-results-decoration {
+      display: none;
+    }
+    input[type="search"]::-ms-clear {
+      display: none;
+      height: 0;
+      width: 0;
+    }
+
+    input[type="search"]::-ms-reveal {
+      display: none;
+      height: 0;
+      width: 0;
+    }
+  }
+  .dark {
+    --background: 0 0% 7%;
+    --foreground: 0 0% 98%;
+    --border: 5 0% 20.9%;
+    --bordersecondary: 10 0.4% 50%;
+    --input: 0 0% 14.9%;
   }
 }
+
+/* custom varient */
 /* fallback css */
 @supports not (aspect-ratio: 1 / 1) {
   .fallbackAspect {
-    background: red;
     width: 100%;
     max-width: 370px;
     height: fit-content;
@@ -81,8 +83,6 @@
 
 .thinScrollbar {
   scrollbar-width: thin;
-
-  scrollbar-color: var(--secondary) var(--primary);
 }
 
 /* Chrome, Edge, and Safari */
@@ -92,28 +92,23 @@
 }
 
 .thinScrollbar::-webkit-scrollbar-track {
-  background: var(--primary);
   border-radius: 5px;
 }
 
 .thinScrollbar::-webkit-scrollbar-thumb {
-  background-color: var(--secondary);
   border-radius: 14px;
-  border: 3px solid var(--primary);
+  border: 3px solid;
 }
-/* body.scrolllock {
-  overflow-y: scroll !important;
+.scrolllock {
+  pointer-events: none;
+  /* filter: blur(4px); */
+}
+.noScrolllock {
   position: fixed;
   left: 0;
   right: 0;
   bottom: 0;
 }
-body.noScrolllock {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-} */
 /* body scrolllock */
 
 /* hide scrollbar */

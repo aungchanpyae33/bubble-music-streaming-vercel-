@@ -1,6 +1,8 @@
 import type { Config } from "tailwindcss";
 import plugin from "tailwindcss/plugin";
+import animate from "tailwindcss-animate";
 const config: Config = {
+  darkMode: ["class"],
   // in version 4 there is no need to do that
   future: {
     hoverOnlyWhenSupported: true,
@@ -53,11 +55,20 @@ const config: Config = {
         },
       },
       colors: {
-        overlay: "rgba(43, 43, 41,0.5)",
+        overlay: "rgba(43,43, 41,0.5)",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
+        icon: {
+          foreground: "hsl(var(--foreground))",
+        },
+        divided: "hsl(var(--border))",
+        borderFull: "hsl(var(--bordersecondary))",
+        input: "hsl(var(--input))",
       },
     },
   },
   plugins: [
+    animate,
     plugin(function ({ addVariant }) {
       addVariant("has-hover", "@media(hover : hover)");
       addVariant("no-hover", "@media not all and (hover: hover)");
