@@ -18,7 +18,7 @@ function Lyric({
 }) {
   const { is_lyric } = useContext(DataContext);
   const { song_id } = useContext(DataContext);
-  console.log(is_lyric);
+
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
@@ -38,7 +38,6 @@ function Lyric({
     error: queryError,
   } = useQuery({
     queryKey: ["lyric", song_id],
-    staleTime: 0,
     queryFn: () => getLyricClient(song_id),
     enabled: lyricShow && is_lyric,
   });
