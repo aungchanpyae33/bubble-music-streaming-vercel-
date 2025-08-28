@@ -30,12 +30,12 @@ function AddSongItem({
   const mutation = useAddSongMutate(playlistId);
   async function handleAdd() {
     addSongsToPlaylist({});
-    const { exists } = await checkSongsBeforeAddClient({
+    const { exists, error } = await checkSongsBeforeAddClient({
       playlistId: playlistId,
       songId: songId,
     });
-
-    if (!exists) {
+    if (error) return;
+    if (!exists && !error) {
       mutation.mutate({
         playlistId: playlistId,
         songId: songId,
@@ -45,7 +45,7 @@ function AddSongItem({
     }
   }
   return (
-    <div>
+    <div className=" p-1 ">
       <button onClick={handleAdd}>{playlistSongs.name}</button>
     </div>
   );

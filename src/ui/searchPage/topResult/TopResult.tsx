@@ -5,6 +5,7 @@ import InfoList from "./InfoList";
 import SearchContainer from "../SearchContainer";
 import clsx from "clsx";
 import { DeviceCheck } from "@/lib/DeviceCheck";
+import UnderLineLinkHover from "@/ui/general/UnderLineLinkHover";
 
 async function TopResult({
   topResult,
@@ -41,7 +42,13 @@ async function TopResult({
                 deviceFromUserAgent === "tablet",
             })}
           >
-            {topResult?.name}
+            <UnderLineLinkHover
+              href={`${topResult?.type}/${topResult?.id}`}
+              prefetch={false}
+              className=" block leading-relaxed w-full truncate text-start  "
+            >
+              {topResult?.name}
+            </UnderLineLinkHover>
           </p>
         </div>
         <div>

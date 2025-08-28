@@ -1,9 +1,8 @@
 import SearchContainer from "./SearchContainer";
 import SearchListContainerTitle from "./SearchListContainerTitle";
 import SearchListContainer from "./SearchListContainer";
-
-import SearchArtistItem from "./SearchArtistItem";
-import { getSearchPageReturn, listInfo } from "@/database/data";
+import { getSearchPageReturn } from "@/database/data";
+import SearchAlbumItem from "./SearchAlbumItem";
 interface SearchAlbumProps {
   title: string;
   albums: getSearchPageReturn["artists"];
@@ -16,7 +15,7 @@ function SearchAlbum({ title, albums }: SearchAlbumProps) {
         {albums?.idArray.map((id, index) => {
           const item = albums[id];
           return (
-            <SearchArtistItem
+            <SearchAlbumItem
               key={item.id}
               description="test"
               index={index}

@@ -30,8 +30,11 @@ function ConfirmAddSong() {
   }, [mutation, setIsSongExist]);
   return (
     <span>
-      <button onClick={handleAdd}> do you want to do</button>
-      <button onClick={() => setIsSongExist({})}> no exist</button>
+      <button onClick={handleAdd}>
+        {" "}
+        songs is already exist! do you want to add?
+      </button>
+      <button onClick={() => setIsSongExist({})}> do not add</button>
     </span>
   );
 }

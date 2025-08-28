@@ -7,6 +7,7 @@ import LeadingRelax from "../general/LeadingRelax";
 import Image from "next/image";
 import DirectPlayButton from "../playlist/DirectPlayButton";
 import SearchItemWrapper from "./SearchItemWrapper";
+import UnderLineLinkHover from "../general/UnderLineLinkHover";
 
 interface SearchArtistItemProps {
   description: string;
@@ -37,13 +38,17 @@ function SearchArtistItem({
         />
       </div>
       <div className="min-w-0 flex-1  p-2">
-        <div className="truncate text-sm">
-          <LeadingRelax>{name}</LeadingRelax>
-        </div>
+        <UnderLineLinkHover
+          href={`${type}/${id}`}
+          prefetch={false}
+          className=" block leading-relaxed w-full truncate text-start  "
+        >
+          {name}
+        </UnderLineLinkHover>
       </div>
-      <div>
+      <div className=" flex items-center">
         <ContextSongListContainer
-          className="w-[80px]  text-center"
+          className="w-[50px]  text-center"
           id={id}
           source={source}
           type={type}

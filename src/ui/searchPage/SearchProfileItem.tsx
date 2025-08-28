@@ -38,7 +38,7 @@ function SearchProfileItem({
           <LeadingRelax>{name}</LeadingRelax>
         </div>
       </div>
-      <div>
+      <div className=" flex item-center">
         <ContextSearchProfile id={id}>
           <MoreOptionContext>
             <MoreOption targetElement={<ProfileOption />} />

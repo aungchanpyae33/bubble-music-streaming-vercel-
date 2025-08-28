@@ -1,24 +1,25 @@
-import SearchItemWrapper from "./SearchItemWrapper";
+import { listInfo, listSongsSection } from "@/database/data";
 import SongListContainerOption from "../general/optionBox/SongListContainerOption";
 import ContextSongListContainer from "../playlist/playlistOption/ContextSongListContainer";
 import MoreOption from "../trackComponent/MoreOption";
 import MoreOptionContext from "../trackComponent/MoreOptionContext";
 import LeadingRelax from "../general/LeadingRelax";
-import DirectPlayButton from "../playlist/DirectPlayButton";
 import Image from "next/image";
-import { listInfo } from "@/database/data";
-import { outputRelatedType } from "@/lib/prototypeOuputRelatedType";
+import DirectPlayButton from "../playlist/DirectPlayButton";
+import SearchItemWrapper from "./SearchItemWrapper";
 import UnderLineLinkHover from "../general/UnderLineLinkHover";
-interface SearchListContainerItemProps {
+import { outputRelatedType } from "@/lib/prototypeOuputRelatedType";
+
+interface SearchAlbumItemProps {
   description: string;
   index: number;
   Itemdata: listInfo;
 }
-function SearchListContainerItem({
+function SearchAlbumItem({
   description,
   index,
   Itemdata,
-}: SearchListContainerItemProps) {
+}: SearchAlbumItemProps) {
   const { id, name, type, source, related_id, related_name } = Itemdata;
   const relatedType = outputRelatedType(type);
   return (
@@ -33,8 +34,8 @@ function SearchListContainerItem({
           />
         </div>
         <DirectPlayButton
-          listId={id}
           type={type}
+          listId={id}
           className="z-10  hidden group-hover:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 "
         />
       </div>
@@ -56,9 +57,10 @@ function SearchListContainerItem({
           </UnderLineLinkHover>
         )}
       </div>
+
       <div className=" flex items-center">
         <ContextSongListContainer
-          className="w-[50px]"
+          className="w-[50px]  text-center"
           id={id}
           source={source}
           type={type}
@@ -73,4 +75,4 @@ function SearchListContainerItem({
   );
 }
 
-export default SearchListContainerItem;
+export default SearchAlbumItem;

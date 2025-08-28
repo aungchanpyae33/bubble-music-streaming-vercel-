@@ -55,10 +55,10 @@ function SearchTrack({
           <ArtistWrapper artists={song.artists} />
         </div>
       </div>
-      <div className=" w-fit max-w-fit">
+      <div className=" flex items-center w-fit max-w-fit">
         <ToggleHeartButton like={song.is_liked} songId={song.song_id} />
       </div>
-      <div className="   text-center">
+      <div className=" flex items-center   text-center">
         <ContextInfoTrack id={undefined} source={undefined} song={song}>
           <MoreOptionContext>
             <MoreOption targetElement={<TrackItemContainer />} />
