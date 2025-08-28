@@ -405,13 +405,20 @@ export const checkSongsBeforeAdd = async (
 ) => {
   try {
     const supabase = await createClient();
-    const { data, error } = await supabase.from("playlist_songs").select("id");
+    const { data, error } = await supabase
+      .from("playlist_songs")
+      .select("id")
+      .eq("playlist_id", playlistId)
+      .eq("song_id", songId);
     if (error) {
       console.error("Error checking playlist:", error);
       return { exists: false, error };
     }
-    const exists = !!data; // true if song already in playlist
-    return { exists, error: null };
+    if (data && data.length > 0) {
+      // true if song already in playlist
+      return { exists: true, error: null };
+    }
+    return { exists: false, error: null };
   } catch (error) {
     return { exists: false, error };
   }
