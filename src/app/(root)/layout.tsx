@@ -26,32 +26,36 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <QueryClientPrv>
-      <html lang="en" className="h-full" suppressHydrationWarning>
-        <body
-          className={`${inter.className} overflow-hidden relative h-full flex flex-col bg-background text-foreground`}
+    <html
+      lang="en"
+      className="h-full bg-background text-foreground"
+      suppressHydrationWarning
+    >
+      <body
+        className={`${inter.className} overflow-hidden relative h-full flex flex-col`}
+      >
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
         >
-          <NextTopLoader
-            color="#2299DD"
-            initialPosition={0.08}
-            crawlSpeed={200}
-            height={3}
-            crawl={true}
-            showSpinner={false} // still good to include
-            easing="ease"
-            speed={200}
-            shadow="0 0 10px #2299DD,0 0 5px #2299DD"
-            template='<div class="bar" role="bar"><div class="peg"></div></div>' // no spinner
-            zIndex={1600}
-            showAtBottom={false}
-          />
+          <QueryClientPrv>
+            <NextTopLoader
+              color="#2299DD"
+              initialPosition={0.08}
+              crawlSpeed={200}
+              height={3}
+              crawl={true}
+              showSpinner={false} // still good to include
+              easing="ease"
+              speed={200}
+              shadow="0 0 10px #2299DD,0 0 5px #2299DD"
+              template='<div class="bar" role="bar"><div class="peg"></div></div>' // no spinner
+              zIndex={1600}
+              showAtBottom={false}
+            />
 
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
             <BeforeLoad />
             <NavBar />
             <div className="scr flex flex-1 overflow-hidden relative">
@@ -69,18 +73,17 @@ export default function RootLayout({
                 </QueueWrapper>
               </Suspense>
               <ModalBox />
-              {/* <TabCap /> */}
             </div>
             <Suspense
               fallback={
-                <div className="w-full  flex   items-center  h-[70px] bg-red-950"></div>
+                <div className="w-full  flex   items-center  h-[70px]  bg-red-950"></div>
               }
             >
               <AudioFooterBar />
             </Suspense>
-          </ThemeProvider>
-        </body>
-      </html>
-    </QueryClientPrv>
+          </QueryClientPrv>
+        </ThemeProvider>
+      </body>
+    </html>
   );
 }
