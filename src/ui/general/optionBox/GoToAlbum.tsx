@@ -5,9 +5,9 @@ import OptionItem from "./OptionItem";
 import { InfoTrackContext } from "@/ui/trackComponent/ContextInfoTrack";
 import OptionIconEl from "./OptionIconEl";
 import { Disc } from "lucide-react";
-import Link from "next/link";
 import IconWrapper from "../IconWrapper";
 import OptionButton from "./OptionButton";
+import NoThankYouPreFetchLink from "../NoThankYouPreFetchLink";
 
 function GoToAlbum() {
   const { song } = useContext(InfoTrackContext);
@@ -16,17 +16,16 @@ function GoToAlbum() {
   return (
     <OptionItem>
       <OptionButton onClick={() => setShow(false)}>
-        <Link
+        <NoThankYouPreFetchLink
           href={`/album/${albumId}`}
           className="flex items-center"
-          prefetch={false}
         >
           <OptionIconEl>
             <IconWrapper size="small" Icon={Disc} />
           </OptionIconEl>
 
           <span>go to the album </span>
-        </Link>
+        </NoThankYouPreFetchLink>
       </OptionButton>
     </OptionItem>
   );

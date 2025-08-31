@@ -1,9 +1,9 @@
-import Link from "next/link";
 import SearchBar from "../searchBar/SearchBar";
 import UserInfo from "../user/UserInfo";
 import NavSideBar from "./NavSideBar";
 import { Suspense } from "react";
 import Logo from "../icon/Logo";
+import NoThankYouPreFetchLink from "../general/NoThankYouPreFetchLink";
 function NavBar() {
   return (
     <nav className="navBarContainer flex w-full   h-[70px] z-10   items-center justify-between border-opacity-15 bg-[#0A0A0A] border-b border-neutral-200 ">
@@ -11,9 +11,12 @@ function NavBar() {
         <div className="flex  w-[160px]">
           <NavSideBar />
           <div className="logo relative   w-[90px] h-[70px] flex items-center    bg-gradient-to-r">
-            <Link href={"/"} className=" flex items-center w-full h-full">
+            <NoThankYouPreFetchLink
+              href={"/"}
+              className=" flex items-center w-full h-full"
+            >
               <Logo width={90} height={70} />
-            </Link>
+            </NoThankYouPreFetchLink>
           </div>
         </div>
       </Suspense>

@@ -11,6 +11,7 @@ import SonglistContainerWrapper from "./playlistOption/SonglistContainerWrapper"
 import ContextSongListContainer from "./playlistOption/ContextSongListContainer";
 import { listInfo } from "@/database/data";
 import { outputRelatedType } from "@/lib/prototypeOuputRelatedType";
+import NoThankYouPreFetchLink from "../general/NoThankYouPreFetchLink";
 
 interface SonglistsContainerProps extends listInfo {
   description: string;
@@ -35,9 +36,8 @@ function SonglistsContainer({
         "peer snap-center space-y-3 w-[165px] isolate md:w-[175px] lg:w-[185px] shrink-0 grow-0 "
       )}
     >
-      <Link
+      <NoThankYouPreFetchLink
         href={`${type}/${id}`}
-        prefetch={false}
         className="flex relative w-full imageContainer  rounded overflow-hidden    before:block before:pb-[100%] group "
       >
         <Image
@@ -74,7 +74,7 @@ function SonglistsContainer({
       has-hover:focus:opacity-100 
       has-hover:group-hover:opacity-100  p-2 bg-[#222222]"
         />
-      </Link>
+      </NoThankYouPreFetchLink>
       <div className=" w-full">
         <UnderLineLinkHover
           href={`${type}/${id}`}

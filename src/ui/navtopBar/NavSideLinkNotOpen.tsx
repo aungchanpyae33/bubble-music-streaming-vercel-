@@ -1,5 +1,6 @@
 import Link from "next/link";
 import React from "react";
+import NoThankYouPreFetchLink from "../general/NoThankYouPreFetchLink";
 
 interface NavSideLinkNotOpenProps {
   children: React.ReactNode;
@@ -7,12 +8,12 @@ interface NavSideLinkNotOpenProps {
 }
 function NavSideLinkNotOpen({ children, hrefString }: NavSideLinkNotOpenProps) {
   return (
-    <Link
+    <NoThankYouPreFetchLink
       href={hrefString}
       className="hidden hover:bg-[#333333] active:brightness-90   md:flex justify-center"
     >
       {children}
-    </Link>
+    </NoThankYouPreFetchLink>
   );
 }
 

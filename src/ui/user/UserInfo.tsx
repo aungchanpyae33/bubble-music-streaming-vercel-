@@ -1,8 +1,8 @@
-import Link from "next/link";
 import UserProfile from "./UserProfile";
 
 import TestCom from "../TestCom";
 import { createClient } from "@/database/server";
+import NoThankYouPreFetchLink from "../general/NoThankYouPreFetchLink";
 
 async function UserInfo() {
   const supabase = await createClient();
@@ -22,56 +22,56 @@ async function UserInfo() {
             user.user_metadata.first_name + " " + user.user_metadata.last_name
           }
         >
-          <Link
+          <NoThankYouPreFetchLink
             href={"/profile"}
             className="hover:bg-[#333333] p-2 flex gap-x-3 "
           >
             <div>icon</div>
             <div>ပရိုဖိုင်</div>
-          </Link>
-          <Link
+          </NoThankYouPreFetchLink>
+          <NoThankYouPreFetchLink
             href={"/setting"}
             className="hover:bg-[#333333] p-2 flex gap-x-3 "
           >
             <div>icon</div>
             <div>ဆက်တင်မျာ:</div>
-          </Link>
-          <Link
+          </NoThankYouPreFetchLink>
+          <NoThankYouPreFetchLink
             href={"/feedback"}
             className="hover:bg-[#333333] p-2 flex gap-x-3"
           >
             <div>icon</div>
             <div>အကူအညီ နှင့် အကြံပြုချက် </div>{" "}
-          </Link>
-          <Link
+          </NoThankYouPreFetchLink>
+          <NoThankYouPreFetchLink
             href={"/feedback"}
             className="hover:bg-[#333333] p-2 flex gap-x-3"
           >
             <div>icon</div>
             <div>အကူအညီ နှင့် အကြံပြုချက် </div>{" "}
-          </Link>
-          <Link
+          </NoThankYouPreFetchLink>
+          <NoThankYouPreFetchLink
             href={"/feedback"}
             className="hover:bg-[#333333] p-2 flex gap-x-3"
           >
             <div>icon</div>
             <div>အကူအညီ နှင့် အကြံပြုချက် </div>{" "}
-          </Link>
-          <Link
+          </NoThankYouPreFetchLink>
+          <NoThankYouPreFetchLink
             href={"/feedback"}
             className="hover:bg-[#333333] p-2 flex gap-x-3"
           >
             <div>icon</div>
             <div>အကူအညီ နှင့် အကြံပြုချက် </div>{" "}
-          </Link>
+          </NoThankYouPreFetchLink>
           <TestCom />
         </UserProfile>
       ) : (
-        <Link href={"/auth/login"}>
+        <NoThankYouPreFetchLink href={"/auth/login"}>
           <button className="bg-[#222222] h-[40px] px-2 hover:bg-[#333333] border-opacity-15 border border-neutral-200 rounded-sm flex items-center ">
             ဝင်ရန်
           </button>
-        </Link>
+        </NoThankYouPreFetchLink>
       )}
     </>
   );

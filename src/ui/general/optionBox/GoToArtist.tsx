@@ -8,6 +8,7 @@ import { UserSearch } from "lucide-react";
 import Link from "next/link";
 import { InfoTrackContext } from "@/ui/trackComponent/ContextInfoTrack";
 import OptionButton from "./OptionButton";
+import NoThankYouPreFetchLink from "../NoThankYouPreFetchLink";
 
 function GoToArtist() {
   const { song } = useContext(InfoTrackContext);
@@ -16,9 +17,8 @@ function GoToArtist() {
   return (
     <OptionItem>
       <OptionButton onClick={() => setShow(false)}>
-        <Link
+        <NoThankYouPreFetchLink
           href={`/artist/${artistId}`}
-          prefetch={false}
           className="flex items-center"
         >
           <OptionIconEl>
@@ -26,7 +26,7 @@ function GoToArtist() {
           </OptionIconEl>
 
           <span>go to the artist </span>
-        </Link>
+        </NoThankYouPreFetchLink>
       </OptionButton>
     </OptionItem>
   );

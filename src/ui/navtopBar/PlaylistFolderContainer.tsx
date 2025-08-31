@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 import PlaylistAdd from "./PlaylistAdd";
 import { getUserLibClient } from "@/database/client-data";
+import NoThankYouPreFetchLink from "../general/NoThankYouPreFetchLink";
 
 function PlaylistFolderContainer({
   open,
@@ -41,7 +42,7 @@ function PlaylistFolderContainer({
         userLib.idArray.map((id) => {
           const item = userLib[id];
           return (
-            <Link
+            <NoThankYouPreFetchLink
               href={`/${item.type}/${item.id}`}
               className=" mt-2  h-[50px] hover:bg-[#333333] leading-relaxed  flex items-center"
               key={item.id}
@@ -49,7 +50,7 @@ function PlaylistFolderContainer({
             >
               <div className="w-[70px]  cursor-pointer text-center">icon</div>
               <div className=" flex-1  truncate pr-2">{item.name}</div>
-            </Link>
+            </NoThankYouPreFetchLink>
           );
         })}
     </div>

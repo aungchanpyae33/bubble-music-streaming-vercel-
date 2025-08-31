@@ -1,5 +1,6 @@
-import Link, { LinkProps } from "next/link";
+import { LinkProps } from "next/link";
 import { ReactNode } from "react";
+import NoThankYouPreFetchLink from "./NoThankYouPreFetchLink";
 
 interface UnderLineLinkHoverProps extends LinkProps {
   children: ReactNode;
@@ -11,9 +12,12 @@ function UnderLineLinkHover({
   ...props
 }: UnderLineLinkHoverProps) {
   return (
-    <Link {...props} className={`${className} hover:underline`}>
+    <NoThankYouPreFetchLink
+      {...props}
+      className={`${className} hover:underline`}
+    >
       {children}
-    </Link>
+    </NoThankYouPreFetchLink>
   );
 }
 

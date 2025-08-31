@@ -2,6 +2,7 @@ import Link from "next/link";
 import React, { ReactNode } from "react";
 
 import clsx from "clsx";
+import NoThankYouPreFetchLink from "../general/NoThankYouPreFetchLink";
 
 interface LinkProps {
   url: string;
@@ -15,7 +16,7 @@ function NavSideLink({ url, icon, desp, open, setOpen, children }: LinkProps) {
   // console.log("render navsidebarlink");
   return (
     <li className="h-[70px] ">
-      <Link
+      <NoThankYouPreFetchLink
         href={url}
         className="h-full  relative flex"
         onClick={() => setOpen(false)}
@@ -31,7 +32,7 @@ function NavSideLink({ url, icon, desp, open, setOpen, children }: LinkProps) {
             <div className=" truncate leading-relaxed ">{desp}</div>
           )}
         </div>
-      </Link>
+      </NoThankYouPreFetchLink>
     </li>
   );
 }

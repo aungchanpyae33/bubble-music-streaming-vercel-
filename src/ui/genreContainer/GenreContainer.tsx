@@ -1,9 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
+import NoThankYouPreFetchLink from "../general/NoThankYouPreFetchLink";
 
 function GenreContainer({ description }: { description: string }) {
   return (
-    <Link
+    <NoThankYouPreFetchLink
       href={`genre/${description}`}
       className="col-span-6 md:col-span-4 lg:col-span-3 bg-blue-600 shrink-0 relative flex"
     >
@@ -18,7 +19,7 @@ function GenreContainer({ description }: { description: string }) {
       />
 
       <p>{description}</p>
-    </Link>
+    </NoThankYouPreFetchLink>
   );
 }
 
