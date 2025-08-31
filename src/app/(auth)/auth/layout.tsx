@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { ReactNode } from "react";
-import "../../globals.css";
+import "../../../globals.css";
 import { Geist } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 export const metadata: Metadata = {
