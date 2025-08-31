@@ -23,7 +23,7 @@ function RemoveFromQueue() {
   const { id: id_scope } = useSong(
     (state: SongState) => state.songCu
   ) as SongDetail;
-  console.log("sonsg", song, id_scope);
+
   if (!song) return null;
   const { id } = song;
   // Prevent removing the currently playing song from the queue

@@ -62,7 +62,6 @@ export const get = async (): Promise<{
     const addedData = { ...data, ...recently_played_data };
     const keys = Object.keys(addedData);
     const mappedData = data ? deepMapById(addedData, keys) : null;
-    console.log(mappedData);
     return { data: mappedData, error };
   } catch (error) {
     return { data: null, error };

@@ -15,7 +15,7 @@ import { Suspense } from "react";
 async function page(props: { params: Promise<{ album: string }> }) {
   const params = await props.params;
   const { data, error } = await getAlbumSongs(params.album);
-  console.log(data, error);
+
   if (!data || error) return;
   const { songs } = data;
   if (!songs) return;

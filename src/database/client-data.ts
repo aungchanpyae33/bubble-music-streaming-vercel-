@@ -153,7 +153,7 @@ export const getLyricClient = async (
   try {
     const fetchData = await fetch(`/api/getLyric?${params}`);
     const { data, error } = await fetchData.json();
-    console.log(data, error);
+
     return { data, error };
   } catch (error) {
     return { data: null, error };
