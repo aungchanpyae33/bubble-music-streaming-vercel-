@@ -18,7 +18,7 @@ function InfoList({
       &bull;
       {is_official && <OfficialBadgeName />}
       <UnderLineLinkHover
-        href={`${relatedType}/${list.related_id}`}
+        href={`/${relatedType}/${list.related_id}`}
         prefetch={false}
         className=" ml-1 text-lg font-black  leading-relaxed w-full truncate text-start  "
       >
