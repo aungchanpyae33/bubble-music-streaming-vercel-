@@ -49,10 +49,6 @@
     "tailwindcss-animate": "^1.0.7",
     "typescript": "^5.5.2"
   },
-  "overrides": {
-    "@types/react": "npm:types-react@19.0.0-rc.1",
-    "@types/react-dom": "npm:types-react-dom@19.0.0-rc.1"
-  },
   "pnpm": {
     "overrides": {
       "@types/react": "19.1.2",
