@@ -10,6 +10,7 @@ import TrackItemContainer from "../trackComponent/TrackItemContainer";
 import Image from "next/image";
 import SearchItemWrapper from "./SearchItemWrapper";
 import { SongInfo } from "@/database/data";
+import ContextLike from "../trackComponent/ContextLike";
 
 function SearchTrack({
   song,
@@ -54,14 +55,15 @@ function SearchTrack({
           <ArtistWrapper artists={song.artists} />
         </div>
       </div>
-      <div className=" flex items-center w-fit max-w-fit">
-        <ToggleHeartButton like={song.is_liked} songId={song.song_id} />
-      </div>
-      <div className=" flex items-center   text-center">
+
+      <div className=" flex items-center   text-center gap-x-5 md:gap-x-8 lg:gap-x-10 ">
         <ContextInfoTrack id={undefined} source={undefined} song={song}>
-          <MoreOptionContext>
-            <MoreOption targetElement={<TrackItemContainer />} />
-          </MoreOptionContext>
+          <ContextLike like={song.is_liked} id={song.song_id}>
+            <ToggleHeartButton songId={song.song_id} />
+            <MoreOptionContext>
+              <MoreOption targetElement={<TrackItemContainer />} />
+            </MoreOptionContext>
+          </ContextLike>
         </ContextInfoTrack>
       </div>
     </SearchItemWrapper>

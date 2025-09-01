@@ -10,6 +10,7 @@ import UnderLineLinkHover from "../general/UnderLineLinkHover";
 import ArtistWrapper from "../general/ArtistWrapper";
 import TrackItemContainer from "./TrackItemContainer";
 import ContextInfoTrack from "./ContextInfoTrack";
+import ContextLike from "./ContextLike";
 
 function Track({
   listSong,
@@ -69,21 +70,21 @@ function Track({
           {song.album.name}
         </UnderLineLinkHover>
       </td>
-      <td>
-        <ToggleHeartButton like={song.is_liked} songId={song.song_id} />
-      </td>
-      <td className="px-2  hidden sm:table-cell   max-w-20 truncate text-center ">
+      <td className="px-2   hidden sm:table-cell   max-w-20 truncate text-center ">
         {TimeFormat(song.duration)}
       </td>
-      <td className="w-14 text-center px-2">
+      <td className="  flex  h-[72px] items-center gap-x-5 md:gap-x-8 lg:gap-x-10  justify-end  px-2">
         <ContextInfoTrack
           id={listSong ? listSong.id : undefined}
           source={listSong ? listSong.source : undefined}
           song={song}
         >
-          <MoreOptionContext>
-            <MoreOption targetElement={<TrackItemContainer />} />
-          </MoreOptionContext>
+          <ContextLike id={song.song_id} like={song.is_liked}>
+            <ToggleHeartButton songId={song.song_id} />
+            <MoreOptionContext>
+              <MoreOption targetElement={<TrackItemContainer />} />
+            </MoreOptionContext>
+          </ContextLike>
         </ContextInfoTrack>
       </td>
     </tr>

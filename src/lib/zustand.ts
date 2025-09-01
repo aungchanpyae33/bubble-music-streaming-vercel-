@@ -520,54 +520,8 @@ export const useSongsStoreData = create<addSongProps & addSongAction>(
   })
 );
 
-//only for trigger
-export const useLikeStoreData = create<toggleLikeProps & toggleLikeAction>(
-  (set) => ({
-    toggleLike: {},
-    toggleLikeAction: (value) =>
-      set(() => ({
-        toggleLike: { ...value },
-      })),
-  })
-);
-
-import { StoreApi, UseBoundStore } from "zustand";
 import outputCurrentIndex from "./CustomHooks/OutputCurrentIndex";
-type PairState = {
-  like: boolean | undefined;
-  setLike: (v: boolean) => void;
-};
-type PairStore = UseBoundStore<StoreApi<PairState>>;
 
-// Internal registry
-const storeMap = new Map<string, { store: PairStore; count: number }>();
-
-export function getPairStore(pairId: string): PairStore {
-  const existing = storeMap.get(pairId);
-  if (existing) {
-    existing.count += 1;
-    return existing.store;
-  }
-
-  const store = create<PairState>((set) => ({
-    like: undefined,
-    setLike: (v) => set({ like: v }),
-  }));
-
-  storeMap.set(pairId, { store, count: 1 });
-  return store;
-}
-
-// Call this when a component unmounts
-export function releasePairStore(pairId: string) {
-  const entry = storeMap.get(pairId);
-  if (!entry) return;
-  entry.count -= 1;
-
-  if (entry.count <= 0) {
-    storeMap.delete(pairId);
-  }
-}
 export interface songExist {
   playlistId: string;
   songId: string;
@@ -733,5 +687,21 @@ export const useListTrack = create<listTrackState & SetListTrackAction>(
           },
         };
       }),
+  })
+);
+
+export interface likeActionState {
+  likeAction: Record<string, boolean>;
+}
+export interface setLikeAction {
+  setLikeAction: (value: likeActionState["likeAction"]) => void;
+}
+export const useLikeActionStore = create<likeActionState & setLikeAction>(
+  (set) => ({
+    likeAction: {},
+    setLikeAction: (value) =>
+      set(() => ({
+        likeAction: value,
+      })),
   })
 );

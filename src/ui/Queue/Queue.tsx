@@ -15,6 +15,7 @@ import ContextInfoTrack from "../trackComponent/ContextInfoTrack";
 import { AnimatePresence } from "motion/react";
 import { motion } from "motion/react";
 import QueueItemContainer from "./QueueItemContainer";
+import ContextLike from "../trackComponent/ContextLike";
 function Queue() {
   const playListArray = useRepeatAndCurrentPlayList(
     (state: currentSongPlaylist) => Object.values(state.playListArray)[0] || []
@@ -78,9 +79,11 @@ function Queue() {
                       source={undefined}
                       song={item}
                     >
-                      <MoreOptionContext>
-                        <MoreOption targetElement={<QueueItemContainer />} />
-                      </MoreOptionContext>
+                      <ContextLike like={item.is_liked} id={item.song_id}>
+                        <MoreOptionContext>
+                          <MoreOption targetElement={<QueueItemContainer />} />
+                        </MoreOptionContext>
+                      </ContextLike>
                     </ContextInfoTrack>
                   </div>
                 </div>

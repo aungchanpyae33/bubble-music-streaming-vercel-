@@ -2,46 +2,29 @@
 import { Heart } from "lucide-react";
 import IconWrapper from "../general/IconWrapper";
 import clsx from "clsx";
-import { useEffect, useState } from "react";
+import { useContext } from "react";
 import { addLike } from "@/actions/addLike";
 import { removeLike } from "@/actions/removeLike";
-import { usePairStoreZustand } from "@/lib/CustomHooks/PairStoreZustand";
+import { LikeContext } from "./ContextLike";
 
-function ToggleHeartButton({
-  like,
-  songId,
-}: {
-  like: boolean;
-  songId: string;
-}) {
-  const [isLike, setIsLike] = useState(like);
+function ToggleHeartButton({ songId }: { songId: string }) {
+  const { isLike, setLikeAction } = useContext(LikeContext);
   const addLikeAction = addLike.bind(null, songId);
-  // const store = getPairStore(`${songId}`);
-  const store = usePairStoreZustand(`${songId}`);
-  const setLike = store((s) => s.setLike);
-
   const removeLikeAction = removeLike.bind(null, songId);
-  const likeZustand = store((s) => s.like);
-  useEffect(() => {
-    if (likeZustand !== undefined) setIsLike(likeZustand);
-  }, [likeZustand]);
-
   async function handleLike() {
     if (isLike) {
       const { error } = await removeLikeAction();
       if (error) {
         console.log("failed to removelike", error);
       } else {
-        setIsLike(false);
-        setLike(false);
+        setLikeAction({ [songId]: false });
       }
     } else {
       const { error } = await addLikeAction();
       if (error) {
         console.log("failed to like", error);
       } else {
-        setIsLike(true);
-        setLike(true);
+        setLikeAction({ [songId]: true });
       }
     }
   }

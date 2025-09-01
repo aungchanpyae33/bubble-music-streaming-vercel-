@@ -8,6 +8,7 @@ import MoreOptionContext from "@/ui/trackComponent/MoreOptionContext";
 import TrackItemContainer from "@/ui/trackComponent/TrackItemContainer";
 import MoreOption from "@/ui/trackComponent/MoreOption";
 import { SongInfo } from "@/database/data";
+import ContextLike from "@/ui/trackComponent/ContextLike";
 
 function SongListItem({ song }: { song: SongInfo }) {
   return (
@@ -40,13 +41,17 @@ function SongListItem({ song }: { song: SongInfo }) {
         </div>
       </div>
       <div className=" w-fit max-w-fit">
-        <ToggleHeartButton like={song.is_liked} songId={song.song_id} />
+        <ContextLike like={song.is_liked} id={song.song_id}>
+          <ToggleHeartButton songId={song.song_id} />
+        </ContextLike>
       </div>
       <div className=" w-[80px]  text-center px-2">
         <ContextInfoTrack id={undefined} source={undefined} song={song}>
-          <MoreOptionContext>
-            <MoreOption targetElement={<TrackItemContainer />} />
-          </MoreOptionContext>
+          <ContextLike like={song.is_liked} id={song.song_id}>
+            <MoreOptionContext>
+              <MoreOption targetElement={<TrackItemContainer />} />
+            </MoreOptionContext>
+          </ContextLike>
         </ContextInfoTrack>
       </div>
     </div>

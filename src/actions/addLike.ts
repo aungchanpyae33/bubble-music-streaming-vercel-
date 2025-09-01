@@ -5,8 +5,9 @@ export const addLike = async (songId: string) => {
   try {
     const supabase = await createClient();
     const { error } = await supabase.rpc("addlike", {
-      song_id: songId,
+      p_song_id: songId,
     });
+
     return { error };
   } catch (error) {
     return { error };

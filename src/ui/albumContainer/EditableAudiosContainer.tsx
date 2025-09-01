@@ -38,7 +38,6 @@ function EditableAudiosContainer({
                   <th className="hidden p-2 sm:table-cell  ">အဆိုတော်</th>
 
                   <th className=" p-2 hidden md:table-cell ">အယ်လ်ဘမ်</th>
-                  <th className=" p-2"></th>
 
                   <th className=" p-2 w-20 hidden sm:table-cell  text-center">
                     <span className="flex justify-center">
