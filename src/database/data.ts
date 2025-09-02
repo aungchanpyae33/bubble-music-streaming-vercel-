@@ -39,29 +39,12 @@ export const get = async (): Promise<{
 }> => {
   try {
     const supabase = await createClient();
-    const { data: sessionData } = await supabase.auth.getSession();
-    const accessToken = sessionData?.session?.access_token;
-    const { data: userData } = await supabase.auth.getClaims();
-    const userId = userData?.claims.sub;
-    const [supabaseData, DO] = await Promise.all([
-      supabase.rpc("get_all_media_items"),
-      fetch(`https://api.bubblemusic.dpdns.org/recently-played/${userId}`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }),
-    ]);
-    const { data, error } = supabaseData as {
+    const { data, error } = (await supabase.rpc("get_all_media_items")) as {
       data: Record<string, any>;
       error: PostgrestError | null;
     };
-    const { data: recently_played_data, error: recently_played_error } =
-      await DO.json();
-    if (!data || !recently_played_data || error || recently_played_error)
-      throw "no data";
-    const addedData = { ...data, ...recently_played_data };
-    const keys = Object.keys(addedData);
-    const mappedData = data ? deepMapById(addedData, keys) : null;
+    const keys = Object.keys(data);
+    const mappedData = data ? deepMapById(data, keys) : null;
     return { data: mappedData, error };
   } catch (error) {
     return { data: null, error };
@@ -90,20 +73,8 @@ export const getRecent = async (): Promise<{
 }> => {
   try {
     const supabase = await createClient();
-    const { data: sessionData } = await supabase.auth.getSession();
-    const accessToken = sessionData?.session?.access_token;
-    const { data: userData } = await supabase.auth.getClaims();
 
-    const userId = userData?.claims.sub;
-    const DO = await fetch(
-      `https://api.bubblemusic.dpdns.org/recently-played/${userId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    );
-    const { data, error } = await DO.json();
+    const { data, error } = await supabase.rpc("get_recent_list");
     if (!data || error) throw "no data";
     const mappedData = data ? deepMapById(data, ["recentlyPlayed"]) : null;
     return { data: mappedData, error };

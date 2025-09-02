@@ -173,8 +173,10 @@ function PlaceHolderToggleState({
   useEffect(() => {
     async function addRecentList() {
       if (playListArray.id.startsWith("create-on-fly")) return;
-      const { songs, idArray, is_official, ...data } = playListArray;
-      const { data: recentList, error } = await addRecentlyPlayedList(data);
+      const { id, type } = playListArray;
+
+      const { data: recentList, error } = await addRecentlyPlayedList(id, type);
+
       if (!recentList || error) return;
       queryClient.setQueryData(["recentlyPlayed"], recentList);
       setListTrack(

@@ -1,42 +1,30 @@
 "use server";
 
 import { createClient } from "@/database/server";
+import { Database } from "../../database.types";
 import { PostgrestError } from "@supabase/supabase-js";
-import { getRecentReturn, listInfo } from "@/database/data";
 import { deepMapById } from "@/lib/returnById";
+import { getRecentReturn } from "@/database/data";
 
 export const addRecentlyPlayedList = async (
-  list: listInfo
+  id: string,
+  type: Database["public"]["Enums"]["media_item_type"]
 ): Promise<{
   data: getRecentReturn | null;
-  error: PostgrestError | null | any;
+  error: PostgrestError | any | null;
 }> => {
   try {
-    const now = new Date().toISOString();
-    const addDateList = { ...list, played_at: now };
     const supabase = await createClient();
-    const { data: sessionData } = await supabase.auth.getSession();
-    const accessToken = sessionData?.session?.access_token;
-    const { data: userData } = await supabase.auth.getClaims();
-    const userId = userData?.claims.sub;
-    const fetchData = await fetch(
-      `https://api.bubblemusic.dpdns.org/play/${userId}`,
-      {
-        method: "POST",
-        body: JSON.stringify(addDateList),
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    );
-
-    const { data, error } = await fetchData.json();
-    if ("recentlyPlayed" in data) {
-      const mappedData = data ? deepMapById(data, ["recentlyPlayed"]) : null;
-
-      return { data: mappedData["recentlyPlayed"], error };
+    const { data, error } = await supabase.rpc("add_recently_played", {
+      p_item_id: id,
+      p_type: type,
+    });
+    console.log(data, error);
+    const mappedData = data ? deepMapById(data, ["recentlyPlayed"]) : null;
+    if ("recentlyPlayed" in mappedData) {
+      return { data: mappedData["recentlyPlayed"], error: null };
     }
-    return { data, error };
+    return { data: null, error };
   } catch (error) {
     return { data: null, error };
   }
