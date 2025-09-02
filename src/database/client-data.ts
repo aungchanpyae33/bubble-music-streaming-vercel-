@@ -49,7 +49,7 @@ export const getRecentClient = async (): Promise<
   try {
     const fetchData = await fetch("/api/getRecent");
     const { data, error } = await fetchData.json();
-    if (error) throw error;
+    if (error || !data) throw error;
     if ("recentlyPlayed" in data) {
       return data["recentlyPlayed"];
     }
