@@ -49,7 +49,9 @@ function NavList({
       </ul>
 
       <NavListUlWrapper open={open} setOpen={setOpen}>
-        <div className="overflow-auto   py-3">
+        <div className="overflow-auto [transform:translateZ(0)] py-3">
+          {/*  [transform:translateZ(0)] for hardware acceleration , without this , it feels junky in chrome and some webkit browser */}
+
           <NavSideLink
             url="/explore"
             icon="icon"
