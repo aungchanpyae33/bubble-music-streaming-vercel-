@@ -1,11 +1,9 @@
 import clsx from "clsx";
 import Image from "next/image";
-import Link from "next/link";
 import DirectPlayButton from "./DirectPlayButton";
 import UnderLineLinkHover from "../general/UnderLineLinkHover";
 import MoreOptionContext from "../trackComponent/MoreOptionContext";
 import MoreOption from "../trackComponent/MoreOption";
-
 import SongListContainerOption from "../general/optionBox/SongListContainerOption";
 import SonglistContainerWrapper from "./playlistOption/SonglistContainerWrapper";
 import ContextSongListContainer from "./playlistOption/ContextSongListContainer";
@@ -37,7 +35,7 @@ function SonglistsContainer({
       )}
     >
       <NoThankYouPreFetchLink
-        href={`${type}/${id}`}
+        href={`/${type}/${id}`}
         className="flex relative w-full imageContainer  rounded overflow-hidden    before:block before:pb-[100%] group "
       >
         <Image
@@ -77,7 +75,7 @@ function SonglistsContainer({
       </NoThankYouPreFetchLink>
       <div className=" w-full">
         <UnderLineLinkHover
-          href={`${type}/${id}`}
+          href={`/${type}/${id}`}
           prefetch={false}
           className=" block leading-relaxed w-full truncate text-start  "
         >
@@ -85,7 +83,7 @@ function SonglistsContainer({
         </UnderLineLinkHover>
         {relatedType && (
           <UnderLineLinkHover
-            href={`${relatedType}/${related_id}`}
+            href={`/${relatedType}/${related_id}`}
             prefetch={false}
             className=" block leading-relaxed w-full truncate text-start text-sm text-zinc-400 "
           >
