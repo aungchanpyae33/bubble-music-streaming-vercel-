@@ -22,6 +22,7 @@ function NavListUlWrapper({ open, setOpen, children }: NavListUlWrapperProp) {
           }
         )}
         ref={ulRef}
+        tabIndex={open ? 0 : -1}
       >
         <li className="h-[70px] relative   flex border-b border-opacity-15 border-neutral-200">
           <NavSidebarToggle setOpen={setOpen} open={open} />
@@ -30,7 +31,6 @@ function NavListUlWrapper({ open, setOpen, children }: NavListUlWrapperProp) {
               "flex flex-1 items-center   justify-start  h-[70px]"
             )}
             aria-hidden={true}
-            tabIndex={open ? 0 : -1}
           >
             <Logo width={90} height={70} />
           </button>
