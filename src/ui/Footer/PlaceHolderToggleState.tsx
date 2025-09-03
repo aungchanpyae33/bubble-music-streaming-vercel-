@@ -37,6 +37,9 @@ function PlaceHolderToggleState({
   children: React.ReactNode;
 }) {
   const setTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const setTimeoutRefForList = useRef<ReturnType<typeof setTimeout> | null>(
+    null
+  );
   const { dataAudio, segNum, loadNextSegment } = useContext(DataContext);
   const playListArray = useRepeatAndCurrentPlayList(
     (state: currentSongPlaylist) =>
@@ -176,16 +179,30 @@ function PlaceHolderToggleState({
       const { id, type } = playListArray;
 
       const { data: recentList, error } = await addRecentlyPlayedList(id, type);
-
       if (!recentList || error) return;
       queryClient.setQueryData(["recentlyPlayed"], recentList);
-      setListTrack(
-        playListArray.type as "playlist" | "artist" | "album",
-        playListArray.id
-      );
+
+      if (!Isplay && setTimeoutRefForList.current) {
+        clearTimeout(setTimeoutRefForList.current);
+        setTimeoutRefForList.current = null;
+        return;
+      }
+      //to prevent fast skip case
+      if (setTimeoutRefForList.current) {
+        clearTimeout(setTimeoutRefForList.current);
+        setTimeoutRefForList.current = null;
+      }
+      setTimeoutRefForList.current = setTimeout(() => {
+        if (setTimeoutRefForList.current) {
+          setListTrack(
+            playListArray.type as "playlist" | "artist" | "album",
+            playListArray.id
+          );
+        }
+      }, 60000);
     }
     addRecentList();
-  }, [playListArray, setListTrack, queryClient]);
+  }, [playListArray, setListTrack, queryClient, Isplay]);
   //to prevent fast skipping song to add many times and user fast skip songs should not store in user perference
   useEffect(() => {
     function addRecentSong() {

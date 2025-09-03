@@ -12,9 +12,6 @@ import { useEffect } from "react";
 function PlaceHolderTrackUser() {
   const listTrack = useListTrack((state: listTrackState) => state.listTrack);
   const songTrack = useSongTrack((state: SongTrackState) => state.songTrack);
-  const setSongTrack = useSongTrack(
-    (state: SetSongTrackAction) => state.setSongTrack
-  );
   useEffect(() => {
     async function setSongEmbeddingFn() {
       if (!songTrack || !songTrack.songsId) return;
@@ -22,10 +19,9 @@ function PlaceHolderTrackUser() {
       if (!shouldSendSong) return;
       const { error } = await setSongEmbedding(songTrack.songsId);
       if (error) console.log(error);
-      setSongTrack("increment");
     }
     setSongEmbeddingFn();
-  }, [songTrack, setSongTrack]);
+  }, [songTrack]);
 
   useEffect(() => {
     async function setListEmbeddingFn() {

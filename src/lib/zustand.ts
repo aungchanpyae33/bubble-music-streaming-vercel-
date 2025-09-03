@@ -625,7 +625,7 @@ export const useSongTrack = create<SongTrackState & SetSongTrackAction>()(
             };
           }
 
-          if (state.songTrack.count >= 10) {
+          if (state.songTrack.count >= 5) {
             return {
               songTrack: {
                 count: 1,
@@ -633,14 +633,7 @@ export const useSongTrack = create<SongTrackState & SetSongTrackAction>()(
               },
             };
           }
-          if (songId === "increment") {
-            return {
-              songTrack: {
-                count: ++state.songTrack.count,
-                songsId: state.songTrack.songsId,
-              },
-            };
-          }
+
           if (state.songTrack.songsId.includes(songId)) {
             return {
               songTrack: {
