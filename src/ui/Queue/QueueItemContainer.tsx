@@ -3,7 +3,7 @@ import GoToAlbum from "../general/optionBox/GoToAlbum";
 import GoToArtist from "../general/optionBox/GoToArtist";
 import OptionContainer from "../general/optionBox/OptionContainer";
 import PlayNextQueue from "../general/optionBox/PlayNextQueue";
-import ShareButton from "../general/optionBox/ShareButton";
+import ShareSong from "../general/shareButton/ShareSong";
 import AddSongButton from "../trackComponent/AddSongButton";
 import ToggleHeartContent from "../trackComponent/ToggleHeartContent";
 import RemoveFromQueue from "./RemoveFromQueue";
@@ -18,7 +18,7 @@ function QueueItemContainer() {
       <ToggleHeartContent />
       <GoToArtist />
       <GoToAlbum />
-      <ShareButton />
+      <ShareSong />
     </OptionContainer>
   );
 }

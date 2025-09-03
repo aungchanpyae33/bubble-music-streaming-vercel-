@@ -3,7 +3,7 @@ import AddToLibrary from "../general/optionBox/AddToLibrary";
 import GoToArtist from "../general/optionBox/GoToArtist";
 import OptionContainer from "../general/optionBox/OptionContainer";
 import PlayNextQueueSongList from "../general/optionBox/PlayNextQueueSongList";
-import ShareButton from "../general/optionBox/ShareButton";
+import ShareList from "../general/shareButton/ShareList";
 import RemoveFromLibrary from "../playlist/playlistOption/RemoveFromLibrary";
 
 function ArtistContainerOption() {
@@ -14,7 +14,7 @@ function ArtistContainerOption() {
       <AddToLibrary />
       <RemoveFromLibrary />
       <GoToArtist />
-      <ShareButton />
+      <ShareList />
     </OptionContainer>
   );
 }

@@ -20,7 +20,7 @@ function SearchProfileItem({
   index,
   Itemdata,
 }: SearchProfileItemProps) {
-  const { id, name } = Itemdata;
+  const { id, name, type } = Itemdata;
   return (
     <SearchItemWrapper>
       <div className="w-[50px]  relative group  ">
@@ -39,11 +39,11 @@ function SearchProfileItem({
         </div>
       </div>
       <div className=" flex item-center">
-        <ContextSearchProfile id={id}>
+        <ContextSongListContainer id={id} name={name} type={type} source="none">
           <MoreOptionContext>
             <MoreOption targetElement={<ProfileOption />} />
           </MoreOptionContext>
-        </ContextSearchProfile>
+        </ContextSongListContainer>
       </div>
     </SearchItemWrapper>
   );

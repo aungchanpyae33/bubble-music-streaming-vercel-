@@ -1,11 +1,11 @@
 "use client";
+import ShareList from "../shareButton/ShareList";
 import OptionContainer from "./OptionContainer";
-import ShareButton from "./ShareButton";
 
 function ProfileOption() {
   return (
     <OptionContainer>
-      <ShareButton />
+      <ShareList />
     </OptionContainer>
   );
 }
