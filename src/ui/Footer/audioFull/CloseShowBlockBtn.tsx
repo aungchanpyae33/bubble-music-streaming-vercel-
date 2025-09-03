@@ -1,17 +1,19 @@
-import { lyricShowAction, useLyric } from "@/lib/zustand";
+import { ShowBlockAction, useShowBlock } from "@/lib/zustand";
 import IconWrapper from "@/ui/general/IconWrapper";
 import { ChevronDown } from "lucide-react";
 
-function LyricClose() {
-  const setLyricShow = useLyric((state: lyricShowAction) => state.setLyricShow);
+function CloseShowBlockBtn() {
+  const setShowBlock = useShowBlock(
+    (state: ShowBlockAction) => state.setShowBlock
+  );
   return (
     <button
       className=" absolute px-2 border-b border-l border-gray-100/65 py-1 right-0 "
-      onClick={() => setLyricShow(false)}
+      onClick={() => setShowBlock(undefined)}
     >
       <IconWrapper Icon={ChevronDown} size="medium" />
     </button>
   );
 }
 
-export default LyricClose;
+export default CloseShowBlockBtn;

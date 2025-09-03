@@ -22,6 +22,7 @@ import clsx from "clsx";
 import MotionFull from "./MotionFull";
 import FocusTrap from "./FocusTrap";
 import LyricToggleBtn from "./LyricToggleBtn";
+import QueueToggle from "./QueueToggle";
 
 function AudioFull({
   footerRef,
@@ -141,7 +142,8 @@ function AudioFull({
                           </div>
                         )}
                       </AudioFunctionButton>
-                      <div className="hidden md:flex  relative w-[20%] max-w-[250px] justify-end">
+                      <div className="hidden md:flex  relative w-[20%] gap-x-3 max-w-[250px] justify-end">
+                        <QueueToggle />
                         <Volume isFull={true} />
                       </div>
                     </div>

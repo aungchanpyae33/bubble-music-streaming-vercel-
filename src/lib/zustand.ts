@@ -578,22 +578,38 @@ export const useEditToPlaylist = create<editToPlaylist & editToPlaylistAction>(
       })),
   })
 );
-
-export interface lyricShowState {
-  lyricShow: boolean;
+export interface ShowBlock {
+  showBlock: { type: "lyric" | "queue" | undefined; open: boolean };
 }
-export interface lyricShowAction {
-  setLyricShow: (value?: boolean) => void;
+export interface ShowBlockAction {
+  setShowBlock: (value: ShowBlock["showBlock"]["type"]) => void;
 }
 
-export const useLyric = create<lyricShowState & lyricShowAction>((set) => ({
-  lyricShow: false,
-  setLyricShow: (value?) =>
+export const useShowBlock = create<ShowBlock & ShowBlockAction>((set) => ({
+  showBlock: {
+    type: undefined,
+    open: false,
+  },
+  setShowBlock: (value) =>
     set((state) => {
       if (value !== undefined) {
-        return { lyricShow: value };
+        if (state.showBlock.type === value) {
+          return {
+            showBlock: {
+              type: value,
+              open: !state.showBlock.open,
+            },
+          };
+        } else {
+          return {
+            showBlock: {
+              type: value,
+              open: true,
+            },
+          };
+        }
       }
-      return { lyricShow: !state.lyricShow };
+      return { showBlock: { type: undefined, open: false } };
     }),
 }));
 

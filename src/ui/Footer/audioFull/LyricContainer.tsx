@@ -1,14 +1,18 @@
-import { ReactNode, useRef } from "react";
+import { useRef } from "react";
 import Lyric from "./Lyric";
+import clsx from "clsx";
 
-function LyricContainer({ lyricShow }: { lyricShow: boolean }) {
+function LyricContainer({ type }: { type: "lyric" | "queue" | undefined }) {
   const lyricRef = useRef<HTMLDivElement>(null);
+  const dynamic = type === "lyric";
   return (
     <div
       ref={lyricRef}
-      className="overflow-auto relative no-scrollbar [transform:translateZ(0)] py-2 "
+      className={clsx(
+        "flex-1 relative overflow-auto  no-scrollbar [transform:translateZ(0)] my-2 "
+      )}
     >
-      <Lyric lyricRef={lyricRef} lyricShow={lyricShow} />
+      <Lyric lyricRef={lyricRef} lyricShow={dynamic} />
     </div>
   );
 }

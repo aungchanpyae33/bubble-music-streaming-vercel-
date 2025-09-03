@@ -3,8 +3,10 @@ import { RefObject, useEffect, useRef } from "react";
 
 function PlaceHolderQueue({
   queueRef,
+  show,
 }: {
   queueRef: RefObject<HTMLDivElement | null>;
+  show: boolean;
 }) {
   const showScroll = useRef(false);
   // scrollIntoView only in initial render
@@ -15,16 +17,17 @@ function PlaceHolderQueue({
   );
   //to make scroll to the current play when open and only track first ,not sub
   useEffect(() => {
-    if (dataSongId) {
+    if (dataSongId && show) {
       const element = queueRef.current?.querySelector(
         `[data-id="${dataSongId}"]`
       ) as HTMLElement | null;
       if (!element) return;
-
-      element.scrollIntoView({ behavior: "smooth" });
-      showScroll.current = true;
+      setTimeout(() => {
+        element.scrollIntoView({ behavior: "smooth" });
+        showScroll.current = true;
+      }, 300);
     }
-  }, [dataSongId, queueRef]);
+  }, [dataSongId, queueRef, show]);
   return null;
 }
 

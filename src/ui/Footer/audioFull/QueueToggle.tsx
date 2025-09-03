@@ -2,9 +2,9 @@
 
 import { ShowBlockAction, useShowBlock } from "@/lib/zustand";
 import IconWrapper from "@/ui/general/IconWrapper";
-import { MicVocal } from "lucide-react";
+import { Logs } from "lucide-react";
 
-function LyricToggleBtn() {
+function QueueToggle() {
   const setShowBlock = useShowBlock(
     (state: ShowBlockAction) => state.setShowBlock
   );
@@ -12,12 +12,12 @@ function LyricToggleBtn() {
     <button
       className=""
       onClick={() => {
-        setShowBlock("lyric");
+        setShowBlock("queue");
       }}
     >
-      <IconWrapper Icon={MicVocal} size="large" />
+      <IconWrapper Icon={Logs} size="large" />
     </button>
   );
 }
 
-export default LyricToggleBtn;
+export default QueueToggle;
