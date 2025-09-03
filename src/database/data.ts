@@ -17,6 +17,7 @@ export interface listInfo {
   related_name: string;
   source: Database["public"]["Enums"]["media_source_type"];
   type: Database["public"]["Enums"]["media_item_type"];
+  is_official?: boolean;
 }
 // export const getLikeSongs = async (
 //   userId: string
@@ -43,6 +44,7 @@ export const get = async (): Promise<{
       data: Record<string, any>;
       error: PostgrestError | null;
     };
+
     const keys = Object.keys(data);
     const mappedData = data ? deepMapById(data, keys) : null;
     return { data: mappedData, error };
@@ -50,7 +52,6 @@ export const get = async (): Promise<{
     return { data: null, error };
   }
 };
-
 // export const getRecent = async () => {
 //   try {
 //     const supabase = await createClient();
@@ -249,6 +250,28 @@ export const getArtistPage = async (
       p_artist_id: artistId,
     })) as { data: getArtistPageProps | null; error: PostgrestError | null };
     const mappedData = deepMapById(data, ["albums", "songs.songs"]);
+    return { data: mappedData, error };
+  } catch (error) {
+    return { data: null, error };
+  }
+};
+
+export interface getUserPageProps {
+  profile: listInfo | null;
+  playlists: (Record<string, listInfo> & { idArray: string[] }) | null;
+}
+export const getUserPage = async (
+  userId: string
+): Promise<{
+  data: getUserPageProps | null;
+  error: PostgrestError | null | any;
+}> => {
+  try {
+    const supabase = await createClient();
+    const { data, error } = (await supabase.rpc("get_user_page", {
+      p_user_id: userId,
+    })) as { data: getUserPageProps | null; error: PostgrestError | null };
+    const mappedData = deepMapById(data, ["playlists"]);
     return { data: mappedData, error };
   } catch (error) {
     return { data: null, error };
