@@ -7,8 +7,12 @@ export const fetchInitSegment = async (
   mediaSource: RefObject<MediaSource | null>,
   fetching: RefObject<FetchingState>,
   segNum: RefObject<number>,
-  abortController: RefObject<AbortController | null>
+  abortController: RefObject<AbortController | null>,
+  initAbortController: RefObject<AbortController | null>
 ) => {
+  const fetchInitOptions: RequestInit = {
+    signal: initAbortController!.current!.signal,
+  };
   const fetchOptions: RequestInit = {
     signal: abortController!.current!.signal,
   };
@@ -19,7 +23,7 @@ export const fetchInitSegment = async (
     fetching.current.isFetch = true;
     //.all will throw all response if one is fail to fech
     const responses = await Promise.allSettled([
-      fetch(initUrl).then((res) => {
+      fetch(initUrl, fetchInitOptions).then((res) => {
         if (!res.ok) {
           throw new Error(`Failed to fetch init segment: ${res.statusText}`);
         }

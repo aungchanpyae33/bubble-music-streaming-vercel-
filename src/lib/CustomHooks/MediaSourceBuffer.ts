@@ -30,6 +30,7 @@ const useMediaSourceBuffer = (
   const sourceBuffer = useRef<SourceBuffer | null>(null);
   const prefetchedUrl = useRef("");
   const abortController = useRef<AbortController | null>(null);
+  const initAbortController = useRef<AbortController | null>(null);
   const isCalled = useRef(false);
   const isCalledPrefetch = useRef(false);
   const prefetchSegment = useRepeatAndCurrentPlayList(
@@ -176,14 +177,17 @@ const useMediaSourceBuffer = (
           mediaSource,
           fetching,
           segNum,
-          abortController
+          abortController,
+          initAbortController
         );
       }
 
-      sourceBuffer.current!.addEventListener(
-        "updateend",
-        updateendLoadNextSegment
-      );
+      if (sourceBuffer.current) {
+        sourceBuffer.current!.addEventListener(
+          "updateend",
+          updateendLoadNextSegment
+        );
+      }
       dataAudio.current!.addEventListener(
         "timeupdate",
         throttleLoadNextSegment
@@ -221,11 +225,15 @@ const useMediaSourceBuffer = (
       abortController.current.abort();
       abortController.current = null;
     }
+    if (initAbortController.current) {
+      initAbortController.current.abort();
+      initAbortController.current = null;
+    }
     segNum.current = 1;
   }, [throttleLoadNextSegment, sourceOpen, updateendLoadNextSegment]);
-
   const startUp = useCallback(() => {
     dataAudio.current!.src = URL.createObjectURL(mediaSource.current!);
+
     mediaSource.current!.addEventListener("sourceopen", sourceOpen, false);
   }, [sourceOpen]);
 
@@ -242,8 +250,8 @@ const useMediaSourceBuffer = (
       mediaSource.current = new MediaSource();
       startUp();
     }
-
     abortController.current = new AbortController();
+    initAbortController.current = new AbortController();
     return () => {
       clearUpPreviousSong();
     };
