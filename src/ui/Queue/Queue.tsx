@@ -27,7 +27,7 @@ function Queue() {
         "h-full [transform:translateZ(0)]   w-[20%] md:w-[25%] min-w-[250px] flex flex-col max-w-[375px] overflow-y-auto overflow-x-hidden"
       )}
       ref={queueRef}
-      // [transform:translateZ(0)] for hardware acceleration , without this , it feels junky in chrome and some webkit browser
+      // will chnage scroll for hardware acceleration , without this , it feels junky in chrome and some webkit browser
     >
       <PlaceHolderQueue queueRef={queueRef} />
       <AnimatePresence initial={false}>

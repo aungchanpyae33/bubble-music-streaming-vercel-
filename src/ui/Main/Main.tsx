@@ -7,8 +7,8 @@ async function Main({ children }: { children: ReactNode }) {
   return (
     <main
       className={clsx(
-        " h-full  flex-1 overflow-y-auto [transform:translateZ(0)]",
-        // [transform:translateZ(0)] for hardware acceleration , without this , it feels junky in chrome and some webkit browser
+        " h-full  flex-1 overflow-y-auto will-change-scroll",
+        // will-change-scroll for hardware acceleration , without this , it feels junky in chrome and some webkit browser
         {
           // padding pl-[70px] make extra bleed width overflow when children element is sticky top
           "md:ml-[70px]": deviceFromUserAgent === "desktop",

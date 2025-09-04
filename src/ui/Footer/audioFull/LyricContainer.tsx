@@ -9,7 +9,7 @@ function LyricContainer({ type }: { type: "lyric" | "queue" | undefined }) {
     <div
       ref={lyricRef}
       className={clsx(
-        "flex-1 relative overflow-auto  no-scrollbar [transform:translateZ(0)] my-2 "
+        "flex-1 relative overflow-auto  no-scrollbar will-change-scroll my-2 "
       )}
     >
       <Lyric lyricRef={lyricRef} lyricShow={dynamic} />

@@ -25,7 +25,7 @@ function QueueFull({ type }: { type: "lyric" | "queue" | undefined }) {
   return (
     <div
       className={clsx(
-        "overflow-auto relative no-scrollbar [transform:translateZ(0)] my-2  flex-1 "
+        "overflow-auto relative no-scrollbar will-change-scroll my-2  flex-1 "
       )}
       ref={queueRef}
     >
