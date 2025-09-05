@@ -15,11 +15,13 @@ DisableScroll;
 interface MoreOptionProps extends React.ComponentProps<"div"> {
   targetElement: React.ReactNode;
   subOptionElement?: React.ReactNode;
+  relativeRoot?: HTMLDivElement | null;
 }
 function MoreOption({
   className,
   targetElement,
   subOptionElement,
+  relativeRoot,
 }: MoreOptionProps) {
   const { show, setShow } = useContext(ContextMoreOption);
   const parentRef = useRef<HTMLDivElement>(null);
@@ -44,7 +46,7 @@ function MoreOption({
           <ToggleContent parentRef={parentRef} ref={ignonreOutterClickRef}>
             <ContentChild>{targetElement}</ContentChild>
           </ToggleContent>,
-          document.body
+          relativeRoot ? relativeRoot : document.body
         )}
     </div>
   );
