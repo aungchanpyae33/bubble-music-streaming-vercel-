@@ -17,6 +17,7 @@ export interface listInfo {
   related_name: string;
   source: Database["public"]["Enums"]["media_source_type"];
   type: Database["public"]["Enums"]["media_item_type"];
+  is_official?: boolean;
 }
 // export const getLikeSongs = async (
 //   userId: string
@@ -262,6 +263,28 @@ export const getData = async (query: string) => {
       query,
     });
     return { data, error };
+  } catch (error) {
+    return { data: null, error };
+  }
+};
+
+export interface getUserPageProps {
+  profile: listInfo | null;
+  playlists: (Record<string, listInfo> & { idArray: string[] }) | null;
+}
+export const getUserPage = async (
+  userId: string
+): Promise<{
+  data: getUserPageProps | null;
+  error: PostgrestError | null | any;
+}> => {
+  try {
+    const supabase = await createClient();
+    const { data, error } = (await supabase.rpc("get_user_page", {
+      p_user_id: userId,
+    })) as { data: getUserPageProps | null; error: PostgrestError | null };
+    const mappedData = deepMapById(data, ["playlists"]);
+    return { data: mappedData, error };
   } catch (error) {
     return { data: null, error };
   }
