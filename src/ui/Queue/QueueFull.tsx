@@ -9,19 +9,20 @@ import { listSongsSection } from "@/database/data";
 import Image from "next/image";
 import MoreOptionContext from "../trackComponent/MoreOptionContext";
 import MoreOption from "../trackComponent/MoreOption";
-import { useRef } from "react";
+import { useContext, useRef } from "react";
 import PlaceHolderQueue from "./PlaceHolderQueue";
 import ContextInfoTrack from "../trackComponent/ContextInfoTrack";
 import { AnimatePresence } from "motion/react";
 import { motion } from "motion/react";
 import QueueItemContainer from "./QueueItemContainer";
 import ContextLike from "../trackComponent/ContextLike";
-function QueueFull({ type }: { type: "lyric" | "queue" | undefined }) {
-  const dynamic = type === "queue";
+import { AudioFullRefContext } from "../Footer/audioFull/ContextAudioFullRef";
+function QueueFull() {
   const playListArray = useRepeatAndCurrentPlayList(
     (state: currentSongPlaylist) => Object.values(state.playListArray)[0] || []
   ) as listSongsSection;
   const queueRef = useRef<HTMLDivElement | null>(null);
+  const { audioFullRef } = useContext(AudioFullRefContext);
   return (
     <div
       className={clsx(
@@ -29,7 +30,7 @@ function QueueFull({ type }: { type: "lyric" | "queue" | undefined }) {
       )}
       ref={queueRef}
     >
-      <PlaceHolderQueue queueRef={queueRef} show={dynamic} />
+      <PlaceHolderQueue queueRef={queueRef} />
       <div>
         <AnimatePresence initial={false}>
           {playListArray &&
@@ -83,6 +84,7 @@ function QueueFull({ type }: { type: "lyric" | "queue" | undefined }) {
                         <ContextLike like={item.is_liked} id={item.song_id}>
                           <MoreOptionContext>
                             <MoreOption
+                              relativeRoot={audioFullRef.current}
                               targetElement={<QueueItemContainer />}
                             />
                           </MoreOptionContext>

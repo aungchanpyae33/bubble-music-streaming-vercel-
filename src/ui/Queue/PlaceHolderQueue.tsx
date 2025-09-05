@@ -1,33 +1,51 @@
 import { SongState, useSong } from "@/lib/zustand";
 import { RefObject, useEffect, useRef } from "react";
+function isInViewport(element: HTMLElement, container: HTMLElement) {
+  const elRect = element.getBoundingClientRect();
+  const containerRect = container.getBoundingClientRect();
+
+  return (
+    elRect.top < containerRect.bottom && // element's top is above container's bottom
+    elRect.bottom > containerRect.top && // element's bottom is below container's top
+    elRect.left < containerRect.right && // element's left is before container's right
+    elRect.right > containerRect.left // element's right is after container's left
+  );
+}
 
 function PlaceHolderQueue({
   queueRef,
-  show,
 }: {
   queueRef: RefObject<HTMLDivElement | null>;
-  show: boolean;
 }) {
-  const showScroll = useRef(false);
   // scrollIntoView only in initial render
-  const dataSongId = useSong((state: SongState) =>
-    !showScroll.current
-      ? `${(state.songCu as Record<string, string>).id}`
-      : undefined
+  const showScroll = useRef(false);
+
+  const dataSongId = useSong(
+    (state: SongState) => (state.songCu as Record<string, string>).id
   );
   //to make scroll to the current play when open and only track first ,not sub
   useEffect(() => {
-    if (dataSongId && show) {
-      const element = queueRef.current?.querySelector(
+    if (dataSongId) {
+      if (!queueRef.current) return;
+      const element = queueRef.current.querySelector(
         `[data-id="${dataSongId}"]`
       ) as HTMLElement | null;
-      if (!element) return;
-      setTimeout(() => {
-        element.scrollIntoView({ behavior: "smooth" });
-        showScroll.current = true;
-      }, 300);
+      if (
+        !element ||
+        (!isInViewport(element, queueRef.current as HTMLElement) &&
+          showScroll.current)
+      )
+        return;
+      queueRef.current!.scrollTo({
+        top: element.offsetTop - 30 - queueRef.current!.clientHeight / 3,
+        behavior: "smooth",
+      });
+      showScroll.current = true;
     }
-  }, [dataSongId, queueRef, show]);
+    return () => {
+      showScroll.current = false;
+    };
+  }, [dataSongId, queueRef]);
   return null;
 }
 

@@ -103,7 +103,7 @@ function AudioFullInfoWrapper({ children }: { children: React.ReactNode }) {
                 )}
               >
                 <LyricContainer type={showBlock.type} />
-                <QueueFull type={showBlock.type} />
+                <QueueFull />
               </motion.div>
             )}
           </AnimatePresence>

@@ -23,6 +23,7 @@ import MotionFull from "./MotionFull";
 import FocusTrap from "./FocusTrap";
 import LyricToggleBtn from "./LyricToggleBtn";
 import QueueToggle from "./QueueToggle";
+import ContextAudioFullRef from "./ContextAudioFullRef";
 
 function AudioFull({
   footerRef,
@@ -39,24 +40,10 @@ function AudioFull({
 }) {
   const { open, setOpen } = useContext(Context);
   const refFocus = useRef<HTMLDivElement | null>(null);
-  function removeZindex() {
-    if (!open) {
-      footerRef!.current!.classList.remove("z-50");
-    }
-  }
+
   CloseFunctoionForFull(open, setOpen, toggleRef, refFocus);
   return (
-    <div
-      className={clsx(
-        "fixed inset-0 z-50 transition-transform duration-500 ease-in-out  bg-[#0A0A0A]",
-        {
-          "translate-y-full ": !open,
-          "translate-y-0 ": open,
-        }
-      )}
-      aria-hidden={!open}
-      onTransitionEnd={removeZindex}
-    >
+    <ContextAudioFullRef footerRef={footerRef} open={open}>
       <AnimatePresence>
         {open && (
           <MotionFull>
@@ -154,7 +141,7 @@ function AudioFull({
           </MotionFull>
         )}
       </AnimatePresence>
-    </div>
+    </ContextAudioFullRef>
   );
 }
 
