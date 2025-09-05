@@ -475,6 +475,26 @@ export const useOnlyOneSider = create<queueState & queueStateAction>((set) => ({
   setIsQueue: (value: boolean) => set(() => ({ isQueue: value })),
 }));
 
+export interface isFallBackAudioState {
+  isFallBackAudio: boolean;
+}
+export interface isFallBackAudioActions {
+  setIsFallBackAudio: () => void;
+}
+
+export const useInstantFallBackAudioFull = create<
+  isFallBackAudioState & isFallBackAudioActions
+>((set) => ({
+  isFallBackAudio: false,
+  setIsFallBackAudio: () =>
+    set((state) => {
+      if (state.isFallBackAudio) {
+        return {};
+      }
+      return { isFallBackAudio: true };
+    }),
+}));
+
 export const useIsChildOpenCloseFunction = create<
   isChildOpen & isChildOpenAction
 >((set) => ({

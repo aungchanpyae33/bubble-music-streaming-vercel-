@@ -1,13 +1,24 @@
 "use client";
 import ContextMediaAudioFull from "@/lib/MediaSource/ContextMediaAudioFull";
-import AudioPlayer from "./AudioPLayer";
 import React, { useRef } from "react";
-
+import {
+  isFallBackAudioState,
+  useInstantFallBackAudioFull,
+} from "@/lib/zustand";
+import dynamic from "next/dynamic";
+const AudioPlayerLazy = dynamic(() => import("./AudioPLayer"), {
+  // loading: () => <p className=" bg-red-300 h-[50px]">hello</p>,
+});
 function AudioPlayerWrapper({ children }: { children: React.ReactNode }) {
   const footerRef = useRef<HTMLDivElement | null>(null);
+  const isFullBackAudio = useInstantFallBackAudioFull(
+    (state: isFallBackAudioState) => state.isFallBackAudio
+  );
   return (
     <ContextMediaAudioFull footerNaviRef={children}>
-      <AudioPlayer footerRef={footerRef} />
+      {isFullBackAudio && (
+        <AudioPlayerLazy footerRef={footerRef} start={isFullBackAudio} />
+      )}
     </ContextMediaAudioFull>
   );
 }

@@ -4,6 +4,7 @@ import {
   currentSongPlaylistAction,
   DirectPlayBackAction,
   DirectPlayBackState,
+  isFallBackAudioActions,
   ShouldFetchSongsListId,
   ShouldFetchSongsListIdAction,
   SongActions,
@@ -11,6 +12,7 @@ import {
   StorePlayListIdState,
   StorePlayListIdStateAction,
   useDirectPlayBack,
+  useInstantFallBackAudioFull,
   useRepeatAndCurrentPlayList,
   useShouldFetchSongsList,
   useSong,
@@ -83,6 +85,9 @@ function DirectPlayButton({ listId, type, className }: DirectPlayButtonProps) {
   const FetchSongsListIdAction = useShouldFetchSongsList(
     (state: ShouldFetchSongsListIdAction) => state.FetchSongsListIdAction
   );
+  const setIsFallBackAudio = useInstantFallBackAudioFull(
+    (state: isFallBackAudioActions) => state.setIsFallBackAudio
+  );
   async function getData() {
     const returnData = await hasData(dataFromFetch, listId, type);
     const { data, error } = returnData;
@@ -93,6 +98,7 @@ function DirectPlayButton({ listId, type, className }: DirectPlayButtonProps) {
     return songs;
   }
   const handlePlayClick = async () => {
+    setIsFallBackAudio(); //fallback dynamic import
     //to reset auto fetch key after playing autogenerate playlist,
     FetchSongsListIdAction(undefined);
     const playlistData = !playlistId ? await getData() : playListArray;

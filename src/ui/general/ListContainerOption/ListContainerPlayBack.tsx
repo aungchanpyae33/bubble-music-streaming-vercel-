@@ -4,6 +4,7 @@ import {
   currentSongPlaylistAction,
   DirectPlayBackAction,
   DirectPlayBackState,
+  isFallBackAudioActions,
   ShouldFetchSongsListIdAction,
   SongActions,
   SongDetail,
@@ -12,6 +13,7 @@ import {
   StorePlayListIdState,
   StorePlayListIdStateAction,
   useDirectPlayBack,
+  useInstantFallBackAudioFull,
   useRepeatAndCurrentPlayList,
   useShouldFetchSongsList,
   useSong,
@@ -54,8 +56,12 @@ function ListContainerPlayBack({ list }: ListContainerPlayBackProps) {
   const setPlayListArray = useRepeatAndCurrentPlayList(
     (state: currentSongPlaylistAction) => state.setPlayListArray
   );
+  const setIsFallBackAudio = useInstantFallBackAudioFull(
+    (state: isFallBackAudioActions) => state.setIsFallBackAudio
+  );
   if (list?.idArray.length === 0) return null; // no render the toggle playback
   const handlePlayClick = async () => {
+    setIsFallBackAudio(); //fallback dynamic import
     FetchSongsListIdAction(undefined);
     if (list) {
       const {

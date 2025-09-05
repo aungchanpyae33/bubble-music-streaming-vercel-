@@ -1,6 +1,7 @@
 "use client";
 import {
   useDirectPlayBack,
+  useInstantFallBackAudioFull,
   useRepeatAndCurrentPlayList,
   useShouldFetchSongsList,
   useSong,
@@ -17,6 +18,7 @@ import type {
   DirectPlayBackAction,
   StorePlayListIdStateAction,
   ShouldFetchSongsListIdAction,
+  isFallBackAudioActions,
 } from "@/lib/zustand";
 import IconWrapper from "@/ui/general/IconWrapper";
 import { Pause, Play } from "lucide-react";
@@ -56,7 +58,9 @@ const ToggleElement = ({
     (state: currentSongPlaylistAction) => state.setPlayListArray
   );
   const updateSongCu = useSong((state: SongActions) => state.updateSongCu);
-
+  const setIsFallBackAudio = useInstantFallBackAudioFull(
+    (state: isFallBackAudioActions) => state.setIsFallBackAudio
+  );
   const setPlayList = useDirectPlayBack(
     (state: DirectPlayBackAction) => state.setPlayList
   );
@@ -75,6 +79,7 @@ const ToggleElement = ({
       //   e.stopPropagation();
       // }}
       onClick={() => {
+        setIsFallBackAudio(); //fallback dynamic import
         if (playlistSong) {
           setPlayListArray({
             [playlistId || ""]: playlistSong,
