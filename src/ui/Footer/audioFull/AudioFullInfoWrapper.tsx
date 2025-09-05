@@ -21,7 +21,7 @@ function AudioFullInfoWrapper({ children }: { children: React.ReactNode }) {
       <motion.div
         layout
         className={clsx(
-          "lg:items-end relative lg:w-[50%]  gap-2 lg:gap-4 lg:justify-start overflow-hidden   flex   lg:flex-row   w-full",
+          "lg:items-end will-change-transform relative lg:w-[50%]  gap-2 lg:gap-4 lg:justify-start overflow-hidden   flex   lg:flex-row   w-full",
           {
             "flex-col": !showBlock.open,
             "justify-start items-start": showBlock.open,
@@ -79,7 +79,7 @@ function AudioFullInfoWrapper({ children }: { children: React.ReactNode }) {
       </motion.div>
       <div
         className={clsx(
-          " bg-black  left-auto  lg:w-[50%] w-full   px-[36px] inset-0 top-[60px] absolute grid grid-rows-[36px_1fr_35px] transition-[opacity,transform] duration-500",
+          " bg-black  left-auto  lg:w-[50%] w-full   px-[36px] inset-0 top-[60px] absolute grid grid-rows-[36px_1fr_36px] transition-[opacity,transform] duration-500",
           {
             "translate-y-0": showBlock.open,
             "translate-y-full": !showBlock.open,
@@ -96,7 +96,7 @@ function AudioFullInfoWrapper({ children }: { children: React.ReactNode }) {
                 exit={{ opacity: 0.99 }}
                 transition={{ duration: 0.5 }}
                 className={clsx(
-                  " w-[200%] inset-0 transition-transform duration-300 ease-in-out flex   absolute",
+                  " w-[200%] inset-0 transition-transform duration-500 ease-in-out flex will-change-transform   absolute",
                   {
                     "-translate-x-1/2 -left-1": showBlock.type === "queue",
                   }
