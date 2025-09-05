@@ -2,7 +2,6 @@ import React, { SetStateAction } from "react";
 import NavSideLink from "./NavSideLink";
 import IconWrapper from "../general/IconWrapper";
 import { ListMusic } from "lucide-react";
-import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 import PlaylistAdd from "./PlaylistAdd";
 import { getUserLibClient } from "@/database/client-data";
