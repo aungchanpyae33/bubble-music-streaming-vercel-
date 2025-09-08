@@ -24,7 +24,11 @@ function QueueFull() {
   const queueRef = useRef<HTMLDivElement | null>(null);
   const { audioFullRef } = useContext(AudioFullRefContext);
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -10 }}
+      transition={{ duration: 0.3 }}
       className={clsx(
         "overflow-auto relative no-scrollbar will-change-scroll my-2  flex-1 "
       )}
@@ -97,7 +101,7 @@ function QueueFull() {
             })}
         </AnimatePresence>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
