@@ -54,7 +54,7 @@ function PlaceHolderToggleState({
   const playlistId = useStorePlayListId(
     (state: StorePlayListIdState) => Object.values(state.playlistId)[0] || []
   ) as string[];
-
+  const { id: list_id, type } = playListArray;
   const setPlay = useSongFunction(
     (state: SongFunctionActions) => state.setPlay
   );
@@ -175,47 +175,37 @@ function PlaceHolderToggleState({
 
   useEffect(() => {
     async function addRecentList() {
-      if (playListArray.id.startsWith("create-on-fly")) return;
-      const { id, type } = playListArray;
+      if (list_id.startsWith("create-on-fly")) return;
 
-      const { data: recentList, error } = await addRecentlyPlayedList(id, type);
+      const { data: recentList, error } = await addRecentlyPlayedList(
+        list_id,
+        type
+      );
       if (!recentList || error) return;
       queryClient.setQueryData(["recentlyPlayed"], recentList);
-
-      if (!Isplay && setTimeoutRefForList.current) {
-        clearTimeout(setTimeoutRefForList.current);
-        setTimeoutRefForList.current = null;
-        return;
-      }
       //to prevent fast skip case
       if (setTimeoutRefForList.current) {
         clearTimeout(setTimeoutRefForList.current);
         setTimeoutRefForList.current = null;
+        return;
       }
+
       setTimeoutRefForList.current = setTimeout(() => {
         if (setTimeoutRefForList.current) {
-          setListTrack(
-            playListArray.type as "playlist" | "artist" | "album",
-            playListArray.id
-          );
+          setListTrack(list_id as "playlist" | "artist" | "album", type);
         }
       }, 60000);
     }
     addRecentList();
-  }, [playListArray, setListTrack, queryClient, Isplay]);
+  }, [list_id, type, setListTrack, queryClient]);
   //to prevent fast skipping song to add many times and user fast skip songs should not store in user perference
   useEffect(() => {
     function addRecentSong() {
-      //to prevent paused case
-      if (!Isplay && setTimeoutRef.current) {
-        clearTimeout(setTimeoutRef.current);
-        setTimeoutRef.current = null;
-        return;
-      }
       //to prevent fast skip case
       if (setTimeoutRef.current) {
         clearTimeout(setTimeoutRef.current);
         setTimeoutRef.current = null;
+        return;
       }
       setTimeoutRef.current = setTimeout(async () => {
         if (setTimeoutRef.current) {
@@ -226,7 +216,7 @@ function PlaceHolderToggleState({
       }, 10000);
     }
     addRecentSong();
-  }, [song_id, setSongTrack, Isplay]);
+  }, [song_id, setSongTrack]);
 
   return children;
 }
