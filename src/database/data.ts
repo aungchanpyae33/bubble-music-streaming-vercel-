@@ -167,13 +167,26 @@ export const getPlaylistSongs = async (
   }
 };
 
-export const getSongTrack = async (songId: string) => {
+export interface getSongTrackReturnType {
+  songs: listSongsSection | null;
+}
+
+export const getSongTrack = async (
+  songId: string
+): Promise<{
+  data: getSongTrackReturnType | null;
+  error: PostgrestError | null | any;
+}> => {
   try {
     const supabase = await createClient();
-    const { data, error } = await supabase.rpc("get_song_track", {
+    const { data, error } = (await supabase.rpc("get_song_track", {
       p_song_id: songId,
-    });
-    return { data, error };
+    })) as {
+      data: getSongTrackReturnType | null;
+      error: PostgrestError | null | any;
+    };
+    const mappedData = data ? deepMapById(data, ["songs.songs"]) : null;
+    return { data: mappedData, error };
   } catch (error) {
     return { data: null, error };
   }

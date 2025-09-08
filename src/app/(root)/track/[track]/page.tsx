@@ -1,28 +1,56 @@
 import { getSongTrack } from "@/database/data";
 import AlbumUpperBackground from "@/ui/albumContainer/AlbumUpperBackground";
 import AlbumUpperContainer from "@/ui/albumContainer/AlbumUpperContainer";
-import PlaceHolderTrackInstantPlay from "@/ui/Footer/PlaceHolderTrackInstantPlay";
+import AudiosContainer from "@/ui/albumContainer/AudiosContainer";
+import ListContainer from "@/ui/general/ListContainerOption/ListContainer";
+import ListContainerPlayBack from "@/ui/general/ListContainerOption/ListContainerPlayBack";
+import ContextInfoTrack from "@/ui/trackComponent/ContextInfoTrack";
+import ContextLike from "@/ui/trackComponent/ContextLike";
+import MoreOption from "@/ui/trackComponent/MoreOption";
+import MoreOptionContext from "@/ui/trackComponent/MoreOptionContext";
+import TrackItemContainer from "@/ui/trackComponent/TrackItemContainer";
+import TrackToggleLike from "@/ui/trackComponent/TrackToggleLike";
+
+// import PlaceHolderTrackInstantPlay from "@/ui/Footer/PlaceHolderTrackInstantPlay";
 import { Suspense } from "react";
 
 async function page(props: { params: Promise<{ track: string }> }) {
-  // 02357c3e-d80b-49d4-b1bf-c8b35a6dd927
-  const params = await props.params;
-  const { data, error } = await getSongTrack(
-    "02357c3e-d80b-49d4-b1bf-c8b35a6dd927"
-  );
+  const { track } = await props.params;
+  const { data, error } = await getSongTrack(track);
 
-  if (!data || error || data.length === 0) return;
-  const returnData = data[0];
+  if (!data || error) return;
+  const { songs } = data;
+  if (!songs) return;
+  const songsInfo = songs?.songs[track];
+
   return (
-    <AlbumUpperBackground>
-      <Suspense fallback={<p>nice</p>}>
-        {/* <AlbumUpperContainer songs={returnData} /> */}
-      </Suspense>
-      <PlaceHolderTrackInstantPlay
-      // listSong={returnData}
-      // song={returnData.songs[0]}
-      />
-    </AlbumUpperBackground>
+    <div className=" w-full">
+      <AlbumUpperBackground>
+        <Suspense fallback={<p>nice</p>}>
+          <AlbumUpperContainer songs={songs} />
+        </Suspense>
+      </AlbumUpperBackground>
+
+      <ContextInfoTrack
+        id={songsInfo?.id}
+        source={songs.source}
+        song={songsInfo}
+      >
+        <ContextLike id={songsInfo!.song_id} like={songsInfo!.is_liked}>
+          <ListContainer>
+            <ListContainerPlayBack list={songs} />
+            <TrackToggleLike songId={songsInfo!.song_id} />
+            <div>
+              <MoreOptionContext>
+                <MoreOption targetElement={<TrackItemContainer />} />
+              </MoreOptionContext>
+            </div>
+          </ListContainer>
+        </ContextLike>
+      </ContextInfoTrack>
+
+      <AudiosContainer description="Song" listSong={songs} />
+    </div>
   );
 }
 
