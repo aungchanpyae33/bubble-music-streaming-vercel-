@@ -2,7 +2,7 @@
 
 import { ShowBlockAction, useShowBlock } from "@/lib/zustand";
 import IconWrapper from "@/ui/general/IconWrapper";
-import { MicVocal } from "lucide-react";
+import { SquareChartGantt } from "lucide-react";
 
 function LyricToggleBtn() {
   const setShowBlock = useShowBlock(
@@ -15,7 +15,7 @@ function LyricToggleBtn() {
         setShowBlock("lyric");
       }}
     >
-      <IconWrapper Icon={MicVocal} size="large" />
+      <IconWrapper Icon={SquareChartGantt} size="large" />
     </button>
   );
 }
