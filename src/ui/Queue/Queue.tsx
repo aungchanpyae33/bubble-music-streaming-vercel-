@@ -24,7 +24,7 @@ function Queue() {
   return (
     <div
       className={clsx(
-        "h-full will-change-scroll   w-[20%] md:w-[25%] min-w-[250px] flex flex-col max-w-[375px] overflow-y-auto overflow-x-hidden"
+        "h-full will-change-scroll   w-[20%] md:w-[25%] min-w-[250px] flex flex-col gap-y-1  p-1 max-w-[375px] overflow-y-auto overflow-x-hidden"
       )}
       ref={queueRef}
       // will chnage scroll for hardware acceleration , without this , it feels junky in chrome and some webkit browser
@@ -44,48 +44,47 @@ function Queue() {
                 transition={{ duration: 0.3, ease: "easeOut" }}
                 key={item.id}
                 data-id={item.id}
-                className="flex py-1  hover:bg-[#333333] items-stretch
+                className="flex p-2 group  hover:bg-[#333333] items-stretch
           "
               >
-                <ToggleElement
-                  playlistSong={playListArray}
-                  song={item}
-                  className="w-[50px] "
-                />
-
+                <div className="w-[50px]  relative   ">
+                  <div className="size-[50px] group-hover:brightness-75 relative">
+                    <Image
+                      src="https://tebi.bubblemusic.dpdns.org/lee-hi/4-only/cover/photo_2025-05-23_14-51-24.jpg"
+                      fill
+                      alt="img"
+                      sizes="50px"
+                    />
+                  </div>
+                  <ToggleElement
+                    playlistSong={undefined}
+                    song={item}
+                    className=" z-10  hidden group-hover:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+                  />
+                </div>
                 <div
                   className="flex-1 overflow-hidden
-              flex gap-2 size-[50px] bg-[#333333] items-center"
+              flex   items-center"
                 >
-                  <Image
-                    src={
-                      "https://tebi.bubblemusic.dpdns.org/lee-hi/4-only/cover/photo_2025-05-23_14-51-24.jpg"
-                    }
-                    width={50}
-                    height={50}
-                    className=" rounded"
-                    alt="test image"
-                    priority={false}
-                  />
                   <div
-                    className=" flex-1 truncate
+                    className="truncate
               "
                   >
                     {item.name}
                   </div>
-                  <div className="w-[30px]">
-                    <ContextInfoTrack
-                      id={undefined}
-                      source={undefined}
-                      song={item}
-                    >
-                      <ContextLike like={item.is_liked} id={item.song_id}>
-                        <MoreOptionContext>
-                          <MoreOption targetElement={<QueueItemContainer />} />
-                        </MoreOptionContext>
-                      </ContextLike>
-                    </ContextInfoTrack>
-                  </div>
+                </div>
+                <div className="w-[30px] flex items-center">
+                  <ContextInfoTrack
+                    id={undefined}
+                    source={undefined}
+                    song={item}
+                  >
+                    <ContextLike like={item.is_liked} id={item.song_id}>
+                      <MoreOptionContext>
+                        <MoreOption targetElement={<QueueItemContainer />} />
+                      </MoreOptionContext>
+                    </ContextLike>
+                  </ContextInfoTrack>
                 </div>
               </motion.div>
             );
