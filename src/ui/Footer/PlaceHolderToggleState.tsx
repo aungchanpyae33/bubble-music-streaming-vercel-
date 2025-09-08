@@ -176,7 +176,7 @@ function PlaceHolderToggleState({
   useEffect(() => {
     async function addRecentList() {
       if (list_id.startsWith("create-on-fly")) return;
-
+      if (type === "track") return;
       const { data: recentList, error } = await addRecentlyPlayedList(
         list_id,
         type
