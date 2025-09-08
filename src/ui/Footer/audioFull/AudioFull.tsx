@@ -129,9 +129,11 @@ function AudioFull({
                           </div>
                         )}
                       </AudioFunctionButton>
-                      <div className="hidden md:flex  relative w-[20%] gap-x-3 max-w-[250px] justify-end">
+                      <div className="flex  relative w-[20%] gap-x-3 max-w-[250px] justify-end">
                         <QueueToggle />
-                        <Volume isFull={true} />
+                        <span className=" hidden md:inline">
+                          <Volume isFull={true} />
+                        </span>
                       </div>
                     </div>
                   </div>
