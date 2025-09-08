@@ -8,10 +8,10 @@ function CloseShowBlockBtn() {
   );
   return (
     <button
-      className=" absolute px-2 border-b border-l border-gray-100/65 py-1 right-0 "
+      className="  size-[60px] flex border-b border-l items-center justify-center border-gray-100/65   "
       onClick={() => setShowBlock(undefined)}
     >
-      <IconWrapper Icon={ChevronDown} size="medium" />
+      <IconWrapper Icon={ChevronDown} size="large" />
     </button>
   );
 }

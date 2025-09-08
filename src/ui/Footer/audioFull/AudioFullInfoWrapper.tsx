@@ -52,7 +52,7 @@ function AudioFullInfoWrapper({ children }: { children: React.ReactNode }) {
       </div>
       <div
         className={clsx(
-          " bg-black will-change-transform  left-auto lg:grid-rows-[36px_1fr_36px] lg:w-[50%] w-full lg:top-[60px] inset-0  absolute grid grid-rows-[60px_1fr_36px] transition-[opacity,transform] duration-500",
+          " bg-[#222222]  will-change-transform  left-auto lg:grid-rows-[1fr] lg:w-[50%] w-full lg:top-[60px] inset-0  absolute grid grid-rows-[60px_1fr]    shadow-md   transition-[opacity,transform] duration-500",
           {
             "translate-y-0": showBlock.open,
             "translate-y-full": !showBlock.open,
@@ -62,10 +62,10 @@ function AudioFullInfoWrapper({ children }: { children: React.ReactNode }) {
       >
         <div
           className={clsx(
-            "flex lg:hidden bg-transparent   items-center w-full"
+            "flex lg:hidden gap-x-3   border-b border-white      items-center w-full"
           )}
         >
-          <div className={clsx("relative size-[60px]")}>
+          <div className={clsx("relative border-b border-white  size-[60px]")}>
             <Image
               src={
                 "https://tebi.bubblemusic.dpdns.org/lee-hi/4-only/cover/photo_2025-05-23_14-51-24.jpg"
@@ -74,11 +74,10 @@ function AudioFullInfoWrapper({ children }: { children: React.ReactNode }) {
               fill
             />
           </div>
-          <p>hello</p>
+          <p className=" flex-1">hello</p>
+          <CloseShowBlockBtn />
         </div>
 
-        <LyricPaddingBlock className="hidden lg:block" />
-        {showBlock.open && <CloseShowBlockBtn />}
         <AnimatePresence mode="wait">
           {showBlock.type === "lyric" && showBlock.open && (
             <LyricContainer type={showBlock.type} key={"lyric"} />
@@ -88,8 +87,6 @@ function AudioFullInfoWrapper({ children }: { children: React.ReactNode }) {
           )}
         </AnimatePresence>
       </div>
-
-      <LyricPaddingBlock />
     </div>
   );
 }

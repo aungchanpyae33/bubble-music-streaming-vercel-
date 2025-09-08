@@ -57,8 +57,8 @@ function Lyric({
             key={item.time}
             data-id={idx}
             className={clsx(" text-base md:text-lg", {
-              "text-gray-50 font-bold": idx === currentIndex,
-              "text-gray-500": idx !== currentIndex,
+              "text-white font-bold": idx === currentIndex,
+              "text-gray-400": idx !== currentIndex,
             })}
           >
             {item.line}

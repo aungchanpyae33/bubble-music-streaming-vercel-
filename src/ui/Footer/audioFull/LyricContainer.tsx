@@ -14,7 +14,7 @@ function LyricContainer({ type }: { type: "lyric" | "queue" | undefined }) {
       transition={{ duration: 0.3 }}
       ref={lyricRef}
       className={clsx(
-        "flex-1 relative  overflow-auto no-scrollbar will-change-scroll my-2 "
+        "flex-1 relative md:px-5 px-2  overflow-auto no-scrollbar will-change-scroll my-2 "
       )}
     >
       <Lyric lyricRef={lyricRef} lyricShow={dynamic} />
