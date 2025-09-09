@@ -63,7 +63,7 @@ function QueueFull() {
                       />
                     </div>
                     <ToggleElement
-                      playlistSong={undefined}
+                      playlistSong={playListArray}
                       song={item}
                       className=" z-10  hidden group-hover:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
                     />
