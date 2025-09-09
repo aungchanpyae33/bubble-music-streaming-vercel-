@@ -1,6 +1,5 @@
 import { DataContext } from "@/lib/MediaSource/ContextMedia";
-import { AudioDraggingState, useAudioDragging } from "@/lib/zustand";
-import { RefObject, useContext, useEffect } from "react";
+import { RefObject, useContext, useEffect, useRef } from "react";
 
 function getElementByDataId(
   container: HTMLElement | null,
@@ -42,12 +41,21 @@ function PlaceHolderLyricScroll({
   lyricRef: RefObject<HTMLDivElement | null>;
   currentIndex: number;
 }) {
+  const showScroll = useRef(false);
   const { dataAudio } = useContext(DataContext);
   useEffect(() => {
     const element = getElementByDataId(lyricRef.current, currentIndex);
-    if (!element || !isInViewport(element, lyricRef.current as HTMLElement))
+    if (
+      !element ||
+      (!isInViewport(element, lyricRef.current as HTMLElement) &&
+        showScroll.current)
+    )
       return;
     scrollContainerToElement(lyricRef.current, element);
+    showScroll.current = true;
+    return () => {
+      showScroll.current = false;
+    };
   }, [currentIndex, lyricRef]);
 
   useEffect(() => {
