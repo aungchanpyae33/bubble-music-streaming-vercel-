@@ -30,7 +30,7 @@ function QueueFull() {
       exit={{ opacity: 0, y: -10 }}
       transition={{ duration: 0.3 }}
       className={clsx(
-        "overflow-auto relative no-scrollbar will-change-scroll my-2   flex-1 "
+        "overflow-auto relative no-scrollbar will-change-scroll  my-2   flex-1 "
       )}
       ref={queueRef}
     >
@@ -50,7 +50,7 @@ function QueueFull() {
                   transition={{ duration: 0.3, ease: "easeOut" }}
                   key={item.id}
                   data-id={item.id}
-                  className="flex p-2 group  hover:bg-[#333333] items-stretch
+                  className="flex gap-x-2 p-2 group  hover:bg-[#333333] items-stretch
           "
                 >
                   <div className="w-[50px]  relative   ">

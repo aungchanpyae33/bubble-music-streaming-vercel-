@@ -24,7 +24,7 @@ function Queue() {
   return (
     <div
       className={clsx(
-        "h-full will-change-scroll   w-[20%] md:w-[25%] min-w-[250px] flex flex-col gap-y-1  p-1 max-w-[375px] overflow-y-auto overflow-x-hidden"
+        "h-full will-change-scroll   w-[20%] md:w-[25%] min-w-[250px] flex flex-col    max-w-[375px] overflow-y-auto overflow-x-hidden"
       )}
       ref={queueRef}
       // will chnage scroll for hardware acceleration , without this , it feels junky in chrome and some webkit browser
@@ -44,7 +44,7 @@ function Queue() {
                 transition={{ duration: 0.3, ease: "easeOut" }}
                 key={item.id}
                 data-id={item.id}
-                className="flex p-2 group  hover:bg-[#333333] items-stretch
+                className="flex gap-x-2 p-2 group  hover:bg-[#333333] bg-[#222222] items-stretch
           "
               >
                 <div className="w-[50px]  relative   ">
