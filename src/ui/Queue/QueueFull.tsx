@@ -55,12 +55,14 @@ function QueueFull() {
                 >
                   <div className="w-[50px]  relative   ">
                     <div className="size-[50px] group-hover:brightness-75 relative">
-                      <Image
-                        src="https://tebi.bubblemusic.dpdns.org/lee-hi/4-only/cover/photo_2025-05-23_14-51-24.jpg"
-                        fill
-                        alt="img"
-                        sizes="50px"
-                      />
+                      {item.cover_url && (
+                        <Image
+                          src={item.cover_url}
+                          fill
+                          alt="img"
+                          sizes="50px"
+                        />
+                      )}
                     </div>
                     <ToggleElement
                       playlistSong={playListArray}

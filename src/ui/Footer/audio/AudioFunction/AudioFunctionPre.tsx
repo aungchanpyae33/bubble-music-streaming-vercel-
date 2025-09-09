@@ -24,7 +24,6 @@ function AudioFunctionPre({ listSong, className, id }: Props) {
   const playlistId = useStorePlayListId(
     (state: StorePlayListIdState) => Object.values(state.playlistId)[0] || []
   ) as string[];
-  // console.log(listSong);
 
   const setPlay = useSongFunction(
     (state: SongFunctionActions) => state.setPlay
@@ -52,6 +51,7 @@ function AudioFunctionPre({ listSong, className, id }: Props) {
       is_liked,
       artists,
       is_lyric,
+      cover_url,
     } = songList[listSong.idArray[currentIndex - 1]];
 
     const uniUrl = id;
@@ -66,6 +66,7 @@ function AudioFunctionPre({ listSong, className, id }: Props) {
       is_liked,
       artists,
       is_lyric,
+      cover_url,
     });
     // [todo] need to check if there is a new playlist or not
     setPlaylistId({ [playlistId[0] || ""]: [playlistId[0], id] });

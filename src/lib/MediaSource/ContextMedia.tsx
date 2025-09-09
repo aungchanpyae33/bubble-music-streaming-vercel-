@@ -1,3 +1,4 @@
+import { Artist } from "@/database/data";
 import { createContext, RefObject } from "react";
 export interface prop {
   dataAudio: RefObject<HTMLAudioElement | null>;
@@ -11,6 +12,9 @@ export interface prop {
   bufferThreshold: number;
   song_id: string;
   is_lyric: boolean;
+  name: string;
+  artists: Artist[];
+  cover_url: string;
 }
 
 import { ReactNode } from "react";
@@ -27,6 +31,9 @@ export const DataContext = createContext<prop>({
   bufferThreshold: 0,
   song_id: "",
   is_lyric: false,
+  name: "",
+  artists: [],
+  cover_url: "",
 });
 function ContextMedia({ children, data }: { children: ReactNode; data: prop }) {
   const value = { ...data };

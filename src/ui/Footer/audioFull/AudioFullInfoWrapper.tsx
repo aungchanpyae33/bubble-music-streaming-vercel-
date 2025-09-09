@@ -1,17 +1,19 @@
 import clsx from "clsx";
 import { AnimatePresence, motion } from "motion/react";
-import LyricPaddingBlock from "./LyricPaddingBlock";
 import { ShowBlock, ShowBlockAction, useShowBlock } from "@/lib/zustand";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import LyricContainer from "./LyricContainer";
 import QueueFull from "@/ui/Queue/QueueFull";
 import CloseShowBlockBtn from "./CloseShowBlockBtn";
 import Image from "next/image";
+import { DataContext } from "@/lib/MediaSource/ContextMedia";
+import ArtistWrapper from "@/ui/general/ArtistWrapper";
 function AudioFullInfoWrapper({ children }: { children: React.ReactNode }) {
   const showBlock = useShowBlock((state: ShowBlock) => state.showBlock);
   const setShowBlock = useShowBlock(
     (state: ShowBlockAction) => state.setShowBlock
   );
+  const { name, artists, cover_url } = useContext(DataContext);
   useEffect(() => {
     return () => {
       setShowBlock(undefined);
@@ -42,10 +44,10 @@ function AudioFullInfoWrapper({ children }: { children: React.ReactNode }) {
         >
           <div className="flex items-start  p-1 justify-center flex-col ">
             <p className={clsx(" text-zinc-100  text-xl lg:text-2xl")}>
-              Supanova
+              {name}
             </p>
             <p className={clsx(" text-zinc-100  lg:text-xl text-base")}>
-              aspea
+              <ArtistWrapper artists={artists} />
             </p>
           </div>
         </div>
@@ -66,13 +68,14 @@ function AudioFullInfoWrapper({ children }: { children: React.ReactNode }) {
           )}
         >
           <div className={clsx("relative border-b border-white  size-[60px]")}>
-            <Image
-              src={
-                "https://tebi.bubblemusic.dpdns.org/lee-hi/4-only/cover/photo_2025-05-23_14-51-24.jpg"
-              }
-              alt="this is image element"
-              fill
-            />
+            {cover_url && (
+              <Image
+                src={cover_url}
+                alt="this is image element"
+                fill
+                sizes="60px"
+              />
+            )}
           </div>
           <p className=" flex-1">hello</p>
           <CloseShowBlockBtn />

@@ -18,6 +18,7 @@ export interface listInfo {
   source: Database["public"]["Enums"]["media_source_type"];
   type: Database["public"]["Enums"]["media_item_type"];
   is_official?: boolean;
+  cover_url: string | null;
 }
 // export const getLikeSongs = async (
 //   userId: string
@@ -113,6 +114,7 @@ export interface SearchProfile {
   id: string;
   name: string;
   type: Database["public"]["Enums"]["media_item_type"];
+  cover_url: string;
 }
 
 export interface getSearchPageReturn {
@@ -234,6 +236,7 @@ export interface SongInfo {
   is_liked: boolean;
   artists: Artist[];
   album: Album;
+  cover_url: string;
 }
 
 export interface Artist {

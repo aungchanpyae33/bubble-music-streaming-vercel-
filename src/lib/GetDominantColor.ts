@@ -3,11 +3,14 @@ import { RefObject, SetStateAction, useEffect, useState } from "react";
 const useGetDominantColor = ({
   setBgValue,
   imgRef,
+  cover_url,
 }: {
   setBgValue: React.Dispatch<SetStateAction<number[]>>;
   imgRef: RefObject<HTMLImageElement | null>;
+  cover_url: string | null;
 }) => {
   useEffect(() => {
+    if (!cover_url) return;
     const img = imgRef!.current!;
     let isMounted = true;
     function getColor() {
@@ -57,7 +60,7 @@ const useGetDominantColor = ({
       isMounted = false;
       img.removeEventListener("load", getColor);
     };
-  }, [imgRef, setBgValue]);
+  }, [imgRef, setBgValue, cover_url]);
 };
 
 export default useGetDominantColor;

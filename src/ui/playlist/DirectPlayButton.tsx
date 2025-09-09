@@ -114,6 +114,7 @@ function DirectPlayButton({ listId, type, className }: DirectPlayButtonProps) {
         is_liked,
         artists,
         is_lyric,
+        cover_url,
       } = (() => {
         if (playlistId && playlist_songId) {
           return playlistData.songs[playlist_songId];
@@ -139,6 +140,7 @@ function DirectPlayButton({ listId, type, className }: DirectPlayButtonProps) {
           is_liked,
           artists,
           is_lyric,
+          cover_url,
         });
         setPlaylistId({
           [listId || ""]: [listId, id],

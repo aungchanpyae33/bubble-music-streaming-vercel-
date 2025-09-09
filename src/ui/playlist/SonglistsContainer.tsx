@@ -25,6 +25,7 @@ function SonglistsContainer({
   source,
   related_id,
   related_name,
+  cover_url,
 }: SonglistsContainerProps) {
   const relatedType = outputRelatedType(type);
   return (
@@ -38,14 +39,16 @@ function SonglistsContainer({
         href={`/${type}/${id}`}
         className="flex relative w-full imageContainer  rounded overflow-hidden    before:block before:pb-[100%] group "
       >
-        <Image
-          src="https://tebi.bubblemusic.dpdns.org/lee-hi/4-only/cover/photo_2025-05-23_14-51-24.jpg"
-          fill
-          alt="this is image element"
-          sizes="(min-width: 1024px) 185px, (min-width: 768px) 175px , 160px"
-          priority={true}
-          className=" group-hover:brightness-75 "
-        />
+        {cover_url && (
+          <Image
+            src={cover_url}
+            fill
+            alt="this is image element"
+            sizes="(min-width: 1024px) 185px, (min-width: 768px) 175px , 160px"
+            priority={true}
+            className=" group-hover:brightness-75 "
+          />
+        )}
 
         <SonglistContainerWrapper className="absolute top-2 right-2 has-hover:opacity-0 has-hover:group-hover:opacity-100 has-hover:transition-opacity has-hover:duration-150">
           <MoreOptionContext>

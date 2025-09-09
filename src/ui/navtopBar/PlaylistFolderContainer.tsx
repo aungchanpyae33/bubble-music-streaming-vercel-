@@ -1,11 +1,8 @@
 import React, { SetStateAction } from "react";
-import NavSideLink from "./NavSideLink";
-import IconWrapper from "../general/IconWrapper";
-import { ListMusic } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
-import PlaylistAdd from "./PlaylistAdd";
 import { getUserLibClient } from "@/database/client-data";
 import NoThankYouPreFetchLink from "../general/NoThankYouPreFetchLink";
+import Image from "next/image";
 
 function PlaylistFolderContainer({
   open,
@@ -27,15 +24,23 @@ function PlaylistFolderContainer({
         userLib.idArray.map((id) => {
           const item = userLib[id];
           return (
-            <NoThankYouPreFetchLink
-              href={`/${item.type}/${item.id}`}
-              className=" mt-2  h-[50px] hover:bg-[#333333] leading-relaxed  flex items-center"
-              key={item.id}
-              onClick={() => setOpen(false)}
-            >
-              <div className="w-[70px]  cursor-pointer text-center">icon</div>
-              <div className=" flex-1  truncate pr-2">{item.name}</div>
-            </NoThankYouPreFetchLink>
+            <div key={item.id} className="p-2 hover:bg-[#333333] ">
+              <NoThankYouPreFetchLink
+                href={`/${item.type}/${item.id}`}
+                className=" h-[50px] leading-relaxed  flex items-center gap-x-2"
+                onClick={() => setOpen(false)}
+              >
+                <div className="size-[50px] relative  cursor-pointer">
+                  <Image
+                    src={item.cover_url ?? ""}
+                    fill
+                    alt="image"
+                    sizes="50px"
+                  />
+                </div>
+                <div className=" flex-1  truncate pr-2">{item.name}</div>
+              </NoThankYouPreFetchLink>
+            </div>
           );
         })}
     </div>

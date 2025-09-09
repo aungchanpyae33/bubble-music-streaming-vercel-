@@ -47,6 +47,7 @@ function AudioPlayer({
     song_id,
     is_lyric,
     artists,
+    cover_url,
   } = useSong((state: SongState) => state.songCu) as SongDetail;
   const url = useSong(
     (state: SongState) =>
@@ -74,6 +75,9 @@ function AudioPlayer({
         bufferThreshold,
         song_id,
         is_lyric,
+        name,
+        artists,
+        cover_url,
       }}
     >
       <AnimatePresence>
@@ -101,11 +105,7 @@ function AudioPlayer({
                 toggleRef={toggleRef}
               />
               <div className=" w-full sm:w-[25%]   md:w-[25%] max-w-[375px]  flex items-center">
-                <AudioDisplayFooter
-                  urlImage={
-                    "https://s3.tebi.io/test1345/timo-volz-ZlFKIG6dApg-unsplash%20%281%29.jpg"
-                  }
-                />
+                <AudioDisplayFooter song_cover={cover_url} />
                 {/* without it will just changing data for audioinfo */}
                 {name && (
                   <div

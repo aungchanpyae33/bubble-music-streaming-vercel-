@@ -124,6 +124,7 @@ const ToggleElement = ({
             song_id: song.song_id,
             is_liked: song.is_liked,
             artists: song.artists,
+            cover_url: song.cover_url,
           };
           updateSongCu(data);
           setPlaylistId({

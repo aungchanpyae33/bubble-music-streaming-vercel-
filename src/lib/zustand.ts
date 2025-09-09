@@ -14,6 +14,7 @@ export interface SongDetail {
   is_lyric: boolean;
   is_liked: boolean;
   artists: Artist[];
+  cover_url: string;
 }
 
 export interface IsRepeatState {

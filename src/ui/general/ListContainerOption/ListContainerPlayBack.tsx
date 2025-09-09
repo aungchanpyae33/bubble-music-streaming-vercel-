@@ -75,6 +75,7 @@ function ListContainerPlayBack({ list }: ListContainerPlayBackProps) {
         is_liked,
         artists,
         is_lyric,
+        cover_url,
       } = (() => {
         if (playlistId) {
           return list.songs[id_scope];
@@ -100,6 +101,7 @@ function ListContainerPlayBack({ list }: ListContainerPlayBackProps) {
           is_liked,
           artists,
           is_lyric,
+          cover_url,
         });
         setPlaylistId({
           [playListId || ""]: [playListId, id],

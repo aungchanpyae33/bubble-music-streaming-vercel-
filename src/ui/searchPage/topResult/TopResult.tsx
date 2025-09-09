@@ -23,15 +23,15 @@ async function TopResult({
             className=" lg:w-[170px] rounded overflow-hidden w-[130px] shrink-0   aspect-square  object-cover relative bg-[#222222]
               "
           >
-            <Image
-              src={
-                "https://tebi.bubblemusic.dpdns.org/lee-hi/4-only/cover/photo_2025-05-23_14-51-24.jpg"
-              }
-              priority={true}
-              sizes="(min-width: 1024px) 250px, (min-width: 768px) 200px, 180px"
-              fill
-              alt="singer song"
-            />
+            {topResult?.cover_url && (
+              <Image
+                src={topResult.cover_url}
+                priority={true}
+                sizes="(min-width: 1024px) 250px, (min-width: 768px) 200px, 180px"
+                fill
+                alt="singer song"
+              />
+            )}
           </div>
           <p
             className={clsx("font-black truncate", {

@@ -43,6 +43,7 @@ function RecentlyListContainer({
                   description={description}
                   related_id={item.related_id}
                   related_name={item.related_name}
+                  cover_url={item.cover_url}
                 />
               );
             })}
