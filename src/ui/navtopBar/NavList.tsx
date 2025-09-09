@@ -8,18 +8,13 @@ import IconWrapper from "../general/IconWrapper";
 
 import NavSideLinkNotOpen from "./NavSideLinkNotOpen";
 import dynamic from "next/dynamic";
+import PlaylistAdd from "./PlaylistAdd";
 
 const PlaylistFolderContainerLazy = dynamic(
   () => import("./PlaylistFolderContainer"),
   {
     loading: () => (
       <div className=" flex-1 flex flex-col">
-        <div className=" border-t-2  border-black  h-[50px] flex items-center justify-between  ">
-          <div className=" w-[70px] flex items-center  justify-center">
-            <IconWrapper size="large" Icon={ListMusic} />
-          </div>
-          <IconWrapper size="large" Icon={Plus} className="mr-2" />
-        </div>
         <div className=" mt-2 flex-1 animate-pulse bg-gray-400 leading-relaxed  flex items-center">
           <div className="w-[70px]  cursor-pointer text-center">icon</div>
           <div className=" flex-1  truncate pr-2"></div>
@@ -94,6 +89,20 @@ function NavList({
           >
             {childrenLive}
           </NavSideLink>
+          <div className="h-[50px] flex items-center justify-between  ">
+            <NavSideLink
+              url="/library"
+              icon="icon"
+              desp=""
+              open={open}
+              setOpen={setOpen}
+            >
+              <div className=" w-[70px] flex items-center  justify-center">
+                <IconWrapper size="large" Icon={ListMusic} />
+              </div>
+            </NavSideLink>
+            <PlaylistAdd />
+          </div>
           {open && (
             <PlaylistFolderContainerLazy open={open} setOpen={setOpen} />
           )}

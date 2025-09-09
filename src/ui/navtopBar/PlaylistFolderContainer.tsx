@@ -19,24 +19,10 @@ function PlaylistFolderContainer({
     queryFn: () => getUserLibClient(),
   });
   const { data, error } = queryData || {};
-  if (!data || error) return;
+  if (!data || error || queryError) return;
   const { userLib } = data;
   return (
     <div>
-      <div className=" border-t-2  border-black  h-[50px] flex items-center justify-between  ">
-        <NavSideLink
-          url="/library"
-          icon="icon"
-          desp=""
-          open={open}
-          setOpen={setOpen}
-        >
-          <div className=" w-[70px] flex items-center  justify-center">
-            <IconWrapper size="large" Icon={ListMusic} />
-          </div>
-        </NavSideLink>
-        <PlaylistAdd />
-      </div>
       {userLib.idArray.length > 0 &&
         userLib.idArray.map((id) => {
           const item = userLib[id];
