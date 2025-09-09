@@ -19,6 +19,7 @@ function AddSongContent() {
       {userLib.idArray.length > 0 &&
         userLib.idArray.map((id) => {
           const item = userLib[id];
+          if (item.source !== "create") return;
           return <AddSongItem key={item.id} playlistSongs={item} />;
         })}
     </div>
