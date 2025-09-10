@@ -35,9 +35,7 @@ function EditableAudiosContainer({
                 <tr className="text-left">
                   <th className=" w-14 p-2  text-center">#</th>
                   <th className="p-2">ခေါင်းစဉ်</th>
-                  <th className="hidden p-2 sm:table-cell  ">အဆိုတော်</th>
-
-                  <th className=" p-2 hidden md:table-cell ">အယ်လ်ဘမ်</th>
+                  <th className=" p-2 hidden lg:table-cell ">အယ်လ်ဘမ်</th>
 
                   <th className=" p-2 w-20 hidden sm:table-cell  text-center">
                     <span className="flex justify-center">
@@ -48,7 +46,7 @@ function EditableAudiosContainer({
                       />
                     </span>
                   </th>
-                  <th className=" p-2"></th>
+                  <th className=" p-2">#</th>
                 </tr>
               </TableHead>
 

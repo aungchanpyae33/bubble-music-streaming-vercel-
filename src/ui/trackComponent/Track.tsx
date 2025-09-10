@@ -49,19 +49,17 @@ function Track({
         <ToggleElement playlistSong={listSong} song={song} className="w-full" />
       </td>
 
-      <td className=" max-w-[100px] px-2 ">
-        <ToolTip tooltipContent={tooltipContent[index]}>
+      <td className=" max-w-[200px] px-2  ">
+        <ToolTip tooltipContent={song.name}>
           <div className="text-ellipsis  overflow-x-hidden whitespace-nowrap pointer-events-none ">
             <LeadingRelax>{song.name}</LeadingRelax>
           </div>
         </ToolTip>
-        <div className="sm:hidden">{}</div>
+        <div className=" flex">
+          <ArtistWrapper artists={song.artists} />
+        </div>
       </td>
-      <td className=" text-left hidden px-2  sm:table-cell   max-w-[100px] break-words truncate">
-        <ArtistWrapper artists={song.artists} />
-      </td>
-
-      <td className=" max-w-[100px] px-2  hidden md:table-cell   truncate">
+      <td className=" max-w-[100px] px-2  hidden lg:table-cell   truncate">
         <UnderLineLinkHover
           href={`/album/${song.album.id}`}
           prefetch={false}
@@ -73,7 +71,7 @@ function Track({
       <td className="px-2   hidden sm:table-cell   max-w-20 truncate text-center ">
         {TimeFormat(song.duration)}
       </td>
-      <td className="  flex  h-[72px] items-center gap-x-5 md:gap-x-8 lg:gap-x-10  justify-end  px-2">
+      <td className="  flex  h-[72px] items-center gap-x-5 md:gap-x-8 lg:gap-x-10  justify-end">
         <ContextInfoTrack
           id={listSong ? listSong.id : undefined}
           source={listSong ? listSong.source : undefined}
