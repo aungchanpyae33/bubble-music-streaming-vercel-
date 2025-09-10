@@ -27,11 +27,13 @@ interface childrenProp {
   childrenExplore: ReactNode;
   childrenLive: ReactNode;
   childrenPlaylist: ReactNode;
+  childrenLogo: ReactNode;
 }
 function NavList({
   childrenExplore,
   childrenLive,
   childrenPlaylist,
+  childrenLogo,
 }: childrenProp) {
   // console.log("render");
   const [open, setOpen] = useState(false);
@@ -67,7 +69,11 @@ function NavList({
         </div>
       </ul>
 
-      <NavListUlWrapper open={open} setOpen={setOpen}>
+      <NavListUlWrapper
+        open={open}
+        setOpen={setOpen}
+        childrenLogo={childrenLogo}
+      >
         <div className="overflow-auto flex-1  flex flex-col will-change-scroll py-3  ">
           {/*  will-change-scroll for hardware acceleration , without this , it feels junky in chrome and some webkit browser */}
 

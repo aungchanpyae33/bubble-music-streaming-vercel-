@@ -2,14 +2,19 @@ import clsx from "clsx";
 import { ReactNode, SetStateAction, useRef } from "react";
 import NavSidebarToggle from "./NavSideBarToggle";
 import FocusTrap from "../Footer/audioFull/FocusTrap";
-import Logo from "../icon/Logo";
 
 interface NavListUlWrapperProp {
   open: boolean;
   setOpen: React.Dispatch<SetStateAction<boolean>>;
   children: ReactNode;
+  childrenLogo: ReactNode;
 }
-function NavListUlWrapper({ open, setOpen, children }: NavListUlWrapperProp) {
+function NavListUlWrapper({
+  open,
+  setOpen,
+  children,
+  childrenLogo,
+}: NavListUlWrapperProp) {
   const ulRef = useRef<HTMLUListElement>(null);
   return (
     <FocusTrap refFocus={ulRef}>
@@ -32,7 +37,7 @@ function NavListUlWrapper({ open, setOpen, children }: NavListUlWrapperProp) {
             )}
             aria-hidden={true}
           >
-            <Logo width={90} height={70} />
+            {childrenLogo}
           </button>
         </li>
         {children}

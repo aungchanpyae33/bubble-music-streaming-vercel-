@@ -10,6 +10,7 @@ import {
   HydrationBoundary,
   QueryClient,
 } from "@tanstack/react-query";
+import Logo from "../icon/Logo";
 
 async function NavSideBar() {
   const deviceFromUserAgent = await DeviceCheck();
@@ -29,6 +30,7 @@ async function NavSideBar() {
       >
         <HydrationBoundary state={dehydrate(queryClient)}>
           <NavList
+            childrenLogo={<Logo width={90} height={70} />}
             childrenExplore={
               <div className=" w-[70px] max-w-[70px] h-[70px]   flex items-center justify-center     ">
                 <IconWrapper size="large" Icon={Compass} />
