@@ -30,6 +30,7 @@ import ArtistWrapper from "../general/ArtistWrapper";
 import MediaSessionDesWrapper from "./audio/MediaSessionWrapper/MediaSessionDesWrapper";
 import PlaceHolderFetchQueue from "./PlaceHolderFetchQueue";
 import PlaceHolderTrackUser from "./PlaceHolderTrackUser";
+import ToolTip from "../general/ToolTip";
 function AudioPlayer({
   footerRef,
   start,
@@ -112,7 +113,13 @@ function AudioPlayer({
                     className="flex flex-col overflow-hidden will-change-transform"
                     key={name}
                   >
-                    <AudioInfo el={<span>{name}</span>} />
+                    <AudioInfo
+                      el={
+                        <ToolTip tooltipContent={name}>
+                          <span>{name}</span>
+                        </ToolTip>
+                      }
+                    />
                     <AudioInfo el={<ArtistWrapper artists={artists} />} />
                   </div>
                 )}

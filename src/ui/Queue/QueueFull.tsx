@@ -17,6 +17,8 @@ import { motion } from "motion/react";
 import QueueItemContainer from "./QueueItemContainer";
 import ContextLike from "../trackComponent/ContextLike";
 import { AudioFullRefContext } from "../Footer/audioFull/ContextAudioFullRef";
+import ArtistWrapper from "../general/ArtistWrapper";
+import ToolTip from "../general/ToolTip";
 function QueueFull() {
   const playListArray = useRepeatAndCurrentPlayList(
     (state: currentSongPlaylist) => Object.values(state.playListArray)[0] || []
@@ -71,14 +73,20 @@ function QueueFull() {
                     />
                   </div>
                   <div
-                    className="flex-1 overflow-hidden
-              flex   items-center"
+                    className="flex-1 flex-col overflow-hidden
+              flex justify-center"
                   >
-                    <div
-                      className="truncate
+                    <ToolTip tooltipContent={item.name}>
+                      <div
+                        className="truncate
               "
-                    >
-                      {item.name}
+                      >
+                        {item.name}
+                      </div>
+                    </ToolTip>
+
+                    <div className="truncate flex ">
+                      <ArtistWrapper artists={item.artists} />
                     </div>
                   </div>
                   <div className="w-[30px] flex items-center">

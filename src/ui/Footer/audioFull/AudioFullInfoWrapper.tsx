@@ -8,6 +8,7 @@ import CloseShowBlockBtn from "./CloseShowBlockBtn";
 import Image from "next/image";
 import { DataContext } from "@/lib/MediaSource/ContextMedia";
 import ArtistWrapper from "@/ui/general/ArtistWrapper";
+import ToolTip from "@/ui/general/ToolTip";
 function AudioFullInfoWrapper({ children }: { children: React.ReactNode }) {
   const showBlock = useShowBlock((state: ShowBlock) => state.showBlock);
   const setShowBlock = useShowBlock(
@@ -77,7 +78,23 @@ function AudioFullInfoWrapper({ children }: { children: React.ReactNode }) {
               />
             )}
           </div>
-          <p className=" flex-1">hello</p>
+          <div
+            className="flex-1 flex-col overflow-hidden
+              flex justify-center"
+          >
+            <ToolTip tooltipContent={name}>
+              <div
+                className="truncate
+              "
+              >
+                {name}
+              </div>
+            </ToolTip>
+
+            <div className="truncate flex ">
+              <ArtistWrapper artists={artists} />
+            </div>
+          </div>
           <CloseShowBlockBtn />
         </div>
 
