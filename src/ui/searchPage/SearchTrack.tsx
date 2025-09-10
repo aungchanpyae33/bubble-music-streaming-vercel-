@@ -23,9 +23,6 @@ function SearchTrack({
   // roleCell: RefObject<number>;
   // dataInc: RefObject<number>;
 }) {
-  const tooltipContent = [
-    "ထားသော ကိုယ်ပိုင် ဝက်ဘ်အက်ပ် ပရောဂျက်တစ်ခုဖြစ်ပါသည်။ရိူးရှင်းပြီး အသုံးပြုရ လွယ်ကူသောဒီဇိုင်းဖြင့် ဖန်တီးထားပြီး အသုံးပြုသူ အနေဖြင့် သီချင်းနားထောင်ခြင်း ၊ သိမ်းဆည်းခြင်း အပြင် အခြားသူများဖြင့်ပါ တိုက်ရိုက်နားဆင်နိုင်ပါသည်။",
-  ];
   return (
     <SearchItemWrapper>
       <div className="w-[50px]  relative group  ">
@@ -42,13 +39,13 @@ function SearchTrack({
       </div>
       {/* Flex items have `min-width: auto` by default */}
       <div className="min-w-0 flex-1  p-2">
-        <ToolTip tooltipContent={tooltipContent[index]}>
+        <ToolTip tooltipContent={song.name}>
           <div className="truncate text-sm">
             <LeadingRelax>{song.name}</LeadingRelax>
           </div>
         </ToolTip>
 
-        <div className="truncate text-sm">
+        <div className="truncate text-sm flex">
           <ArtistWrapper artists={song.artists} />
         </div>
       </div>
