@@ -3,6 +3,8 @@ import { useQuery } from "@tanstack/react-query";
 import { getUserLibClient } from "@/database/client-data";
 import NoThankYouPreFetchLink from "../general/NoThankYouPreFetchLink";
 import Image from "next/image";
+import IconWrapper from "../general/IconWrapper";
+import { Folder } from "lucide-react";
 
 function PlaylistFolderContainer({
   open,
@@ -30,13 +32,17 @@ function PlaylistFolderContainer({
                 className=" h-[50px] leading-relaxed  flex items-center gap-x-2"
                 onClick={() => setOpen(false)}
               >
-                <div className="size-[50px] relative  cursor-pointer">
-                  <Image
-                    src={item.cover_url ?? ""}
-                    fill
-                    alt="image"
-                    sizes="50px"
-                  />
+                <div className="size-[50px] bg-[#333333] relative  cursor-pointer">
+                  {item.cover_url ? (
+                    <Image src={item.cover_url} fill alt="image" sizes="50px" />
+                  ) : item.type === "playlist" ? (
+                    <div className=" absolute inset-0 flex items-center justify-center">
+                      <IconWrapper
+                        Icon={Folder}
+                        className="hover:scale-100   active:scale-100 size-[30px]"
+                      />
+                    </div>
+                  ) : null}
                 </div>
                 <div className=" flex-1  truncate pr-2">{item.name}</div>
               </NoThankYouPreFetchLink>

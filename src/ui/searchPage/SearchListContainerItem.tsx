@@ -9,6 +9,8 @@ import Image from "next/image";
 import { listInfo } from "@/database/data";
 import { outputRelatedType } from "@/lib/prototypeOuputRelatedType";
 import UnderLineLinkHover from "../general/UnderLineLinkHover";
+import IconWrapper from "../general/IconWrapper";
+import { Folder } from "lucide-react";
 interface SearchListContainerItemProps {
   description: string;
   index: number;
@@ -26,7 +28,16 @@ function SearchListContainerItem({
     <SearchItemWrapper>
       <div className="w-[50px]  relative group  ">
         <div className="size-[50px] group-hover:brightness-75 relative">
-          {cover_url && <Image src={cover_url} fill alt="img" sizes="50px" />}
+          {cover_url ? (
+            <Image src={cover_url} fill alt="img" sizes="50px" />
+          ) : (
+            <div className=" absolute inset-0 flex items-center justify-center">
+              <IconWrapper
+                Icon={Folder}
+                className="hover:scale-100   active:scale-100 size-[30px]"
+              />
+            </div>
+          )}
         </div>
         <DirectPlayButton
           listId={id}

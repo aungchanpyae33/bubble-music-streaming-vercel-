@@ -9,6 +9,8 @@ import DirectPlayButton from "../playlist/DirectPlayButton";
 import SearchItemWrapper from "./SearchItemWrapper";
 import ContextSearchProfile from "./ContextSearchProfile";
 import ProfileOption from "../general/optionBox/ProfileOption";
+import IconWrapper from "../general/IconWrapper";
+import { User } from "lucide-react";
 
 interface SearchProfileItemProps {
   description: string;
@@ -24,8 +26,17 @@ function SearchProfileItem({
   return (
     <SearchItemWrapper>
       <div className="w-[50px]  relative group  ">
-        <div className="size-[50px] rounded-full overflow-hidden relative">
-          {cover_url && <Image src={cover_url} fill alt="img" sizes="50px" />}
+        <div className="size-[50px] rounded-full overflow-hidden relative bg-[#333333] group-hover:bg-[#222222]">
+          {cover_url ? (
+            <Image src={cover_url} fill alt="img" sizes="50px" />
+          ) : (
+            <div className=" absolute inset-0 flex items-center justify-center">
+              <IconWrapper
+                Icon={User}
+                className="hover:scale-100   active:scale-100 size-[30px]"
+              />
+            </div>
+          )}
         </div>
       </div>
       <div className="min-w-0 flex-1  p-2">

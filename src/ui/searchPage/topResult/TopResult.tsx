@@ -6,6 +6,8 @@ import SearchContainer from "../SearchContainer";
 import clsx from "clsx";
 import { DeviceCheck } from "@/lib/DeviceCheck";
 import UnderLineLinkHover from "@/ui/general/UnderLineLinkHover";
+import IconWrapper from "@/ui/general/IconWrapper";
+import { Folder, User } from "lucide-react";
 
 async function TopResult({
   topResult,
@@ -23,7 +25,7 @@ async function TopResult({
             className=" lg:w-[170px] rounded overflow-hidden w-[130px] shrink-0   aspect-square  object-cover relative bg-[#222222]
               "
           >
-            {topResult?.cover_url && (
+            {topResult?.cover_url ? (
               <Image
                 src={topResult.cover_url}
                 priority={true}
@@ -31,7 +33,21 @@ async function TopResult({
                 fill
                 alt="singer song"
               />
-            )}
+            ) : topResult?.type === "profile" ? (
+              <div className=" absolute inset-0 flex items-center justify-center">
+                <IconWrapper
+                  Icon={User}
+                  className="hover:scale-100   active:scale-100 size-[50px]"
+                />
+              </div>
+            ) : topResult?.type === "playlist" ? (
+              <div className=" absolute inset-0 flex items-center justify-center">
+                <IconWrapper
+                  Icon={Folder}
+                  className="hover:scale-100   active:scale-100 size-[50px]"
+                />
+              </div>
+            ) : null}
           </div>
           <p
             className={clsx("font-black truncate", {
