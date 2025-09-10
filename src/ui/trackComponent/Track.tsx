@@ -11,6 +11,7 @@ import ArtistWrapper from "../general/ArtistWrapper";
 import TrackItemContainer from "./TrackItemContainer";
 import ContextInfoTrack from "./ContextInfoTrack";
 import ContextLike from "./ContextLike";
+import Image from "next/image";
 
 function Track({
   listSong,
@@ -26,12 +27,10 @@ function Track({
   // dataInc: RefObject<number>;
 }) {
   // console.log(like, playlistSong, "sdfl");
-  const tooltipContent = [
-    "ထားသော ကိုယ်ပိုင် ဝက်ဘ်အက်ပ် ပရောဂျက်တစ်ခုဖြစ်ပါသည်။ရိူးရှင်းပြီး အသုံးပြုရ လွယ်ကူသောဒီဇိုင်းဖြင့် ဖန်တီးထားပြီး အသုံးပြုသူ အနေဖြင့် သီချင်းနားထောင်ခြင်း ၊ သိမ်းဆည်းခြင်း အပြင် အခြားသူများဖြင့်ပါ တိုက်ရိုက်နားဆင်နိုင်ပါသည်။",
-  ];
+
   return (
     <tr
-      className=" transition-colors duration-150  [&:has(:focus-visible)]:ring-4 h-[72px]  hover:bg-[#1E2328] group
+      className=" transition-colors duration-150  [&:has(:focus-visible)]:ring-4 h-[72px] p-3  hover:bg-[#1E2328] group
       "
       // tabIndex={0}
       id="uni1"
@@ -45,8 +44,17 @@ function Track({
       //   FocusElement(e.currentTarget, "rowCell", roleCell);
       // }}
     >
-      <td className="px-2 w-[50px] ">
-        <ToggleElement playlistSong={listSong} song={song} className="w-full" />
+      <td className="w-[50px] pl-2  relative   ">
+        <div className="size-[50px] group-hover:brightness-75 relative">
+          {song.cover_url && (
+            <Image src={song.cover_url} fill alt="img" sizes="50px" />
+          )}
+        </div>
+        <ToggleElement
+          playlistSong={listSong}
+          song={song}
+          className=" z-10  hidden group-hover:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+        />
       </td>
 
       <td className=" max-w-[200px] px-2  ">
