@@ -4,7 +4,7 @@ export const TimeFormat = (sec: number | undefined) => {
     const minutes = Math.floor(totalSeconds / 60);
     const seconds = totalSeconds % 60;
 
-    const returnedMinutes = minutes < 10 ? `0${minutes}` : `${minutes}`;
+    const returnedMinutes = minutes;
     const returnedSeconds = seconds < 10 ? `0${seconds}` : `${seconds}`;
     return `${returnedMinutes}:${returnedSeconds}`;
   } else {
