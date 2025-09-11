@@ -10,15 +10,17 @@ function AudioCurImg() {
   const { setBgValue } = useContext(ContextBackGround);
   const imgRef = useRef<HTMLImageElement | null>(null);
   useGetDominantColor({ setBgValue, imgRef, cover_url });
+
   return (
     <div
       className={clsx(
-        " lg:h-[270px] h-[100%]  mx-auto lg:mx-0 aspect-square shrink-0 grow-0 fallbackAspect bg-[#343333] short:opacity-0 short:absolute  overflow-hidden relative"
+        " w-full pb-[100%] aspect-square shrink-0 grow-0  bg-[#333333]  overflow-hidden relative"
       )}
     >
       {cover_url && (
         <Image
           ref={imgRef}
+          priority={true}
           src={cover_url}
           sizes="300px"
           alt="this is image element"

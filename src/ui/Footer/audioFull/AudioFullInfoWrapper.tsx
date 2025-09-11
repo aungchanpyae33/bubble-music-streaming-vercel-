@@ -33,7 +33,7 @@ function AudioFullInfoWrapper({ children }: { children: React.ReactNode }) {
       >
         <div
           className={clsx(
-            " flex items-center shrink-0 grow-0  overflow-hidden h-[80%] max-h-[90vw]  lg:h-auto"
+            " flex items-center shrink-0 grow-0  overflow-hidden w-[90%] max-w-[384px] lg:w-[270px]"
           )}
         >
           {children}
@@ -47,18 +47,18 @@ function AudioFullInfoWrapper({ children }: { children: React.ReactNode }) {
             <p className={clsx(" text-zinc-100  text-xl lg:text-2xl")}>
               {name}
             </p>
-            <p className={clsx(" text-zinc-100  lg:text-xl text-base")}>
+            <div className={clsx(" text-zinc-100  lg:text-xl text-base flex")}>
               <ArtistWrapper artists={artists} />
-            </p>
+            </div>
           </div>
         </div>
       </div>
       <div
         className={clsx(
-          " bg-[#222222]  will-change-transform  left-auto lg:grid-rows-[1fr] lg:w-[50%] w-full lg:top-[60px] inset-0  absolute grid grid-rows-[60px_1fr]    shadow-md   transition-[opacity,transform] duration-500",
+          " bg-[#222222]  will-change-transform  left-auto lg:grid-rows-[1fr] lg:w-[50%] w-full  inset-0  absolute grid grid-rows-[60px_1fr]    shadow-md   transition-[opacity,transform] duration-500",
           {
             "translate-y-0": showBlock.open,
-            "translate-y-full": !showBlock.open,
+            "translate-y-[103%]": !showBlock.open,
           }
         )}
         tabIndex={-1}
@@ -79,7 +79,7 @@ function AudioFullInfoWrapper({ children }: { children: React.ReactNode }) {
             )}
           </div>
           <div
-            className="flex-1 flex-col overflow-hidden
+            className="flex-1 flex-col  overflow-hidden
               flex justify-center"
           >
             <ToolTip tooltipContent={name}>
