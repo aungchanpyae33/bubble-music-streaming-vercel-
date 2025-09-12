@@ -9,6 +9,11 @@ import Image from "next/image";
 import { DataContext } from "@/lib/MediaSource/ContextMedia";
 import ArtistWrapper from "@/ui/general/ArtistWrapper";
 import ToolTip from "@/ui/general/ToolTip";
+import dynamic from "next/dynamic";
+import LyricPaddingBlock from "./LyricPaddingBlock";
+const QueueFullLazy = dynamic(() => import("@/ui/Queue/QueueFull"), {
+  loading: () => <p>i am loading</p>,
+});
 function AudioFullInfoWrapper({ children }: { children: React.ReactNode }) {
   const showBlock = useShowBlock((state: ShowBlock) => state.showBlock);
   const setShowBlock = useShowBlock(
@@ -55,7 +60,7 @@ function AudioFullInfoWrapper({ children }: { children: React.ReactNode }) {
       </div>
       <div
         className={clsx(
-          " bg-[#222222]  will-change-transform  left-auto lg:grid-rows-[1fr] lg:w-[50%] w-full  inset-0  absolute grid grid-rows-[60px_1fr]    shadow-md   transition-[opacity,transform] duration-500",
+          " bg-[#222222]  will-change-transform  left-auto lg:grid-rows-[8px_1fr_8px] lg:w-[50%] w-full  inset-0  absolute grid grid-rows-[60px_8px_1fr_8px]    shadow-md   transition-[opacity,transform] duration-500",
           {
             "translate-y-0": showBlock.open,
             "translate-y-[103%]": !showBlock.open,
@@ -97,15 +102,16 @@ function AudioFullInfoWrapper({ children }: { children: React.ReactNode }) {
           </div>
           <CloseShowBlockBtn />
         </div>
-
-        <AnimatePresence mode="wait">
+        <LyricPaddingBlock />
+        <AnimatePresence mode="wait" initial={false}>
           {showBlock.type === "lyric" && showBlock.open && (
             <LyricContainer type={showBlock.type} key={"lyric"} />
           )}
           {showBlock.type === "queue" && showBlock.open && (
-            <QueueFull key={"queue"} />
+            <QueueFullLazy key={"queue"} />
           )}
         </AnimatePresence>
+        <LyricPaddingBlock />
       </div>
     </div>
   );
