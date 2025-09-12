@@ -8,7 +8,7 @@ import {
   useSongFunction,
   useStorePlayListId,
 } from "@/lib/zustand";
-import React from "react";
+import React, { useContext } from "react";
 import type {
   SongState,
   SongActions,
@@ -23,6 +23,9 @@ import type {
 import IconWrapper from "@/ui/general/IconWrapper";
 import { Pause, Play } from "lucide-react";
 import { listSongsSection, SongInfo } from "@/database/data";
+import { AudioElementContext } from "../AudioWrapper";
+import { canPlayHLS } from "@/lib/CustomHooks/MediaSourceBuffer";
+import { HlsDirectPlay } from "@/lib/HlsDirectPlay";
 interface toggleElementProp extends React.ComponentProps<"button"> {
   playlistSong: listSongsSection | undefined;
   song: SongInfo;
@@ -64,6 +67,7 @@ const ToggleElement = ({
   const setPlayList = useDirectPlayBack(
     (state: DirectPlayBackAction) => state.setPlayList
   );
+  const { audioEl } = useContext(AudioElementContext);
   return (
     <button
       role="rowCell1"
@@ -132,6 +136,7 @@ const ToggleElement = ({
           });
           setPlayList(playlistId || "", true);
           setPlay(uniUrl || "", true);
+          HlsDirectPlay(song.url, audioEl);
         }
       }}
       className={className}

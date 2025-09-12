@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef } from "react";
+import React, { useContext, useRef } from "react";
 import { useSong } from "@/lib/zustand";
 import AudioElement from "./audio/AudioElement";
 import ToggleButton from "./audio/Toggle/ToggleButton";
@@ -31,6 +31,7 @@ import MediaSessionDesWrapper from "./audio/MediaSessionWrapper/MediaSessionDesW
 import PlaceHolderFetchQueue from "./PlaceHolderFetchQueue";
 import PlaceHolderTrackUser from "./PlaceHolderTrackUser";
 import ToolTip from "../general/ToolTip";
+import { AudioElementContext } from "./audio/AudioWrapper";
 function AudioPlayer({
   footerRef,
   start,
@@ -54,18 +55,18 @@ function AudioPlayer({
     (state: SongState) =>
       Object.values(state.songCu as Record<string, string>)[0]
   );
+  const { audioEl } = useContext(AudioElementContext);
   const {
-    dataAudio,
     loadNextSegment,
     segNum,
     abortController,
     fetching,
     bufferThreshold,
-  } = useMediaSourceBuffer(url, sege, song_time_stamp, id!);
+  } = useMediaSourceBuffer(url, sege, song_time_stamp, id!, audioEl);
   return (
     <ContextMedia
       data={{
-        dataAudio,
+        dataAudio: audioEl,
         duration,
         abortController,
         fetching,

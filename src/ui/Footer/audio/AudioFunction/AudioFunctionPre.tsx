@@ -1,5 +1,7 @@
 import { listSongsSection } from "@/database/data";
 import outputCurrentIndex from "@/lib/CustomHooks/OutputCurrentIndex";
+import { HlsDirectPlay } from "@/lib/HlsDirectPlay";
+import { DataContext } from "@/lib/MediaSource/ContextMedia";
 import {
   useDirectPlayBack,
   useSong,
@@ -15,6 +17,7 @@ import type {
 } from "@/lib/zustand";
 import IconWrapper from "@/ui/general/IconWrapper";
 import { SkipBack } from "lucide-react";
+import { useContext } from "react";
 interface Props extends React.ComponentProps<"button"> {
   listSong: listSongsSection;
   id: string;
@@ -24,7 +27,7 @@ function AudioFunctionPre({ listSong, className, id }: Props) {
   const playlistId = useStorePlayListId(
     (state: StorePlayListIdState) => Object.values(state.playlistId)[0] || []
   ) as string[];
-
+  const { dataAudio } = useContext(DataContext);
   const setPlay = useSongFunction(
     (state: SongFunctionActions) => state.setPlay
   );
@@ -72,6 +75,7 @@ function AudioFunctionPre({ listSong, className, id }: Props) {
     setPlaylistId({ [playlistId[0] || ""]: [playlistId[0], id] });
     setPlayList(playlistId[0], true);
     setPlay(uniUrl || "", true);
+    HlsDirectPlay(url, dataAudio);
   }
   return (
     <button onClick={() => songFunctionPre()} className={className}>

@@ -1,18 +1,24 @@
+"use client";
 import {
   SongFunctionState,
+  SongState,
+  useSong,
   useSongFunction,
   useVolumeValue,
   VolumeValueState,
 } from "@/lib/zustand";
-import { RefObject, useEffect, useRef } from "react";
+import React, { createContext, ReactNode, useEffect, useRef } from "react";
 
-function AudioWrapper({
-  dataAudio,
-  url,
-}: {
-  dataAudio: RefObject<HTMLAudioElement | null>;
-  url: string;
-}) {
+interface AudioElementContextProps {
+  audioEl: React.RefObject<HTMLAudioElement | null>;
+}
+export const AudioElementContext = createContext<AudioElementContextProps>({
+  audioEl: {
+    current: null,
+  },
+});
+
+function AudioWrapper({ children }: { children: ReactNode }) {
   const attchVol = useRef(false);
   const Isplay = useSongFunction(
     (state: SongFunctionState) =>
@@ -27,19 +33,23 @@ function AudioWrapper({
     }
   }, []);
 
+  const audioEl = useRef<HTMLAudioElement>(null);
   return (
-    <audio
-      ref={dataAudio}
-      className="hidden"
-      hidden
-      onLoadedMetadata={(e) => {
-        if (value !== undefined) {
-          const defaultVol = 1 - value / 100;
-          e.currentTarget.volume = defaultVol;
-        }
-        Isplay && e.currentTarget.play();
-      }}
-    ></audio>
+    <>
+      <audio
+        ref={audioEl}
+        onLoadedMetadata={(e) => {
+          if (value !== undefined) {
+            const defaultVol = 1 - value / 100;
+            e.currentTarget.volume = defaultVol;
+          }
+          Isplay && e.currentTarget.play();
+        }}
+      />
+      <AudioElementContext.Provider value={{ audioEl }}>
+        {children}
+      </AudioElementContext.Provider>
+    </>
   );
 }
 

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { RefObject, useEffect } from "react";
 import {
   useDirectPlayBack,
   useRepeatAndCurrentPlayList,
@@ -15,8 +15,12 @@ import type {
 } from "../zustand";
 import { Artist, listSongsSection } from "@/database/data";
 import outputCurrentIndex from "../CustomHooks/OutputCurrentIndex";
+import { HlsDirectPlay } from "../HlsDirectPlay";
 
-const MediaSessionButton = (id_scope: string) => {
+const MediaSessionButton = (
+  id_scope: string,
+  audioEl: RefObject<HTMLAudioElement | null>
+) => {
   //[todo] need to add more code to align with audiofunction pre and next but can safe remove some code as there will be no ui when page refresh
   // const [playListArrayKey, playListArray] = useRepeatAndCurrentPlayList(
   //   (state: currentSongPlaylist) =>
@@ -84,6 +88,7 @@ const MediaSessionButton = (id_scope: string) => {
       setPlayList(playlistId, true);
       // url is also  keyName
       setPlay(uniUrl || "", true);
+      HlsDirectPlay(url, audioEl);
     }
     if ("mediaSession" in navigator) {
       navigator.mediaSession.setActionHandler("previoustrack", () => {
@@ -167,6 +172,7 @@ const MediaSessionButton = (id_scope: string) => {
     id_scope,
     setPlaylistId,
     setPlayList,
+    audioEl,
   ]);
 };
 export default MediaSessionButton;

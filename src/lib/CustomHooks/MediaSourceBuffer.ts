@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef } from "react";
+import React, { useCallback, useEffect, useMemo, useRef } from "react";
 import { fetchSegment } from "../MediaSource/fetchSegment";
 import { getRemainingBufferDuration } from "../MediaSource/getRemainBuffer";
 import { useRepeatAndCurrentPlayList } from "../zustand";
@@ -16,7 +16,8 @@ const useMediaSourceBuffer = (
   url: string,
   sege: number,
   song_time_stamp: Array<number>,
-  id: string
+  id: string,
+  dataAudio: React.RefObject<HTMLAudioElement | null>
 ) => {
   const fetching = useRef<FetchingState>({
     isFetch: false,
@@ -25,7 +26,6 @@ const useMediaSourceBuffer = (
   // to track fetching promise in prefetchSegment to avoid fetchagain nor abort
   const prefetchPromiseRef = useRef<Promise<ArrayBuffer[]> | null>(null);
   const segNum = useRef(1);
-  const dataAudio = useRef<HTMLAudioElement | null>(null);
   const mediaSource = useRef<MediaSource | null>(null);
   const sourceBuffer = useRef<SourceBuffer | null>(null);
   const prefetchedUrl = useRef("");
@@ -138,7 +138,7 @@ const useMediaSourceBuffer = (
       // console.log("hit me", segData);
       segNum.current = segData;
     }
-  }, [fetchAudioSegment, sege, checkFeching, song_time_stamp]);
+  }, [fetchAudioSegment, sege, checkFeching, song_time_stamp, dataAudio]);
 
   const throttleLoadNextSegment = useMemo(
     () => throttle(loadNextSegment, 1000),
@@ -193,7 +193,13 @@ const useMediaSourceBuffer = (
         throttleLoadNextSegment
       );
     }
-  }, [url, updateendLoadNextSegment, throttleLoadNextSegment, checkFeching]);
+  }, [
+    url,
+    updateendLoadNextSegment,
+    throttleLoadNextSegment,
+    checkFeching,
+    dataAudio,
+  ]);
 
   const clearUpPreviousSong = useCallback(() => {
     const audio = dataAudio.current;
@@ -255,9 +261,8 @@ const useMediaSourceBuffer = (
     return () => {
       clearUpPreviousSong();
     };
-  }, [startUp, url, clearUpPreviousSong, id]);
+  }, [startUp, url, clearUpPreviousSong, id, dataAudio]);
   return {
-    dataAudio,
     segNum,
     loadNextSegment,
     fetching,

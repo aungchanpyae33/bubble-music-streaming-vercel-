@@ -17,11 +17,10 @@ function AudioElement({
   url: string;
   isFull: boolean;
 }) {
-  const { dataAudio, duration } = useContext(DataContext);
+  const { duration } = useContext(DataContext);
 
   return (
     <div className=" w-full flex items-center ">
-      <AudioWrapper dataAudio={dataAudio} url={url} />
       <AudioSeekBar
         url={url}
         isFull={isFull}
