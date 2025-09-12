@@ -30,8 +30,9 @@ function Track({
 
   return (
     <tr
-      className=" transition-colors duration-150  [&:has(:focus-visible)]:ring-4 h-[72px] p-3  hover:bg-[#1E2328] group
+      className=" transition-colors isolate -z-10 duration-150  [&:has(:focus-visible)]:ring-4 h-[72px] p-3  hover:bg-[#1E2328] group
       "
+      //fallback -z if isolate is not supported
       // tabIndex={0}
       id="uni1"
       role={`cell${index + 1}`}
@@ -53,7 +54,7 @@ function Track({
         <ToggleElement
           playlistSong={listSong}
           song={song}
-          className=" z-10  hidden group-hover:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+          className=" z-10 has-hover:hidden has-hover:group-hover:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
         />
       </td>
 
