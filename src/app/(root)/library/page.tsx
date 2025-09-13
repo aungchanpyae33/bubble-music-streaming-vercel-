@@ -224,11 +224,11 @@ async function page() {
           </div>
         </div>
       </div>
-      <Container songs={["one"]} description="လတ်တလော နားထောင်ခဲ့သော " />
+      {/* <Container songs={["one"]} description="လတ်တလော နားထောင်ခဲ့သော " />
       <Container songs={["one"]} description="သင့်ရဲ့ သီချင်းစာရင်း" />
 
       <Container songs={["one"]} description="သင့်နှစ်သက်သော သီချင်းစာရင်း" />
-      <Container songs={["one"]} description="သင့် အကြိုက်ဆုံး အဆိုတော်များ" />
+      <Container songs={["one"]} description="သင့် အကြိုက်ဆုံး အဆိုတော်များ" /> */}
     </div>
   );
 }

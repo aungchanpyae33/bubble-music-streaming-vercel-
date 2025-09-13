@@ -34,7 +34,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "src/app/(root)/test/loading.js"
-  ],
+, "next.config.mjs"  ],
   "exclude": [
     "node_modules"
   ]

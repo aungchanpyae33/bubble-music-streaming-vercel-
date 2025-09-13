@@ -12,6 +12,24 @@ export interface FetchingState {
   isFetch: boolean;
   fetchingseg: number;
 }
+
+export const canPlayHLS = () => {
+  if (typeof window === "undefined") return false;
+
+  const audio = document.createElement("audio");
+  console.log(
+    audio.canPlayType("application/vnd.apple.mpegurl"),
+    "sdf",
+    audio.canPlayType("audio/mpegurl"),
+    "sdfj"
+  );
+
+  return (
+    audio.canPlayType("application/vnd.apple.mpegurl") !== "" ||
+    audio.canPlayType("audio/mpegurl") !== ""
+  );
+};
+
 const useMediaSourceBuffer = (
   url: string,
   sege: number,
@@ -236,28 +254,40 @@ const useMediaSourceBuffer = (
       initAbortController.current = null;
     }
     segNum.current = 1;
-  }, [throttleLoadNextSegment, sourceOpen, updateendLoadNextSegment]);
+  }, [
+    throttleLoadNextSegment,
+    sourceOpen,
+    updateendLoadNextSegment,
+    dataAudio,
+  ]);
   const startUp = useCallback(() => {
     dataAudio.current!.src = URL.createObjectURL(mediaSource.current!);
 
     mediaSource.current!.addEventListener("sourceopen", sourceOpen, false);
-  }, [sourceOpen]);
+  }, [sourceOpen, dataAudio]);
 
   useEffect(() => {
     if (!url) {
       return;
     }
-    //  if there is a prefetchFetching and the currentSong is not for this , set back to null
-    if (url !== prefetchedUrl.current) {
-      prefetchPromiseRef.current = null;
+
+    if (canPlayHLS()) {
+      return;
+    } else {
+      if (url)
+        if (url !== prefetchedUrl.current) {
+          //  if there is a prefetchFetching and the currentSong is not for this , set back to null
+          prefetchPromiseRef.current = null;
+        }
+      if (typeof window !== "undefined") {
+        const MediaSource = window.MediaSource || null;
+        mediaSource.current = new MediaSource();
+        startUp();
+      }
+      abortController.current = new AbortController();
+      initAbortController.current = new AbortController();
     }
-    if (typeof window !== "undefined") {
-      const MediaSource = window.MediaSource || null;
-      mediaSource.current = new MediaSource();
-      startUp();
-    }
-    abortController.current = new AbortController();
-    initAbortController.current = new AbortController();
+
     return () => {
       clearUpPreviousSong();
     };

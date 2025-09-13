@@ -2,7 +2,7 @@ import type { Config } from "tailwindcss";
 import plugin from "tailwindcss/plugin";
 import animate from "tailwindcss-animate";
 const config: Config = {
-  darkMode: ["class"],
+  darkMode: "selector",
   // in version 4 there is no need to do that
   future: {
     hoverOnlyWhenSupported: true,

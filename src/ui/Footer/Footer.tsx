@@ -102,13 +102,13 @@ function Footer() {
               <span className=" block truncate">github.com/aungchanpyae33</span>
             </Link>
 
-            <Link
+            {/* <Link
               href="https://yourportfolio.com"
               className="text-zinc-400 hover:text-white transition-colors text-sm flex items-center gap-2"
             >
               <ExternalLink size={16} />
               ကျွန်တော်ဧ။် ပို့ဖိုလီယိုကို ကြည့်ရှုရန်
-            </Link>
+            </Link> */}
           </div>
         </div>
       </div>

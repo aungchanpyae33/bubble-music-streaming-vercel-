@@ -19,7 +19,7 @@ function RecentlyListContainer({
     queryFn: () => getRecentClient(),
     initialData: songs,
   });
-  console.log(data, error);
+
   if (!data || error) return;
   return (
     <ContextContainer>

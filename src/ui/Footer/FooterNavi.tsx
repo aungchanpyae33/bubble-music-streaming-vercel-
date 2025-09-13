@@ -3,6 +3,7 @@ import clsx from "clsx";
 import Link from "next/link";
 
 function FooterNavi({ device }: { device: contextProps["device"] }) {
+  return null;
   return (
     <div
       className={clsx(

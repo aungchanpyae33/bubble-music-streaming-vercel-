@@ -7,29 +7,31 @@ const useBodyScrollLock = ({
 }): [boolean, React.Dispatch<React.SetStateAction<boolean>>] => {
   const [open, setOpen] = useState(false);
   const scrollY = useRef(0);
+  const mainElement = document.querySelector("main");
   useEffect(() => {
-    if (open && window.document.body.scrollHeight >= window.innerHeight) {
+    if (open && mainElement!.scrollHeight >= window.innerHeight) {
       scrollY.current = window.scrollY;
-      window.document.body.style.overflow = "hidden";
+      mainElement!.style.overflow = "hidden";
       // Prevent content jump
-      window.document.body.style.top = `-${scrollY.current}px`;
+      mainElement!.style.top = `-${scrollY.current}px`;
       if (isCoverScroll) {
-        window.document.body.classList.add("scrolllock");
+        mainElement!.classList.add("scrolllock");
+        console.log("ue");
       } else {
-        window.document.body.classList.add("noScrolllock");
+        mainElement!.classList.add("noScrolllock");
       }
     } else {
       if (isCoverScroll) {
-        window.document.body.classList.remove("scrolllock");
+        mainElement!.classList.remove("scrolllock");
       } else {
-        window.document.body.classList.remove("noScrolllock");
+        mainElement!.classList.remove("noScrolllock");
       }
-      window.document.body.style.overflow = "";
+      mainElement!.style.overflow = "";
 
       window.scrollTo(0, scrollY.current); //reslove back to top after close menubar
-      window.document.body.style.top = "";
+      mainElement!.style.top = "";
     }
-  }, [open, isCoverScroll]);
+  }, [open, isCoverScroll, mainElement]);
 
   return [open, setOpen];
 };

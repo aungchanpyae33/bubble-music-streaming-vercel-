@@ -19,7 +19,7 @@ export const addRecentlyPlayedList = async (
       p_item_id: id,
       p_type: type,
     });
-    console.log(data, error);
+
     const mappedData = data ? deepMapById(data, ["recentlyPlayed"]) : null;
     if ("recentlyPlayed" in mappedData) {
       return { data: mappedData["recentlyPlayed"], error: null };
