@@ -9,17 +9,26 @@ import IconWrapper from "../general/IconWrapper";
 import { EllipsisVertical } from "lucide-react";
 import debounce from "@/lib/debounce";
 
-function QueueLoader({ queeRef }: { queeRef: RefObject<HTMLElement | null> }) {
+function QueueLoader({
+  queeRef,
+  length,
+}: {
+  queeRef: RefObject<HTMLElement | null>;
+  length: number;
+}) {
   const [count, setCount] = useState(0);
   const getCount = useCallback(() => {
-    console.log("initial");
     const container = queeRef.current;
     if (!container) return;
     if (!container) return;
+
     const clientHeight = container.clientHeight;
     const itemHeight = 60;
-    setCount(Math.ceil(clientHeight / itemHeight) + 1);
-  }, [queeRef]);
+    const maxItem = Math.ceil(clientHeight / itemHeight) + 1;
+    const autualItem = length;
+    const countData = Math.min(autualItem, maxItem);
+    setCount(countData);
+  }, [queeRef, length]);
   const debounceGetCount = useMemo(() => debounce(getCount, 500), [getCount]);
 
   useLayoutEffect(() => {

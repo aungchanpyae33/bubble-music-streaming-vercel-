@@ -44,7 +44,7 @@ function QueueFull() {
       transition={{ duration: 0.3 }}
       className=" relative  h-full overflow-hidden flex-1 flex  "
     >
-      <QueueLoader queeRef={scrollRef} />
+      <QueueLoader queeRef={scrollRef} length={playListArray.idArray.length} />
       <div
         className={clsx(
           "overflow-auto relative   no-scrollbar    h-full flex-1 "
