@@ -68,11 +68,7 @@ function QueueFull() {
                 key={item.id}
                 data-id={item.id}
                 className={clsx(
-                  "flex z-50 gap-x-2  bg-[#222222]   p-2 group hover:bg-[#333333] items-stretch",
-                  {
-                    "pt-0": index === 0,
-                    "pb-0": index === trimArray.length - 1,
-                  }
+                  "flex z-50 gap-x-2  bg-[#222222]   p-2 h-[60px] group hover:bg-[#333333] items-center justify-center"
                 )}
               >
                 <div className="w-[50px] relative">
