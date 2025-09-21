@@ -121,7 +121,13 @@ function AudioPlayer({
                         </ToolTip>
                       }
                     />
-                    <AudioInfo el={<ArtistWrapper artists={artists} />} />
+                    <AudioInfo
+                      el={
+                        <div className=" flex">
+                          <ArtistWrapper artists={artists} />
+                        </div>
+                      }
+                    />
                   </div>
                 )}
               </div>
