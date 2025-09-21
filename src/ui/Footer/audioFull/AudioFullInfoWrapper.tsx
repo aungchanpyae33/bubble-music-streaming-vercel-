@@ -9,11 +9,7 @@ import Image from "next/image";
 import { DataContext } from "@/lib/MediaSource/ContextMedia";
 import ArtistWrapper from "@/ui/general/ArtistWrapper";
 import ToolTip from "@/ui/general/ToolTip";
-import dynamic from "next/dynamic";
 import LyricPaddingBlock from "./LyricPaddingBlock";
-const QueueFullLazy = dynamic(() => import("@/ui/Queue/QueueFull"), {
-  loading: () => <p>i am loading</p>,
-});
 function AudioFullInfoWrapper({ children }: { children: React.ReactNode }) {
   const showBlock = useShowBlock((state: ShowBlock) => state.showBlock);
   const setShowBlock = useShowBlock(
@@ -108,7 +104,7 @@ function AudioFullInfoWrapper({ children }: { children: React.ReactNode }) {
             <LyricContainer type={showBlock.type} key={"lyric"} />
           )}
           {showBlock.type === "queue" && showBlock.open && (
-            <QueueFullLazy key={"queue"} />
+            <QueueFull key={"queue"} />
           )}
         </AnimatePresence>
         <LyricPaddingBlock />
