@@ -1,13 +1,7 @@
-import {
-  RefObject,
-  useCallback,
-  useLayoutEffect,
-  useMemo,
-  useState,
-} from "react";
+import { RefObject } from "react";
 import IconWrapper from "../general/IconWrapper";
 import { EllipsisVertical } from "lucide-react";
-import debounce from "@/lib/debounce";
+import { useVirtuosoLoader } from "@/lib/CustomHooks/VirtuosoLoader";
 
 function QueueLoader({
   queeRef,
@@ -16,35 +10,7 @@ function QueueLoader({
   queeRef: RefObject<HTMLElement | null>;
   length: number;
 }) {
-  const [count, setCount] = useState(0);
-  const getCount = useCallback(() => {
-    const container = queeRef.current;
-    if (!container) return;
-    if (!container) return;
-
-    const clientHeight = container.clientHeight;
-    const itemHeight = 60;
-    const maxItem = Math.ceil(clientHeight / itemHeight) + 1;
-    const autualItem = length;
-    const countData = Math.min(autualItem, maxItem);
-    setCount(countData);
-  }, [queeRef, length]);
-  const debounceGetCount = useMemo(() => debounce(getCount, 500), [getCount]);
-
-  useLayoutEffect(() => {
-    const container = queeRef.current;
-    if (!container) return;
-    if (!count) {
-      getCount();
-    }
-    container.addEventListener("scroll", debounceGetCount, {
-      passive: true,
-    });
-    return () => {
-      container.removeEventListener("scroll", debounceGetCount);
-    };
-  }, [queeRef, getCount, count, debounceGetCount]);
-
+  const [count] = useVirtuosoLoader({ containerRef: queeRef, length });
   return (
     <div className="absolute inset-0  ">
       {[...Array(count)].map((_, i) => (
