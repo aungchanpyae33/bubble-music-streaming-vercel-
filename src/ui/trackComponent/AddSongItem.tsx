@@ -7,7 +7,11 @@ import {
   useIsExistSongs,
 } from "@/lib/zustand";
 import useAddSongMutate from "@/lib/CustomHooks/mutation/AddSongMutate";
-import { checkSongsBeforeAddClient } from "@/database/client-data";
+import {
+  checkSongsBeforeAddClient,
+  getUserLibClient,
+} from "@/database/client-data";
+import { useQuery } from "@tanstack/react-query";
 
 function AddSongItem({
   playlistSongs,
@@ -17,17 +21,27 @@ function AddSongItem({
     name: any;
   };
 }) {
+  const playlistId = playlistSongs.id;
+  const { data: queryData, error: queryError } = useQuery({
+    queryKey: ["user-library"],
+    queryFn: () => getUserLibClient(),
+  });
+  const userLib = queryData?.data?.userLib;
+  const playlist = userLib?.[playlistId];
+  const { songId, cover_url } = useAddSongsToPlaylist(
+    (state: songsToPlaylist) => state.songsToPlaylist
+  ) as addSongsToPlaylistProps;
+  const isListCover = playlist?.cover_url;
+  const noExistCover = isListCover ? null : cover_url;
   const setIsSongExist = useIsExistSongs(
     (state: songExistAction) => state.setIsSongExist
   );
   const addSongsToPlaylist = useAddSongsToPlaylist(
     (state: addSongsToPlaylist) => state.addSongsToPlaylist
   );
-  const playlistId = playlistSongs.id;
-  const { songId } = useAddSongsToPlaylist(
-    (state: songsToPlaylist) => state.songsToPlaylist
-  ) as addSongsToPlaylistProps;
-  const mutation = useAddSongMutate(playlistId);
+
+  const mutation = useAddSongMutate(playlistId, noExistCover);
+
   async function handleAdd() {
     addSongsToPlaylist({});
     const { exists, error } = await checkSongsBeforeAddClient({

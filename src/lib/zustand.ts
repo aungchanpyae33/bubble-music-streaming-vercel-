@@ -563,6 +563,7 @@ export const useIsExistSongs = create<isSongExist & songExistAction>((set) => ({
 
 export interface addSongsToPlaylistProps {
   songId: string;
+  cover_url: string;
 }
 export interface songsToPlaylist {
   songsToPlaylist: addSongsToPlaylistProps | {};
