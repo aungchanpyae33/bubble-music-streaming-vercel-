@@ -9,20 +9,8 @@ import IconWrapper from "../general/IconWrapper";
 import NavSideLinkNotOpen from "./NavSideLinkNotOpen";
 import dynamic from "next/dynamic";
 import PlaylistAdd from "./PlaylistAdd";
+import PlaylistFolderContainer from "./PlaylistFolderContainer";
 
-const PlaylistFolderContainerLazy = dynamic(
-  () => import("./PlaylistFolderContainer"),
-  {
-    loading: () => (
-      <div className=" flex-1 flex flex-col">
-        <div className=" mt-2 flex-1 animate-pulse bg-gray-400 leading-relaxed  flex items-center">
-          <div className="w-[70px]  cursor-pointer text-center">icon</div>
-          <div className=" flex-1  truncate pr-2"></div>
-        </div>
-      </div>
-    ),
-  }
-);
 interface childrenProp {
   childrenExplore: ReactNode;
   childrenLive: ReactNode;
@@ -74,7 +62,7 @@ function NavList({
         setOpen={setOpen}
         childrenLogo={childrenLogo}
       >
-        <div className="overflow-auto flex-1  flex flex-col will-change-scroll py-3  ">
+        <div className="overflow-auto flex-1  flex flex-col py-3  ">
           {/*  will-change-scroll for hardware acceleration , without this , it feels junky in chrome and some webkit browser */}
 
           <NavSideLink
@@ -109,9 +97,7 @@ function NavList({
             </NavSideLink>
             <PlaylistAdd />
           </div>
-          {open && (
-            <PlaylistFolderContainerLazy open={open} setOpen={setOpen} />
-          )}
+          <PlaylistFolderContainer open={open} setOpen={setOpen} />
         </div>
       </NavListUlWrapper>
 
