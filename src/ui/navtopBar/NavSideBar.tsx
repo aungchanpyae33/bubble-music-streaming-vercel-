@@ -18,6 +18,7 @@ async function NavSideBar() {
   await queryClient.prefetchQuery({
     queryKey: ["user-library"],
     queryFn: getUserLib,
+    gcTime: Infinity,
   });
   // if (!data || error) return null;
   // console.log(data, error);
