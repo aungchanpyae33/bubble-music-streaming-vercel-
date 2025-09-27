@@ -1,4 +1,4 @@
-import { PostgrestError } from "@supabase/supabase-js";
+import type { PostgrestError } from "@supabase/supabase-js";
 import { createClient } from "./server";
 import { Database } from "../../database.types";
 import { deepMapById } from "@/lib/returnById";

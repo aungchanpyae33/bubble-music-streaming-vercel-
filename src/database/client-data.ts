@@ -7,7 +7,7 @@ import {
   getSongListProps,
   UserLibMappedProps,
 } from "./data";
-import { PostgrestError } from "@supabase/supabase-js";
+import type { PostgrestError } from "@supabase/supabase-js";
 import { Database } from "../../database.types";
 
 export const getListDirectClient = async (

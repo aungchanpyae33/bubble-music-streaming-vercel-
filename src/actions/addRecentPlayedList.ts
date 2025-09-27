@@ -2,7 +2,7 @@
 
 import { createClient } from "@/database/server";
 import { Database } from "../../database.types";
-import { PostgrestError } from "@supabase/supabase-js";
+import type { PostgrestError } from "@supabase/supabase-js";
 import { deepMapById } from "@/lib/returnById";
 import { getRecentReturn } from "@/database/data";
 

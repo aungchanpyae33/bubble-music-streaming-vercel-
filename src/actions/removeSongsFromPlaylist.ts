@@ -3,7 +3,7 @@
 import { getPlaylistPageProps } from "@/database/data";
 import { createClient } from "@/database/server";
 import { deepMapById } from "@/lib/returnById";
-import { PostgrestError } from "@supabase/supabase-js";
+import type { PostgrestError } from "@supabase/supabase-js";
 export const removeSongsFromPlaylist = async ({
   playlistId,
   id,
