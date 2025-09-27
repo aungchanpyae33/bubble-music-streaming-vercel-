@@ -31,7 +31,6 @@ async function page(props: { params: Promise<{ artist: string }> }) {
           id={songs.id}
           name={songs.name}
           type={songs.type}
-          source={songs.source}
           isPage={true}
         >
           <ListContainer>

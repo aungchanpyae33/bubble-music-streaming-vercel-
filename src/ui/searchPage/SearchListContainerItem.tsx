@@ -21,8 +21,7 @@ function SearchListContainerItem({
   index,
   Itemdata,
 }: SearchListContainerItemProps) {
-  const { id, name, type, source, related_id, related_name, cover_url } =
-    Itemdata;
+  const { id, name, type, related_id, related_name, cover_url } = Itemdata;
   const relatedType = outputRelatedType(type);
   return (
     <SearchItemWrapper>
@@ -67,7 +66,6 @@ function SearchListContainerItem({
         <ContextSongListContainer
           className="w-[50px]"
           id={id}
-          source={source}
           type={type}
           name={name}
         >

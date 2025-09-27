@@ -15,11 +15,15 @@ export interface listInfo {
   name: string;
   related_id: string;
   related_name: string;
-  source: Database["public"]["Enums"]["media_source_type"];
   type: Database["public"]["Enums"]["media_item_type"];
   is_official?: boolean;
   cover_url: string | null;
 }
+
+export interface listInfoUserLib extends listInfo {
+  source: Database["public"]["Enums"]["media_source_type"];
+}
+
 // export const getLikeSongs = async (
 //   userId: string
 // ): Promise<getLikeSongsReturn["songs"]> => {
@@ -30,6 +34,26 @@ export interface listInfo {
 //   const chunkData = chunkArray(data, 4) as song[][];
 //   return chunkData;
 // };
+export interface getLikedIdReturn {
+  userLike: Record<string, string> & { idArray: string[] };
+}
+export const getLikedId = async (): Promise<{
+  data: getLikedIdReturn | null;
+  error: PostgrestError | null | any;
+}> => {
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase.rpc("getlikedid");
+    const userLike = {
+      userLike: data,
+    };
+    const mappedData = deepMapById(userLike, ["userLike"]);
+
+    return { data: mappedData, error };
+  } catch (error) {
+    return { data: null, error };
+  }
+};
 
 export interface getDataProps {
   [key: string]: Record<string, listInfo | SongInfo> & { idArray: string[] };
@@ -85,7 +109,7 @@ export const getRecent = async (): Promise<{
   }
 };
 
-export interface navbarList extends listInfo {
+export interface navbarList extends listInfoUserLib {
   is_public: boolean;
 }
 export interface UserLibMappedProps {
@@ -233,7 +257,6 @@ export interface SongInfo {
   is_lyric: boolean;
   type?: "track";
   song_time_stamp: number[];
-  is_liked: boolean;
   artists: Artist[];
   album: Album;
   cover_url: string;

@@ -22,7 +22,6 @@ function SonglistsContainer({
   id,
   name,
   type,
-  source,
   related_id,
   related_name,
   cover_url,
@@ -54,12 +53,7 @@ function SonglistsContainer({
           <MoreOptionContext>
             <MoreOption
               targetElement={
-                <ContextSongListContainer
-                  id={id}
-                  name={name}
-                  type={type}
-                  source={source}
-                >
+                <ContextSongListContainer id={id} name={name} type={type}>
                   <SongListContainerOption />
                 </ContextSongListContainer>
               }

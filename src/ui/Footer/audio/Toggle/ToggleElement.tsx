@@ -126,7 +126,6 @@ const ToggleElement = ({
             id: song.id,
             is_lyric: song.is_lyric,
             song_id: song.song_id,
-            is_liked: song.is_liked,
             artists: song.artists,
             cover_url: song.cover_url,
           };

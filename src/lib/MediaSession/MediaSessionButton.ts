@@ -52,7 +52,6 @@ const MediaSessionButton = (
       song_time_stamp,
       id,
       song_id,
-      is_liked,
       artists,
       is_lyric,
       cover_url,
@@ -64,7 +63,6 @@ const MediaSessionButton = (
       song_time_stamp: number[];
       id: string;
       song_id: string;
-      is_liked: boolean;
       artists: Artist[];
       is_lyric: boolean;
       cover_url: string;
@@ -79,7 +77,6 @@ const MediaSessionButton = (
         song_time_stamp,
         id,
         song_id,
-        is_liked,
         artists,
         is_lyric,
         cover_url,
@@ -107,7 +104,6 @@ const MediaSessionButton = (
           song_time_stamp,
           id,
           song_id,
-          is_liked,
           artists,
           is_lyric,
           cover_url,
@@ -120,7 +116,6 @@ const MediaSessionButton = (
           song_time_stamp,
           id,
           song_id,
-          is_liked,
           artists,
           is_lyric,
           cover_url,
@@ -141,7 +136,6 @@ const MediaSessionButton = (
           song_time_stamp,
           id,
           song_id,
-          is_liked,
           artists,
           is_lyric,
           cover_url,
@@ -154,7 +148,6 @@ const MediaSessionButton = (
           song_time_stamp,
           id,
           song_id,
-          is_liked,
           artists,
           is_lyric,
           cover_url,

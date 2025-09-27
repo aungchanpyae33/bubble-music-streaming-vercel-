@@ -1,6 +1,7 @@
 import MediaSessionButton from "@/lib/MediaSession/MediaSessionButton";
 import MediaSessionToggle from "@/lib/MediaSession/MediaSessionToggle";
-import { ReactNode } from "react";
+import { ReactNode, useContext } from "react";
+import { AudioElementContext } from "../AudioWrapper";
 
 function MediaSessionButtonWrapper({
   children,
@@ -9,7 +10,8 @@ function MediaSessionButtonWrapper({
   children: ReactNode;
   id: string;
 }) {
-  MediaSessionButton(id);
+  const { audioEl } = useContext(AudioElementContext);
+  MediaSessionButton(id, audioEl);
   MediaSessionToggle();
   return children;
 }

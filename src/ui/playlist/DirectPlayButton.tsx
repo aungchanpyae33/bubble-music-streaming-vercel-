@@ -23,7 +23,7 @@ import React, { RefObject, useContext, useRef } from "react";
 import IconWrapper from "../general/IconWrapper";
 import { Pause, Play } from "lucide-react";
 import { getPlaylistPageProps, listSongsSection } from "@/database/data";
-import { PostgrestError } from "@supabase/supabase-js";
+import type { PostgrestError } from "@supabase/supabase-js";
 import { getListDirectClient } from "@/database/client-data";
 import { Database } from "../../../database.types";
 import { HlsDirectPlay } from "@/lib/HlsDirectPlay";
@@ -114,7 +114,6 @@ function DirectPlayButton({ listId, type, className }: DirectPlayButtonProps) {
         song_time_stamp,
         id,
         song_id,
-        is_liked,
         artists,
         is_lyric,
         cover_url,
@@ -140,7 +139,6 @@ function DirectPlayButton({ listId, type, className }: DirectPlayButtonProps) {
           song_time_stamp,
           id,
           song_id,
-          is_liked,
           artists,
           is_lyric,
           cover_url,

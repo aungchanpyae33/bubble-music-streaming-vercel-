@@ -20,7 +20,7 @@ function Track({
 }: // roleCell,
 // dataInc,
 {
-  listSong: listSongsSection | undefined;
+  listSong: listSongsSection;
   song: SongInfo;
   index: number;
   // roleCell: RefObject<number>;
@@ -81,12 +81,8 @@ function Track({
         {TimeFormat(song.duration)}
       </td>
       <td className="  flex  h-[72px] items-center gap-x-5 md:gap-x-8 lg:gap-x-10  justify-end">
-        <ContextInfoTrack
-          id={listSong ? listSong.id : undefined}
-          source={listSong ? listSong.source : undefined}
-          song={song}
-        >
-          <ContextLike id={song.song_id} like={song.is_liked}>
+        <ContextInfoTrack id={listSong.id} song={song}>
+          <ContextLike id={song.song_id}>
             <ToggleHeartButton songId={song.song_id} />
             <MoreOptionContext>
               <MoreOption targetElement={<TrackItemContainer />} />

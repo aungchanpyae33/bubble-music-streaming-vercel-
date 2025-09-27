@@ -121,7 +121,7 @@ function PlaceHolderToggleState({
           song_time_stamp,
           id,
           song_id,
-          is_liked,
+
           artists,
           is_lyric,
           cover_url,
@@ -140,7 +140,7 @@ function PlaceHolderToggleState({
           song_time_stamp,
           id,
           song_id,
-          is_liked,
+
           artists,
           is_lyric,
           cover_url,

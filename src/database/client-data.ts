@@ -1,5 +1,6 @@
 import { RefObject } from "react";
 import {
+  getLikedIdReturn,
   getListDirectProps,
   getLyricReturn,
   getPlaylistPageProps,
@@ -36,6 +37,19 @@ export const getUserLibClient = async (): Promise<{
 }> => {
   try {
     const fetchData = await fetch("/api/getLib");
+    const { data, error } = await fetchData.json();
+    return { data, error };
+  } catch (error) {
+    return { data: null, error };
+  }
+};
+
+export const getLikedIdClient = async (): Promise<{
+  data: getLikedIdReturn | null;
+  error: any;
+}> => {
+  try {
+    const fetchData = await fetch("/api/getLikedId");
     const { data, error } = await fetchData.json();
     return { data, error };
   } catch (error) {

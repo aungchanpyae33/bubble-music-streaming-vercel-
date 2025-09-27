@@ -4,7 +4,7 @@ import clsx from "clsx";
 import { Compass, ListMusic, Radio } from "lucide-react";
 import IconWrapper from "../general/IconWrapper";
 
-import { getUserLib } from "@/database/data";
+import { getLikedId, getUserLib } from "@/database/data";
 import {
   dehydrate,
   HydrationBoundary,
@@ -15,11 +15,19 @@ import Logo from "../icon/Logo";
 async function NavSideBar() {
   const deviceFromUserAgent = await DeviceCheck();
   const queryClient = new QueryClient();
-  await queryClient.prefetchQuery({
-    queryKey: ["user-library"],
-    queryFn: getUserLib,
-    gcTime: Infinity,
-  });
+  await Promise.all([
+    await queryClient.prefetchQuery({
+      queryKey: ["user-library"],
+      queryFn: getUserLib,
+      gcTime: Infinity,
+    }),
+    await queryClient.prefetchQuery({
+      queryKey: ["liked-id"],
+      queryFn: getLikedId,
+      gcTime: Infinity,
+    }),
+  ]);
+
   // if (!data || error) return null;
   // console.log(data, error);
   return (

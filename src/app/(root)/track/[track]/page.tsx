@@ -31,12 +31,8 @@ async function page(props: { params: Promise<{ track: string }> }) {
         </Suspense>
       </AlbumUpperBackground>
 
-      <ContextInfoTrack
-        id={songsInfo?.id}
-        source={songs.source}
-        song={songsInfo}
-      >
-        <ContextLike id={songsInfo!.song_id} like={songsInfo!.is_liked}>
+      <ContextInfoTrack id={songsInfo?.id} source={undefined} song={songsInfo}>
+        <ContextLike id={songsInfo!.song_id}>
           <ListContainer>
             <ListContainerPlayBack list={songs} />
             <TrackToggleLike songId={songsInfo!.song_id} />

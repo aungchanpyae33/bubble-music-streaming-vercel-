@@ -20,8 +20,7 @@ function SearchAlbumItem({
   index,
   Itemdata,
 }: SearchAlbumItemProps) {
-  const { id, name, type, source, related_id, related_name, cover_url } =
-    Itemdata;
+  const { id, name, type, related_id, related_name, cover_url } = Itemdata;
   const relatedType = outputRelatedType(type);
   return (
     <SearchItemWrapper>
@@ -58,7 +57,6 @@ function SearchAlbumItem({
         <ContextSongListContainer
           className="w-[50px]  text-center"
           id={id}
-          source={source}
           type={type}
           name={name}
         >

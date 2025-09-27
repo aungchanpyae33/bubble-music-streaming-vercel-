@@ -28,7 +28,6 @@ async function page(props: { params: Promise<{ slug: string }> }) {
             id={profile.id}
             name={profile.name}
             type={profile.type}
-            source={profile.source}
             isPage={true}
           >
             <MoreOptionContext>

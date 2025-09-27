@@ -52,7 +52,7 @@ function SearchTrack({
 
       <div className=" flex items-center   text-center gap-x-5 md:gap-x-8 lg:gap-x-10 ">
         <ContextInfoTrack id={undefined} source={undefined} song={song}>
-          <ContextLike like={song.is_liked} id={song.song_id}>
+          <ContextLike id={song.song_id}>
             <ToggleHeartButton songId={song.song_id} />
             <MoreOptionContext>
               <MoreOption targetElement={<TrackItemContainer />} />

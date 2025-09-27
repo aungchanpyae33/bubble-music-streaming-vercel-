@@ -29,7 +29,6 @@ function Container({
                   key={item.id}
                   name={item.name}
                   id={item.id}
-                  source={item.source}
                   type={item.type}
                   description={description}
                   related_id={item.related_id}

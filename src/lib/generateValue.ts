@@ -1,4 +1,3 @@
-import { SongListContextProps } from "@/ui/playlist/playlistOption/ContextSongListContainer";
 import { Database } from "../../database.types";
 
 interface generateValueProps {
@@ -9,9 +8,16 @@ interface generateValueProps {
   source: Database["public"]["Enums"]["media_source_type"];
   type: Database["public"]["Enums"]["media_item_type"];
 }
+
+interface defaultValueProps {
+  id: string;
+  name: string;
+  source: Database["public"]["Enums"]["media_source_type"];
+  type: Database["public"]["Enums"]["media_item_type"];
+}
 export const generateValue = (
   isDataExist: generateValueProps,
-  defaultValue: SongListContextProps,
+  defaultValue: defaultValueProps,
   isPage: boolean | undefined
 ) => {
   if (isDataExist) {

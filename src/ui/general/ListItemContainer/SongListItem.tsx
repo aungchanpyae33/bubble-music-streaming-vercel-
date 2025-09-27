@@ -38,13 +38,13 @@ function SongListItem({ song }: { song: SongInfo }) {
         </div>
       </div>
       <div className=" w-fit max-w-fit">
-        <ContextLike like={song.is_liked} id={song.song_id}>
+        <ContextLike id={song.song_id}>
           <ToggleHeartButton songId={song.song_id} />
         </ContextLike>
       </div>
       <div className=" w-[80px]  text-center px-2">
         <ContextInfoTrack id={undefined} source={undefined} song={song}>
-          <ContextLike like={song.is_liked} id={song.song_id}>
+          <ContextLike id={song.song_id}>
             <MoreOptionContext>
               <MoreOption targetElement={<TrackItemContainer />} />
             </MoreOptionContext>

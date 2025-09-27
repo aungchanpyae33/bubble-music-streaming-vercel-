@@ -12,7 +12,6 @@ export interface SongDetail {
   id: string;
   song_id: string;
   is_lyric: boolean;
-  is_liked: boolean;
   artists: Artist[];
   cover_url: string;
 }

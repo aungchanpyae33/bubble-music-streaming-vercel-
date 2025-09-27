@@ -19,7 +19,6 @@ function View({ songs }: { songs: listSongsSection }) {
         id={songs.id}
         name={songs.name}
         type={songs.type}
-        source={songs.source}
       >
         <ListContainer>
           <ListContainerPlayBack list={songs} />

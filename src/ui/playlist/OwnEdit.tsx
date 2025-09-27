@@ -36,7 +36,6 @@ function OwnEdit({
           id={songs.id}
           name={songs.name}
           type={songs.type}
-          source={songs.source}
           isPage={true}
         >
           <ListContainer>

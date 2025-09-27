@@ -24,14 +24,13 @@ export const SongListContext = createContext<SongListContextProps>({
 interface ContextSongListContainerProps extends React.ComponentProps<"div"> {
   id: string;
   name: string;
-  source: Database["public"]["Enums"]["media_source_type"];
+
   type: Database["public"]["Enums"]["media_item_type"];
   isPage?: boolean | undefined;
 }
 function ContextSongListContainer({
   children,
   id,
-  source,
   type,
   name,
   isPage,
@@ -44,7 +43,13 @@ function ContextSongListContainer({
   if (!data || error) return;
   const { userLib } = data;
   const isDataExist = userLib[id];
-  const defaultValue = { id, name, source, type, isPage };
+  const defaultValue = {
+    id,
+    name,
+    source: "none" as Database["public"]["Enums"]["media_source_type"],
+    type,
+    isPage,
+  };
   const value = generateValue(isDataExist, defaultValue, isPage);
 
   return (

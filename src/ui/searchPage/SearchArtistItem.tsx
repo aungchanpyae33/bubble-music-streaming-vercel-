@@ -19,8 +19,7 @@ function SearchArtistItem({
   index,
   Itemdata,
 }: SearchArtistItemProps) {
-  const { id, name, type, source, related_id, related_name, cover_url } =
-    Itemdata;
+  const { id, name, type, related_id, related_name, cover_url } = Itemdata;
   return (
     <SearchItemWrapper>
       <div className="w-[50px]  relative group  ">
@@ -46,7 +45,6 @@ function SearchArtistItem({
         <ContextSongListContainer
           className="w-[50px]  text-center"
           id={id}
-          source={source}
           type={type}
           name={name}
         >

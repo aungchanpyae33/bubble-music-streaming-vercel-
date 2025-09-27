@@ -101,7 +101,7 @@ function Queue() {
                     source={undefined}
                     song={item}
                   >
-                    <ContextLike like={item.is_liked} id={item.song_id}>
+                    <ContextLike id={item.song_id}>
                       <MoreOptionContext>
                         <MoreOption
                           relativeRoot={audioFullRef.current}

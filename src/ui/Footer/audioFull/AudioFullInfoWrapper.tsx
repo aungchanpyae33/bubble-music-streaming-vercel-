@@ -56,7 +56,7 @@ function AudioFullInfoWrapper({ children }: { children: React.ReactNode }) {
       </div>
       <div
         className={clsx(
-          " bg-[#222222]  will-change-transform  left-auto lg:grid-rows-[8px_1fr_8px] lg:w-[50%] w-full  inset-0  absolute grid grid-rows-[60px_8px_1fr_8px]    shadow-md   transition-[opacity,transform] duration-500",
+          " bg-[#222222]  will-change-transform  left-auto   lg:w-[50%] w-full  inset-0  absolute     shadow-md   transition-[opacity,transform] duration-500",
           {
             "translate-y-0": showBlock.open,
             "translate-y-[103%]": !showBlock.open,
@@ -64,50 +64,56 @@ function AudioFullInfoWrapper({ children }: { children: React.ReactNode }) {
         )}
         tabIndex={-1}
       >
-        <div
-          className={clsx(
-            "flex lg:hidden gap-x-3   border-b border-white      items-center w-full"
-          )}
-        >
-          <div className={clsx("relative border-b border-white  size-[60px]")}>
-            {cover_url && (
-              <Image
-                src={cover_url}
-                alt="this is image element"
-                fill
-                sizes="60px"
-              />
-            )}
-          </div>
+        <div className=" w-full h-full lg:grid-rows-[1fr]  grid-rows-[60px_1fr] grid relative">
           <div
-            className="flex-1 flex-col  overflow-hidden
-              flex justify-center"
+            className={clsx(
+              "flex lg:hidden gap-x-3   border-b border-white      items-center w-full"
+            )}
           >
-            <ToolTip tooltipContent={name}>
-              <div
-                className="truncate
-              "
-              >
-                {name}
-              </div>
-            </ToolTip>
-
-            <div className="truncate flex ">
-              <ArtistWrapper artists={artists} />
+            <div
+              className={clsx("relative border-b border-white  size-[60px]")}
+            >
+              {cover_url && (
+                <Image
+                  src={cover_url}
+                  alt="this is image element"
+                  fill
+                  sizes="60px"
+                />
+              )}
             </div>
+            <div
+              className="flex-1 flex-col  overflow-hidden
+              flex justify-center"
+            >
+              <ToolTip tooltipContent={name}>
+                <div
+                  className="truncate
+              "
+                >
+                  {name}
+                </div>
+              </ToolTip>
+
+              <div className="truncate flex ">
+                <ArtistWrapper artists={artists} />
+              </div>
+            </div>
+            <CloseShowBlockBtn />
           </div>
-          <CloseShowBlockBtn />
+
+          <AnimatePresence mode="wait" initial={false}>
+            {showBlock.type === "lyric" && showBlock.open && (
+              <LyricContainer type={showBlock.type} key={"lyric"} />
+            )}
+            {showBlock.type === "queue" && showBlock.open && (
+              <QueueFull key={"queue"} />
+            )}
+          </AnimatePresence>
+
+          <LyricPaddingBlock className=" absolute top-[60px] w-full h-[4px]  bg-[#222222]" />
+          <LyricPaddingBlock className="absolute bottom-0 w-full h-[4px]  bg-[#222222]" />
         </div>
-        <LyricPaddingBlock />
-        <AnimatePresence mode="wait" initial={false}>
-          {showBlock.type === "lyric" && showBlock.open && (
-            <LyricContainer type={showBlock.type} key={"lyric"} />
-          )}
-          {showBlock.type === "queue" && showBlock.open && (
-            <QueueFull key={"queue"} />
-          )}
-        </AnimatePresence>
-        <LyricPaddingBlock />
       </div>
     </div>
   );
