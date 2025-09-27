@@ -196,7 +196,7 @@ function PlaceHolderToggleState({
 
       setTimeoutRefForList.current = setTimeout(() => {
         if (setTimeoutRefForList.current) {
-          setListTrack(list_id as "playlist" | "artist" | "album", type);
+          setListTrack(type as "playlist" | "artist" | "album", list_id);
         }
       }, 60000);
     }
