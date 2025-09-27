@@ -16,7 +16,7 @@ function QueueLoader({
       {[...Array(count)].map((_, i) => (
         <div
           key={i}
-          className="flex  h-[60px] gap-x-2   p-2 group animate-pulse items-stretch"
+          className="flex gap-x-2   p-1 group animate-pulse items-stretch"
         >
           <div className="size-[50px] bg-[#333333] relative"></div>
 
