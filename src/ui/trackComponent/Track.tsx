@@ -81,7 +81,7 @@ function Track({
         {TimeFormat(song.duration)}
       </td>
       <td className="  flex  h-[72px] items-center gap-x-5 md:gap-x-8 lg:gap-x-10  justify-end">
-        <ContextInfoTrack id={listSong.id} song={song}>
+        <ContextInfoTrack id={listSong.id} song={song} source="none">
           <ContextLike id={song.song_id}>
             <ToggleHeartButton songId={song.song_id} />
             <MoreOptionContext>
