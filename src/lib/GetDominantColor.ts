@@ -10,7 +10,10 @@ const useGetDominantColor = ({
   cover_url: string | null;
 }) => {
   useEffect(() => {
-    if (!cover_url) return;
+    if (!cover_url) {
+      setBgValue([51, 51, 51]);
+      return;
+    }
     const img = imgRef!.current!;
     let isMounted = true;
     function getColor() {
