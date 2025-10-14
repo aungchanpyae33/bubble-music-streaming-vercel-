@@ -45,9 +45,7 @@ function SearchTrack({
           </div>
         </ToolTip>
 
-        <div className="truncate text-sm flex">
-          <ArtistWrapper artists={song.artists} />
-        </div>
+        <ArtistWrapper artists={song.artists} />
       </div>
 
       <div className=" flex items-center   text-center gap-x-5 md:gap-x-8 lg:gap-x-10 ">

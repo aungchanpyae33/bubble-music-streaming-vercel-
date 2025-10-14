@@ -33,9 +33,7 @@ function SongListItem({ song }: { song: SongInfo }) {
         </div>
         {/* </ToolTip> */}
 
-        <div className="truncate text-sm">
-          <ArtistWrapper artists={song.artists} />
-        </div>
+        <ArtistWrapper artists={song.artists} />
       </div>
       <div className=" w-fit max-w-fit">
         <ContextLike id={song.song_id}>

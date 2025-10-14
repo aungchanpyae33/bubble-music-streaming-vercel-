@@ -48,9 +48,11 @@ function AudioFullInfoWrapper({ children }: { children: React.ReactNode }) {
             <p className={clsx(" text-zinc-100  text-xl lg:text-2xl")}>
               {name}
             </p>
-            <div className={clsx(" text-zinc-100  lg:text-xl text-base flex")}>
-              <ArtistWrapper artists={artists} />
-            </div>
+
+            <ArtistWrapper
+              artists={artists}
+              className="text-zinc-100  lg:text-xl text-base"
+            />
           </div>
         </div>
       </div>
@@ -95,9 +97,7 @@ function AudioFullInfoWrapper({ children }: { children: React.ReactNode }) {
                 </div>
               </ToolTip>
 
-              <div className="truncate flex ">
-                <ArtistWrapper artists={artists} />
-              </div>
+              <ArtistWrapper artists={artists} />
             </div>
             <CloseShowBlockBtn />
           </div>

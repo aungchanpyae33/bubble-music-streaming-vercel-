@@ -64,9 +64,8 @@ function Track({
             <LeadingRelax>{song.name}</LeadingRelax>
           </div>
         </ToolTip>
-        <div className=" flex">
-          <ArtistWrapper artists={song.artists} />
-        </div>
+
+        <ArtistWrapper artists={song.artists} />
       </td>
       <td className=" max-w-[100px] px-2  hidden lg:table-cell   truncate">
         <UnderLineLinkHover

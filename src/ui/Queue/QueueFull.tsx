@@ -88,9 +88,8 @@ function QueueFull() {
                   <ToolTip tooltipContent={item.name}>
                     <div className="truncate">{item.name}</div>
                   </ToolTip>
-                  <div className="truncate flex">
-                    <ArtistWrapper artists={item.artists} />
-                  </div>
+
+                  <ArtistWrapper artists={item.artists} />
                 </div>
 
                 <div className="w-[30px] flex items-center">

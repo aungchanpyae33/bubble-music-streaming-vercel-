@@ -91,6 +91,7 @@ function ToolTip({
             setTooltipShow,
           })
         }
+        className=" truncate"
       >
         {children}
       </div>

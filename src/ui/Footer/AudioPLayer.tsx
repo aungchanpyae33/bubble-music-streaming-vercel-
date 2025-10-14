@@ -123,7 +123,7 @@ function AudioPlayer({
                     />
                     <AudioInfo
                       el={
-                        <div className=" flex">
+                        <div className=" truncate">
                           <ArtistWrapper artists={artists} />
                         </div>
                       }
