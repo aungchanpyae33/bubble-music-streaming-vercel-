@@ -4,7 +4,6 @@ import {
   QueryClient,
 } from "@tanstack/react-query";
 import AlbumUpperBackground from "../albumContainer/AlbumUpperBackground";
-import AlbumUpperContainer from "../albumContainer/AlbumUpperContainer";
 import ContextSongListContainer from "./playlistOption/ContextSongListContainer";
 import { listSongsSection } from "@/database/data";
 import ListContainer from "../general/ListContainerOption/ListContainer";
@@ -14,6 +13,7 @@ import MoreOptionContext from "../trackComponent/MoreOptionContext";
 import MoreOption from "../trackComponent/MoreOption";
 import SongListContainerOption from "../general/optionBox/SongListContainerOption";
 import EditableAudiosContainer from "../albumContainer/EditableAudiosContainer";
+import PlaylistUpperWrapper from "./PlaylistUpperWrapper";
 
 function OwnEdit({
   queryClient,
@@ -29,15 +29,11 @@ function OwnEdit({
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <div className=" w-full">
-        <AlbumUpperBackground>
-          <AlbumUpperContainer songs={songs} />
-        </AlbumUpperBackground>
-        <ContextSongListContainer
-          id={songs.id}
-          name={songs.name}
-          type={songs.type}
-          isPage={true}
-        >
+        <ContextSongListContainer id={songs.id} list={songs}>
+          <AlbumUpperBackground>
+            <PlaylistUpperWrapper />
+          </AlbumUpperBackground>
+
           <ListContainer>
             <ListContainerPlayBack list={songs} />
             <ListContainerAddToLibrary />
@@ -48,9 +44,9 @@ function OwnEdit({
               </MoreOptionContext>
             </div>
           </ListContainer>
-        </ContextSongListContainer>
 
-        <EditableAudiosContainer playlistId={id} description={description} />
+          <EditableAudiosContainer playlistId={id} description={description} />
+        </ContextSongListContainer>
       </div>
     </HydrationBoundary>
   );
