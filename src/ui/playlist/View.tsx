@@ -15,11 +15,7 @@ function View({ songs }: { songs: listSongsSection }) {
       <AlbumUpperBackground>
         <AlbumUpperContainer songs={songs} />
       </AlbumUpperBackground>
-      <ContextSongListContainer
-        id={songs.id}
-        name={songs.name}
-        type={songs.type}
-      >
+      <ContextSongListContainer id={songs.id} list={songs}>
         <ListContainer>
           <ListContainerPlayBack list={songs} />
           <ListContainerAddToLibrary />

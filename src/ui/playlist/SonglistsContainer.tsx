@@ -11,21 +11,18 @@ import { listInfo } from "@/database/data";
 import { outputRelatedType } from "@/lib/prototypeOuputRelatedType";
 import NoThankYouPreFetchLink from "../general/NoThankYouPreFetchLink";
 
-interface SonglistsContainerProps extends listInfo {
+interface SonglistsContainerProps {
   description: string;
   index: number;
+  list: listInfo;
 }
 
 function SonglistsContainer({
   description,
   index,
-  id,
-  name,
-  type,
-  related_id,
-  related_name,
-  cover_url,
+  list,
 }: SonglistsContainerProps) {
+  const { id, name, related_id, related_name, cover_url, type } = list;
   const relatedType = outputRelatedType(type);
   return (
     <div
@@ -53,7 +50,7 @@ function SonglistsContainer({
           <MoreOptionContext>
             <MoreOption
               targetElement={
-                <ContextSongListContainer id={id} name={name} type={type}>
+                <ContextSongListContainer id={id} list={list}>
                   <SongListContainerOption />
                 </ContextSongListContainer>
               }

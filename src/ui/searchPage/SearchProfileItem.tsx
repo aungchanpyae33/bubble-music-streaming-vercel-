@@ -1,13 +1,10 @@
-import { listInfo, listSongsSection, SearchProfile } from "@/database/data";
-import SongListContainerOption from "../general/optionBox/SongListContainerOption";
+import { SearchProfile } from "@/database/data";
 import ContextSongListContainer from "../playlist/playlistOption/ContextSongListContainer";
 import MoreOption from "../trackComponent/MoreOption";
 import MoreOptionContext from "../trackComponent/MoreOptionContext";
 import LeadingRelax from "../general/LeadingRelax";
 import Image from "next/image";
-import DirectPlayButton from "../playlist/DirectPlayButton";
 import SearchItemWrapper from "./SearchItemWrapper";
-import ContextSearchProfile from "./ContextSearchProfile";
 import ProfileOption from "../general/optionBox/ProfileOption";
 import IconWrapper from "../general/IconWrapper";
 import { User } from "lucide-react";
@@ -45,7 +42,7 @@ function SearchProfileItem({
         </div>
       </div>
       <div className=" flex item-center">
-        <ContextSongListContainer id={id} name={name} type={type}>
+        <ContextSongListContainer id={id} list={Itemdata}>
           <MoreOptionContext>
             <MoreOption targetElement={<ProfileOption />} />
           </MoreOptionContext>

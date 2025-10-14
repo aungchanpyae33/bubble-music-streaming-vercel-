@@ -26,12 +26,7 @@ async function page(props: { params: Promise<{ album: string }> }) {
           <AlbumUpperContainer songs={songs} />
         </Suspense>
       </AlbumUpperBackground>
-      <ContextSongListContainer
-        id={songs.id}
-        name={songs.name}
-        type={songs.type}
-        isPage={true}
-      >
+      <ContextSongListContainer id={songs.id} list={songs}>
         <ListContainer>
           <ListContainerPlayBack list={songs} />
           <ListContainerAddToLibrary />

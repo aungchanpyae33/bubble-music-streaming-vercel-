@@ -27,13 +27,8 @@ function Container({
                 <SonglistsContainer
                   index={index}
                   key={item.id}
-                  name={item.name}
-                  id={item.id}
-                  type={item.type}
+                  list={item}
                   description={description}
-                  related_id={item.related_id}
-                  related_name={item.related_name}
-                  cover_url={item.cover_url}
                 />
               );
             })}

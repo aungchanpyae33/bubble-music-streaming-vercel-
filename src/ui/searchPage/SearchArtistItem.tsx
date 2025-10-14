@@ -45,8 +45,7 @@ function SearchArtistItem({
         <ContextSongListContainer
           className="w-[50px]  text-center"
           id={id}
-          type={type}
-          name={name}
+          list={Itemdata}
         >
           <MoreOptionContext>
             <MoreOption targetElement={<SongListContainerOption />} />

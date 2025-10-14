@@ -24,12 +24,7 @@ async function page(props: { params: Promise<{ slug: string }> }) {
 
       <ListContainer className="h-[50px]">
         <div>
-          <ContextSongListContainer
-            id={profile.id}
-            name={profile.name}
-            type={profile.type}
-            isPage={true}
-          >
+          <ContextSongListContainer id={profile.id} list={profile}>
             <MoreOptionContext>
               <MoreOption targetElement={<ProfileOption />} />
             </MoreOptionContext>

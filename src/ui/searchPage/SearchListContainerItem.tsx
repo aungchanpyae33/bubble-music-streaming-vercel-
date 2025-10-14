@@ -63,12 +63,7 @@ function SearchListContainerItem({
         )}
       </div>
       <div className=" flex items-center">
-        <ContextSongListContainer
-          className="w-[50px]"
-          id={id}
-          type={type}
-          name={name}
-        >
+        <ContextSongListContainer className="w-[50px]" id={id} list={Itemdata}>
           <MoreOptionContext>
             <MoreOption targetElement={<SongListContainerOption />} />
           </MoreOptionContext>
