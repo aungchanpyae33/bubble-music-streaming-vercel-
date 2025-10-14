@@ -1,3 +1,9 @@
+import {
+  listInfo,
+  listSongsSection,
+  navbarList,
+  SearchProfile,
+} from "@/database/data";
 import { Database } from "../../database.types";
 
 interface generateValueProps {
@@ -9,20 +15,12 @@ interface generateValueProps {
   type: Database["public"]["Enums"]["media_item_type"];
 }
 
-interface defaultValueProps {
-  id: string;
-  name: string;
-  source: Database["public"]["Enums"]["media_source_type"];
-  type: Database["public"]["Enums"]["media_item_type"];
-}
 export const generateValue = (
-  isDataExist: generateValueProps,
-  defaultValue: defaultValueProps,
-  isPage: boolean | undefined
+  isDataExist: navbarList,
+  list: listInfo | SearchProfile | listSongsSection
 ) => {
   if (isDataExist) {
-    const { id, name, type, source } = isDataExist;
-    return { id, name, type, source, isPage };
+    return { ...list, ...isDataExist };
   }
-  return defaultValue;
+  return { ...list, source: "none" };
 };
