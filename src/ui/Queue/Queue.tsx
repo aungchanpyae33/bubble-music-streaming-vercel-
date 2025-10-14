@@ -35,7 +35,7 @@ function Queue() {
   const queueRef = useRef<HTMLElement>(null);
   const currendIndex = outputCurrentIndex(playListArray.idArray, dataSongId);
   const trimArray = playListArray.idArray.slice(currendIndex);
-  console.log(trimArray, "trimArray", trimArray.length);
+
   if (!trimArray?.length) return null;
   return (
     <div
@@ -90,9 +90,8 @@ function Queue() {
                   <ToolTip tooltipContent={item.name}>
                     <div className="truncate">{item.name}</div>
                   </ToolTip>
-                  <div className="truncate flex">
-                    <ArtistWrapper artists={item.artists} />
-                  </div>
+
+                  <ArtistWrapper artists={item.artists} />
                 </div>
 
                 <div className="w-[30px] flex items-center">

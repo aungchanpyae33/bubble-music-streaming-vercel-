@@ -34,7 +34,6 @@ function NavList({
           }}
           onContextMenu={(e) => {
             e.preventDefault();
-            console.log(e);
           }}
           tabIndex={open ? -1 : 0}
           className=" w-[70px]  cursor-pointer border-none  h-[70px] min-h-[70px]  flex items-center justify-center "

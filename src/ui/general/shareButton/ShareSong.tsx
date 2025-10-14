@@ -15,7 +15,7 @@ function ShareSong() {
   const songId = song?.song_id;
   const handleCopy = async () => {
     const origin = window.location.origin;
-    console.log(origin);
+
     try {
       await navigator.clipboard.writeText(`${origin}/track/${songId}`);
     } catch (err) {

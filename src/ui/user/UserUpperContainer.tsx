@@ -8,7 +8,6 @@ async function UserUpperContainer({ profile }: { profile: listInfo }) {
   const deviceFromUserAgent = await DeviceCheck();
 
   const is_official_exist = profile?.is_official;
-  console.log(is_official_exist);
   return (
     <div
       className={clsx("Container w-full flex  items-center p-5 ", {
