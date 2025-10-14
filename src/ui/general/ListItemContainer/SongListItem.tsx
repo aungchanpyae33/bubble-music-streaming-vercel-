@@ -12,8 +12,8 @@ import ContextLike from "@/ui/trackComponent/ContextLike";
 
 function SongListItem({ song }: { song: SongInfo }) {
   return (
-    <div className="h-[60px] w-[300px] rounded-sm outline outline-slate-200   flex items-center  gap-3">
-      <div className="w-[50px] pl-2 group  ">
+    <div className="h-[60px] w-[300px] rounded-sm outline outline-slate-200   flex items-center group  gap-3">
+      <div className="w-[50px] pl-2 group">
         <div className="size-[50px] group-hover:brightness-75 relative">
           {song.cover_url && (
             <Image src={song.cover_url} fill alt="img" sizes="50px" />
@@ -35,12 +35,12 @@ function SongListItem({ song }: { song: SongInfo }) {
 
         <ArtistWrapper artists={song.artists} />
       </div>
-      <div className=" w-fit max-w-fit">
+      <div className=" w-fit max-w-fit flex items-center">
         <ContextLike id={song.song_id}>
           <ToggleHeartButton songId={song.song_id} />
         </ContextLike>
       </div>
-      <div className=" w-[80px]  text-center px-2">
+      <div className=" w-fit  text-center px-2">
         <ContextInfoTrack id={undefined} source={undefined} song={song}>
           <ContextLike id={song.song_id}>
             <MoreOptionContext>
