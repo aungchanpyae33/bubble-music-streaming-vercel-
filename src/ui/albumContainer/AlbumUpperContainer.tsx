@@ -43,7 +43,9 @@ async function AlbumUpperContainer({ songs }: { songs: listSongsSection }) {
           </span>
           <span className=" flex">
             <InfoList
-              list={songs as listInfo}
+              type={songs.type}
+              related_id={songs.related_id}
+              related_name={songs.related_name}
               is_official={is_official_exist}
             />
           </span>

@@ -4,13 +4,17 @@ import OfficialBadgeName from "@/ui/albumContainer/OfficialBadgeName";
 import UnderLineLinkHover from "@/ui/general/UnderLineLinkHover";
 
 function InfoList({
-  list,
+  type,
+  related_id,
+  related_name,
   is_official,
 }: {
-  list: listInfo;
+  type: listInfo["type"];
+  related_id: listInfo["related_id"];
+  related_name: listInfo["related_name"];
   is_official?: boolean;
 }) {
-  const relatedType = outputRelatedType(list.type);
+  const relatedType = outputRelatedType(type);
 
   if (!relatedType) return null;
   return (
@@ -18,11 +22,11 @@ function InfoList({
       &bull;
       {is_official && <OfficialBadgeName />}
       <UnderLineLinkHover
-        href={`/${relatedType}/${list.related_id}`}
+        href={`/${relatedType}/${related_id}`}
         prefetch={false}
         className=" ml-1 text-lg font-black  leading-relaxed w-full truncate text-start  "
       >
-        {list.related_name}
+        {related_name}
       </UnderLineLinkHover>
     </>
   );
