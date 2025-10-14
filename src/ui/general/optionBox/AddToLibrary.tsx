@@ -8,11 +8,15 @@ import { BookmarkPlus } from "lucide-react";
 
 import { addToLibrary } from "@/actions/AddToLibrary";
 import { useQueryClient } from "@tanstack/react-query";
-import { SongListContext } from "@/ui/playlist/playlistOption/ContextSongListContainer";
+import {
+  SongListContext,
+  SongListValue,
+} from "@/ui/playlist/playlistOption/ContextSongListContainer";
 
 function AddToLibraryChild() {
   const { setShow } = useContext(ContextMoreOption);
-  const { id, type, isPage } = useContext(SongListContext);
+  const { id, type } = useContext(SongListContext) as SongListValue;
+
   const queryClient = useQueryClient();
   async function addToLibraryFn() {
     setShow(false);
@@ -41,7 +45,8 @@ function AddToLibraryChild() {
 }
 
 function AddToLibrary() {
-  const { source } = useContext(SongListContext);
+  const { source } = useContext(SongListContext) as SongListValue;
+
   if (source !== "none") return null;
   return <AddToLibraryChild />;
 }

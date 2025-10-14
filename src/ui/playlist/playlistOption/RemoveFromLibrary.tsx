@@ -6,7 +6,7 @@ import OptionIconEl from "@/ui/general/optionBox/OptionIconEl";
 import IconWrapper from "@/ui/general/IconWrapper";
 import { BookmarkX } from "lucide-react";
 import { removeFromLibrary } from "@/actions/removeFromLibrary";
-import { SongListContext } from "./ContextSongListContainer";
+import { SongListContext, SongListValue } from "./ContextSongListContainer";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 
@@ -14,15 +14,14 @@ function RemoveFromLibraryChild() {
   const { setShow } = useContext(ContextMoreOption);
 
   const router = useRouter();
-  const { id, source, isPage } = useContext(SongListContext) as {
-    id: string;
-    source: "create" | "reference";
-    isPage: boolean;
-  };
+  const { id, source } = useContext(SongListContext) as SongListValue;
   const queryClient = useQueryClient();
   async function removeFromLibraryFn() {
     setShow(false);
-    const { data, error } = await removeFromLibrary(id, source);
+    const { data, error } = await removeFromLibrary(
+      id,
+      source as "create" | "reference"
+    );
 
     if (error) {
       console.log("something wrong", error);
@@ -51,7 +50,7 @@ function RemoveFromLibraryChild() {
 }
 
 function RemoveFromLibrary() {
-  const { source } = useContext(SongListContext);
+  const { source } = useContext(SongListContext) as SongListValue;
   if (source === "none") return null;
   return <RemoveFromLibraryChild />;
 }

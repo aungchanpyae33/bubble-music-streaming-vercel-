@@ -5,11 +5,14 @@ import { Link2 } from "lucide-react";
 import IconWrapper from "../IconWrapper";
 import OptionItem from "../optionBox/OptionItem";
 import OptionIconEl from "../optionBox/OptionIconEl";
-import { SongListContext } from "@/ui/playlist/playlistOption/ContextSongListContainer";
+import {
+  SongListContext,
+  SongListValue,
+} from "@/ui/playlist/playlistOption/ContextSongListContainer";
 
 function ShareList() {
   const { setShow } = useContext(ContextMoreOption);
-  const { id, type } = useContext(SongListContext);
+  const { id, type } = useContext(SongListContext) as SongListValue;
   const handleCopy = async () => {
     const origin = window.location.origin;
     try {

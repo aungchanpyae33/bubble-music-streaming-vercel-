@@ -7,11 +7,12 @@ import IconWrapper from "@/ui/general/IconWrapper";
 import { SquarePen } from "lucide-react";
 
 import { editToPlaylistAction, useEditToPlaylist } from "@/lib/zustand";
-import { SongListContext } from "./ContextSongListContainer";
+import { SongListContext, SongListValue } from "./ContextSongListContainer";
 
 function EditToPlaylistChild() {
   const { setShow } = useContext(ContextMoreOption);
-  const { id, name } = useContext(SongListContext);
+  const { id, name } = useContext(SongListContext) as SongListValue;
+
   const EditToPlaylistAction = useEditToPlaylist(
     (state: editToPlaylistAction) => state.editToPlaylistAction
   );
@@ -34,7 +35,8 @@ function EditToPlaylistChild() {
 }
 
 function EditToPlaylist() {
-  const { source } = useContext(SongListContext);
+  const { source } = useContext(SongListContext) as SongListValue;
+
   if (source === "none" || source === "reference") return null;
 
   return <EditToPlaylistChild />;

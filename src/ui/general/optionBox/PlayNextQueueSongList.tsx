@@ -12,12 +12,15 @@ import {
   useRepeatAndCurrentPlayList,
   useSong,
 } from "@/lib/zustand";
-import { SongListContext } from "@/ui/playlist/playlistOption/ContextSongListContainer";
+import {
+  SongListContext,
+  SongListValue,
+} from "@/ui/playlist/playlistOption/ContextSongListContainer";
 import { getSongListClient } from "@/database/client-data";
 
 function PlayNextQueueSongList() {
   const { setShow } = useContext(ContextMoreOption);
-  const { id, type } = useContext(SongListContext);
+  const { id, type } = useContext(SongListContext) as SongListValue;
   const currentAddToNext = useRepeatAndCurrentPlayList(
     (state: currentAddToNextAction) => state.currentAddToNext
   );

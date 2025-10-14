@@ -6,7 +6,10 @@ import { Database } from "../../../../database.types";
 import { useContext, useEffect, useState } from "react";
 import { removeFromLibrary } from "@/actions/removeFromLibrary";
 import { useQueryClient } from "@tanstack/react-query";
-import { SongListContext } from "@/ui/playlist/playlistOption/ContextSongListContainer";
+import {
+  SongListContext,
+  SongListValue,
+} from "@/ui/playlist/playlistOption/ContextSongListContainer";
 import { useRouter } from "next/navigation";
 
 interface ListContainerAddToLibraryProps {
@@ -32,7 +35,8 @@ function isAdd(source: Database["public"]["Enums"]["media_source_type"]) {
 }
 
 function ListContainerAddToLibrary() {
-  const { id, type, source } = useContext(SongListContext);
+  const { id, type, source } = useContext(SongListContext) as SongListValue;
+
   const router = useRouter();
 
   const queryClient = useQueryClient();

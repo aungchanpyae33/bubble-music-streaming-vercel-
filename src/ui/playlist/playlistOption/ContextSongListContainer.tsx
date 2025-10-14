@@ -3,37 +3,23 @@ import { getUserLibClient } from "@/database/client-data";
 import { generateValue } from "@/lib/generateValue";
 import { useQuery } from "@tanstack/react-query";
 import { createContext } from "react";
+import { listInfo, listSongsSection, SearchProfile } from "@/database/data";
 import { Database } from "../../../../database.types";
 
-export interface SongListContextProps {
-  id: string;
-  name: string;
+export type SongListValue = (listInfo | SearchProfile | listSongsSection) & {
   source: Database["public"]["Enums"]["media_source_type"];
-  type: Database["public"]["Enums"]["media_item_type"];
-  isPage?: boolean | undefined;
-}
+};
 
 // Default context value
-export const SongListContext = createContext<SongListContextProps>({
-  id: "",
-  name: "",
-  source: "none",
-  type: "album",
-  isPage: false,
-});
+export const SongListContext = createContext<SongListValue | {}>({});
 interface ContextSongListContainerProps extends React.ComponentProps<"div"> {
   id: string;
-  name: string;
-
-  type: Database["public"]["Enums"]["media_item_type"];
-  isPage?: boolean | undefined;
+  list: listInfo | SearchProfile | listSongsSection;
 }
 function ContextSongListContainer({
-  children,
   id,
-  type,
-  name,
-  isPage,
+  children,
+  list,
 }: ContextSongListContainerProps) {
   const { data: queryData, error: queryError } = useQuery({
     queryKey: ["user-library"],
@@ -43,15 +29,7 @@ function ContextSongListContainer({
   if (!data || error) return;
   const { userLib } = data;
   const isDataExist = userLib[id];
-  const defaultValue = {
-    id,
-    name,
-    source: "none" as Database["public"]["Enums"]["media_source_type"],
-    type,
-    isPage,
-  };
-  const value = generateValue(isDataExist, defaultValue, isPage);
-
+  const value = generateValue(isDataExist, list);
   return (
     <SongListContext.Provider value={value}>
       {children}
