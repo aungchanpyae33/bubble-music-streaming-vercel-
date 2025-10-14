@@ -137,6 +137,7 @@ export const getUserLib = async (): Promise<{
 export interface SearchProfile {
   id: string;
   name: string;
+  is_official?: boolean;
   type: Database["public"]["Enums"]["media_item_type"];
   cover_url: string;
 }
