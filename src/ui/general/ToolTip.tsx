@@ -45,9 +45,12 @@ function ToolTip({
       });
     }
     const toolTipRefCopy = tooltipTargetRef!.current!;
-    toolTipRefCopy.addEventListener("wheel", closeTooltipFn, {
-      passive: false,
-    });
+    if (tooltipShow.show) {
+      toolTipRefCopy.addEventListener("wheel", closeTooltipFn, {
+        passive: false,
+      });
+    }
+
     return () => {
       toolTipRefCopy.removeEventListener("wheel", closeTooltipFn);
     };
