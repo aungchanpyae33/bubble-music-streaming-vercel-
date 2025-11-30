@@ -35,7 +35,8 @@ const useTooltipOverflow = ({
     const tooltipEle = toolTipRef.current;
     if (tooltipShow.show && tooltipTargetEle && tooltipEle) {
       const tooltipRect = tooltipTargetEle.getBoundingClientRect();
-      const innerWidth = window.innerWidth;
+      // do not use window.innerWidth , it is not accurate as including scrollbar width and  as aslo in resize because resize eveent occur before  , so use clientWidth in future , if tooltip will be visible across resize ,
+      const innerWidth = document.documentElement.clientWidth;
       const tooltipRectTop = tooltipRect.top;
       // conditional check run
       if (
