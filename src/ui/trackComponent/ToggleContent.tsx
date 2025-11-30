@@ -17,13 +17,13 @@ function ToggleContent({ parentRef, children, ref }: ToggleContentProps) {
     <div ref={ref}>
       <div
         className={clsx(
-          " absolute z-30 w-[220px] max-w-[220px]   overflow-y-auto bg-[#222222] max-h-full   border-opacity-25 border   border-neutral-200 left-0 top-0 p-2 rounded-md"
+          " absolute z-30 max-w-full      overflow-auto bg-[#222222] max-h-full   border-opacity-25 border   border-neutral-200 left-0 top-0 p-2 rounded-md"
         )}
         ref={containerRef}
         style={position}
       >
+        <div className=" min-w-[200px]">{children}</div>
         {/* to avoid re-render cause of position */}
-        {children}
       </div>
     </div>
   );
