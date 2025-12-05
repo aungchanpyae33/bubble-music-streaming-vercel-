@@ -43,9 +43,10 @@ export const useToggleContentPosition = ({
         initialHeightRef.current = containerRect.height;
       }
       // calculate how many space is left in below when position in top is not available
-      const spaceBelow = viewportHeight - targetTop;
+      const spaceBelow = viewportHeight - targetBottom;
       //calculate how many space is left in right when postion is left is not available
-      const spaceRight = viewportWidth - targetLeft;
+
+      const spaceRight = viewportWidth - targetRight;
 
       // i wll add comment in modify , new , previouse code to explain what is it for future as in later i forget how it works in some component
 
