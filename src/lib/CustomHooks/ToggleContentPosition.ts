@@ -1,4 +1,4 @@
-import { RefObject, useLayoutEffect, useRef, useState } from "react";
+import { RefObject, useLayoutEffect, useState } from "react";
 
 type PositionStyle = {
   transform: string;
@@ -16,8 +16,6 @@ export const useToggleContentPosition = ({
   const [position, setPosition] = useState<PositionStyle>({
     transform: "translate(0px, 0px)",
   });
-  const initialHeightRef = useRef<number | null>(null);
-
   // the reason i use use layout effect is obvious , that to run this effect before the layout pain , because i need to the content width , height , etc before paint to calculate the position of its to render
   useLayoutEffect(() => {
     const updatePosition = () => {
@@ -39,9 +37,7 @@ export const useToggleContentPosition = ({
       const targetBottom = targetRect.bottom;
       const containerHeight = containerRect.height;
       const containerWidth = containerRect.width;
-      if (initialHeightRef.current === null) {
-        initialHeightRef.current = containerRect.height;
-      }
+
       // calculate how many space is left in below when position in top is not available
       const spaceBelow = viewportHeight - targetBottom;
       //calculate how many space is left in right when postion is left is not available
