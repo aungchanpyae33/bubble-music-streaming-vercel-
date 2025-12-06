@@ -1,6 +1,6 @@
 import { insertSongtoPlaylist } from "@/actions/addSongsToPlaylist";
 import { navbarList } from "@/database/data";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const useAddSongMutate = (playlistId: string, cover_url: string | null) => {
   const queryClient = useQueryClient();

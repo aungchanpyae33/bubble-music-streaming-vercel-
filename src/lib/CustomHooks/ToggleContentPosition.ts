@@ -107,7 +107,7 @@ export const useToggleContentPosition = ({
   parentRef,
   containerRef,
 }: {
-  parentRef: RefObject<HTMLDivElement | null>;
+  parentRef: RefObject<HTMLButtonElement | null>;
   containerRef: RefObject<HTMLDivElement | null>;
 }): [PositionStyle, React.Dispatch<React.SetStateAction<PositionStyle>>] => {
   const [position, setPosition] = useState<PositionStyle>({

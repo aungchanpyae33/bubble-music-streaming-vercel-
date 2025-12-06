@@ -26,8 +26,6 @@ function Track({
   // roleCell: RefObject<number>;
   // dataInc: RefObject<number>;
 }) {
-  // console.log(like, playlistSong, "sdfl");
-
   return (
     <tr
       className=" transition-colors isolate -z-10 duration-150  [&:has(:focus-visible)]:ring-4 h-[72px] p-3  hover:bg-[#1E2328] group

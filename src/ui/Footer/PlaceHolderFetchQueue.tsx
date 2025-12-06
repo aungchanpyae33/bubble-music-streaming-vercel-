@@ -1,5 +1,4 @@
 import { getSimilarSongQueueClient } from "@/database/client-data";
-import { generateUUID } from "@/lib/GenerateUUID";
 import {
   currentAddToQueueAction,
   ShouldFetchSongsListId,
