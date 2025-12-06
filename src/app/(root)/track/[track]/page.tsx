@@ -37,7 +37,7 @@ async function page(props: { params: Promise<{ track: string }> }) {
             <ListContainerPlayBack list={songs} />
             <TrackToggleLike songId={songsInfo!.song_id} />
             <div>
-              <MoreOptionContext>
+              <MoreOptionContext relative={songsInfo.artists}>
                 <MoreOption targetElement={<TrackItemContainer />} />
               </MoreOptionContext>
             </div>

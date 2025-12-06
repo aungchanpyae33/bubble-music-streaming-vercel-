@@ -59,7 +59,7 @@ function SearchAlbumItem({
           id={id}
           list={Itemdata}
         >
-          <MoreOptionContext>
+          <MoreOptionContext relative={{ id: related_id, name: related_name }}>
             <MoreOption targetElement={<SongListContainerOption />} />
           </MoreOptionContext>
         </ContextSongListContainer>

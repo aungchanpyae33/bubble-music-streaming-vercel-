@@ -47,7 +47,7 @@ function SonglistsContainer({
         )}
 
         <SonglistContainerWrapper className="absolute top-2 right-2 has-hover:opacity-0 has-hover:group-hover:opacity-100 has-hover:transition-opacity has-hover:duration-150">
-          <MoreOptionContext>
+          <MoreOptionContext relative={{ id: related_id, name: related_name }}>
             <MoreOption
               targetElement={
                 <ContextSongListContainer id={id} list={list}>

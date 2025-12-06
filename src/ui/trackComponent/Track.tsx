@@ -83,7 +83,7 @@ function Track({
         <ContextInfoTrack id={listSong.id} song={song} source="none">
           <ContextLike id={song.song_id}>
             <ToggleHeartButton songId={song.song_id} />
-            <MoreOptionContext>
+            <MoreOptionContext relative={song.artists}>
               <MoreOption targetElement={<TrackItemContainer />} />
             </MoreOptionContext>
           </ContextLike>

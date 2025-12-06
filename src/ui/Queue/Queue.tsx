@@ -101,7 +101,7 @@ function Queue() {
                     song={item}
                   >
                     <ContextLike id={item.song_id}>
-                      <MoreOptionContext>
+                      <MoreOptionContext relative={item.artists}>
                         <MoreOption
                           relativeRoot={audioFullRef.current}
                           targetElement={<QueueItemContainer />}

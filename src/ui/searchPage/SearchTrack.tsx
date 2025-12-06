@@ -52,7 +52,7 @@ function SearchTrack({
         <ContextInfoTrack id={undefined} source={undefined} song={song}>
           <ContextLike id={song.song_id}>
             <ToggleHeartButton songId={song.song_id} />
-            <MoreOptionContext>
+            <MoreOptionContext relative={song.artists}>
               <MoreOption targetElement={<TrackItemContainer />} />
             </MoreOptionContext>
           </ContextLike>

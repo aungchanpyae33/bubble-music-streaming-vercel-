@@ -64,7 +64,7 @@ function SearchListContainerItem({
       </div>
       <div className=" flex items-center">
         <ContextSongListContainer className="w-[50px]" id={id} list={Itemdata}>
-          <MoreOptionContext>
+          <MoreOptionContext relative={{ id: related_id, name: related_name }}>
             <MoreOption targetElement={<SongListContainerOption />} />
           </MoreOptionContext>
         </ContextSongListContainer>

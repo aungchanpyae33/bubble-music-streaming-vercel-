@@ -43,7 +43,7 @@ function SongListItem({ song }: { song: SongInfo }) {
       <div className=" w-fit  text-center px-2">
         <ContextInfoTrack id={undefined} source={undefined} song={song}>
           <ContextLike id={song.song_id}>
-            <MoreOptionContext>
+            <MoreOptionContext relative={song.artists}>
               <MoreOption targetElement={<TrackItemContainer />} />
             </MoreOptionContext>
           </ContextLike>

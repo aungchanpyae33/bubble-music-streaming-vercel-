@@ -33,7 +33,9 @@ async function page(props: { params: Promise<{ artist: string }> }) {
             <ListContainerAddToLibrary />
 
             <div>
-              <MoreOptionContext>
+              <MoreOptionContext
+                relative={{ id: songs.related_id, name: songs.related_name }}
+              >
                 <MoreOption targetElement={<SongListContainerOption />} />
               </MoreOptionContext>
             </div>

@@ -43,7 +43,7 @@ function SearchProfileItem({
       </div>
       <div className=" flex item-center">
         <ContextSongListContainer id={id} list={Itemdata}>
-          <MoreOptionContext>
+          <MoreOptionContext relative={undefined}>
             <MoreOption targetElement={<ProfileOption />} />
           </MoreOptionContext>
         </ContextSongListContainer>

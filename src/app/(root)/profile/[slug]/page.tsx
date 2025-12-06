@@ -25,7 +25,9 @@ async function page(props: { params: Promise<{ slug: string }> }) {
       <ListContainer className="h-[50px]">
         <div>
           <ContextSongListContainer id={profile.id} list={profile}>
-            <MoreOptionContext>
+            <MoreOptionContext
+              relative={{ id: profile.related_id, name: profile.related_name }}
+            >
               <MoreOption targetElement={<ProfileOption />} />
             </MoreOptionContext>
           </ContextSongListContainer>
