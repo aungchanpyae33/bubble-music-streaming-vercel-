@@ -45,18 +45,17 @@ function GoToArtist() {
     const artistId = Array.isArray(relative) ? relative[0].id : relative.id;
     return (
       <OptionItem>
-        <OptionButton onClick={() => setShow(false)}>
-          <NoThankYouPreFetchLink
-            href={`/artist/${artistId}`}
-            className="flex items-center"
-          >
-            <OptionIconEl>
-              <IconWrapper size="small" Icon={UserSearch} />
-            </OptionIconEl>
+        <NoThankYouPreFetchLink
+          href={`/artist/${artistId}`}
+          className="flex w-full h-full items-center"
+          onClick={() => setShow(false)}
+        >
+          <OptionIconEl>
+            <IconWrapper size="small" Icon={UserSearch} />
+          </OptionIconEl>
 
-            <OptionText text="go to artist " />
-          </NoThankYouPreFetchLink>
-        </OptionButton>
+          <OptionText text="go to artist " />
+        </NoThankYouPreFetchLink>
       </OptionItem>
     );
   }
