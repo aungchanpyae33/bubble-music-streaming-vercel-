@@ -16,9 +16,6 @@ function InitCreateButton({
   const setIsChildOpen = useIsChildOpenCloseFunction(
     (state: isChildOpenAction) => state.setIsChildOpen
   );
-  useEffect(() => {
-    !open && closeElementRef.current?.focus();
-  }, [open, closeElementRef]);
   CloseFunctoion(open, setOpen, closeElementRef, false);
   return (
     <button
