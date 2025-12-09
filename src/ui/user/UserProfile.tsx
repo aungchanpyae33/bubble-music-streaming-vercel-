@@ -14,11 +14,10 @@ function UserProfile({
   const userName = name && name.slice(0, 1);
   const [userOpen, setUserOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
-  const parentRef = useRef<HTMLDivElement | null>(null);
   CloseFunctoion(userOpen, setUserOpen, buttonRef, false);
-  OutterClick(userOpen, setUserOpen, parentRef);
+  OutterClick(userOpen, setUserOpen, buttonRef);
   return (
-    <div className=" relative z-10" ref={parentRef}>
+    <div className=" relative z-10">
       <button
         ref={buttonRef}
         className="bg-[#222222] hover:bg-[#333333] w-[40px] h-[40px] rounded-full flex items-center justify-center"
