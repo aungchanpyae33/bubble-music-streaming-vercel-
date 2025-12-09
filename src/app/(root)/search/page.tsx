@@ -1,4 +1,3 @@
-export const dynamic = "force-dynamic";
 import { getSearchPage } from "@/database/data";
 import SearchAlbum from "@/ui/searchPage/SearchAlbum";
 import SearchArtist from "@/ui/searchPage/SearchArtist";
@@ -6,7 +5,6 @@ import SearchPlaylist from "@/ui/searchPage/SearchPlaylist";
 import SearchProfile from "@/ui/searchPage/SearchProfile";
 import SearchSongs from "@/ui/searchPage/SearchSongs";
 import TopResult from "@/ui/searchPage/topResult/TopResult";
-import React from "react";
 
 async function page(props: {
   searchParams?: Promise<{

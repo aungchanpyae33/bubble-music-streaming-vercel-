@@ -1,4 +1,3 @@
-export const runtime = "edge";
 import { getLyric } from "@/database/data";
 import { NextRequest, NextResponse } from "next/server";
 

@@ -1,5 +1,3 @@
-export const runtime = "edge";
-
 import { getSimilarSongQueue } from "@/database/data";
 import { NextRequest, NextResponse } from "next/server";
 

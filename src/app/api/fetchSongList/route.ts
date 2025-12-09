@@ -1,5 +1,3 @@
-export const runtime = "edge";
-
 import { getSongList } from "@/database/data";
 import { NextRequest, NextResponse } from "next/server";
 import { Database } from "../../../../database.types";

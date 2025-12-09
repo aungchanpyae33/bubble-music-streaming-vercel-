@@ -67,7 +67,7 @@ async function updateSession(request: NextRequest) {
   return supabaseResponse;
 }
 
-export default async function middleware(request: NextRequest) {
+export default async function proxy(request: NextRequest) {
   return await updateSession(request);
 }
 

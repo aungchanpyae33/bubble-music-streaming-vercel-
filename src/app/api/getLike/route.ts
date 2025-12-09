@@ -1,5 +1,4 @@
-export const runtime = "edge";
-import { getLikedId, getUserLib } from "@/database/data";
+import { getLikedId } from "@/database/data";
 import { NextResponse } from "next/server";
 
 export async function GET() {
