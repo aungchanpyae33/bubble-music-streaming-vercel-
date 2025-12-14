@@ -49,7 +49,7 @@ export const getLikedIdClient = async (): Promise<{
   error: any;
 }> => {
   try {
-    const fetchData = await fetch("/api/getLikedId");
+    const fetchData = await fetch("/api/getLike");
     const { data, error } = await fetchData.json();
     return { data, error };
   } catch (error) {

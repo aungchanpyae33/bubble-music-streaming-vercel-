@@ -29,7 +29,10 @@ function PlaylistFolderContainer({
         scrollRef={scrollRef}
         length={userLib.idArray.length}
       />
-      <div className=" w-full h-full will-change-scroll overflow-auto  ">
+      <div
+        className=" w-full h-full will-change-scroll overflow-auto"
+        tabIndex={0}
+      >
         <Virtuoso
           scrollerRef={(el) => {
             if (el instanceof HTMLElement) {
@@ -37,6 +40,7 @@ function PlaylistFolderContainer({
             }
           }}
           increaseViewportBy={{ top: 240, bottom: 240 }}
+          tabIndex={0}
           style={{ height: "100%" }}
           className=" will-change-scroll"
           totalCount={userLib.idArray.length}
@@ -47,6 +51,7 @@ function PlaylistFolderContainer({
               <div
                 key={item.id}
                 className="p-2 hover:bg-[#333333] bg-[#0A0A0A]"
+                tabIndex={0}
               >
                 <NoThankYouPreFetchLink
                   href={`/${item.type}/${item.id}`}

@@ -7,7 +7,7 @@ import { DisableScroll } from "@/lib/CustomHooks/DisableScroll";
 import { ContextMoreOption } from "./MoreOptionContext";
 import { createPortal } from "react-dom";
 import ContentChild from "./ContentChild";
-import RegistryPortalContext from "./RegisterPortalContext";
+import MoreOptionStackContext from "./MoreOptionStackContext";
 interface MoreOptionProps extends React.ComponentProps<"div"> {
   targetElement: React.ReactNode;
   relativeRoot?: HTMLDivElement | null;
@@ -20,13 +20,11 @@ function MoreOption({
   const { show, setShow } = useContext(ContextMoreOption);
   const parentRef = useRef<HTMLButtonElement>(null);
   DisableScroll(show);
-
   return (
     <div>
       <button
         ref={parentRef}
-        onClick={(e) => {
-          e.nativeEvent.stopImmediatePropagation();
+        onClick={() => {
           setShow(!show);
         }}
         className={`w-full h-full flex justify-center ${className}`}
@@ -37,11 +35,11 @@ function MoreOption({
         typeof window !== "undefined" &&
         createPortal(
           // By doing this / also did in MoreOptionSub.tsx , context in this lvl help , one parent and one child lvl component access data each , no unnecessary for deeply nested child
-          <RegistryPortalContext>
+          <MoreOptionStackContext>
             <ToggleContent parentRef={parentRef}>
               <ContentChild>{targetElement}</ContentChild>
             </ToggleContent>
-          </RegistryPortalContext>,
+          </MoreOptionStackContext>,
           relativeRoot ? relativeRoot : document.body
         )}
     </div>

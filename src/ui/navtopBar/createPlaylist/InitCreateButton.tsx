@@ -1,30 +1,16 @@
-import CloseFunctoion from "@/lib/CloseFunction";
-import { isChildOpenAction, useIsChildOpenCloseFunction } from "@/lib/zustand";
 import IconWrapper from "@/ui/general/IconWrapper";
+import { ContextMoreOptionStack } from "@/ui/trackComponent/MoreOptionStackContext";
 import { Plus } from "lucide-react";
-import React, { SetStateAction, useEffect, useRef } from "react";
+import { useContext } from "react";
 
-function InitCreateButton({
-  open,
-  setOpen,
-}: {
-  open: boolean;
-  setOpen: (value: boolean) => void;
-}) {
-  const closeElementRef = useRef<HTMLButtonElement>(null);
-  // console.log("open", open);
-  const setIsChildOpen = useIsChildOpenCloseFunction(
-    (state: isChildOpenAction) => state.setIsChildOpen
-  );
-  CloseFunctoion(open, setOpen, closeElementRef, false);
+function InitCreateButton({ stackNum }: { stackNum: number }) {
+  const { setStack } = useContext(ContextMoreOptionStack);
   return (
     <button
       className="mr-2"
       onClick={() => {
-        setOpen(true);
-        setIsChildOpen({ true: true });
+        setStack(stackNum);
       }}
-      ref={closeElementRef}
     >
       <IconWrapper size="large" Icon={Plus} />
     </button>

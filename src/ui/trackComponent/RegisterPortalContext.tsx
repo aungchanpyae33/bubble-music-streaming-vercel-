@@ -14,6 +14,7 @@ export const ContextPortalRegistry = createContext<PortalRegistryContextProps>({
     add: (el: HTMLElement | null) => {},
     remove: (el: HTMLElement | null) => {},
     has: (target: Node) => false,
+    show: () => {},
   },
 });
 function RegistryPortalContext({ children }: { children: ReactNode }) {

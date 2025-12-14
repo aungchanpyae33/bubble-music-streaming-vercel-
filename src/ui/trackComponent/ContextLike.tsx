@@ -37,18 +37,19 @@ function ContextLike({
       setIsLike(likeAction);
     }
   }, [likeAction]);
-  const { data: queryData, error: queryError } = useQuery({
-    queryKey: ["liked-id"],
-    queryFn: () => getLikedIdClient(),
-  });
-  const { data, error } = queryData || {};
-  const [isLike, setIsLike] = useState(() => {
-    if (!data || error) return false;
-    const { userLike } = data;
-    const isDataExist = userLike[id];
-    if (isDataExist) return true;
-    return false;
-  });
+  // const { data: queryData, error: queryError } = useQuery({
+  //   queryKey: ["liked-id"],
+  //   queryFn: () => getLikedIdClient(),
+  // });
+  // const { data, error } = queryData || {};
+  // const [isLike, setIsLike] = useState(() => {
+  //   if (!data || error) return false;
+  //   const { userLike } = data;
+  //   const isDataExist = userLike[id];
+  //   if (isDataExist) return true;
+  //   return false;
+  // });
+  const [isLike, setIsLike] = useState(false);
   const value = { isLike, setLikeAction };
 
   return <LikeContext.Provider value={value}>{children}</LikeContext.Provider>;

@@ -1,14 +1,11 @@
-// Allowed elements store (global for each menu)
-// per run each sub portal
-
 export interface RegisterPortalValue {
   add: (el: HTMLElement | null) => void;
   remove: (el: HTMLElement | null) => void;
   has: (target: Node) => boolean;
+  show: () => void;
 }
 
-export function createOutsideClickRegistryPortal() {
-  // this act store of element (portal element , to use later in outterClick because of portal open in new DOM node)
+export function createOutsideClickRegistryPortal(): RegisterPortalValue {
   const elements = new Set<HTMLElement>();
 
   return {
@@ -23,6 +20,17 @@ export function createOutsideClickRegistryPortal() {
         if (el.contains(target)) return true;
       }
       return false;
+    },
+
+    // NEW: show all elements stored inside
+    show: () => {
+      console.log("Current elements in registry:");
+      for (const el of elements) {
+        console.log(el);
+      }
+      if (elements.size === 0) {
+        console.log("(empty)");
+      }
     },
   };
 }

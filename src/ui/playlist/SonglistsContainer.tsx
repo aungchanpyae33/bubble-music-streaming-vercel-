@@ -31,22 +31,23 @@ function SonglistsContainer({
         "peer snap-center space-y-3 w-[165px] isolate md:w-[175px] lg:w-[185px] shrink-0 grow-0 "
       )}
     >
-      <NoThankYouPreFetchLink
-        href={`/${type}/${id}`}
-        className="flex relative w-full imageContainer  rounded overflow-hidden    before:block before:pb-[100%] group "
-      >
-        {cover_url && (
-          <Image
-            src={cover_url}
-            fill
-            alt="this is image element"
-            sizes="(min-width: 1024px) 185px, (min-width: 768px) 175px , 160px"
-            priority={true}
-            className=" group-hover:brightness-75 "
-          />
-        )}
-
-        <SonglistContainerWrapper className="absolute top-2 right-2 has-hover:opacity-0 has-hover:group-hover:opacity-100 has-hover:transition-opacity has-hover:duration-150">
+      <div className="flex relative w-full imageContainer  rounded  group">
+        <NoThankYouPreFetchLink
+          href={`/${type}/${id}`}
+          className=" w-full relative peer  block before:block before:pb-[100%] "
+        >
+          {cover_url && (
+            <Image
+              src={cover_url}
+              fill
+              alt="this is image element"
+              sizes="(min-width: 1024px) 185px, (min-width: 768px) 175px , 160px"
+              priority={true}
+              className=" group-hover:brightness-75 "
+            />
+          )}
+        </NoThankYouPreFetchLink>
+        <SonglistContainerWrapper className="absolute top-2 right-2">
           <MoreOptionContext relative={{ id: related_id, name: related_name }}>
             <MoreOption
               targetElement={
@@ -66,7 +67,8 @@ function SonglistsContainer({
       has-hover:focus:opacity-100 
       has-hover:group-hover:opacity-100  p-2 bg-[#222222]"
         />
-      </NoThankYouPreFetchLink>
+      </div>
+
       <div className=" w-full">
         <UnderLineLinkHover
           href={`/${type}/${id}`}

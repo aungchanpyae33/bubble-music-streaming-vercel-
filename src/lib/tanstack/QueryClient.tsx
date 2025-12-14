@@ -51,8 +51,8 @@ export default function QueryClientPrv({
 
   return (
     //server side react query like this need suspense with ui fallback if using with next theme  , without this it will make a flash white screen
-    <Suspense fallback={<Loading />}>
-      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-    </Suspense>
+    // <Suspense fallback={<Loading />}>
+    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    // </Suspense>
   );
 }

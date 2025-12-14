@@ -2,6 +2,7 @@ import type { PostgrestError } from "@supabase/supabase-js";
 import { createClient } from "./server";
 import { Database } from "../../database.types";
 import { deepMapById } from "@/lib/returnById";
+import { delay } from "@/lib/test/delay";
 export interface Movie {
   id: number;
   name: string;
@@ -48,7 +49,7 @@ export const getLikedId = async (): Promise<{
       userLike: data,
     };
     const mappedData = deepMapById(userLike, ["userLike"]);
-
+    console.log(mappedData);
     return { data: mappedData, error };
   } catch (error) {
     return { data: null, error };
@@ -63,6 +64,7 @@ export const get = async (): Promise<{
   data: getDataProps | null;
   error: PostgrestError | null | any;
 }> => {
+  // await delay(5000);
   try {
     const supabase = await createClient();
     const { data, error } = (await supabase.rpc("get_all_media_items")) as {
@@ -126,8 +128,9 @@ export const getUserLib = async (): Promise<{
     const userLib = {
       userLib: data,
     };
-    console.log(error);
+
     const mappedData = deepMapById(userLib, ["userLib"]);
+
     return { data: mappedData, error };
   } catch (error) {
     return { data: null, error };

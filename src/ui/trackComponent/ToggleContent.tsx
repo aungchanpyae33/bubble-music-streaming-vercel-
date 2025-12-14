@@ -1,37 +1,30 @@
-import { RefObject, useContext, useEffect, useRef } from "react";
+import { RefObject, useContext, useRef } from "react";
 import { useToggleContentPosition } from "@/lib/CustomHooks/ToggleContentPosition";
 import clsx from "clsx";
-import { usePortalRefRegister } from "@/lib/CustomHooks/PortalRefRegister";
-import { ContextPortalRegistry } from "./RegisterPortalContext";
 import { ContextMoreOption } from "./MoreOptionContext";
 import OutterClick from "@/lib/OutterClick";
 import CloseFunctoion from "@/lib/CloseFunction";
 import { RegisterPortalValue } from "@/lib/CustomHooks/PortalRefControllStore";
+import { useHoverable } from "@/lib/CustomHooks/Hoverable";
 
 interface ToggleContentProps extends React.ComponentProps<"div"> {
   parentRef: RefObject<HTMLButtonElement | null>;
   children: React.ReactNode;
   parentRegister?: RegisterPortalValue;
 }
-function ToggleContent({
-  parentRef,
-  children,
-  parentRegister,
-}: ToggleContentProps) {
-  // parent register
-  const { registryPortal } = useContext(ContextPortalRegistry);
+function ToggleContent({ parentRef, children }: ToggleContentProps) {
   const { show, setShow } = useContext(ContextMoreOption);
+  const isHoverable = useHoverable();
   // feed portal element to register
-  const containerRef = usePortalRefRegister(registryPortal, parentRegister);
+  const containerRef = useRef<HTMLDivElement>(null);
   const [position] = useToggleContentPosition({
     parentRef,
     containerRef,
   });
   // outterclick is to detect click is inside portal and targert parent trigger or not when portal is open
-  OutterClick(show, setShow, parentRef, registryPortal);
+  OutterClick(show, setShow, parentRef, containerRef);
 
-  // default to true , because it is not guarantee not having sub portal content
-  CloseFunctoion(show, setShow, parentRef, true);
+  CloseFunctoion(show, setShow, parentRef);
   return (
     <div
       className={clsx(

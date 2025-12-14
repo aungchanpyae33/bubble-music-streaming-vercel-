@@ -1,6 +1,13 @@
 import { X } from "lucide-react";
 import IconWrapper from "../general/IconWrapper";
-import { useEffect, useRef, useState, useTransition } from "react";
+import {
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  useTransition,
+} from "react";
 import Form from "next/form";
 import FocusTrap from "../Footer/audioFull/FocusTrap";
 import TitleInput from "./createPlaylist/TitleInput";
@@ -10,22 +17,22 @@ import InitCreateButton from "./createPlaylist/InitCreateButton";
 import { insertDataAction } from "@/actions/createPlaylist";
 import { useQueryClient } from "@tanstack/react-query";
 import CheckTypeCreate from "./createPlaylist/CheckTypeCreate";
+import { ContextMoreOptionStack } from "../trackComponent/MoreOptionStackContext";
 
-function PlaylistAdd() {
+function PlaylistAdd({ stackNum }: { stackNum: number }) {
   const queryClient = useQueryClient();
-  const [open, setOpen] = useState(false);
+  const { stack, setStack } = useContext(ContextMoreOptionStack);
   const formParentRef = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    open && formParentRef.current?.focus();
-  }, [open, formParentRef]);
   const [isPending, startTransition] = useTransition();
+  // is it sub child permanant stack num is equl or less than current stack
+  const stayShow = useMemo(() => stackNum <= stack, [stack]);
   return (
     <>
-      <InitCreateButton open={open} setOpen={setOpen} />
-      {open && (
+      <InitCreateButton stackNum={stackNum} />
+      {stayShow && (
         <div
           className="fixed   w-screen bg-black/50   h-screen inset-0 z-40"
-          onClick={() => setOpen(false)}
+          onClick={() => setStack(stackNum - 1)}
         >
           <FocusTrap refFocus={formParentRef}>
             <div
@@ -56,7 +63,7 @@ function PlaylistAdd() {
                         data,
                         error: null,
                       });
-                      setOpen(false);
+                      setStack(stackNum - 1);
                     }
                   });
                 }}
@@ -70,7 +77,7 @@ function PlaylistAdd() {
                       type="button"
                       className=" bg-transparent transition-colors  duration-200 hover:bg-[#333333] p-1 rounded-full flex items-center justify-center"
                       onClick={() => {
-                        setOpen(false);
+                        setStack(stackNum - 1);
                       }}
                     >
                       <IconWrapper size="large" Icon={X} />

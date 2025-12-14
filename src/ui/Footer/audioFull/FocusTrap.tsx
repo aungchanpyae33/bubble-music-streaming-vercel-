@@ -15,7 +15,7 @@ function FocusTrap({ children, refFocus, mqAffectsChild }: Props) {
     //to handle when lastelemet is focus and then when resize , its loss focus
     const focusableElements = Array.from(
       copyRef.querySelectorAll(
-        'a, button, input, textarea, select, details, [tabindex]:not([tabindex="-1"])'
+        'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), details, [tabindex]:not([tabindex="-1"])'
       )
     ).reverse() as HTMLElement[];
     // to get focuvisiable lastElement in document

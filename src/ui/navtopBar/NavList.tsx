@@ -7,7 +7,6 @@ import { ListMusic, Menu, Plus } from "lucide-react";
 import IconWrapper from "../general/IconWrapper";
 
 import NavSideLinkNotOpen from "./NavSideLinkNotOpen";
-import dynamic from "next/dynamic";
 import PlaylistAdd from "./PlaylistAdd";
 import PlaylistFolderContainer from "./PlaylistFolderContainer";
 
@@ -63,7 +62,6 @@ function NavList({
       >
         <div className="overflow-auto flex-1  flex flex-col py-3  ">
           {/*  will-change-scroll for hardware acceleration , without this , it feels junky in chrome and some webkit browser */}
-
           <NavSideLink
             url="/explore"
             icon="icon"
@@ -94,7 +92,7 @@ function NavList({
                 <IconWrapper size="large" Icon={ListMusic} />
               </div>
             </NavSideLink>
-            <PlaylistAdd />
+            <PlaylistAdd stackNum={1} />
           </div>
           <PlaylistFolderContainer open={open} setOpen={setOpen} />
         </div>

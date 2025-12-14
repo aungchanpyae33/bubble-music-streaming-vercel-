@@ -1,57 +1,62 @@
 "use client";
-import { useContext, useRef } from "react";
+import { useContext, useEffect, useMemo, useRef } from "react";
 import { DisableScroll } from "@/lib/CustomHooks/DisableScroll";
-import { ContextMoreOption } from "./MoreOptionContext";
 import { createPortal } from "react-dom";
 import ContentChild from "./ContentChild";
-import RegistryPortalContext, {
-  ContextPortalRegistry,
-} from "./RegisterPortalContext";
 import ToggleSubContent from "./ToggleSubContent";
-import { isChildOpenAction, useIsChildOpenCloseFunction } from "@/lib/zustand";
+import { useHoverable } from "@/lib/CustomHooks/Hoverable";
+import clsx from "clsx";
+import { ContextMoreOptionStack } from "./MoreOptionStackContext";
 interface MoreOptionProps extends React.ComponentProps<"button"> {
   targetElement: React.ReactNode;
   triggerEl: React.ReactNode;
   relativeRoot?: HTMLDivElement | null;
+  stackNum: number;
 }
 function MoreSubOption({
   className,
   targetElement,
   triggerEl,
   relativeRoot,
+  stackNum,
 }: MoreOptionProps) {
-  const { show, setShow } = useContext(ContextMoreOption);
+  const { stack, setStack } = useContext(ContextMoreOptionStack);
   const parentRef = useRef<HTMLButtonElement>(null);
-  const { registryPortal: ParentRegister } = useContext(ContextPortalRegistry);
-  const setIsChildOpen = useIsChildOpenCloseFunction(
-    (state: isChildOpenAction) => state.setIsChildOpen
-  );
-  DisableScroll(show);
+  // is it sub child permanant stack num is equl or less than current stack
+  const stayShow = useMemo(() => stackNum <= stack, [stack]);
+  DisableScroll(stayShow);
+  useEffect(() => {
+    function ToggleFn(e: PointerEvent) {
+      e.stopImmediatePropagation();
+      if (stackNum !== stack) {
+        setStack(stackNum);
+      } else {
+        setStack(stackNum - 1);
+      }
+    }
+    parentRef.current?.addEventListener("click", ToggleFn);
+    return () => {
+      parentRef.current?.removeEventListener("click", ToggleFn);
+    };
+  }, []);
   return (
     <div>
       <button
         ref={parentRef}
-        onClick={(e) => {
-          e.nativeEvent.stopImmediatePropagation();
-          setShow(!show);
-          setIsChildOpen({ true: true });
-        }}
-        className={`w-full h-full flex justify-center ${className}`}
+        className={clsx(`w-full h-full flex justify-center ${className}`, {
+          "bg-[#444444]": stayShow,
+        })}
       >
         {triggerEl}
       </button>
-      {show &&
+      {stayShow &&
         typeof window !== "undefined" &&
         createPortal(
           //  // By doing this / also did in MoreOption.tsx , context in this lvl help , one parent and one child lvl component access data each , no unnecessary for deeply nested child
-          <RegistryPortalContext>
-            <ToggleSubContent
-              parentRef={parentRef}
-              parentRegister={ParentRegister}
-            >
-              <ContentChild>{targetElement}</ContentChild>
-            </ToggleSubContent>
-          </RegistryPortalContext>,
+
+          <ToggleSubContent parentRef={parentRef} stackNum={stackNum}>
+            <ContentChild>{targetElement}</ContentChild>
+          </ToggleSubContent>,
           relativeRoot ? relativeRoot : document.body
         )}
     </div>
