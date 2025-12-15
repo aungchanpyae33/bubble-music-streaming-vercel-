@@ -4313,6 +4313,9 @@ snapshots:
       '@typescript-eslint/typescript-estree': 8.49.0(typescript@5.6.3)
       '@typescript-eslint/visitor-keys': 8.49.0
       debug: 4.4.3
+=======
+      debug: 4.3.7
+>>>>>>> c917edcb0ca10032819de7fcbd927ffbf6fee0bc
       eslint: 9.39.2(jiti@2.6.1)
       typescript: 5.6.3
     transitivePeerDependencies:
