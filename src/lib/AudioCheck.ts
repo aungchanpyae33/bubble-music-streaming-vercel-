@@ -11,8 +11,20 @@ export function getAudioStreamSupport(): StreamSupport {
     return cachedSupport;
   }
 
-  const MediaSourceImpl: any =
-    (window as any).MediaSource || (window as any).WebKitMediaSource;
+  const MediaSourceImpl: typeof MediaSource | undefined =
+    (
+      window as unknown as {
+        MediaSource?: typeof MediaSource;
+        WebKitMediaSource?: typeof MediaSource;
+      }
+    ).MediaSource ||
+    (
+      window as unknown as {
+        MediaSource?: typeof MediaSource;
+        WebKitMediaSource?: typeof MediaSource;
+      }
+    ).WebKitMediaSource;
+
   const hasMSE =
     !!MediaSourceImpl && typeof MediaSourceImpl.isTypeSupported === "function";
 

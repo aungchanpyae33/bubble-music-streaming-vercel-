@@ -6,8 +6,8 @@ import { twMerge } from "tailwind-merge";
 
 interface SubOptionToggleProps<T> extends React.ComponentProps<"div"> {
   /** Zustand selector type */
-  selector: (state: any) => T;
-  useStore: (selector: (state: any) => T) => T;
+  selector: (state: never) => T;
+  useStore: (selector: (state: never) => T) => T;
   children: React.ReactNode;
 }
 const baseStyle =
@@ -18,7 +18,7 @@ function SubOptionToggle<T>({
   useStore,
   className,
 }: SubOptionToggleProps<T>) {
-  const addSongsToPlaylist = useStore(selector) as (value: any) => void;
+  const addSongsToPlaylist = useStore(selector) as (value: unknown) => void;
   const refFocus = useRef<HTMLDivElement>(null);
   SetFocusMounted({ refFocus: refFocus });
   return (

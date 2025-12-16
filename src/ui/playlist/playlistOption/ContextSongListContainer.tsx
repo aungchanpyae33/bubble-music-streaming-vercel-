@@ -11,7 +11,7 @@ export type SongListValue = (listInfo | SearchProfile | listSongsSection) & {
 };
 
 // Default context value
-export const SongListContext = createContext<SongListValue | {}>({});
+export const SongListContext = createContext<SongListValue | object>({});
 interface ContextSongListContainerProps extends React.ComponentProps<"div"> {
   id: string;
   list: listInfo | SearchProfile | listSongsSection;

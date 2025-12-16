@@ -1,6 +1,6 @@
 "use client";
 
-interface SonglistContainerWrapperProps extends React.ComponentProps<"div"> {}
+type SonglistContainerWrapperProps = React.ComponentProps<"div">;
 function SonglistContainerWrapper({
   children,
   className,

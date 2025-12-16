@@ -1,4 +1,7 @@
-const throttle = <T extends (...args: any[]) => void>(fn: T, delay: number) => {
+const throttle = <T extends (...args: never[]) => void>(
+  fn: T,
+  delay: number
+) => {
   // console.log("run");
   let lastTime = 0;
   return (...arg: Parameters<T>) => {

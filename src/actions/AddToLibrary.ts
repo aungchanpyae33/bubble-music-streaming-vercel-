@@ -9,11 +9,11 @@ export const addToLibrary = async (
   type: listSongsSection["type"]
 ): Promise<{
   data: UserLibMappedProps | null;
-  error: any;
+  error: unknown;
 }> => {
   try {
     const supabase = await createClient();
-    let { data, error } = await supabase.rpc("add_to_library", {
+    const { data, error } = await supabase.rpc("add_to_library", {
       p_item_id: id,
       p_item_type: type,
     });

@@ -6,7 +6,7 @@ export const insertDataActionWithSongs = async (queryData: FormData) => {
   if (!playlistname || typeof playlistname !== "string") {
     return { data: null, error: "Invalid playlist name" };
   }
-  let { data, error } = await supabase.rpc("insert_playlist_with_songs", {
+  const { data, error } = await supabase.rpc("insert_playlist_with_songs", {
     playlist_name: playlistname,
     song_ids: [2, 5, 6],
   });

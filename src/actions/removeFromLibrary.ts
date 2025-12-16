@@ -8,7 +8,7 @@ export const removeFromLibrary = async (
   source: "create" | "reference"
 ): Promise<{
   data: UserLibMappedProps | null;
-  error: any;
+  error: unknown;
 }> => {
   try {
     const supabase = await createClient();

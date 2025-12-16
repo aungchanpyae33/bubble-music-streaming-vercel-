@@ -11,7 +11,7 @@ import type {
 import { Pause, Play } from "lucide-react";
 import IconWrapper from "@/ui/general/IconWrapper";
 
-interface Props extends React.ComponentProps<"button"> {}
+type Props = React.ComponentProps<"button">;
 function ToggleButton({ className }: Props) {
   const Isplay = useSongFunction(
     (state: SongFunctionState) => Object.values(state.Isplay)[0]

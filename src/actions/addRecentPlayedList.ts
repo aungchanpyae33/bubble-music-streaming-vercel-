@@ -11,7 +11,7 @@ export const addRecentlyPlayedList = async (
   type: Database["public"]["Enums"]["media_item_type"]
 ): Promise<{
   data: getRecentReturn | null;
-  error: PostgrestError | any | null;
+  error: PostgrestError | unknown | null;
 }> => {
   try {
     const supabase = await createClient();

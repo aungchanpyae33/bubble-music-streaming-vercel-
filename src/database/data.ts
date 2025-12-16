@@ -27,7 +27,7 @@ export interface listInfoUserLib extends listInfo {
 // export const getLikeSongs = async (
 //   userId: string
 // ): Promise<getLikeSongsReturn["songs"]> => {
-//   let { data, error } = await supabase.rpc("get_liked_songs", {
+//   const { data, error } = await supabase.rpc("get_liked_songs", {
 //     current_user_id: userId,
 //   });
 //   if (error) console.error(error);
@@ -39,7 +39,7 @@ export interface getLikedIdReturn {
 }
 export const getLikedId = async (): Promise<{
   data: getLikedIdReturn | null;
-  error: PostgrestError | null | any;
+  error: PostgrestError | null | unknown;
 }> => {
   try {
     const supabase = await createClient();
@@ -61,12 +61,12 @@ export interface getDataProps {
 
 export const get = async (): Promise<{
   data: getDataProps | null;
-  error: PostgrestError | null | any;
+  error: PostgrestError | null | unknown;
 }> => {
   try {
     const supabase = await createClient();
     const { data, error } = (await supabase.rpc("get_all_media_items")) as {
-      data: Record<string, any>;
+      data: Record<string, unknown>;
       error: PostgrestError | null;
     };
     const keys = Object.keys(data);
@@ -95,7 +95,7 @@ export interface getRecentReturn {
 
 export const getRecent = async (): Promise<{
   data: getRecentReturn | null;
-  error: PostgrestError | null | any;
+  error: PostgrestError | null | unknown;
 }> => {
   try {
     const supabase = await createClient();
@@ -118,15 +118,15 @@ export interface UserLibMappedProps {
 
 export const getUserLib = async (): Promise<{
   data: UserLibMappedProps | null;
-  error: any;
+  error: unknown;
 }> => {
   try {
     const supabase = await createClient();
-    let { data, error } = await supabase.rpc("get_user_library");
+    const { data, error } = await supabase.rpc("get_user_library");
     const userLib = {
       userLib: data,
     };
-    console.log(error);
+
     const mappedData = deepMapById(userLib, ["userLib"]);
     return { data: mappedData, error };
   } catch (error) {
@@ -155,7 +155,7 @@ export const getSearchPage = async (
   query: string
 ): Promise<{
   data: getSearchPageReturn | null;
-  error: PostgrestError | any | null;
+  error: PostgrestError | unknown | null;
 }> => {
   try {
     const supabase = await createClient();
@@ -179,7 +179,7 @@ export const getPlaylistSongs = async (
   playlistId: string
 ): Promise<{
   data: getPlaylistPageProps | null;
-  error: PostgrestError | any | null;
+  error: PostgrestError | unknown | null;
 }> => {
   try {
     const supabase = await createClient();
@@ -202,7 +202,7 @@ export const getSongTrack = async (
   songId: string
 ): Promise<{
   data: getSongTrackReturnType | null;
-  error: PostgrestError | null | any;
+  error: PostgrestError | null | unknown;
 }> => {
   try {
     const supabase = await createClient();
@@ -210,7 +210,7 @@ export const getSongTrack = async (
       p_song_id: songId,
     })) as {
       data: getSongTrackReturnType | null;
-      error: PostgrestError | null | any;
+      error: PostgrestError | null | unknown;
     };
     const mappedData = data ? deepMapById(data, ["songs.songs"]) : null;
     return { data: mappedData, error };
@@ -227,11 +227,11 @@ export const getAlbumSongs = async (
   albumId: string
 ): Promise<{
   data: getAlbumPageProps | null;
-  error: PostgrestError | any | null;
+  error: PostgrestError | unknown | null;
 }> => {
   try {
     const supabase = await createClient();
-    let { data, error } = await supabase.rpc("get_album_page", {
+    const { data, error } = await supabase.rpc("get_album_page", {
       p_album_id: albumId,
     });
 
@@ -282,7 +282,7 @@ export const getArtistPage = async (
   artistId: string
 ): Promise<{
   data: getArtistPageProps | null;
-  error: PostgrestError | null | any;
+  error: PostgrestError | null | unknown;
 }> => {
   try {
     const supabase = await createClient();
@@ -316,7 +316,7 @@ export const getUserPage = async (
   userId: string
 ): Promise<{
   data: getUserPageProps | null;
-  error: PostgrestError | null | any;
+  error: PostgrestError | null | unknown;
 }> => {
   try {
     const supabase = await createClient();
@@ -365,7 +365,7 @@ export const getSongList = async (
   type: Database["public"]["Enums"]["media_item_type"]
 ): Promise<{
   data: getSongListProps | null;
-  error: PostgrestError | any | null;
+  error: PostgrestError | unknown | null;
 }> => {
   try {
     const { data, error } = (await fetchSongListByType(id, type)) as {
@@ -418,7 +418,7 @@ export const getListDirect = async (
   type: Database["public"]["Enums"]["media_item_type"]
 ): Promise<{
   data: getListDirectProps | null;
-  error: PostgrestError | any | null;
+  error: PostgrestError | unknown | null;
 }> => {
   try {
     const { data, error } = (await fetchListDirectByType(id, type)) as {
@@ -461,7 +461,7 @@ export const getSimilarSongQueue = async (
   id: string
 ): Promise<{
   data: getSongListProps | null;
-  error: PostgrestError | any | null;
+  error: PostgrestError | unknown | null;
 }> => {
   try {
     const supabase = await createClient();
@@ -492,7 +492,7 @@ export const getLyric = async (
   songId: string
 ): Promise<{
   data: getLyricReturn | null;
-  error: PostgrestError | any | null;
+  error: PostgrestError | unknown | null;
 }> => {
   try {
     const supabase = await createClient();

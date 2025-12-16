@@ -1,6 +1,6 @@
 import React from "react";
 
-interface SearchItemWrapperProps extends React.ComponentProps<"li"> {}
+type SearchItemWrapperProps = React.ComponentProps<"li">;
 function SearchItemWrapper({ children }: SearchItemWrapperProps) {
   return (
     <li

@@ -13,11 +13,11 @@ export const insertSongtoPlaylist = async ({
   songId: string;
 }): Promise<{
   data: getPlaylistPageProps | null;
-  error: PostgrestError | any | null;
+  error: PostgrestError | unknown | null;
 }> => {
   try {
     const supabase = await createClient();
-    let { data, error } = (await supabase.rpc("add_playlist_song", {
+    const { data, error } = (await supabase.rpc("add_playlist_song", {
       p_id: playlistId,
       s_id: songId,
     })) as { data: getPlaylistPageProps | null; error: PostgrestError | null };

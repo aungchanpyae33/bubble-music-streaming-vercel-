@@ -9,7 +9,7 @@ import UnderLineLinkHover from "@/ui/general/UnderLineLinkHover";
 import IconWrapper from "@/ui/general/IconWrapper";
 import { Folder, User } from "lucide-react";
 
-function isListInfo(obj: any): obj is listInfo {
+function isListInfo(obj: SongInfo | listInfo | SearchProfile): obj is listInfo {
   return (
     obj &&
     (obj.type === "album" || obj.type === "artist" || obj.type === "playlist")

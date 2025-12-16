@@ -2,8 +2,8 @@
 import { createPortal } from "react-dom";
 interface SubOpenContentWrapperProps<T> {
   /** Zustand selector type */
-  selector: (state: any) => T;
-  useStore: (selector: (state: any) => T) => T;
+  selector: (state: never) => T;
+  useStore: (selector: (state: never) => T) => T;
   children: React.ReactNode;
 }
 function SubOpenContentWrapper<T>({

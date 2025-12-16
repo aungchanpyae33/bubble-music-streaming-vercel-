@@ -9,28 +9,40 @@ export function mapById<T extends { id: string }>(
     return acc;
   }, {} as Record<string, T>);
 }
+type UnknownRecord = Record<string, unknown>;
 
-export function deepMapById<T>(obj: T, paths: string[]) {
-  const result: any = { ...obj };
+export function deepMapById<T extends UnknownRecord>(
+  obj: T,
+  paths: string[]
+): T {
+  const result: UnknownRecord = { ...obj };
 
   paths.forEach((path) => {
     const keys = path.split(".");
-    let current: any = result;
+    let current: UnknownRecord = result;
 
     for (let i = 0; i < keys.length - 1; i++) {
-      if (!current[keys[i]]) return;
-      current = current[keys[i]];
+      const value = current[keys[i]];
+      if (typeof value !== "object" || value === null) return;
+      current = value as UnknownRecord;
     }
+
     const lastKey = keys[keys.length - 1];
-    const secKey = keys[keys.length - 2] || keys[0];
-    const array = current[lastKey] as { id: string }[] | null | undefined;
+    const secKey = keys[keys.length - 2] ?? keys[0];
+
+    const array = current[lastKey];
 
     if (Array.isArray(array)) {
-      let idArray: string[] = [];
-      current[lastKey] = mapById(array, idArray);
-      result[`${secKey}`].idArray = idArray;
+      const idArray: string[] = [];
+
+      current[lastKey] = mapById(array as { id: string }[], idArray);
+
+      const parent = result[secKey];
+      if (typeof parent === "object" && parent !== null) {
+        (parent as UnknownRecord).idArray = idArray;
+      }
     }
   });
 
-  return result;
+  return result as T;
 }

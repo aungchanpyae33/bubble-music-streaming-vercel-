@@ -16,7 +16,7 @@ export const getListDirectClient = async (
   type: Database["public"]["Enums"]["media_item_type"]
 ): Promise<{
   data: getListDirectProps | null;
-  error: PostgrestError | any | null;
+  error: PostgrestError | unknown | null;
 }> => {
   const params = new URLSearchParams({
     id,
@@ -33,7 +33,7 @@ export const getListDirectClient = async (
 
 export const getUserLibClient = async (): Promise<{
   data: UserLibMappedProps | null;
-  error: any;
+  error: unknown;
 }> => {
   try {
     const fetchData = await fetch("/api/getLib");
@@ -46,10 +46,10 @@ export const getUserLibClient = async (): Promise<{
 
 export const getLikedIdClient = async (): Promise<{
   data: getLikedIdReturn | null;
-  error: any;
+  error: unknown;
 }> => {
   try {
-    const fetchData = await fetch("/api/getLikedId");
+    const fetchData = await fetch("/api/getLike");
     const { data, error } = await fetchData.json();
     return { data, error };
   } catch (error) {
@@ -77,7 +77,7 @@ export const getPlaylistSongsClient = async (
   playlistId: string
 ): Promise<{
   data: getPlaylistPageProps | null;
-  error: PostgrestError | any | null;
+  error: PostgrestError | unknown | null;
 }> => {
   const params = new URLSearchParams({
     id: playlistId,
@@ -95,7 +95,7 @@ export const getSimilarSongQueueClient = async (
   abortController: RefObject<AbortController | null>
 ): Promise<{
   data: getSongListProps | null;
-  error: PostgrestError | any | null;
+  error: PostgrestError | unknown | null;
 }> => {
   const params = new URLSearchParams({
     songId: id,
@@ -119,7 +119,7 @@ export const getSongListClient = async (
   type: Database["public"]["Enums"]["media_item_type"]
 ): Promise<{
   data: getSongListProps | null;
-  error: PostgrestError | any | null;
+  error: PostgrestError | unknown | null;
 }> => {
   const params = new URLSearchParams({
     id,
@@ -158,7 +158,7 @@ export const getLyricClient = async (
   songId: string
 ): Promise<{
   data: getLyricReturn | null;
-  error: PostgrestError | any | null;
+  error: PostgrestError | unknown | null;
 }> => {
   await new Promise((resolve) => setTimeout(resolve, 3000));
   const params = new URLSearchParams({

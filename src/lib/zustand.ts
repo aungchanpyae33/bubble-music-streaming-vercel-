@@ -32,13 +32,13 @@ export interface PrefetchParams {
   prefetchPromiseRef: RefObject<Promise<ArrayBuffer[]> | null>;
 }
 export interface SongState {
-  songCu: SongDetail | {};
+  songCu: SongDetail | object;
 }
 export interface SongActions {
   updateSongCu: (newSong: SongState["songCu"]) => void;
 }
 export interface StorePlayListIdState {
-  playlistId: {};
+  playlistId: object;
 }
 export interface StorePlayListIdStateAction {
   setPlaylistId: (id: StorePlayListIdState["playlistId"]) => void;
@@ -53,7 +53,7 @@ export interface ShouldFetchSongsListIdAction {
   ) => void;
 }
 export interface currentSongPlaylist {
-  playListArray: listSongsSection | {};
+  playListArray: listSongsSection | object;
 }
 
 export interface currentSongPlaylistAction {
@@ -78,7 +78,7 @@ export interface removeFromQueueAction {
   removeFromQueue: (id: string) => void;
 }
 export interface previousSongPlaylist {
-  previousPlayListArray: listSongsSection | {};
+  previousPlayListArray: listSongsSection | object;
 }
 
 export interface resetAction {
@@ -108,14 +108,14 @@ export interface addPlaylistFolderAction {
 }
 
 export interface addSongProps {
-  addSong: {};
+  addSong: object;
 }
 export interface addSongAction {
   addSongAction: (value: addSongProps["addSong"]) => void;
 }
 
 export interface toggleLikeProps {
-  toggleLike: {};
+  toggleLike: object;
 }
 export interface toggleLikeAction {
   toggleLikeAction: (value: toggleLikeProps["toggleLike"]) => void;
@@ -547,10 +547,10 @@ export interface songExist {
   songId: string;
 }
 export interface isSongExist {
-  isSongExist: songExist | {};
+  isSongExist: songExist | object;
 }
 export interface songExistAction {
-  setIsSongExist: (songExist: songExist | {}) => void;
+  setIsSongExist: (songExist: isSongExist["isSongExist"]) => void;
 }
 export const useIsExistSongs = create<isSongExist & songExistAction>((set) => ({
   isSongExist: {},
@@ -565,10 +565,10 @@ export interface addSongsToPlaylistProps {
   cover_url: string;
 }
 export interface songsToPlaylist {
-  songsToPlaylist: addSongsToPlaylistProps | {};
+  songsToPlaylist: addSongsToPlaylistProps | object;
 }
 export interface addSongsToPlaylist {
-  addSongsToPlaylist: (value: addSongsToPlaylistProps | {}) => void;
+  addSongsToPlaylist: (value: addSongsToPlaylistProps | object) => void;
 }
 export const useAddSongsToPlaylist = create<
   songsToPlaylist & addSongsToPlaylist
@@ -585,10 +585,10 @@ export interface editToPlaylistProps {
   name: string;
 }
 export interface editToPlaylist {
-  editToPlaylist: editToPlaylistProps | {};
+  editToPlaylist: editToPlaylistProps | object;
 }
 export interface editToPlaylistAction {
-  editToPlaylistAction: (value: editToPlaylistProps | {}) => void;
+  editToPlaylistAction: (value: editToPlaylist["editToPlaylist"]) => void;
 }
 export const useEditToPlaylist = create<editToPlaylist & editToPlaylistAction>(
   (set) => ({

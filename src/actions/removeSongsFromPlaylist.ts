@@ -12,7 +12,7 @@ export const removeSongsFromPlaylist = async ({
   id: string;
 }): Promise<{
   data: getPlaylistPageProps | null;
-  error: PostgrestError | any | null;
+  error: PostgrestError | unknown | null;
 }> => {
   try {
     const supabase = await createClient();

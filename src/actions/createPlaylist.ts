@@ -9,11 +9,11 @@ export const insertDataAction = async (
   check_type: boolean
 ): Promise<{
   data: UserLibMappedProps | null;
-  error: any;
+  error: unknown;
 }> => {
   try {
     const supabase = await createClient();
-    let { data, error } = await supabase.rpc("insert_playlist", {
+    const { data, error } = await supabase.rpc("insert_playlist", {
       playlist_name,
       check_type,
     });

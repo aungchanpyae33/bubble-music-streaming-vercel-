@@ -49,7 +49,7 @@ interface DirectPlayButtonProps extends React.ComponentProps<"div"> {
 function DirectPlayButton({ listId, type, className }: DirectPlayButtonProps) {
   const dataFromFetch = useRef<Promise<{
     data: getPlaylistPageProps | null;
-    error: PostgrestError | any | null;
+    error: PostgrestError | unknown | null;
   }> | null>(null);
 
   // toggle playlistfolder

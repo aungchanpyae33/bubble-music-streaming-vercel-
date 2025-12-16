@@ -18,7 +18,7 @@ function AddSongItem({
 }: {
   playlistSongs: {
     id: string;
-    name: any;
+    name: string;
   };
 }) {
   const playlistId = playlistSongs.id;

@@ -44,7 +44,7 @@ const useOverflowCheck = (
       }
     };
     checkOverflow();
-    const debounceResize = debounce((entries) => {
+    const debounceResize = debounce((entries: ResizeObserverEntry[]) => {
       if (open) return;
       for (let entry of entries) {
         const clientWidth = Math.round(entry.contentRect.width);
