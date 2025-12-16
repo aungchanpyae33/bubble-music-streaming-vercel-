@@ -14,7 +14,8 @@ import { LikeContext } from "./ContextLike";
 function ToggleHeartContent() {
   const { song } = useContext(InfoTrackContext);
   const { isLike, setLikeAction } = useContext(LikeContext);
-  const songId = song?.song_id!;
+  if (!song) return;
+  const songId = song.song_id;
 
   const removeLikeAction = removeLike.bind(null, songId);
   const addLikeAction = addLike.bind(null, songId);
