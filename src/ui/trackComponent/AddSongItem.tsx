@@ -22,23 +22,25 @@ function AddSongItem({
   };
 }) {
   const playlistId = playlistSongs.id;
+  const setIsSongExist = useIsExistSongs(
+    (state: songExistAction) => state.setIsSongExist
+  );
+  const { songId, cover_url } = useAddSongsToPlaylist(
+    (state: songsToPlaylist) => state.songsToPlaylist
+  ) as addSongsToPlaylistProps;
+  const addSongsToPlaylist = useAddSongsToPlaylist(
+    (state: addSongsToPlaylist) => state.addSongsToPlaylist
+  );
   const { data: queryData, error: queryError } = useQuery({
     queryKey: ["user-library"],
     queryFn: () => getUserLibClient(),
   });
-  const userLib = queryData?.data?.userLib;
+
+  const userLib = queryError ? undefined : queryData?.data?.userLib;
   const playlist = userLib?.[playlistId];
-  const { songId, cover_url } = useAddSongsToPlaylist(
-    (state: songsToPlaylist) => state.songsToPlaylist
-  ) as addSongsToPlaylistProps;
+
   const isListCover = playlist?.cover_url;
   const noExistCover = isListCover ? null : cover_url;
-  const setIsSongExist = useIsExistSongs(
-    (state: songExistAction) => state.setIsSongExist
-  );
-  const addSongsToPlaylist = useAddSongsToPlaylist(
-    (state: addSongsToPlaylist) => state.addSongsToPlaylist
-  );
 
   const mutation = useAddSongMutate(playlistId, noExistCover);
 
