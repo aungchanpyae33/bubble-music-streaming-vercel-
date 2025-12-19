@@ -23,6 +23,7 @@ function ContextSongsData({
     queryKey: ["playlist", playlistId],
     queryFn: () => getPlaylistSongsClient(playlistId),
   });
+  if (queryError) return;
   const { data, error } = queryData || {};
   if (!data || error) {
     console.error("error");

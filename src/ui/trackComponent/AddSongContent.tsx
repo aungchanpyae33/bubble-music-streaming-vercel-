@@ -7,6 +7,7 @@ function AddSongContent() {
     queryKey: ["user-library"],
     queryFn: () => getUserLibClient(),
   });
+  if (queryError) return;
   const { data, error } = queryData || {};
   if (!data || error) return;
   const { userLib } = data;
