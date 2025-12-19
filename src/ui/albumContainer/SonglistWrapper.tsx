@@ -1,5 +1,5 @@
 "use client";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { ContainerContext } from "./ContextContainer";
 import ScrollLeftButton from "./ScrollLeftButton";
@@ -8,8 +8,14 @@ import { useScrollArrows } from "@/lib/CustomHooks/scrollArrow";
 
 function SonglistWrapper({ children }: { children: React.ReactNode }) {
   const { arrowNaviRef, playlistWrapperRef } = useContext(ContainerContext);
+  const [portalTarget, setPortalTarget] = useState<HTMLElement | null>(null);
+
   const { showLeft, showRight, updateArrows, hideArrows } = useScrollArrows();
   const [isHovered, setIsHovered] = useState(false);
+
+  useEffect(() => {
+    setPortalTarget(arrowNaviRef.current);
+  }, [arrowNaviRef]);
   return (
     <div
       className=" max-w-fit p-4 gap-2 md:gap-4 lg:gap-6 flex  no-scrollbar snap-x scroll-smooth   overflow-y-visible overflow-x-auto"
@@ -29,13 +35,11 @@ function SonglistWrapper({ children }: { children: React.ReactNode }) {
       }}
     >
       {showRight &&
-        typeof window !== "undefined" &&
-        arrowNaviRef.current &&
-        createPortal(<ScrollRightButton />, arrowNaviRef!.current!)}
+        portalTarget &&
+        createPortal(<ScrollRightButton />, portalTarget)}
       {showLeft &&
-        typeof window !== "undefined" &&
-        arrowNaviRef.current &&
-        createPortal(<ScrollLeftButton />, arrowNaviRef!.current!)}
+        portalTarget &&
+        createPortal(<ScrollLeftButton />, portalTarget)}
 
       {children}
     </div>
