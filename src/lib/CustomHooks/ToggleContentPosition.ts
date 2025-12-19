@@ -1,4 +1,4 @@
-import { RefObject, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { RefObject, useLayoutEffect, useRef, useState } from "react";
 import throttle from "../throttle";
 import debounce from "../debounce";
 
@@ -116,45 +116,34 @@ export const useToggleContentPosition = ({
   const viewportWidthStoreRef = useRef(null);
   const viewportHeightStoreRef = useRef(null);
   // now , it will be run as sub content when available , because of that , if 3 sub content is open (currently only two) , the resize could be expensive for 3 run , so right now throttle will be add  to prevent lag in low performance machine
-  const updatePositionThrottle = useMemo(
-    () =>
-      throttle(() => {
-        const newPos = calcMenuPosition(
-          parentRef.current,
-          containerRef.current,
-          viewportWidthStoreRef,
-          viewportHeightStoreRef
-        );
-        if (!newPos) return;
-        setPosition(newPos);
-      }, 80),
-    [containerRef, parentRef]
-  );
 
-  const UpdatePositionDebounce = useMemo(
-    () =>
-      debounce(() => {
-        const newPos = calcMenuPosition(
-          parentRef.current,
-          containerRef.current,
-          viewportWidthStoreRef,
-          viewportHeightStoreRef
-        );
-        if (!newPos) return;
-        setPosition(newPos);
-      }, 200),
-    [containerRef, parentRef]
-  );
   // the reason i use use layout effect is obvious , that to run this effect before the layout pain , because i need to the content width , height , etc before paint to calculate the position of its to render
   useLayoutEffect(() => {
-    updatePositionThrottle();
-    window.addEventListener("resize", updatePositionThrottle);
-    window.addEventListener("resize", UpdatePositionDebounce);
-    return () => {
-      window.removeEventListener("resize", updatePositionThrottle);
-      window.removeEventListener("resize", UpdatePositionDebounce);
+    const update = () => {
+      const newPos = calcMenuPosition(
+        parentRef.current,
+        containerRef.current,
+        viewportWidthStoreRef,
+        viewportHeightStoreRef
+      );
+      if (!newPos) return;
+      setPosition(newPos);
     };
-  }, [parentRef, containerRef, updatePositionThrottle, UpdatePositionDebounce]);
+
+    const throttledUpdate = throttle(update, 80);
+    const debouncedUpdate = debounce(update, 200);
+
+    // run immediately
+    throttledUpdate();
+
+    window.addEventListener("resize", throttledUpdate);
+    window.addEventListener("resize", debouncedUpdate);
+
+    return () => {
+      window.removeEventListener("resize", throttledUpdate);
+      window.removeEventListener("resize", debouncedUpdate);
+    };
+  }, [parentRef, containerRef]);
 
   return [position, setPosition];
 };
