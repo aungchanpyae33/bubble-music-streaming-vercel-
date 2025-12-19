@@ -1,26 +1,24 @@
 import { useState, useEffect } from "react";
 type MediaQuery = `(width ${">=" | "<=" | ">" | "<"} ${string})`;
 const useScreenSize = (query: MediaQuery) => {
-  const [matches, setMatches] = useState(false);
+  // Initializer Function: Calculate the initial state directly in useState.
+  const [matches, setMatches] = useState(() => {
+    // Safety check: If  rendering on the server (no window), default to false.
+    if (typeof window === "undefined" || !window.matchMedia) {
+      return false;
+    }
+    // Calculate the initial value only once during the initial render.
+    return window.matchMedia(query).matches;
+  });
 
   useEffect(() => {
     const media = window.matchMedia(query);
     const listener = () => setMatches(media.matches);
 
-    if (media.addEventListener) {
-      media.addEventListener("change", listener);
-    } else {
-      // @ts-ignore: addListener is deprecated but still needed for older Safari 2020
-      media.addListener(listener);
-    }
-    setMatches(media.matches);
+    media.addEventListener("change", listener);
+
     return () => {
-      if (media.removeEventListener) {
-        media.removeEventListener("change", listener);
-      } else {
-        // @ts-ignore: addListener is deprecated but still needed for older Safaric 2020
-        media.removeListener(listener);
-      }
+      media.removeEventListener("change", listener);
     };
   }, [query]);
 
