@@ -29,7 +29,9 @@ export interface PrefetchParams {
   id: string;
   abortController: RefObject<AbortController | null>;
   prefetchedUrl: RefObject<string>;
-  prefetchPromiseRef: RefObject<Promise<ArrayBuffer[]> | null>;
+  prefetchPromiseRef: RefObject<Promise<
+    [ArrayBuffer, ArrayBuffer] | null
+  > | null>;
 }
 export interface SongState {
   songCu: SongDetail | object;
@@ -365,7 +367,7 @@ export const useRepeatAndCurrentPlayList = create<
     prefetchPromiseRef,
   }: PrefetchParams) => {
     if (get().isRepeat) return null;
-    // later need to change another abort
+
     const fetchOptions: RequestInit = {
       signal: abortController!.current!.signal,
     };
@@ -385,7 +387,7 @@ export const useRepeatAndCurrentPlayList = create<
     if (currentIndex >= playlistArray.idArray.length - 1 && id === id_scope) {
       return prefetchPromiseRef.current;
     }
-    // if (url !== currentUrl) {
+
     const initUrl = url;
     const seg1Url = url.replace("init.mp4", "seg-1.m4s");
 
@@ -395,16 +397,23 @@ export const useRepeatAndCurrentPlayList = create<
         // immediate update url to inform there is a prefetch call
         prefetchedUrl.current = url;
         prefetchPromiseRef.current = Promise.all([
-          fetch(initUrl).then((res) => res.arrayBuffer()),
-          fetch(seg1Url).then((res) => res.arrayBuffer()),
-        ]);
+          fetch(initUrl, fetchOptions).then((res) => res.arrayBuffer()),
+          fetch(seg1Url, fetchOptions).then((res) => res.arrayBuffer()),
+        ]).catch((err): [ArrayBuffer, ArrayBuffer] | null => {
+          //if there is error, reset the prefetchUrl to false the condition check in mediaSourceBuffer.ts
+          prefetchedUrl.current = "";
+          if (err instanceof DOMException && err.name === "AbortError") {
+            return null;
+          }
+          throw err;
+        });
       }
       return prefetchPromiseRef.current;
-    } catch (err: any) {
-      if (err.name === "AbortError") {
+    } catch (err: unknown) {
+      if (err instanceof DOMException && err.name === "AbortError") {
         return null;
       } else {
-        return null;
+        throw err;
       }
     }
   },
