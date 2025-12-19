@@ -1,14 +1,12 @@
 // In Next.js, this file would be called: app/providers.tsx
 "use client";
 
-import Loading from "@/app/(root)/loading";
 // Since QueryClientProvider relies on useContext under the hood, we have to put 'use client' on top
 import {
   isServer,
   QueryClient,
   QueryClientProvider,
 } from "@tanstack/react-query";
-import { Suspense } from "react";
 
 function makeQueryClient() {
   return new QueryClient({
@@ -50,9 +48,6 @@ export default function QueryClientPrv({
   const queryClient = getQueryClient();
 
   return (
-    //server side react query like this need suspense with ui fallback if using with next theme  , without this it will make a flash white screen
-    <Suspense fallback={<Loading />}>
-      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-    </Suspense>
+    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
   );
 }

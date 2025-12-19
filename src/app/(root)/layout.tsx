@@ -31,6 +31,8 @@ export const metadata: Metadata = {
 import NextTopLoader from "nextjs-toploader";
 
 import AudioWrapper from "@/ui/Footer/audio/AudioWrapper";
+import LibandLikeHyration from "@/lib/HydrationData/LibandLikeHyration";
+import LoadingAudioPlayer from "@/ui/loading/LoadingAudioPlayer";
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -52,81 +54,42 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <QueryClientPrv>
-            <NextTopLoader
-              color="#2299DD"
-              initialPosition={0.08}
-              crawlSpeed={200}
-              height={3}
-              crawl={true}
-              showSpinner={false}
-              easing="ease"
-              speed={200}
-              shadow="0 0 10px #2299DD,0 0 5px #2299DD"
-              template='<div class="bar" role="bar"><div class="peg"></div></div>' // no spinner
-              zIndex={1600}
-              showAtBottom={false}
-            />
-            <AudioWrapper>
-              <BeforeLoad />
-              <NavBar />
-              <div className="scr flex flex-1 overflow-hidden relative">
-                <Suspense
-                  fallback={
-                    <div className="px-1  h-full flex-1 overflow-y-scroll bg-green-700"></div>
-                  }
-                >
-                  <Main>
-                    {children}
-                    <Footer />
-                  </Main>
-                  <QueueWrapper>
-                    <Queue />
-                  </QueueWrapper>
-                </Suspense>
-                <ModalBox />
-              </div>
-              <Suspense
-                fallback={
-                  <div className="fixed bottom-0 left-0 right-0 bg-gray-900/95 backdrop-blur-sm border-t border-gray-800 p-4">
-                    <div className="max-w-7xl mx-auto flex items-center justify-between">
-                      <div className="flex items-center space-x-4">
-                        <div className="w-14 h-14 bg-gray-800 rounded animate-pulse" />
-                        <div className="space-y-1">
-                          <div className="w-32 h-4 bg-gray-800 rounded animate-pulse" />
-                          <div className="w-24 h-3 bg-gray-700 rounded animate-pulse" />
-                        </div>
-                        <div className="w-6 h-6 bg-gray-800 rounded-full animate-pulse" />
-                      </div>
+            <Suspense fallback={<div>loading......</div>}>
+              <LibandLikeHyration>
+                <NextTopLoader
+                  color="#2299DD"
+                  initialPosition={0.08}
+                  crawlSpeed={200}
+                  height={3}
+                  crawl={true}
+                  showSpinner={false}
+                  easing="ease"
+                  speed={200}
+                  shadow="0 0 10px #2299DD,0 0 5px #2299DD"
+                  template='<div class="bar" role="bar"><div class="peg"></div></div>' // no spinner
+                  zIndex={1600}
+                  showAtBottom={false}
+                />
+                <AudioWrapper>
+                  <BeforeLoad />
+                  <NavBar />
+                  <div className="scr flex flex-1 overflow-hidden relative">
+                    <Main>
+                      {children}
+                      <Footer />
+                    </Main>
+                    <QueueWrapper>
+                      <Queue />
+                    </QueueWrapper>
 
-                      <div className="flex-1 max-w-md mx-8 space-y-2">
-                        <div className="flex items-center justify-center space-x-4">
-                          <div className="w-6 h-6 bg-gray-800 rounded-full animate-pulse" />
-                          <div className="w-6 h-6 bg-gray-800 rounded-full animate-pulse" />
-                          <div className="w-8 h-8 bg-blue-500/30 rounded-full animate-pulse" />
-                          <div className="w-6 h-6 bg-gray-800 rounded-full animate-pulse" />
-                          <div className="w-6 h-6 bg-gray-800 rounded-full animate-pulse" />
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <div className="w-8 h-3 bg-gray-800 rounded animate-pulse" />
-                          <div className="flex-1 h-1 bg-gray-800 rounded-full animate-pulse relative">
-                            <div className="absolute left-0 top-0 w-1/3 h-full bg-blue-500/50 rounded-full animate-pulse" />
-                          </div>
-                          <div className="w-8 h-3 bg-gray-800 rounded animate-pulse" />
-                        </div>
-                      </div>
-
-                      <div className="flex items-center space-x-4">
-                        <div className="w-6 h-6 bg-gray-800 rounded-full animate-pulse" />
-                        <div className="w-6 h-6 bg-gray-800 rounded-full animate-pulse" />
-                        <div className="w-20 h-1 bg-gray-800 rounded-full animate-pulse" />
-                      </div>
-                    </div>
+                    <ModalBox />
                   </div>
-                }
-              >
-                <AudioFooterBar />
-              </Suspense>
-            </AudioWrapper>
+                  <Suspense fallback={<LoadingAudioPlayer />}>
+                    <AudioFooterBar />
+                  </Suspense>
+                </AudioWrapper>
+              </LibandLikeHyration>
+            </Suspense>
           </QueryClientPrv>
         </ThemeProvider>
       </body>
