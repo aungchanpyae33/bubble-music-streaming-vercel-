@@ -72,7 +72,7 @@ function AudioPlayer({
         fetching,
         segNum,
         song_time_stamp,
-        loadNextSegment,
+        loadNextSegment: loadNextSegment,
         sege,
         bufferThreshold,
         song_id,

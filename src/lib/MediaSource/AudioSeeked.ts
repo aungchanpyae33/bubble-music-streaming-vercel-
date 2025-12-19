@@ -7,7 +7,7 @@ interface AudioSeekedProp {
   dataAudio: RefObject<HTMLAudioElement | null>;
   segNum: RefObject<number>;
   sege: number | undefined;
-  loadNextSegment: () => void;
+  loadNextSegment: React.RefObject<(() => Promise<void>) | null>;
   bufferThreshold: number;
   abortController: RefObject<AbortController | null>;
   fetching: RefObject<{ isFetch: boolean; fetchingseg: number }>;
@@ -40,7 +40,7 @@ const AudioSeeked = ({
     // segments are start with 1 , change to 1 if 0
     segNum.current = seekSeg === 0 ? 1 : seekSeg;
 
-    loadNextSegment();
+    if (loadNextSegment.current) loadNextSegment.current();
   }
 };
 export default AudioSeeked;

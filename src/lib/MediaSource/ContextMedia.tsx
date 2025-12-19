@@ -5,7 +5,7 @@ export interface prop {
   duration: number;
   abortController: RefObject<AbortController | null>;
   fetching: RefObject<{ isFetch: boolean; fetchingseg: number }>;
-  loadNextSegment: () => void;
+  loadNextSegment: React.RefObject<(() => Promise<void>) | null>;
   segNum: RefObject<number>;
   sege: number | undefined;
   song_time_stamp: Array<number>;
@@ -26,7 +26,7 @@ export const DataContext = createContext<prop>({
   fetching: { current: { isFetch: false, fetchingseg: 1 } },
   segNum: { current: 1 },
   song_time_stamp: [],
-  loadNextSegment: () => {},
+  loadNextSegment: { current: async () => {} },
   sege: undefined,
   bufferThreshold: 0,
   song_id: "",

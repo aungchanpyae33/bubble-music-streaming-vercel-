@@ -8,7 +8,7 @@ const MediaSessionSeek = (
   segNum: RefObject<number>,
   dataAudio: RefObject<HTMLAudioElement | null>,
   sege: number | undefined,
-  loadNextSegment: () => void,
+  loadNextSegment: React.RefObject<(() => Promise<void>) | null>,
   duration: number,
   bufferThreshold: number,
   song_time_stamp: Array<number>
@@ -33,7 +33,7 @@ const MediaSessionSeek = (
         AbortFetch(fetching, abortController, seekSeg);
         if (seekSeg !== fetching.current.fetchingseg) {
           segNum.current = seekSeg;
-          loadNextSegment();
+          if (loadNextSegment.current) loadNextSegment.current();
         }
       });
     }
