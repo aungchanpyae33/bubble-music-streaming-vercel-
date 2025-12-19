@@ -29,7 +29,7 @@ function PlaceHolderFetchQueue() {
         FetchSongsListIdPreRef.current = FetchSongsListId;
         if (abortController.current) {
           // it will abort when it use with signal
-          abortController.current.abort();
+          abortController.current.abort("new fetch initiated for queue");
           abortController.current = null;
         }
         abortController.current = new AbortController();

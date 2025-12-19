@@ -12,7 +12,7 @@ function SearchInput() {
 
   async function fetchInput(params: string | null) {
     if (searchAbortController.current) {
-      searchAbortController.current.abort();
+      searchAbortController.current.abort("new search initiated");
     }
     searchAbortController.current = new AbortController();
     const signal = searchAbortController.current.signal;
