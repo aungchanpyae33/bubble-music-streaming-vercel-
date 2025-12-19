@@ -15,7 +15,7 @@ function FocusTrap({ children, refFocus, mqAffectsChild }: Props) {
     //to handle when lastelemet is focus and then when resize , its loss focus
     const focusableElements = Array.from(
       copyRef.querySelectorAll(
-        'a, button, input, textarea, select, details, [tabindex]:not([tabindex="-1"])'
+        'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), details, [tabindex]:not([tabindex="-1"])'
       )
     ).reverse() as HTMLElement[];
     // to get focuvisiable lastElement in document
@@ -26,19 +26,14 @@ function FocusTrap({ children, refFocus, mqAffectsChild }: Props) {
     }
     findLastElement(); //initialize in audiofull load
     //to handle tailwind change hidden style
-    mqAffectsChild &&
+    if (mqAffectsChild) {
       mqAffectsChild.forEach((item, index) => {
         const mq = window.matchMedia(item);
         mediaQueries[index] = mq;
 
-        if (mq.addEventListener) {
-          mq.addEventListener("change", findLastElement); // Modern browsers
-        } else {
-          // Fallback for older browsers (deprecated)
-          // @ts-ignore: Safari/ 2020
-          mq.addListener(findLastElement);
-        }
+        mq.addEventListener("change", findLastElement);
       });
+    }
 
     // to handle when lastElement is focus and then resize the window to some breakpoint , as it loss focus state which can lead to break focus trap
     function handleOut(e: FocusEvent) {
@@ -96,13 +91,7 @@ function FocusTrap({ children, refFocus, mqAffectsChild }: Props) {
       if (mqAffectsChild) {
         copyRef.removeEventListener("focusout", handleOut);
         mediaQueries.forEach((item) => {
-          if ("removeEventListener" in item) {
-            item.removeEventListener("change", findLastElement); // Modern browsers
-          } else {
-            // Fallback for older browsers (deprecated)
-            // @ts-ignore: Safari 2020
-            item.removeListener(findLastElement);
-          }
+          item.removeEventListener("change", findLastElement);
         });
       }
     };
