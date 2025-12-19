@@ -93,7 +93,7 @@ function NavList({
                 <IconWrapper size="large" Icon={ListMusic} />
               </div>
             </NavSideLink>
-            <PlaylistAdd />
+            <PlaylistAdd stackNum={1} />
           </div>
           <PlaylistFolderContainer open={open} setOpen={setOpen} />
         </div>

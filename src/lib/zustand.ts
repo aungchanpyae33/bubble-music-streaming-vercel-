@@ -177,14 +177,6 @@ export interface focusStateAction {
   setIsInputFocus: (value: boolean) => void;
 }
 
-export interface isChildOpen {
-  isChildOpen: Record<string, boolean>;
-}
-
-export interface isChildOpenAction {
-  setIsChildOpen: (value: isChildOpen["isChildOpen"]) => void;
-}
-
 // need to select them with object key as there will be used for many component
 export const useSong = create<SongState & SongActions & resetAction>()(
   (set) => ({
@@ -493,13 +485,6 @@ export const useInstantFallBackAudioFull = create<
       }
       return { isFallBackAudio: true };
     }),
-}));
-
-export const useIsChildOpenCloseFunction = create<
-  isChildOpen & isChildOpenAction
->((set) => ({
-  isChildOpen: {},
-  setIsChildOpen: (value) => set(() => ({ isChildOpen: { ...value } })),
 }));
 
 export const useNotInputFocus = create<focusState & focusStateAction>(

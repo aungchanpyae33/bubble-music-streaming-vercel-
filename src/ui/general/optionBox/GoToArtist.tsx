@@ -24,6 +24,7 @@ function GoToArtist() {
     return (
       <MoreOptionContext relative={relative}>
         <MoreSubOption
+          stackNum={1}
           triggerEl={
             <OptionItem>
               <OptionIconEl>
