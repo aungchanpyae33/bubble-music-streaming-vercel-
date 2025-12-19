@@ -46,7 +46,7 @@ const useOverflowCheck = (
     checkOverflow();
     const debounceResize = debounce((entries: ResizeObserverEntry[]) => {
       if (open) return;
-      for (let entry of entries) {
+      for (const entry of entries) {
         const clientWidth = Math.round(entry.contentRect.width);
         if (clientWidth !== previousWidth.current) {
           //reset two animation track ref

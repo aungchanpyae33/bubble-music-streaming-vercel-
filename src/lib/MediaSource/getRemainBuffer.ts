@@ -9,8 +9,8 @@ function binarySearchWithTolerance(
   let left = 0;
   let right = arr.length - 1;
   while (left <= right) {
-    let mid = Math.floor((left + right) / 2);
-    let diff = arr[mid] - target;
+    const mid = Math.floor((left + right) / 2);
+    const diff = arr[mid] - target;
     if (Math.abs(diff) < epsilon) {
       return mid;
     } else if (diff < 0) {
