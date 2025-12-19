@@ -2,17 +2,15 @@ import { RefObject } from "react";
 
 export const HlsDirectPlay = (
   url: string,
-  audioEl: RefObject<HTMLAudioElement | null>
+  audioElRef: RefObject<HTMLAudioElement | null>
 ) => {
-  //  if (canPlayHLS()) {
-  if (!audioEl!.current) return;
+  if (!audioElRef!.current) return;
   const m3u8Url = url.replace("init.mp4", "media.m3u8");
-  audioEl.current.load();
-  audioEl.current.src = m3u8Url;
-  audioEl.current.onloadedmetadata = () => {
-    audioEl
+  audioElRef.current.load();
+  audioElRef.current.src = m3u8Url;
+  audioElRef.current.onloadedmetadata = () => {
+    audioElRef
       .current!.play()
       .catch((err) => console.error("Playback failed:", err));
   };
-  // }
 };
