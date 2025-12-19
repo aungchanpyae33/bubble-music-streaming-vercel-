@@ -20,11 +20,8 @@ import {
   useSongFunction,
   useStorePlayListId,
 } from "@/lib/zustand";
-import React, { useContext } from "react";
 import IconWrapper from "../IconWrapper";
 import { Pause, Play } from "lucide-react";
-import { HlsDirectPlay } from "@/lib/HlsDirectPlay";
-import { AudioElementContext } from "@/ui/Footer/audio/AudioWrapper";
 
 interface ListContainerPlayBackProps {
   list: getArtistPageProps["songs"];
@@ -34,7 +31,6 @@ function ListContainerPlayBack({ list }: ListContainerPlayBackProps) {
   const IsPlayList = useDirectPlayBack(
     (state: DirectPlayBackState) => state.IsPlayList[playListId || ""]
   );
-  const { audioEl } = useContext(AudioElementContext);
   const { id: id_scope } = useSong(
     (state: SongState) => state.songCu
   ) as SongDetail;
@@ -109,7 +105,6 @@ function ListContainerPlayBack({ list }: ListContainerPlayBackProps) {
         });
         setPlayList(playListId || "", true);
         setPlay(uniUrl || "", true);
-        HlsDirectPlay(url, audioEl);
       }
     }
   };

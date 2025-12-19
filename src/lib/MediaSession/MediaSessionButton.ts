@@ -15,7 +15,6 @@ import type {
 } from "../zustand";
 import { Artist, listSongsSection } from "@/database/data";
 import outputCurrentIndex from "../CustomHooks/OutputCurrentIndex";
-import { HlsDirectPlay } from "../HlsDirectPlay";
 
 const MediaSessionButton = (
   id_scope: string,
@@ -85,7 +84,6 @@ const MediaSessionButton = (
       setPlayList(playlistId, true);
       // url is also  keyName
       setPlay(uniUrl || "", true);
-      HlsDirectPlay(url, audioEl);
     }
     if ("mediaSession" in navigator) {
       navigator.mediaSession.setActionHandler("previoustrack", () => {

@@ -18,15 +18,13 @@ import {
   useSongFunction,
   useStorePlayListId,
 } from "@/lib/zustand";
-import React, { RefObject, useContext, useRef } from "react";
+import React, { RefObject, useRef } from "react";
 import IconWrapper from "../general/IconWrapper";
 import { Pause, Play } from "lucide-react";
 import { getPlaylistPageProps, listSongsSection } from "@/database/data";
 import type { PostgrestError } from "@supabase/supabase-js";
 import { getListDirectClient } from "@/database/client-data";
 import { Database } from "../../../database.types";
-import { HlsDirectPlay } from "@/lib/HlsDirectPlay";
-import { AudioElementContext } from "../Footer/audio/AudioWrapper";
 const hasData = async (
   dataFromFetch: RefObject<Promise<{
     data: getPlaylistPageProps | null;
@@ -55,7 +53,7 @@ function DirectPlayButton({ listId, type, className }: DirectPlayButtonProps) {
   const IsPlayList = useDirectPlayBack(
     (state: DirectPlayBackState) => state.IsPlayList[listId || ""]
   );
-  const { audioEl } = useContext(AudioElementContext);
+
   // current playlist id and current song
   const playlistId = useStorePlayListId(
     (state: StorePlayListIdState) =>
@@ -147,7 +145,6 @@ function DirectPlayButton({ listId, type, className }: DirectPlayButtonProps) {
         });
         setPlayList(listId || "", true);
         setPlay(uniUrl || "", true);
-        HlsDirectPlay(url, audioEl);
       }
     }
   };

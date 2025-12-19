@@ -26,7 +26,6 @@ import { listSongsSection } from "@/database/data";
 import { addRecentlyPlayedList } from "@/actions/addRecentPlayedList";
 import { addRecentlySong } from "@/actions/addRecentSong";
 import { useQueryClient } from "@tanstack/react-query";
-import { HlsDirectPlay } from "@/lib/HlsDirectPlay";
 
 function PlaceHolderToggleState({
   url,
@@ -152,7 +151,6 @@ function PlaceHolderToggleState({
         setPlay(uniUrl, true);
         // [todo] need to check if there is a new playlist or not
         setPlayList(playlistId[0], true);
-        HlsDirectPlay(url, dataAudio);
       }
     }
 
