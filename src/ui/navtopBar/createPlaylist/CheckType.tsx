@@ -18,7 +18,6 @@ function CheckType({ id }: { id: string }) {
       <legend className="mb-2 font-medium">မြင်သာမှု</legend>
       <div className="flex flex-wrap gap-2">
         {["အများ", "သီးသန့်"].map((check) => {
-          console.log(checkType, check, checkType == check);
           return (
             <label key={check} className="cursor-pointer">
               <input
