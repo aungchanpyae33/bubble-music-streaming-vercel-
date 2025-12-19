@@ -25,7 +25,7 @@ const useOverflowCheck = (
     clientWidth: 0,
   });
   const { open } = useContext(Context);
-  const animateItterate = useRef(1);
+  const animateItterateRef = useRef(1);
   const [animate, setanimatie] = useState(true);
   const previousWidth = useRef(0);
   useEffect(() => {
@@ -50,7 +50,7 @@ const useOverflowCheck = (
         const clientWidth = Math.round(entry.contentRect.width);
         if (clientWidth !== previousWidth.current) {
           //reset two animation track ref
-          animateItterate.current = 1;
+          animateItterateRef.current = 1;
           setanimatie(false);
         }
       }
@@ -62,6 +62,6 @@ const useOverflowCheck = (
       observer.disconnect();
     };
   }, [element, isOverFlow.clientWidth, isOverFlow.duration, open]);
-  return [isOverFlow, animate, setanimatie, setIsOverFlow, animateItterate];
+  return [isOverFlow, animate, setanimatie, setIsOverFlow, animateItterateRef];
 };
 export default useOverflowCheck;

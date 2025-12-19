@@ -7,7 +7,7 @@ function VolumeSliderActionWrapper({
   isPointer,
   isTouchDevice,
   setIsDragging,
-  dataAudio,
+  dataAudioRef,
   setValue,
   children,
 }: {
@@ -15,7 +15,7 @@ function VolumeSliderActionWrapper({
   isPointer: boolean;
   isTouchDevice: boolean;
   setIsDragging: VolumeDraggingActions["setIsDragging"];
-  dataAudio: RefObject<HTMLAudioElement | null>;
+  dataAudioRef: RefObject<HTMLAudioElement | null>;
   setValue: VolumeValueActions["setValue"];
   children: React.ReactNode;
 }) {
@@ -32,7 +32,7 @@ function VolumeSliderActionWrapper({
                 sliderRef,
                 e,
               });
-              dataAudio!.current!.volume = seekCalReturn;
+              dataAudioRef!.current!.volume = seekCalReturn;
               setValue(percentage);
             },
           }
@@ -45,7 +45,7 @@ function VolumeSliderActionWrapper({
                 sliderRef,
                 e,
               });
-              dataAudio!.current!.volume = seekCalReturn;
+              dataAudioRef!.current!.volume = seekCalReturn;
               setValue(percentage);
             },
           }
@@ -57,7 +57,7 @@ function VolumeSliderActionWrapper({
                 sliderRef,
                 e,
               });
-              dataAudio!.current!.volume = seekCalReturn;
+              dataAudioRef!.current!.volume = seekCalReturn;
               setValue(percentage);
             },
           })}

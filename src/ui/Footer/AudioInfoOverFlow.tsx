@@ -8,7 +8,7 @@ function AudioInfoOverFlow({
   ofcheckDiv: RefObject<HTMLDivElement | null>;
   el: React.ReactNode;
 }) {
-  const [isOverFlow, animate, setanimatie, setIsOverFlow, animateItterate] =
+  const [isOverFlow, animate, setanimatie, setIsOverFlow, animateItterateRef] =
     useOverflowCheck(ofcheckDiv);
   return (
     /* w-fit is needed to be get full width when animate */
@@ -28,11 +28,11 @@ function AudioInfoOverFlow({
           : {}
       }
       onAnimationEnd={() => {
-        if (animateItterate.current === 2) {
-          isOverFlow.duration > 0 && setanimatie(false);
-          animateItterate.current = 1;
+        if (animateItterateRef.current === 2) {
+          if (isOverFlow.duration > 0) setanimatie(false);
+          animateItterateRef.current = 1;
         } else {
-          animateItterate.current++;
+          animateItterateRef.current++;
         }
       }}
       onMouseEnter={() => {
