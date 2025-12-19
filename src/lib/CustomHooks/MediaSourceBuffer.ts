@@ -1,9 +1,10 @@
-import React, { useCallback, useEffect, useMemo, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { fetchSegment } from "../MediaSource/fetchSegment";
 import { getRemainingBufferDuration } from "../MediaSource/getRemainBuffer";
 import { useRepeatAndCurrentPlayList } from "../zustand";
 import throttle from "../throttle";
 import { fetchInitSegment } from "../MediaSource/fetchInitSegment";
+import { HlsDirectPlay } from "../HlsDirectPlay";
 const bufferThreshold = 10;
 const mimeType_audio = "audio/mp4";
 const codecs_audio = "mp4a.40.2";
@@ -13,21 +14,20 @@ export interface FetchingState {
   fetchingseg: number;
 }
 
-export const canPlayHLS = () => {
+// this function check whether media source is supported or not first , then check whether native hls is supported or not
+export const shouldUseNativeHLS = () => {
   if (typeof window === "undefined") return false;
 
-  const audio = document.createElement("audio");
-  console.log(
-    audio.canPlayType("application/vnd.apple.mpegurl"),
-    "sdf",
-    audio.canPlayType("audio/mpegurl"),
-    "sdfj"
-  );
+  if (window.MediaSource) {
+    return false;
+  }
 
-  return (
+  const audio = document.createElement("audio");
+  const isNativeCapable =
     audio.canPlayType("application/vnd.apple.mpegurl") !== "" ||
-    audio.canPlayType("audio/mpegurl") !== ""
-  );
+    audio.canPlayType("audio/mpegurl") !== "";
+
+  return isNativeCapable;
 };
 
 const useMediaSourceBuffer = (
@@ -35,269 +35,244 @@ const useMediaSourceBuffer = (
   sege: number,
   song_time_stamp: Array<number>,
   id: string,
-  dataAudio: React.RefObject<HTMLAudioElement | null>
+  dataAudioRef: React.RefObject<HTMLAudioElement | null>
 ) => {
-  const fetching = useRef<FetchingState>({
+  const fetchingRef = useRef<FetchingState>({
     isFetch: false,
     fetchingseg: 1,
   });
-  // to track fetching promise in prefetchSegment to avoid fetchagain nor abort
-  const prefetchPromiseRef = useRef<Promise<ArrayBuffer[]> | null>(null);
-  const segNum = useRef(1);
-  const mediaSource = useRef<MediaSource | null>(null);
-  const sourceBuffer = useRef<SourceBuffer | null>(null);
-  const prefetchedUrl = useRef("");
-  const abortController = useRef<AbortController | null>(null);
-  const initAbortController = useRef<AbortController | null>(null);
-  const isCalled = useRef(false);
-  const isCalledPrefetch = useRef(false);
+  const loadNextSegmentRef = useRef<() => Promise<void>>(null);
+  const prefetchPromiseRef = useRef<Promise<
+    [ArrayBuffer, ArrayBuffer] | null
+  > | null>(null);
+
+  const segNumRef = useRef(1);
+  const mediaSourceRef = useRef<MediaSource | null>(null);
+  const sourceBufferRef = useRef<SourceBuffer | null>(null);
+  const prefetchedUrlRef = useRef("");
+  const abortControllerRef = useRef<AbortController | null>(null);
+  const initAbortControllerRef = useRef<AbortController | null>(null);
+  const isCalledRef = useRef(false);
+  const isCalledPrefetchRef = useRef(false);
+
   const prefetchSegment = useRepeatAndCurrentPlayList(
     (state) => state.prefetchSegment
   );
 
-  // function to wait data from prefetchSegment
-  const checkFeching = useCallback(async () => {
-    return prefetchSegment({
-      id,
-      abortController,
-      prefetchedUrl,
-      prefetchPromiseRef,
-    });
-  }, [prefetchSegment, id]);
+  useEffect(() => {
+    if (!url) return;
+    if (shouldUseNativeHLS()) {
+      HlsDirectPlay(url, dataAudioRef);
+      return;
+    }
+    if (!window.MediaSource) return;
 
-  const fetchAudioSegment = useCallback(
-    async (Num: number) => {
-      if (abortController.current === null) {
-        console.log("abort");
-        // return when no initialized
+    if (url !== prefetchedUrlRef.current) {
+      prefetchPromiseRef.current = null;
+    }
+    const checkFeching = async () => {
+      return prefetchSegment({
+        id,
+        abortController: abortControllerRef,
+        prefetchedUrl: prefetchedUrlRef,
+        prefetchPromiseRef,
+      });
+    };
+
+    const fetchAudioSegment = async (Num: number) => {
+      if (abortControllerRef.current === null) {
         return;
       }
-      // url === prefetchedUrl.current if true mean , there is alaredy fetch call for prefetchSegment and if has use it , or if it does not have , wait it
-      //  restricted to init segment
+
       if (
-        url === prefetchedUrl.current &&
+        url === prefetchedUrlRef.current &&
         Num === 1 &&
         prefetchPromiseRef.current
       ) {
         if (
-          sourceBuffer.current?.buffered &&
-          !sourceBuffer.current.updating &&
-          mediaSource.current?.readyState
+          sourceBufferRef.current?.buffered &&
+          !sourceBufferRef.current.updating &&
+          mediaSourceRef.current?.readyState
         ) {
           const data = await checkFeching();
-
-          sourceBuffer.current!.appendBuffer(data![1]);
-          // reset prmoise
+          if (!data) return;
+          sourceBufferRef.current!.appendBuffer(data[1]);
           prefetchPromiseRef.current = null;
 
-          fetching.current.isFetch = false;
-          segNum.current++;
+          fetchingRef.current.isFetch = false;
+          segNumRef.current++;
         }
       } else {
         await fetchSegment(
           url,
-          sourceBuffer,
-          mediaSource,
+          sourceBufferRef,
+          mediaSourceRef,
           Num,
-          abortController,
-          segNum,
-          fetching
+          abortControllerRef,
+          segNumRef,
+          fetchingRef
         );
       }
-    },
-    [url, checkFeching]
-  );
+    };
 
-  const loadNextSegment = useCallback(async () => {
-    const { remainingBuffer, segData } = getRemainingBufferDuration(
-      dataAudio,
-      song_time_stamp
-    );
+    const loadNextSegment = async () => {
+      const { remainingBuffer, segData } = getRemainingBufferDuration(
+        dataAudioRef,
+        song_time_stamp
+      );
 
-    // condition 1 : if current segment is greater than total segment and mediaSource is open and isCalled is true
-    if (
-      segNum.current > sege &&
-      mediaSource.current?.readyState === "open" &&
-      isCalled.current
-    ) {
-      mediaSource!.current!.endOfStream();
-      isCalled.current = false;
-    }
+      if (
+        segNumRef.current > sege &&
+        mediaSourceRef.current?.readyState === "open" &&
+        isCalledRef.current
+      ) {
+        mediaSourceRef.current!.endOfStream();
+        isCalledRef.current = false;
+      }
 
-    // condition 2 : if current segment is greater than total segment and isCalledPrefetch is true and prefetchPromiseRef is null
-    if (
-      segNum.current > sege &&
-      isCalledPrefetch.current &&
-      !prefetchPromiseRef.current
-    ) {
-      checkFeching();
-      isCalledPrefetch.current = false;
-    }
-    // condition 3 : if current segment is less than total segment and isCalled is false and sourceBuffer is not updating and sourceBuffer is buffered for reset buffer if it backs to the  less part of  24 segment
-    if (
-      segNum.current < sege &&
-      !isCalled.current &&
-      sourceBuffer.current?.buffered &&
-      !sourceBuffer.current.updating
-    ) {
-      isCalled.current = true;
-      isCalledPrefetch.current = true;
-    }
-    // note : need to ues <= as it need to fetch 24 segment
-    if (
-      !fetching.current.isFetch &&
-      bufferThreshold > remainingBuffer &&
-      segNum.current <= sege
-    ) {
-      fetching.current.isFetch = true;
-      fetching.current.fetchingseg = segNum.current;
-      await fetchAudioSegment(segNum.current);
-    } else if (bufferThreshold < remainingBuffer) {
-      // console.log("hit me", segData);
-      segNum.current = segData;
-    }
-  }, [fetchAudioSegment, sege, checkFeching, song_time_stamp, dataAudio]);
+      if (
+        segNumRef.current > sege &&
+        isCalledPrefetchRef.current &&
+        !prefetchPromiseRef.current
+      ) {
+        checkFeching();
+        isCalledPrefetchRef.current = false;
+      }
 
-  const throttleLoadNextSegment = useMemo(
-    () => throttle(loadNextSegment, 1000),
-    [loadNextSegment]
-  );
-  const updateendLoadNextSegment = useCallback(() => {
-    if (segNum.current <= sege) {
-      loadNextSegment();
-    }
-    // because of using throttle , i need to immediate endstream if lastsegement is append before 0.3 second of the song by seek
+      if (
+        segNumRef.current < sege &&
+        !isCalledRef.current &&
+        sourceBufferRef.current?.buffered &&
+        !sourceBufferRef.current.updating
+      ) {
+        isCalledRef.current = true;
+        isCalledPrefetchRef.current = true;
+      }
 
-    if (segNum.current > sege && mediaSource.current?.readyState === "open") {
-      mediaSource!.current!.endOfStream();
-      isCalled.current = false;
-    }
-  }, [loadNextSegment, sege]);
+      if (
+        !fetchingRef.current.isFetch &&
+        bufferThreshold > remainingBuffer &&
+        segNumRef.current <= sege
+      ) {
+        fetchingRef.current.isFetch = true;
+        fetchingRef.current.fetchingseg = segNumRef.current;
+        await fetchAudioSegment(segNumRef.current);
+      } else if (bufferThreshold < remainingBuffer) {
+        segNumRef.current = segData;
+      }
+    };
+    loadNextSegmentRef.current = loadNextSegment;
+    const throttleLoadNextSegment = throttle(loadNextSegment, 1000);
 
-  const sourceOpen = useCallback(async () => {
-    if (sourceBuffer.current === null) {
-      sourceBuffer.current =
-        mediaSource.current!.addSourceBuffer(mimeCodec_audio);
-      // url === prefetchedUrl.current if true mean , there is alaredy fetch call for prefetchSegment and if has use it , or if it does not have , wait it
-      if (url === prefetchedUrl.current && prefetchPromiseRef.current) {
-        if (
-          sourceBuffer.current?.buffered &&
-          !sourceBuffer.current.updating &&
-          mediaSource.current?.readyState
-        ) {
-          const data = await checkFeching();
-          sourceBuffer.current!.appendBuffer(data![0]);
+    const updateendLoadNextSegment = () => {
+      if (segNumRef.current <= sege) {
+        loadNextSegment();
+      }
+
+      if (
+        segNumRef.current > sege &&
+        mediaSourceRef.current?.readyState === "open"
+      ) {
+        mediaSourceRef.current!.endOfStream();
+        isCalledRef.current = false;
+      }
+    };
+
+    const sourceOpen = async () => {
+      if (sourceBufferRef.current === null) {
+        sourceBufferRef.current =
+          mediaSourceRef.current!.addSourceBuffer(mimeCodec_audio);
+        if (url === prefetchedUrlRef.current && prefetchPromiseRef.current) {
+          if (
+            sourceBufferRef.current?.buffered &&
+            !sourceBufferRef.current.updating &&
+            mediaSourceRef.current?.readyState
+          ) {
+            const data = await checkFeching();
+            if (!data) return;
+            sourceBufferRef.current!.appendBuffer(data[0]);
+          }
+        } else {
+          await fetchInitSegment(
+            url,
+            sourceBufferRef,
+            mediaSourceRef,
+            fetchingRef,
+            segNumRef,
+            abortControllerRef,
+            initAbortControllerRef
+          );
         }
-      } else {
-        await fetchInitSegment(
-          url,
-          sourceBuffer,
-          mediaSource,
-          fetching,
-          segNum,
-          abortController,
-          initAbortController
-        );
-      }
 
-      if (sourceBuffer.current) {
-        sourceBuffer.current!.addEventListener(
+        sourceBufferRef.current!.addEventListener(
           "updateend",
           updateendLoadNextSegment
         );
-      }
-      dataAudio.current!.addEventListener(
-        "timeupdate",
-        throttleLoadNextSegment
-      );
-    }
-  }, [
-    url,
-    updateendLoadNextSegment,
-    throttleLoadNextSegment,
-    checkFeching,
-    dataAudio,
-  ]);
 
-  const clearUpPreviousSong = useCallback(() => {
-    const audio = dataAudio.current;
-    if (audio) {
-      audio!.pause();
-      audio!.src = "";
-      audio!.removeEventListener("timeupdate", throttleLoadNextSegment);
-    }
-    if (sourceBuffer.current) {
-      sourceBuffer.current.removeEventListener(
-        "updateend",
-        updateendLoadNextSegment
-      );
-      sourceBuffer.current = null;
-    }
-    if (mediaSource.current) {
-      if (mediaSource.current.readyState === "open") {
-        try {
-          mediaSource.current.endOfStream();
-        } catch (error) {
-          console.error("Error ending media stream:", error);
+        dataAudioRef.current!.addEventListener(
+          "timeupdate",
+          throttleLoadNextSegment
+        );
+      }
+    };
+
+    const clearUpPreviousSong = () => {
+      const audio = dataAudioRef.current;
+      if (audio) {
+        audio.pause();
+        audio.src = "";
+        audio.removeEventListener("timeupdate", throttleLoadNextSegment);
+      }
+
+      if (sourceBufferRef.current) {
+        sourceBufferRef.current.removeEventListener(
+          "updateend",
+          updateendLoadNextSegment
+        );
+        sourceBufferRef.current = null;
+      }
+
+      if (mediaSourceRef.current) {
+        if (mediaSourceRef.current.readyState === "open") {
+          try {
+            mediaSourceRef.current.endOfStream();
+          } catch {}
         }
+        mediaSourceRef.current.removeEventListener("sourceopen", sourceOpen);
+        mediaSourceRef.current = null;
       }
-      mediaSource.current!.removeEventListener("sourceopen", sourceOpen);
-      mediaSource.current = null;
-    }
-    if (abortController.current) {
-      // it will abort when it use with signal
-      abortController.current.abort();
-      abortController.current = null;
-    }
-    if (initAbortController.current) {
-      initAbortController.current.abort();
-      initAbortController.current = null;
-    }
-    segNum.current = 1;
-  }, [
-    throttleLoadNextSegment,
-    sourceOpen,
-    updateendLoadNextSegment,
-    dataAudio,
-  ]);
-  const startUp = useCallback(() => {
-    dataAudio.current!.src = URL.createObjectURL(mediaSource.current!);
 
-    mediaSource.current!.addEventListener("sourceopen", sourceOpen, false);
-  }, [sourceOpen, dataAudio]);
+      abortControllerRef.current?.abort("change song");
+      abortControllerRef.current = null;
 
-  useEffect(() => {
-    if (!url) {
-      return;
-    }
+      initAbortControllerRef.current?.abort("change song");
+      initAbortControllerRef.current = null;
 
-    if (canPlayHLS()) {
-      return;
-    } else {
-      if (url)
-        if (url !== prefetchedUrl.current) {
-          //  if there is a prefetchFetching and the currentSong is not for this , set back to null
-          prefetchPromiseRef.current = null;
-        }
-      if (typeof window !== "undefined") {
-        const MediaSource = window.MediaSource || null;
-        mediaSource.current = new MediaSource();
-        startUp();
-      }
-      abortController.current = new AbortController();
-      initAbortController.current = new AbortController();
-    }
+      segNumRef.current = 1;
+    };
+
+    const startUp = () => {
+      dataAudioRef.current!.src = URL.createObjectURL(mediaSourceRef.current!);
+      mediaSourceRef.current!.addEventListener("sourceopen", sourceOpen, false);
+    };
+    mediaSourceRef.current = new MediaSource();
+    startUp();
+
+    abortControllerRef.current = new AbortController();
+    initAbortControllerRef.current = new AbortController();
 
     return () => {
       clearUpPreviousSong();
     };
-  }, [startUp, url, clearUpPreviousSong, id, dataAudio]);
+  }, [url, id, dataAudioRef, prefetchSegment, song_time_stamp, sege]);
+
   return {
-    segNum,
-    loadNextSegment,
-    fetching,
-    abortController,
+    segNum: segNumRef,
+    loadNextSegment: loadNextSegmentRef,
+    fetching: fetchingRef,
+    abortController: abortControllerRef,
     bufferThreshold,
   };
 };
+
 export default useMediaSourceBuffer;
