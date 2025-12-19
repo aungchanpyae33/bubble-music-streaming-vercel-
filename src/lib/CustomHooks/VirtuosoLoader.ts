@@ -3,11 +3,13 @@ import {
   useCallback,
   useEffect,
   useLayoutEffect,
-  useMemo,
   useState,
 } from "react";
 import debounce from "../debounce";
 
+const passiveOption: AddEventListenerOptions & EventListenerOptions = {
+  passive: true,
+};
 export const useVirtuosoLoader = ({
   containerRef,
   length,
@@ -28,19 +30,16 @@ export const useVirtuosoLoader = ({
     const countData = Math.min(autualItem, maxItem);
     setCount(countData);
   }, [containerRef, length]);
-  const debounceGetCount = useMemo(() => debounce(getCount, 500), [getCount]);
 
   useEffect(() => {
+    const debounceGetCount = debounce(getCount, 500);
     const container = containerRef.current;
     if (!container) return;
-
-    container.addEventListener("scroll", debounceGetCount, {
-      passive: true,
-    });
+    container.addEventListener("scroll", debounceGetCount, passiveOption);
     return () => {
-      container.removeEventListener("scroll", debounceGetCount);
+      container.removeEventListener("scroll", debounceGetCount, passiveOption);
     };
-  }, [containerRef, debounceGetCount]);
+  }, [containerRef, getCount]);
   useLayoutEffect(() => {
     getCount();
   }, [getCount, length]);
