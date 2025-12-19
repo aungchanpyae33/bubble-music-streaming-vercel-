@@ -30,7 +30,7 @@ import { AudioElementContext } from "../Footer/audio/AudioWrapper";
 const hasData = async (
   dataFromFetch: RefObject<Promise<{
     data: getPlaylistPageProps | null;
-    error: PostgrestError | any | null;
+    error: PostgrestError | unknown | null;
   }> | null>,
   listId: string,
   type: Database["public"]["Enums"]["media_item_type"]

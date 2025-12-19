@@ -1,4 +1,9 @@
-import { getSearchPageReturn, listInfo, SongInfo } from "@/database/data";
+import {
+  getSearchPageReturn,
+  listInfo,
+  SearchProfile,
+  SongInfo,
+} from "@/database/data";
 import Image from "next/image";
 import InfoSong from "./InfoSong";
 import InfoList from "./InfoList";
