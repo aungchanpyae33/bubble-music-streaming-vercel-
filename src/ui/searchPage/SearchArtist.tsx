@@ -2,7 +2,7 @@ import SearchContainer from "./SearchContainer";
 import SearchListContainerTitle from "./SearchListContainerTitle";
 import SearchListContainer from "./SearchListContainer";
 import SearchArtistItem from "./SearchArtistItem";
-import { getSearchPageReturn, listInfo } from "@/database/data";
+import { getSearchPageReturn } from "@/database/data";
 interface SearchArtistProps {
   title: string;
   artists: getSearchPageReturn["artists"];

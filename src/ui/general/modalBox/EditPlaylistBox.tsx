@@ -3,7 +3,6 @@
 import {
   editToPlaylist,
   editToPlaylistAction,
-  editToPlaylistProps,
   useEditToPlaylist,
 } from "@/lib/zustand";
 import SubOpenContentWrapper from "@/ui/trackComponent/SubOpenContentWrapper";

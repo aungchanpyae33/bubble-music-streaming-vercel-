@@ -1,5 +1,5 @@
 import { Movie } from "@/database/data";
-import React, { RefObject, useEffect, useState } from "react";
+import { RefObject, useEffect, useState } from "react";
 
 interface NaviState {
   run: boolean;

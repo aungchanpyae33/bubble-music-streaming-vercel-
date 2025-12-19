@@ -1,5 +1,4 @@
 import { SongInfo } from "@/database/data";
-import ArtistWrapper from "@/ui/general/ArtistWrapper";
 import UnderLineLinkHover from "@/ui/general/UnderLineLinkHover";
 
 function InfoSong({ songInfo }: { songInfo: SongInfo }) {

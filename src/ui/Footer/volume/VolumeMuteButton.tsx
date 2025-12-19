@@ -1,13 +1,7 @@
 import { VolumeValueActions } from "@/lib/zustand";
 import IconWrapper from "@/ui/general/IconWrapper";
 import { Volume2, VolumeX } from "lucide-react";
-import React, {
-  Dispatch,
-  RefObject,
-  SetStateAction,
-  useContext,
-  useState,
-} from "react";
+import React, { RefObject, useContext, useState } from "react";
 import { volumeContext } from "./ContextVolume";
 interface Props extends React.ComponentProps<"button"> {
   value: number;

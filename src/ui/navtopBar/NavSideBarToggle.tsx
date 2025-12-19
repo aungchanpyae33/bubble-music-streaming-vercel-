@@ -1,6 +1,6 @@
 import CloseFunctoion from "@/lib/CloseFunction";
 import { X } from "lucide-react";
-import { SetStateAction, useEffect, useRef } from "react";
+import { SetStateAction, useRef } from "react";
 import IconWrapper from "../general/IconWrapper";
 
 function NavSidebarToggle({

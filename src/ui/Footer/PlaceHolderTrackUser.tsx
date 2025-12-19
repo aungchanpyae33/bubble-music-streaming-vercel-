@@ -2,7 +2,6 @@ import { setListEmbedding } from "@/actions/setListEmbedding";
 import { setSongEmbedding } from "@/actions/setSongEmbedding";
 import {
   listTrackState,
-  SetSongTrackAction,
   SongTrackState,
   useListTrack,
   useSongTrack,

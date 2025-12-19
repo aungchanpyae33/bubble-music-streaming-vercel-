@@ -1,4 +1,4 @@
-import { listInfo, listSongsSection } from "@/database/data";
+import { listInfo } from "@/database/data";
 import SongListContainerOption from "../general/optionBox/SongListContainerOption";
 import ContextSongListContainer from "../playlist/playlistOption/ContextSongListContainer";
 import MoreOption from "../trackComponent/MoreOption";

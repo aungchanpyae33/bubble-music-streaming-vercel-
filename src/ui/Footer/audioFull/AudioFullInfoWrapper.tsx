@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence } from "motion/react";
 import { ShowBlock, ShowBlockAction, useShowBlock } from "@/lib/zustand";
 import { useContext, useEffect } from "react";
 import LyricContainer from "./LyricContainer";

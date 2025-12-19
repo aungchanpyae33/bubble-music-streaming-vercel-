@@ -3,11 +3,10 @@ import OverLay from "./OverLay";
 import NavSideLink from "./NavSideLink";
 import { ReactNode, useState } from "react";
 import NavListUlWrapper from "./NavListUlWrapper";
-import { ListMusic, Menu, Plus } from "lucide-react";
+import { ListMusic, Menu } from "lucide-react";
 import IconWrapper from "../general/IconWrapper";
 
 import NavSideLinkNotOpen from "./NavSideLinkNotOpen";
-import dynamic from "next/dynamic";
 import PlaylistAdd from "./PlaylistAdd";
 import PlaylistFolderContainer from "./PlaylistFolderContainer";
 

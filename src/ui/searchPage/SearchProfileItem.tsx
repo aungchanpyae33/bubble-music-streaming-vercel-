@@ -19,7 +19,7 @@ function SearchProfileItem({
   index,
   Itemdata,
 }: SearchProfileItemProps) {
-  const { id, name, type, cover_url } = Itemdata;
+  const { id, name, cover_url } = Itemdata;
   return (
     <SearchItemWrapper>
       <div className="w-[50px]  relative group  ">

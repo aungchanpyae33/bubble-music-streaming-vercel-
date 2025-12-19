@@ -1,4 +1,4 @@
-import { useContext, useRef } from "react";
+import { useContext } from "react";
 import { ContextToggle } from "./ToggleContext";
 import { focusStateAction, useNotInputFocus } from "@/lib/zustand";
 import { useSearchParams } from "next/navigation";

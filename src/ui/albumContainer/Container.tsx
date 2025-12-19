@@ -1,5 +1,3 @@
-import React from "react";
-import EdgeFade from "../playlist/EdgeFade";
 import { getDataProps, listInfo } from "@/database/data";
 import ContextContainer from "./ContextContainer";
 import ArrowNaviContainer from "./ArrowNaviContainer";

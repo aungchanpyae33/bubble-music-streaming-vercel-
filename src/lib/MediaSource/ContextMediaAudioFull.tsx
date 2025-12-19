@@ -1,12 +1,4 @@
-import clsx from "clsx";
-import React, {
-  createContext,
-  SetStateAction,
-  useContext,
-  useRef,
-  useState,
-} from "react";
-import { ContextDevice } from "../DeviceContext/DeviceContextFooter";
+import React, { createContext, SetStateAction, useState } from "react";
 interface contextProps {
   open: boolean;
   setOpen: React.Dispatch<SetStateAction<boolean>>;

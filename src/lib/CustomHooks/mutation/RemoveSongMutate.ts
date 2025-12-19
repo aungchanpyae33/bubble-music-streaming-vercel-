@@ -8,7 +8,7 @@ const useRemoveSongMutate = (id: string) => {
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: removeSongsFromPlaylist,
-    onSuccess: (queryData, variables, context) => {
+    onSuccess: (queryData, variables) => {
       const { data, error } = queryData;
       if (!data || error) return;
       if (!error && data) {

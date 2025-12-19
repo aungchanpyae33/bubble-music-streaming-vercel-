@@ -1,8 +1,6 @@
 "use client";
 import {
   SongFunctionState,
-  SongState,
-  useSong,
   useSongFunction,
   useVolumeValue,
   VolumeValueState,

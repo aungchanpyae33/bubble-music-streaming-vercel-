@@ -7,7 +7,6 @@ import OptionItem from "./OptionItem";
 import OptionIconEl from "./OptionIconEl";
 import IconWrapper from "../IconWrapper";
 import { ChevronRight, UserSearch } from "lucide-react";
-import OptionButton from "./OptionButton";
 import NoThankYouPreFetchLink from "../NoThankYouPreFetchLink";
 import { GoToRelativeContext } from "./ContextGoToRelative";
 import MoreSubOption from "@/ui/trackComponent/MoreSubOption";

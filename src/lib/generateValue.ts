@@ -4,16 +4,6 @@ import {
   navbarList,
   SearchProfile,
 } from "@/database/data";
-import { Database } from "../../database.types";
-
-interface generateValueProps {
-  id: string;
-  name: string;
-  related_id: string;
-  related_name: string;
-  source: Database["public"]["Enums"]["media_source_type"];
-  type: Database["public"]["Enums"]["media_item_type"];
-}
 
 export const generateValue = (
   isDataExist: navbarList,

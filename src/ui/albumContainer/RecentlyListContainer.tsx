@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { getDataProps, getRecentReturn, listInfo } from "@/database/data";
+import { getRecentReturn, listInfo } from "@/database/data";
 import ContextContainer from "./ContextContainer";
 import ArrowNaviContainer from "./ArrowNaviContainer";
 import SonglistsContainer from "../playlist/SonglistsContainer";

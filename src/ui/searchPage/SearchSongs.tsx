@@ -2,7 +2,7 @@ import SearchTrack from "./SearchTrack";
 import SearchContainer from "./SearchContainer";
 import SearchListContainerTitle from "./SearchListContainerTitle";
 import SearchListContainer from "./SearchListContainer";
-import { getSearchPageReturn, SongInfo } from "@/database/data";
+import { getSearchPageReturn } from "@/database/data";
 
 function SearchSongs({
   songs,

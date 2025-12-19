@@ -233,7 +233,7 @@ export const useStorePlayListId = create<
 >()((set) => ({
   playlistId: {},
   setPlaylistId: (id) =>
-    set((state) => ({
+    set(() => ({
       playlistId: { ...id },
     })),
   reset: () => {

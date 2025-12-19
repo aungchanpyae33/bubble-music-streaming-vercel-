@@ -14,8 +14,6 @@ import MoreOption from "../trackComponent/MoreOption";
 import { useContext, useRef } from "react";
 // import PlaceHolderQueue from "./PlaceHolderQueue";
 import ContextInfoTrack from "../trackComponent/ContextInfoTrack";
-import { AnimatePresence } from "motion/react";
-import { motion } from "motion/react";
 import QueueItemContainer from "./QueueItemContainer";
 import ContextLike from "../trackComponent/ContextLike";
 import ArtistWrapper from "../general/ArtistWrapper";

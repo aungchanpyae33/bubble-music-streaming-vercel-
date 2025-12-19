@@ -1,7 +1,7 @@
 import { DeviceCheck } from "@/lib/DeviceCheck";
 import clsx from "clsx";
 import AlbumImg from "./AlbumImg";
-import { listInfo, listSongsSection } from "@/database/data";
+import { listSongsSection } from "@/database/data";
 import InfoList from "../searchPage/topResult/InfoList";
 
 async function AlbumUpperContainer({ songs }: { songs: listSongsSection }) {

@@ -7,7 +7,7 @@ const useAddSongMutate = (playlistId: string, cover_url: string | null) => {
 
   const mutation = useMutation({
     mutationFn: insertSongtoPlaylist,
-    onSuccess: (queryData, variables, context) => {
+    onSuccess: (queryData) => {
       const { data, error } = queryData;
       if (!data) return;
       if (!error) {

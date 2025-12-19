@@ -14,7 +14,7 @@ type NoThankYouPreFetchLinkProps = Omit<
 const NoThankYouPreFetchLink = forwardRef<
   HTMLAnchorElement,
   NoThankYouPreFetchLinkProps
->(({ prefetch, ...props }, ref) => {
+>(({ ...props }, ref) => {
   return <Link ref={ref} prefetch={false} {...props} />;
 });
 

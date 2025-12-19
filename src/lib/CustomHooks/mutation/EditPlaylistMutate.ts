@@ -9,7 +9,7 @@ const useEditPlaylistMutate = () => {
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: editPlaylist,
-    onSuccess: (queryData, variables, context) => {
+    onSuccess: (queryData) => {
       const { data, error } = queryData;
       if (!data || error) return;
 

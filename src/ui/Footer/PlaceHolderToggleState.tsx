@@ -41,7 +41,7 @@ function PlaceHolderToggleState({
   const setTimeoutRefForList = useRef<ReturnType<typeof setTimeout> | null>(
     null
   );
-  const { dataAudio, segNum, loadNextSegment } = useContext(DataContext);
+  const { dataAudio, segNum } = useContext(DataContext);
   const playListArray = useRepeatAndCurrentPlayList(
     (state: currentSongPlaylist) =>
       Object.values(state.playListArray)[0] || undefined
@@ -168,7 +168,6 @@ function PlaceHolderToggleState({
     updateSongCu,
     isRepeat,
     segNum,
-    loadNextSegment,
     setPlayList,
     playListArray,
     playlistId,

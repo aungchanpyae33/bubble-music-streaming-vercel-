@@ -1,4 +1,4 @@
-import { RefObject, SetStateAction, useEffect, useState } from "react";
+import { RefObject, SetStateAction, useEffect } from "react";
 // this is basic color extract function , for more precise and performance , use color thief js
 const useGetDominantColor = ({
   setBgValue,
