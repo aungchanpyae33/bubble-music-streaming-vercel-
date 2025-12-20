@@ -10,6 +10,7 @@ import ContextSongListContainer from "./playlistOption/ContextSongListContainer"
 import { listInfo } from "@/database/data";
 import { outputRelatedType } from "@/lib/prototypeOuputRelatedType";
 import NoThankYouPreFetchLink from "../general/NoThankYouPreFetchLink";
+import VerticalThreeDots from "../general/icon/VerticalThreeDots";
 
 interface SonglistsContainerProps {
   description: string;
@@ -50,6 +51,7 @@ function SonglistsContainer({
         <SonglistContainerWrapper className="absolute top-2 right-2">
           <MoreOptionContext relative={{ id: related_id, name: related_name }}>
             <MoreOption
+              triggerEl={<VerticalThreeDots />}
               targetElement={
                 <ContextSongListContainer id={id} list={list}>
                   <SongListContainerOption />

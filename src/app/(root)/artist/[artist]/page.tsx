@@ -3,6 +3,7 @@ import AlbumUpperBackground from "@/ui/albumContainer/AlbumUpperBackground";
 import AlbumUpperContainer from "@/ui/albumContainer/AlbumUpperContainer";
 import AudiosContainer from "@/ui/albumContainer/AudiosContainer";
 import Container from "@/ui/albumContainer/Container";
+import VerticalThreeDots from "@/ui/general/icon/VerticalThreeDots";
 import ListContainer from "@/ui/general/ListContainerOption/ListContainer";
 import ListContainerAddToLibrary from "@/ui/general/ListContainerOption/ListContainerAddToLibrary";
 import ListContainerPlayBack from "@/ui/general/ListContainerOption/ListContainerPlayBack";
@@ -36,7 +37,10 @@ async function page(props: { params: Promise<{ artist: string }> }) {
               <MoreOptionContext
                 relative={{ id: songs.related_id, name: songs.related_name }}
               >
-                <MoreOption targetElement={<SongListContainerOption />} />
+                <MoreOption
+                  targetElement={<SongListContainerOption />}
+                  triggerEl={<VerticalThreeDots />}
+                />
               </MoreOptionContext>
             </div>
           </ListContainer>

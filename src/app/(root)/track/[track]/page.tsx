@@ -2,6 +2,7 @@ import { getSongTrack } from "@/database/data";
 import AlbumUpperBackground from "@/ui/albumContainer/AlbumUpperBackground";
 import AlbumUpperContainer from "@/ui/albumContainer/AlbumUpperContainer";
 import AudiosContainer from "@/ui/albumContainer/AudiosContainer";
+import VerticalThreeDots from "@/ui/general/icon/VerticalThreeDots";
 import ListContainer from "@/ui/general/ListContainerOption/ListContainer";
 import ListContainerPlayBack from "@/ui/general/ListContainerOption/ListContainerPlayBack";
 import ContextInfoTrack from "@/ui/trackComponent/ContextInfoTrack";
@@ -38,7 +39,10 @@ async function page(props: { params: Promise<{ track: string }> }) {
             <TrackToggleLike songId={songsInfo!.song_id} />
             <div>
               <MoreOptionContext relative={songsInfo.artists}>
-                <MoreOption targetElement={<TrackItemContainer />} />
+                <MoreOption
+                  targetElement={<TrackItemContainer />}
+                  triggerEl={<VerticalThreeDots />}
+                />
               </MoreOptionContext>
             </div>
           </ListContainer>

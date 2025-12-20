@@ -12,6 +12,7 @@ import TrackItemContainer from "./TrackItemContainer";
 import ContextInfoTrack from "./ContextInfoTrack";
 import ContextLike from "./ContextLike";
 import Image from "next/image";
+import VerticalThreeDots from "../general/icon/VerticalThreeDots";
 
 function Track({
   listSong,
@@ -82,7 +83,10 @@ function Track({
           <ContextLike id={song.song_id}>
             <ToggleHeartButton songId={song.song_id} />
             <MoreOptionContext relative={song.artists}>
-              <MoreOption targetElement={<TrackItemContainer />} />
+              <MoreOption
+                targetElement={<TrackItemContainer />}
+                triggerEl={<VerticalThreeDots />}
+              />
             </MoreOptionContext>
           </ContextLike>
         </ContextInfoTrack>

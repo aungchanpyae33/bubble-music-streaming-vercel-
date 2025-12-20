@@ -9,6 +9,7 @@ import MoreOptionContext from "../trackComponent/MoreOptionContext";
 import MoreOption from "../trackComponent/MoreOption";
 import SongListContainerOption from "../general/optionBox/SongListContainerOption";
 import AudiosContainer from "../albumContainer/AudiosContainer";
+import VerticalThreeDots from "../general/icon/VerticalThreeDots";
 function View({ songs }: { songs: listSongsSection }) {
   return (
     <div className=" w-full">
@@ -24,7 +25,10 @@ function View({ songs }: { songs: listSongsSection }) {
             <MoreOptionContext
               relative={{ id: songs.related_id, name: songs.related_name }}
             >
-              <MoreOption targetElement={<SongListContainerOption />} />
+              <MoreOption
+                targetElement={<SongListContainerOption />}
+                triggerEl={<VerticalThreeDots />}
+              />
             </MoreOptionContext>
           </div>
         </ListContainer>

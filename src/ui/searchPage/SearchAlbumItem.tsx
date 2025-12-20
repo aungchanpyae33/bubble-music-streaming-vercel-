@@ -9,6 +9,7 @@ import DirectPlayButton from "../playlist/DirectPlayButton";
 import SearchItemWrapper from "./SearchItemWrapper";
 import UnderLineLinkHover from "../general/UnderLineLinkHover";
 import { outputRelatedType } from "@/lib/prototypeOuputRelatedType";
+import VerticalThreeDots from "../general/icon/VerticalThreeDots";
 
 interface SearchAlbumItemProps {
   description: string;
@@ -60,7 +61,10 @@ function SearchAlbumItem({
           list={Itemdata}
         >
           <MoreOptionContext relative={{ id: related_id, name: related_name }}>
-            <MoreOption targetElement={<SongListContainerOption />} />
+            <MoreOption
+              targetElement={<SongListContainerOption />}
+              triggerEl={<VerticalThreeDots />}
+            />
           </MoreOptionContext>
         </ContextSongListContainer>
       </div>

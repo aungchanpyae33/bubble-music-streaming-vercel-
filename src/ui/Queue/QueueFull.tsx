@@ -22,6 +22,7 @@ import { Virtuoso } from "react-virtuoso";
 import outputCurrentIndex from "@/lib/CustomHooks/OutputCurrentIndex";
 import QueueLoader from "./QueueLoader";
 import { motion } from "motion/react";
+import VerticalThreeDots from "../general/icon/VerticalThreeDots";
 function QueueFull() {
   const playListArray = useRepeatAndCurrentPlayList(
     (state: currentSongPlaylist) => Object.values(state.playListArray)[0] || []
@@ -101,6 +102,7 @@ function QueueFull() {
                     <ContextLike id={item.song_id}>
                       <MoreOptionContext relative={item.artists}>
                         <MoreOption
+                          triggerEl={<VerticalThreeDots />}
                           relativeRoot={audioFullRef.current}
                           targetElement={<QueueItemContainer />}
                         />

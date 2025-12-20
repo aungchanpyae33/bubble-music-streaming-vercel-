@@ -14,6 +14,7 @@ import MoreOption from "../trackComponent/MoreOption";
 import SongListContainerOption from "../general/optionBox/SongListContainerOption";
 import EditableAudiosContainer from "../albumContainer/EditableAudiosContainer";
 import PlaylistUpperWrapper from "./PlaylistUpperWrapper";
+import VerticalThreeDots from "../general/icon/VerticalThreeDots";
 
 function OwnEdit({
   queryClient,
@@ -42,7 +43,10 @@ function OwnEdit({
               <MoreOptionContext
                 relative={{ id: songs.related_id, name: songs.related_name }}
               >
-                <MoreOption targetElement={<SongListContainerOption />} />
+                <MoreOption
+                  targetElement={<SongListContainerOption />}
+                  triggerEl={<VerticalThreeDots />}
+                />
               </MoreOptionContext>
             </div>
           </ListContainer>

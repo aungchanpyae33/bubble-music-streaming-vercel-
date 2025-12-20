@@ -9,6 +9,7 @@ import TrackItemContainer from "@/ui/trackComponent/TrackItemContainer";
 import MoreOption from "@/ui/trackComponent/MoreOption";
 import { SongInfo } from "@/database/data";
 import ContextLike from "@/ui/trackComponent/ContextLike";
+import VerticalThreeDots from "../icon/VerticalThreeDots";
 
 function SongListItem({ song }: { song: SongInfo }) {
   return (
@@ -44,7 +45,10 @@ function SongListItem({ song }: { song: SongInfo }) {
         <ContextInfoTrack id={undefined} source={undefined} song={song}>
           <ContextLike id={song.song_id}>
             <MoreOptionContext relative={song.artists}>
-              <MoreOption targetElement={<TrackItemContainer />} />
+              <MoreOption
+                targetElement={<TrackItemContainer />}
+                triggerEl={<VerticalThreeDots />}
+              />
             </MoreOptionContext>
           </ContextLike>
         </ContextInfoTrack>

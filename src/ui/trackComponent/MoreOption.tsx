@@ -1,6 +1,4 @@
 "use client";
-import { EllipsisVertical } from "lucide-react";
-import IconWrapper from "../general/IconWrapper";
 import { useContext, useRef } from "react";
 import ToggleContent from "./ToggleContent";
 import { DisableScroll } from "@/lib/CustomHooks/DisableScroll";
@@ -10,10 +8,12 @@ import ContentChild from "./ContentChild";
 import MoreOptionStackContext from "./MoreOptionStackContext";
 interface MoreOptionProps extends React.ComponentProps<"div"> {
   targetElement: React.ReactNode;
+  triggerEl: React.ReactNode;
   relativeRoot?: HTMLDivElement | null;
 }
 function MoreOption({
   className,
+  triggerEl,
   targetElement,
   relativeRoot,
 }: MoreOptionProps) {
@@ -29,7 +29,7 @@ function MoreOption({
         }}
         className={`w-full h-full flex justify-center ${className}`}
       >
-        <IconWrapper Icon={EllipsisVertical} size="small" />
+        {triggerEl}
       </button>
       {show &&
         typeof window !== "undefined" &&

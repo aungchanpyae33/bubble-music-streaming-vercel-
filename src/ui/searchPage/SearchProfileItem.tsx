@@ -8,6 +8,7 @@ import SearchItemWrapper from "./SearchItemWrapper";
 import ProfileOption from "../general/optionBox/ProfileOption";
 import IconWrapper from "../general/IconWrapper";
 import { User } from "lucide-react";
+import VerticalThreeDots from "../general/icon/VerticalThreeDots";
 
 interface SearchProfileItemProps {
   description: string;
@@ -44,7 +45,10 @@ function SearchProfileItem({
       <div className=" flex item-center">
         <ContextSongListContainer id={id} list={Itemdata}>
           <MoreOptionContext relative={undefined}>
-            <MoreOption targetElement={<ProfileOption />} />
+            <MoreOption
+              targetElement={<ProfileOption />}
+              triggerEl={<VerticalThreeDots />}
+            />
           </MoreOptionContext>
         </ContextSongListContainer>
       </div>

@@ -11,6 +11,7 @@ import Image from "next/image";
 import SearchItemWrapper from "./SearchItemWrapper";
 import { SongInfo } from "@/database/data";
 import ContextLike from "../trackComponent/ContextLike";
+import VerticalThreeDots from "../general/icon/VerticalThreeDots";
 
 function SearchTrack({
   song,
@@ -53,7 +54,10 @@ function SearchTrack({
           <ContextLike id={song.song_id}>
             <ToggleHeartButton songId={song.song_id} />
             <MoreOptionContext relative={song.artists}>
-              <MoreOption targetElement={<TrackItemContainer />} />
+              <MoreOption
+                targetElement={<TrackItemContainer />}
+                triggerEl={<VerticalThreeDots />}
+              />
             </MoreOptionContext>
           </ContextLike>
         </ContextInfoTrack>

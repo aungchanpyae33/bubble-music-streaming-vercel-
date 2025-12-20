@@ -1,6 +1,7 @@
 import { getUserPage } from "@/database/data";
 import AlbumUpperBackground from "@/ui/albumContainer/AlbumUpperBackground";
 import Container from "@/ui/albumContainer/Container";
+import VerticalThreeDots from "@/ui/general/icon/VerticalThreeDots";
 import ListContainer from "@/ui/general/ListContainerOption/ListContainer";
 import ProfileOption from "@/ui/general/optionBox/ProfileOption";
 import ContextSongListContainer from "@/ui/playlist/playlistOption/ContextSongListContainer";
@@ -28,7 +29,10 @@ async function page(props: { params: Promise<{ slug: string }> }) {
             <MoreOptionContext
               relative={{ id: profile.related_id, name: profile.related_name }}
             >
-              <MoreOption targetElement={<ProfileOption />} />
+              <MoreOption
+                targetElement={<ProfileOption />}
+                triggerEl={<VerticalThreeDots />}
+              />
             </MoreOptionContext>
           </ContextSongListContainer>
         </div>
