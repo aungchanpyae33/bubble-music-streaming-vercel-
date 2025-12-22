@@ -1,14 +1,17 @@
+import { RefObject } from "react";
+
 export const FocusElement = (
   targeElement: HTMLElement,
   selector: string,
-  number: React.MutableRefObject<number>
+  number: RefObject<number>
 ) => {
   const target = targeElement.querySelector(
-    `[role="${selector}${number.current}"]`
+    `[data-focus="${selector}${number.current}"]`
   ) as HTMLElement;
-  target!.focus();
+  if (!target) return;
+  target.focus();
 
-  target!.scrollIntoView({
+  target.scrollIntoView({
     behavior: "smooth",
     block: "center",
     inline: "center",

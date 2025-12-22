@@ -1,20 +1,28 @@
+import { RefObject } from "react";
 import { FocusElement } from "./FocusElement";
 
 function ArrowNavi(
-  e: React.KeyboardEvent,
-  dataInc: React.MutableRefObject<number>,
+  e: React.KeyboardEvent<HTMLDivElement>,
+  dataInc: RefObject<number>,
+  containerRef: RefObject<HTMLDivElement | null>,
   ascendingDr: string,
   descendingDir: string,
   MaxLength: number,
   focusAttribute: string
 ) {
+  if (e.key === "Tab" || e.key === "Escape") {
+    if (!containerRef.current) return;
+    if (dataInc.current === 0) return;
+    containerRef.current.focus();
+  }
   if (e.key === ascendingDr || e.key === descendingDir) {
     e.preventDefault();
     e.stopPropagation();
+
     if (e.key === ascendingDr) {
-      dataInc.current = Math.min(dataInc.current + 1, MaxLength);
+      dataInc.current = dataInc.current === MaxLength ? 0 : dataInc.current + 1;
     } else if (e.key === descendingDir) {
-      dataInc.current = Math.max(dataInc.current - 1, 1);
+      dataInc.current = dataInc.current === 0 ? MaxLength : dataInc.current - 1;
     }
     FocusElement(e.currentTarget as HTMLElement, focusAttribute, dataInc);
   }
