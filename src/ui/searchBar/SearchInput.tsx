@@ -34,7 +34,8 @@ function SearchInput() {
     placeholderData: (previousData) => previousData,
     staleTime: 10 * 60 * 1000,
   });
-
+  // [todo] need to return error component
+  if (error) return;
   return (
     <FormContainer inputRef={inputRef} setValue={setValue}>
       {data.length > 0 && (
