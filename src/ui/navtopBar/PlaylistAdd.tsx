@@ -11,6 +11,7 @@ import { insertDataAction } from "@/actions/createPlaylist";
 import { useQueryClient } from "@tanstack/react-query";
 import CheckTypeCreate from "./createPlaylist/CheckTypeCreate";
 import { ContextMoreOptionStack } from "../trackComponent/MoreOptionStackContext";
+import useFocusOnOpen from "@/lib/CustomHooks/useFocusOnOpen";
 
 function PlaylistAdd({ stackNum }: { stackNum: number }) {
   const queryClient = useQueryClient();
@@ -19,6 +20,8 @@ function PlaylistAdd({ stackNum }: { stackNum: number }) {
   const [isPending, startTransition] = useTransition();
   // is it sub child permanant stack num is equl or less than current stack?
   const stayShow = useMemo(() => stackNum <= stack, [stack, stackNum]);
+  useFocusOnOpen(stayShow, formParentRef);
+
   return (
     <>
       <InitCreateButton stackNum={stackNum} />
