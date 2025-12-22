@@ -1,103 +1,91 @@
-import { ReactNode, RefObject, useEffect, useRef } from "react";
-type MediaQuery = `(width ${">=" | "<=" | ">" | "<"} ${string})`;
+import { ReactNode, RefObject, useEffect } from "react";
+
 interface Props extends React.ComponentProps<"div"> {
   refFocus: RefObject<HTMLElement | null>;
   children: ReactNode;
-  mqAffectsChild?: MediaQuery[];
+  open?: boolean; //if not provided , focus trap is only avaible in mounted , if provided , focus trap is avaible in screen all the time (ex: navsidebar toggle)
 }
-function FocusTrap({ children, refFocus, mqAffectsChild }: Props) {
-  const compareElement = useRef<HTMLElement>(null);
 
+function FocusTrap({ children, refFocus, open }: Props) {
   useEffect(() => {
-    const mediaQueries: MediaQueryList[] = [];
-    const copyRef = refFocus!.current!;
-    let lastClickMustBeToClose = false;
-    //to handle when lastelemet is focus and then when resize , its loss focus
-    const focusableElements = Array.from(
-      copyRef.querySelectorAll(
-        'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), details, [tabindex]:not([tabindex="-1"])'
-      )
-    ).reverse() as HTMLElement[];
-    // to get focuvisiable lastElement in document
-    function findLastElement() {
-      compareElement!.current! = focusableElements.find(
-        (element) => (element as HTMLElement).offsetParent !== null
-      ) as HTMLElement;
-    }
-    findLastElement(); //initialize in audiofull load
-    //to handle tailwind change hidden style
-    if (mqAffectsChild) {
-      mqAffectsChild.forEach((item, index) => {
-        const mq = window.matchMedia(item);
-        mediaQueries[index] = mq;
+    let lastClickMustBeToCloe = false;
+    const container = refFocus.current;
+    if (!container) return;
 
-        mq.addEventListener("change", findLastElement);
-      });
-    }
+    // Helper to get CURRENT focusable elements in the DOM including hidden ones
+    const getFreshElementsAll = () => {
+      const selector =
+        'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), details, [tabindex]:not([tabindex="-1"])';
+      const elements = Array.from(
+        container.querySelectorAll(selector)
+      ) as HTMLElement[];
+      return elements;
+    };
+
+    // Helper to get CURRENT focusable elements in the DOM
+    const getFreshElements = () => {
+      const selector =
+        'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), details, [tabindex]:not([tabindex="-1"])';
+      const elements = Array.from(
+        container.querySelectorAll(selector)
+      ) as HTMLElement[];
+
+      // Filter for visibility (offsetParent is null if element or parent is display: none)
+      return elements.filter((el) => el.offsetParent !== null);
+    };
 
     // to handle when lastElement is focus and then resize the window to some breakpoint , as it loss focus state which can lead to break focus trap
+
     function handleOut(e: FocusEvent) {
       // if focus loss is cause by tab key , return it
       if (e.relatedTarget) {
         return;
       }
+
       // check if last element is on the screen or not
-      if (compareElement.current !== focusableElements[0]) {
-        lastClickMustBeToClose = true;
+      const elements = getFreshElementsAll();
+      if (elements.length === 0) return;
+      const lastElement = elements[elements.length - 1];
+      if (lastElement.offsetParent === null) {
+        lastClickMustBeToCloe = true;
       }
     }
 
     function handleKeydown(e: KeyboardEvent) {
-      if (e.key === "Tab") {
-        if (
-          e.shiftKey &&
-          document.activeElement ===
-            focusableElements[focusableElements.length - 1]
-        ) {
-          e.preventDefault();
-          if (mqAffectsChild) {
-            lastClickMustBeToClose = false;
-          }
-          compareElement.current?.focus();
-          return;
-        }
-        // if lastelement is loss focus by resize window, force focus to firstElement
-        if (mqAffectsChild && lastClickMustBeToClose && !e.shiftKey) {
-          e.preventDefault();
-          lastClickMustBeToClose = false;
-          focusableElements[focusableElements.length - 1].focus();
-          return;
-        } else {
-          lastClickMustBeToClose = false;
-        }
+      if (e.key !== "Tab") return;
 
-        //back to first elemet
-        if (!e.shiftKey && document.activeElement === compareElement.current) {
-          if (mqAffectsChild) {
-            lastClickMustBeToClose = false;
-          }
-          e.preventDefault();
-          focusableElements[focusableElements.length - 1].focus();
-        }
+      const elements = getFreshElements();
+      if (elements.length === 0) return;
+
+      const firstElement = elements[0];
+      if (!e.shiftKey && lastClickMustBeToCloe) {
+        firstElement.focus();
+        lastClickMustBeToCloe = false;
+        return;
+      }
+      const lastElement = elements[elements.length - 1];
+
+      // Shift + Tab on the first element -> Wrap to the last
+      if (e.shiftKey && document.activeElement === firstElement) {
+        e.preventDefault();
+        lastElement.focus();
+      }
+      // Tab on the last element -> Wrap to the first
+      else if (!e.shiftKey && document.activeElement === lastElement) {
+        e.preventDefault();
+        firstElement.focus();
       }
     }
-    if (mqAffectsChild) {
-      copyRef.addEventListener("focusout", handleOut);
-    }
+    if (open === false) return;
+    document.addEventListener("focusout", handleOut);
     document.addEventListener("keydown", handleKeydown);
-
     return () => {
+      document.removeEventListener("focusout", handleOut);
       document.removeEventListener("keydown", handleKeydown);
-      if (mqAffectsChild) {
-        copyRef.removeEventListener("focusout", handleOut);
-        mediaQueries.forEach((item) => {
-          item.removeEventListener("change", findLastElement);
-        });
-      }
     };
-  }, [refFocus, mqAffectsChild]);
+  }, [refFocus, open]);
 
-  return children;
+  return <>{children}</>;
 }
 
 export default FocusTrap;
