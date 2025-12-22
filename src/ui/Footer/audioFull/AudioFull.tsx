@@ -47,10 +47,7 @@ function AudioFull({
       <AnimatePresence>
         {open && (
           <MotionFull>
-            <FocusTrap
-              refFocus={refFocus}
-              mqAffectsChild={["(width >= 48rem)", "(width >= 64rem)"]}
-            >
+            <FocusTrap refFocus={refFocus}>
               <AudioFullBackGround
                 className={clsx(
                   "w-full h-full flex flex-col items-center justify-center   "
