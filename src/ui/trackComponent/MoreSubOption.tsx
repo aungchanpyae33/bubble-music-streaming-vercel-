@@ -2,7 +2,6 @@
 import { useContext, useEffect, useMemo, useRef } from "react";
 import { DisableScroll } from "@/lib/CustomHooks/DisableScroll";
 import { createPortal } from "react-dom";
-import ContentChild from "./ContentChild";
 import ToggleSubContent from "./ToggleSubContent";
 import { useHoverable } from "@/lib/CustomHooks/Hoverable";
 import clsx from "clsx";
@@ -57,8 +56,12 @@ function MoreSubOption({
       {stayShow &&
         typeof window !== "undefined" &&
         createPortal(
-          <ToggleSubContent parentRef={parentRef} stackNum={stackNum}>
-            <ContentChild>{targetElement}</ContentChild>
+          <ToggleSubContent
+            stayShow={stayShow}
+            parentRef={parentRef}
+            stackNum={stackNum}
+          >
+            {targetElement}
           </ToggleSubContent>,
           relativeRoot ? relativeRoot : document.body
         )}

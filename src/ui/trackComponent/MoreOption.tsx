@@ -4,7 +4,6 @@ import ToggleContent from "./ToggleContent";
 import { DisableScroll } from "@/lib/CustomHooks/DisableScroll";
 import { ContextMoreOption } from "./MoreOptionContext";
 import { createPortal } from "react-dom";
-import ContentChild from "./ContentChild";
 import MoreOptionStackContext from "./MoreOptionStackContext";
 interface MoreOptionProps extends React.ComponentProps<"div"> {
   targetElement: React.ReactNode;
@@ -36,9 +35,7 @@ function MoreOption({
         createPortal(
           // stack provider for all child from one parent lvl
           <MoreOptionStackContext>
-            <ToggleContent parentRef={parentRef}>
-              <ContentChild>{targetElement}</ContentChild>
-            </ToggleContent>
+            <ToggleContent parentRef={parentRef}>{targetElement}</ToggleContent>
           </MoreOptionStackContext>,
           relativeRoot ? relativeRoot : document.body
         )}
