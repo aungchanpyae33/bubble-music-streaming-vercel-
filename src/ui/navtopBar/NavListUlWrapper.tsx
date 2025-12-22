@@ -3,6 +3,7 @@ import { ReactNode, SetStateAction, useRef } from "react";
 import NavSidebarToggle from "./NavSideBarToggle";
 import FocusTrap from "../Footer/audioFull/FocusTrap";
 import MoreOptionStackContext from "../trackComponent/MoreOptionStackContext";
+import useFocusOnOpen from "@/lib/CustomHooks/useFocusOnOpen";
 
 interface NavListUlWrapperProp {
   open: boolean;
@@ -17,19 +18,22 @@ function NavListUlWrapper({
   childrenLogo,
 }: NavListUlWrapperProp) {
   const ulRef = useRef<HTMLUListElement>(null);
+  useFocusOnOpen(open, ulRef);
   return (
-    <FocusTrap refFocus={ulRef}>
+    <FocusTrap refFocus={ulRef} open={open}>
       <MoreOptionStackContext>
         <ul
           className={clsx(
-            "fixed bg-[#0A0A0A] border-r border-opacity-15 border-neutral-200  top-0 z-40 box-border w-[280px]  max-w-[280px]  left-0 h-full flex duration-200 transition-transform  flex-col gap-1  rounded-b-sm",
+            "fixed bg-[#0A0A0A] border-r border-opacity-15 border-neutral-200  top-0 z-40 box-border w-[280px]  max-w-[280px]  left-0 h-full flex duration-200   transition-[transform,visibility] flex-col gap-1  rounded-b-sm",
             {
-              "-translate-x-full  ": !open,
-              "translate-x-0 ": open,
+              // to remove from tab order
+              "-translate-x-full invisible": !open,
+              "translate-x-0 visible": open,
             }
           )}
           ref={ulRef}
-          tabIndex={open ? 0 : -1}
+          aria-hidden={!open}
+          tabIndex={0}
         >
           <li className="h-[70px] relative   flex border-b border-opacity-15 border-neutral-200">
             <NavSidebarToggle setOpen={setOpen} open={open} />
