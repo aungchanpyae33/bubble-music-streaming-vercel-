@@ -6,7 +6,7 @@ function CloseFunctoion(
   fun:
     | React.Dispatch<React.SetStateAction<boolean>>
     | ((value: boolean) => void),
-  closeElement: RefObject<HTMLButtonElement | null>
+  closeElement?: RefObject<HTMLButtonElement | null>
 ) {
   const { stack, setStack } = useContext(ContextMoreOptionStack);
   // stack are 0 === parent , 1 === child , 2 === grand child etc..
@@ -21,6 +21,7 @@ function CloseFunctoion(
         // i use open (boolean) only  for parent , inner child state are paired with stack number
         if (stack === 0) {
           fun(false);
+          if (!closeElement) return;
           closeElement.current!.focus();
         }
       }
