@@ -4,7 +4,6 @@ import clsx from "clsx";
 import { ContextMoreOption } from "./MoreOptionContext";
 import OutterClick from "@/lib/OutterClick";
 import CloseFunctoion from "@/lib/CloseFunction";
-import { useHoverable } from "@/lib/CustomHooks/Hoverable";
 import useFocusOnOpen from "@/lib/CustomHooks/useFocusOnOpen";
 import { ContextMoreOptionStack } from "./MoreOptionStackContext";
 import FocusTrap from "../Footer/audioFull/FocusTrap";
@@ -16,7 +15,6 @@ interface ToggleContentProps extends React.ComponentProps<"div"> {
 function ToggleContent({ parentRef, children }: ToggleContentProps) {
   const { show, setShow } = useContext(ContextMoreOption);
   const { stack } = useContext(ContextMoreOptionStack);
-  const isHoverable = useHoverable();
 
   const containerRef = useRef<HTMLDivElement>(null);
   const [position] = useToggleContentPosition({
