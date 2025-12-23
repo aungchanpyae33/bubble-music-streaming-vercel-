@@ -1,8 +1,6 @@
 import { RefObject, useRef } from "react";
 import { useToggleContentPosition } from "@/lib/CustomHooks/ToggleContentPosition";
 import clsx from "clsx";
-
-import { useHoverable } from "@/lib/CustomHooks/Hoverable";
 import OutterClickSub from "@/lib/OutterClickSub";
 import useFocusOnOpen from "@/lib/CustomHooks/useFocusOnOpen";
 import FocusTrap from "../Footer/audioFull/FocusTrap";
@@ -20,7 +18,6 @@ function ToggleSubContent({
   stayShow,
 }: ToggleSubContentProps) {
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const isHoverable = useHoverable();
   const [position] = useToggleContentPosition({
     parentRef,
     containerRef,
@@ -32,7 +29,7 @@ function ToggleSubContent({
     <FocusTrap refFocus={containerRef}>
       <div
         className={clsx(
-          " absolute  z-30 max-w-full   overflow-auto max-h-full   border-opacity-25 border   border-neutral-200 left-0 top-0 p-1 rounded-md"
+          " absolute  z-30 max-w-full bg-[#222222]   overflow-auto max-h-full   border-opacity-25 border   border-neutral-200 left-0 top-0 p-1 rounded-md"
         )}
         ref={containerRef}
         style={position}
