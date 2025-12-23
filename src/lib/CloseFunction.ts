@@ -1,5 +1,6 @@
 import React, { RefObject, useContext, useEffect } from "react";
 import { ContextMoreOptionStack } from "@/ui/trackComponent/MoreOptionStackContext";
+import { ContextMoreOptionUnique } from "@/ui/trackComponent/MoreOptionUniqueContext";
 // this function do close the portal when escape is pressed , it also manage the stack for inner child components
 function CloseFunctoion(
   value: boolean,
@@ -9,6 +10,7 @@ function CloseFunctoion(
   closeElement?: RefObject<HTMLButtonElement | null>
 ) {
   const { stack, setStack } = useContext(ContextMoreOptionStack);
+  const { setUuidState } = useContext(ContextMoreOptionUnique);
   // stack are 0 === parent , 1 === child , 2 === grand child etc..
   useEffect(() => {
     function closeSearch(e: KeyboardEvent) {
@@ -17,6 +19,8 @@ function CloseFunctoion(
         // decrease the stack count because of clicking triiger
         const newStack = Math.max(0, stack - 1);
         setStack(newStack);
+        setUuidState(""); // reset unique context state when any portal is closed so that next portal can set its own uuid
+
         // stack === 0 means it is the parent component
         // i use open (boolean) only  for parent , inner child state are paired with stack number
         if (stack === 0) {
@@ -33,7 +37,7 @@ function CloseFunctoion(
     return () => {
       window.removeEventListener("keydown", closeSearch);
     };
-  }, [value, fun, closeElement, stack, setStack]);
+  }, [value, fun, closeElement, stack, setStack, setUuidState]);
 }
 
 export default CloseFunctoion;

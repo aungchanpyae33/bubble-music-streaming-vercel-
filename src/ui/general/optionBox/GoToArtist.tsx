@@ -1,7 +1,5 @@
 "use client";
-import MoreOptionContext, {
-  ContextMoreOption,
-} from "@/ui/trackComponent/MoreOptionContext";
+import { ContextMoreOption } from "@/ui/trackComponent/MoreOptionContext";
 import { useContext } from "react";
 import OptionItem from "./OptionItem";
 import OptionIconEl from "./OptionIconEl";
@@ -22,24 +20,22 @@ function GoToArtist() {
   if (Array.isArray(relative) && relative.length > 1) {
     // must use moreSubOption if this content comes from parent portal content
     return (
-      <MoreOptionContext relative={relative}>
-        <MoreSubOption
-          stackNum={1}
-          triggerEl={
-            <OptionItem>
-              <OptionIconEl>
-                <IconWrapper size="small" Icon={UserSearch} />
-              </OptionIconEl>
-              <OptionText text="go to artist" />
-              <OptionSubArrow>
-                <IconWrapper Icon={ChevronRight} />
-              </OptionSubArrow>
-            </OptionItem>
-          }
-          className="w-full"
-          targetElement={<RelativeSubOption relative={relative} />}
-        />
-      </MoreOptionContext>
+      <MoreSubOption
+        stackNum={1}
+        triggerEl={
+          <OptionItem isSub={true}>
+            <OptionIconEl>
+              <IconWrapper size="small" Icon={UserSearch} />
+            </OptionIconEl>
+            <OptionText text="go to artist" />
+            <OptionSubArrow>
+              <IconWrapper Icon={ChevronRight} />
+            </OptionSubArrow>
+          </OptionItem>
+        }
+        className="w-full"
+        targetElement={<RelativeSubOption relative={relative} />}
+      />
     );
   } else {
     const artistId = Array.isArray(relative) ? relative[0].id : relative.id;
