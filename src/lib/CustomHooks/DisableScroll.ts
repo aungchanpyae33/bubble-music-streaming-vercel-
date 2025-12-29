@@ -2,7 +2,6 @@ import { useEffect } from "react";
 
 export function DisableScroll(show: boolean) {
   useEffect(() => {
-    const main = document.querySelector("main")!;
     function preventDefault(e: WheelEvent | TouchEvent) {
       e.preventDefault();
     }
@@ -24,15 +23,15 @@ export function DisableScroll(show: boolean) {
       }
     }
     if (show) {
-      main.addEventListener("wheel", preventDefault, wheelOpt);
-      main.addEventListener("touchmove", preventDefault, wheelOpt);
-      window.addEventListener("keydown", preventKeyScroll);
+      document.addEventListener("wheel", preventDefault, wheelOpt);
+      document.addEventListener("touchmove", preventDefault, wheelOpt);
+      document.addEventListener("keydown", preventKeyScroll);
     }
     return () => {
-      main.removeEventListener("wheel", preventDefault);
-      main.removeEventListener("touchmove", preventDefault);
+      document.removeEventListener("wheel", preventDefault);
+      document.removeEventListener("touchmove", preventDefault);
 
-      window.removeEventListener("keydown", preventKeyScroll);
+      document.removeEventListener("keydown", preventKeyScroll);
     };
   }, [show]);
 }
