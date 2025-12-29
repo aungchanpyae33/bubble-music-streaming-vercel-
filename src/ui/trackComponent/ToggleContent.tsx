@@ -29,7 +29,7 @@ function ToggleContent({ parentRef, children }: ToggleContentProps) {
     <FocusTrap refFocus={containerRef}>
       <div
         className={clsx(
-          " absolute z-30 overflow-auto max-w-full  bg-[#222222] max-h-full border-opacity-25 border   border-neutral-200 left-0 top-0 p-1 rounded-md"
+          " fixed z-30 overflow-auto max-w-full  bg-[#222222] max-h-full border-opacity-25 border   border-neutral-200 left-0 top-0 p-1 rounded-md"
         )}
         ref={containerRef}
         tabIndex={-1}
