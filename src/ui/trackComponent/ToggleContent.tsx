@@ -11,8 +11,15 @@ import FocusTrap from "../Footer/audioFull/FocusTrap";
 interface ToggleContentProps extends React.ComponentProps<"div"> {
   parentRef: RefObject<HTMLButtonElement | null>;
   children: React.ReactNode;
+  staticDrop?: boolean;
+  staticUp?: boolean;
 }
-function ToggleContent({ parentRef, children }: ToggleContentProps) {
+function ToggleContent({
+  parentRef,
+  children,
+  staticDrop,
+  staticUp,
+}: ToggleContentProps) {
   const { show, setShow } = useContext(ContextMoreOption);
   const { stack } = useContext(ContextMoreOptionStack);
 
@@ -20,6 +27,8 @@ function ToggleContent({ parentRef, children }: ToggleContentProps) {
   const [position] = useToggleContentPosition({
     parentRef,
     containerRef,
+    staticDrop,
+    staticUp,
   });
   // outterclick is to detect click is inside portal and targert parent trigger or not inside when portal is open
   OutterClick(show, setShow, parentRef, containerRef);

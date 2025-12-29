@@ -10,12 +10,16 @@ interface MoreOptionProps extends React.ComponentProps<"div"> {
   targetElement: React.ReactNode;
   triggerEl: React.ReactNode;
   relativeRoot?: HTMLDivElement | null;
+  staicDrop?: boolean;
+  staticUp?: boolean;
 }
 function MoreOption({
   className,
   triggerEl,
   targetElement,
   relativeRoot,
+  staicDrop,
+  staticUp,
 }: MoreOptionProps) {
   const { show, setShow } = useContext(ContextMoreOption);
   const parentRef = useRef<HTMLButtonElement>(null);
@@ -37,7 +41,11 @@ function MoreOption({
           // stack provider for all child from one parent lvl
           <MoreOptionStackContext>
             <MoreOptionUniqueContext>
-              <ToggleContent parentRef={parentRef}>
+              <ToggleContent
+                staticDrop={staicDrop}
+                staticUp={staticUp}
+                parentRef={parentRef}
+              >
                 {targetElement}
               </ToggleContent>
             </MoreOptionUniqueContext>

@@ -12,7 +12,9 @@ function calcMenuPosition(
   parentEl: HTMLElement | null,
   containerEl: HTMLElement | null,
   viewportWidthStoreRef: RefObject<number | null>,
-  viewportHeightStoreRef: RefObject<number | null>
+  viewportHeightStoreRef: RefObject<number | null>,
+  staticDrop?: boolean,
+  staticUp?: boolean
 ): PositionStyle | undefined {
   // parent is vertical icon cantainer
   // container is content
@@ -40,6 +42,26 @@ function calcMenuPosition(
   const targetBottom = targetRect.bottom;
   const containerHeight = containerRect.height;
   const containerWidth = containerRect.width;
+
+  if (staticDrop) {
+    const x = targetRight - containerWidth;
+    const y = targetBottom + 4; // add 4 px space below
+    const roundedY = Math.max(Math.round(y), 0);
+    const roundedX = Math.max(Math.round(x), 0);
+    return {
+      transform: `translate(${roundedX}px, ${roundedY}px)`,
+    };
+  }
+
+  if (staticUp) {
+    const x = targetRight - containerWidth;
+    const y = targetTop - 4; // add 4 px space above
+    const roundedY = Math.max(Math.round(y), 0);
+    const roundedX = Math.max(Math.round(x), 0);
+    return {
+      transform: `translate(${roundedX}px, ${roundedY}px)`,
+    };
+  }
 
   // calculate how many space is left in below when position in top is not available
   const spaceBelow = viewportHeight - targetBottom;
@@ -106,9 +128,13 @@ function calcMenuPosition(
 export const useToggleContentPosition = ({
   parentRef,
   containerRef,
+  staticDrop,
+  staticUp,
 }: {
   parentRef: RefObject<HTMLButtonElement | null>;
   containerRef: RefObject<HTMLDivElement | null>;
+  staticDrop?: boolean;
+  staticUp?: boolean;
 }): [PositionStyle, React.Dispatch<React.SetStateAction<PositionStyle>>] => {
   const [position, setPosition] = useState<PositionStyle>({
     transform: "translate(0px, 0px)",
@@ -124,7 +150,9 @@ export const useToggleContentPosition = ({
         parentRef.current,
         containerRef.current,
         viewportWidthStoreRef,
-        viewportHeightStoreRef
+        viewportHeightStoreRef,
+        staticDrop,
+        staticUp
       );
       if (!newPos) return;
       setPosition(newPos);
@@ -143,7 +171,7 @@ export const useToggleContentPosition = ({
       window.removeEventListener("resize", throttledUpdate);
       window.removeEventListener("resize", debouncedUpdate);
     };
-  }, [parentRef, containerRef]);
+  }, [parentRef, containerRef, staticDrop, staticUp]);
 
   return [position, setPosition];
 };
