@@ -12,7 +12,7 @@ interface tooltipRefProp {
 }
 export interface tooltipState {
   show: boolean;
-  toolTipPosition: { left: string; top: string } | null;
+  toolTipPosition: { left: string; top: string } | undefined;
 }
 interface previousValueProp {
   x: number;
@@ -24,7 +24,7 @@ const useTooltipOverflow = ({
 }: tooltipRefProp): [tooltipState, Dispatch<SetStateAction<tooltipState>>] => {
   const [tooltipShow, setTooltipShow] = useState<tooltipState>({
     show: false,
-    toolTipPosition: null,
+    toolTipPosition: undefined,
   });
   const previousValue = useRef<previousValueProp>({
     x: 0,

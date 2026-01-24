@@ -70,7 +70,7 @@ function ToolTip({
               setTooltipShow,
               targetElement,
               e,
-              delay: 1000,
+              delay: 800,
               pointerPosition,
             });
           }
