@@ -1,10 +1,10 @@
 import React, { RefObject, useEffect } from "react";
 
-function CloseFunctoionForFull(
+function useCloseFunctoionForFull(
   value: boolean,
   fun: React.Dispatch<React.SetStateAction<boolean>>,
   closeElement: RefObject<HTMLElement | null>,
-  refFocus: RefObject<HTMLDivElement | null>
+  refFocus: RefObject<HTMLDivElement | null>,
 ) {
   useEffect(() => {
     const copyRef = refFocus!.current!;
@@ -30,4 +30,4 @@ function CloseFunctoionForFull(
   }, [value, fun, closeElement, refFocus]);
 }
 
-export default CloseFunctoionForFull;
+export default useCloseFunctoionForFull;
