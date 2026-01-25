@@ -2,12 +2,12 @@ import React, { RefObject, useContext, useEffect } from "react";
 import { ContextMoreOptionStack } from "@/ui/trackComponent/MoreOptionStackContext";
 import { ContextMoreOptionUnique } from "@/ui/trackComponent/MoreOptionUniqueContext";
 // this function do close the portal when escape is pressed , it also manage the stack for inner child components
-function CloseFunctoion(
+function useCloseFunctoion(
   value: boolean,
   fun:
     | React.Dispatch<React.SetStateAction<boolean>>
     | ((value: boolean) => void),
-  closeElement?: RefObject<HTMLButtonElement | null>
+  closeElement?: RefObject<HTMLButtonElement | null>,
 ) {
   const { stack, setStack } = useContext(ContextMoreOptionStack);
   const { setUuidState } = useContext(ContextMoreOptionUnique);
@@ -40,4 +40,4 @@ function CloseFunctoion(
   }, [value, fun, closeElement, stack, setStack, setUuidState]);
 }
 
-export default CloseFunctoion;
+export default useCloseFunctoion;

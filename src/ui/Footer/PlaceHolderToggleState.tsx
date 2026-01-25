@@ -21,11 +21,11 @@ import {
   useStorePlayListId,
 } from "@/lib/zustand";
 import { useContext, useEffect, useRef } from "react";
-import outputCurrentIndex from "@/lib/CustomHooks/OutputCurrentIndex";
 import { listSongsSection } from "@/database/data";
 import { addRecentlyPlayedList } from "@/actions/addRecentPlayedList";
 import { addRecentlySong } from "@/actions/addRecentSong";
 import { useQueryClient } from "@tanstack/react-query";
+import outputCurrentIndex from "@/lib/OutputCurrentIndex";
 
 function PlaceHolderToggleState({
   url,
@@ -38,41 +38,41 @@ function PlaceHolderToggleState({
 }) {
   const setTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const setTimeoutRefForList = useRef<ReturnType<typeof setTimeout> | null>(
-    null
+    null,
   );
   const { dataAudio, segNum } = useContext(DataContext);
   const playListArray = useRepeatAndCurrentPlayList(
     (state: currentSongPlaylist) =>
-      Object.values(state.playListArray)[0] || undefined
+      Object.values(state.playListArray)[0] || undefined,
   ) as listSongsSection;
   // console.log(playListArray, "adad");
   const Isplay = useSongFunction(
-    (state: SongFunctionState) => Object.values(state.Isplay)[0]
+    (state: SongFunctionState) => Object.values(state.Isplay)[0],
   );
   const { song_id } = useSong((state: SongState) => state.songCu) as SongDetail;
 
   const playlistId = useStorePlayListId(
-    (state: StorePlayListIdState) => Object.values(state.playlistId)[0] || []
+    (state: StorePlayListIdState) => Object.values(state.playlistId)[0] || [],
   ) as string[];
   const { id: list_id, type } = playListArray;
   const setPlay = useSongFunction(
-    (state: SongFunctionActions) => state.setPlay
+    (state: SongFunctionActions) => state.setPlay,
   );
   const setListTrack = useListTrack(
-    (state: SetListTrackAction) => state.setListTrack
+    (state: SetListTrackAction) => state.setListTrack,
   );
   const setPlaylistId = useStorePlayListId(
-    (state: StorePlayListIdStateAction) => state.setPlaylistId
+    (state: StorePlayListIdStateAction) => state.setPlaylistId,
   );
   const setPlayList = useDirectPlayBack(
-    (state: DirectPlayBackAction) => state.setPlayList
+    (state: DirectPlayBackAction) => state.setPlayList,
   );
   const setSongTrack = useSongTrack(
-    (state: SetSongTrackAction) => state.setSongTrack
+    (state: SetSongTrackAction) => state.setSongTrack,
   );
   const updateSongCu = useSong((state: SongActions) => state.updateSongCu);
   const isRepeat = useRepeatAndCurrentPlayList(
-    (state: IsRepeatState) => state.isRepeat
+    (state: IsRepeatState) => state.isRepeat,
   );
   const queryClient = useQueryClient();
   useEffect(() => {
@@ -104,11 +104,11 @@ function PlaceHolderToggleState({
       if (!playListArray.idArray || playListArray.idArray.length === 0) return;
       const currentIndex = Math.min(
         outputCurrentIndex(playListArray.idArray, id),
-        playListArray.idArray.length - 1
+        playListArray.idArray.length - 1,
       );
       const nextIndex = Math.min(
         currentIndex + 1,
-        playListArray.idArray.length - 1
+        playListArray.idArray.length - 1,
       );
       if (!isRepeat) {
         const songList = playListArray.songs;
@@ -180,7 +180,7 @@ function PlaceHolderToggleState({
       if (type === "track") return;
       const { data: recentList, error } = await addRecentlyPlayedList(
         list_id,
-        type
+        type,
       );
       if (!recentList || error) return;
       queryClient.setQueryData(["recentlyPlayed"], recentList);

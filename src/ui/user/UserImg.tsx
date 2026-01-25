@@ -1,11 +1,10 @@
 "use client";
-
-import useGetDominantColor from "@/lib/GetDominantColor";
 import Image from "next/image";
 import { useContext, useRef } from "react";
 import IconWrapper from "../general/IconWrapper";
 import { User } from "lucide-react";
 import { ContextAlbum } from "../albumContainer/AlbumUpperBackground";
+import useGetDominantColor from "@/lib/CustomHooks/useGetDominantColor";
 
 function UserImg({ cover_url }: { cover_url: string | null }) {
   const imgRef = useRef<HTMLImageElement | null>(null);

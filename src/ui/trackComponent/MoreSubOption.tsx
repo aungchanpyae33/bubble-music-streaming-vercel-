@@ -1,6 +1,5 @@
 "use client";
 import { useMemo, useRef } from "react";
-import { DisableScroll } from "@/lib/CustomHooks/DisableScroll";
 import { createPortal } from "react-dom";
 import ToggleSubContent from "./ToggleSubContent";
 import clsx from "clsx";
@@ -8,6 +7,7 @@ import clsx from "clsx";
 import useTriggerButtonSub from "@/lib/CustomHooks/useTriggerButtonSub";
 import { generateUUID } from "@/lib/GenerateUUID";
 import MoreOptionUniqueContext from "./MoreOptionUniqueContext";
+import { useDisableScroll } from "@/lib/CustomHooks/useDisableScroll";
 interface MoreOptionProps extends React.ComponentProps<"button"> {
   targetElement: React.ReactNode;
   triggerEl: React.ReactNode;
@@ -24,7 +24,7 @@ function MoreSubOption({
   const parentRef = useRef<HTMLButtonElement>(null);
   const uuid = useMemo(() => generateUUID(), []);
   const [stayShow] = useTriggerButtonSub(parentRef, stackNum, uuid);
-  DisableScroll(stayShow);
+  useDisableScroll(stayShow);
 
   return (
     <div>
@@ -48,7 +48,7 @@ function MoreSubOption({
               {targetElement}
             </ToggleSubContent>
           </MoreOptionUniqueContext>,
-          relativeRoot ? relativeRoot : document.body
+          relativeRoot ? relativeRoot : document.body,
         )}
     </div>
   );

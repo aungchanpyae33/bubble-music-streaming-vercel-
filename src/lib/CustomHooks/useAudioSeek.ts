@@ -43,14 +43,14 @@ const useAudioSeek = ({
   shouldRun,
 }: audioSeekProp): useAudioSeekReturnType => {
   const value = useAudioValue((state: AudioValueState) =>
-    shouldRun ? state.value : undefined
+    shouldRun ? state.value : undefined,
   );
   const setValue = useAudioValue((state: AudioValueActions) => state.setValue);
   const isDragging = useAudioDragging((state: AudioDraggingState) =>
-    shouldRun ? state.isDragging : undefined
+    shouldRun ? state.isDragging : undefined,
   );
   const setIsDragging = useAudioDragging(
-    (state: AudioDraggingActions) => state.setIsDragging
+    (state: AudioDraggingActions) => state.setIsDragging,
   );
   const {
     dataAudio,
@@ -64,11 +64,11 @@ const useAudioSeek = ({
   } = useContext(DataContext);
   const throttledSetValue = useMemo(
     () => throttle((val: number) => setValue(val), 1000),
-    [setValue]
+    [setValue],
   );
   const Isplay = useSongFunction(
     (state: SongFunctionState) =>
-      Object.values(state.Isplay as Record<string, boolean>)[0]
+      Object.values(state.Isplay as Record<string, boolean>)[0],
   );
 
   useEffect(() => {

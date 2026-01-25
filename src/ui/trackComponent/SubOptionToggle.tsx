@@ -1,8 +1,8 @@
 "use client";
 import React, { useRef } from "react";
 import FocusTrap from "../Footer/audioFull/FocusTrap";
-import SetFocusMounted from "@/lib/CustomHooks/SetFocusMounted";
 import { twMerge } from "tailwind-merge";
+import useSetFocusMounted from "@/lib/CustomHooks/useSetFocusMounted";
 
 interface SubOptionToggleProps<T> extends React.ComponentProps<"div"> {
   /** Zustand selector type */
@@ -20,7 +20,7 @@ function SubOptionToggle<T>({
 }: SubOptionToggleProps<T>) {
   const addSongsToPlaylist = useStore(selector) as (value: unknown) => void;
   const refFocus = useRef<HTMLDivElement>(null);
-  SetFocusMounted({ refFocus: refFocus });
+  useSetFocusMounted({ refFocus: refFocus });
   return (
     <div
       className=" fixed  inset-0 z-40 bg-black/50"

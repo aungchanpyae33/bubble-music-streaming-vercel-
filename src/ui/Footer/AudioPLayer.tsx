@@ -5,7 +5,6 @@ import AudioElement from "./audio/AudioElement";
 import ToggleButton from "./audio/Toggle/ToggleButton";
 import TimeIndicatorDur from "./audio/Time/TimeIndicatorDur";
 import AudioDisplayFooter from "./AudioDisplayFooter";
-import useMediaSourceBuffer from "@/lib/CustomHooks/MediaSourceBuffer";
 import AudioInfo from "./AudioInfo";
 import type { SongDetail, SongState } from "@/lib/zustand";
 import AudioFunctionRepeat from "./audio/AudioFunction/AudioFunctionRepeat";
@@ -32,6 +31,7 @@ import PlaceHolderFetchQueue from "./PlaceHolderFetchQueue";
 import PlaceHolderTrackUser from "./PlaceHolderTrackUser";
 import ToolTip from "../general/ToolTip";
 import { AudioElementContext } from "./audio/AudioWrapper";
+import useMediaSourceBuffer from "@/lib/CustomHooks/useMediaSourceBuffer";
 function AudioPlayer({
   footerRef,
   start,
@@ -53,7 +53,7 @@ function AudioPlayer({
   } = useSong((state: SongState) => state.songCu) as SongDetail;
   const url = useSong(
     (state: SongState) =>
-      Object.values(state.songCu as Record<string, string>)[0]
+      Object.values(state.songCu as Record<string, string>)[0],
   );
   const { audioEl } = useContext(AudioElementContext);
   const {

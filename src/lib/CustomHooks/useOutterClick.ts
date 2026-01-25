@@ -3,11 +3,11 @@ import { ContextMoreOptionUnique } from "@/ui/trackComponent/MoreOptionUniqueCon
 import React, { RefObject, useContext, useEffect } from "react";
 // this function handles clicks outside the component to close it , and ignore the click inside ignoreRef and parent(trigger button) and it only used for parent component
 
-function OutterClick(
+function useOutterClick(
   value: boolean,
   fun: React.Dispatch<React.SetStateAction<boolean>>,
   parentElement: RefObject<HTMLButtonElement | null>,
-  ignoreRef: RefObject<HTMLDivElement | null>
+  ignoreRef: RefObject<HTMLDivElement | null>,
 ) {
   // reset stack to 0 when clicked inside the parent element
   //close the component when clicked outside the parent element by checking contains method
@@ -38,4 +38,4 @@ function OutterClick(
   }, [value, fun, parentElement, ignoreRef, setStack, setUuidState]);
 }
 
-export default OutterClick;
+export default useOutterClick;

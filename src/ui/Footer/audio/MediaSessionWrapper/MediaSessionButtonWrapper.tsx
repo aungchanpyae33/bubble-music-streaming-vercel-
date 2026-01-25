@@ -1,5 +1,5 @@
-import MediaSessionButton from "@/lib/MediaSession/MediaSessionButton";
-import MediaSessionToggle from "@/lib/MediaSession/MediaSessionToggle";
+import MediaSessionButton from "@/lib/CustomHooks/MediaSession/MediaSessionButton";
+import MediaSessionToggle from "@/lib/CustomHooks/MediaSession/MediaSessionToggle";
 import { ReactNode, useContext } from "react";
 import { AudioElementContext } from "../AudioWrapper";
 

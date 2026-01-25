@@ -1,7 +1,7 @@
 import { RefObject } from "react";
 import IconWrapper from "../general/IconWrapper";
 import { EllipsisVertical } from "lucide-react";
-import { useVirtuosoLoader } from "@/lib/CustomHooks/VirtuosoLoader";
+import { useVirtuosoLoader } from "@/lib/CustomHooks/useVirtuosoLoader";
 
 function QueueLoader({
   queeRef,

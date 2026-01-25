@@ -5,20 +5,20 @@ import {
   useSong,
   useSongFunction,
   useStorePlayListId,
-} from "../zustand";
+} from "../../zustand";
 import type {
   SongFunctionActions,
   SongActions,
   currentSongPlaylist,
   DirectPlayBackAction,
   StorePlayListIdStateAction,
-} from "../zustand";
+} from "../../zustand";
 import { Artist, listSongsSection } from "@/database/data";
-import outputCurrentIndex from "../CustomHooks/OutputCurrentIndex";
+import outputCurrentIndex from "@/lib/OutputCurrentIndex";
 
 const MediaSessionButton = (
   id_scope: string,
-  audioEl: RefObject<HTMLAudioElement | null>
+  audioEl: RefObject<HTMLAudioElement | null>,
 ) => {
   //[todo] need to add more code to align with audiofunction pre and next but can safe remove some code as there will be no ui when page refresh
   // const [playListArrayKey, playListArray] = useRepeatAndCurrentPlayList(
@@ -28,18 +28,18 @@ const MediaSessionButton = (
   //     )[0] || []
   // );
   const playListArray = useRepeatAndCurrentPlayList(
-    (state: currentSongPlaylist) => Object.values(state.playListArray)[0] || []
+    (state: currentSongPlaylist) => Object.values(state.playListArray)[0] || [],
   ) as listSongsSection;
   // console.log(playListArray, "i am playlist");
   const setPlay = useSongFunction(
-    (state: SongFunctionActions) => state.setPlay
+    (state: SongFunctionActions) => state.setPlay,
   );
   const updateSongCu = useSong((state: SongActions) => state.updateSongCu);
   const setPlaylistId = useStorePlayListId(
-    (state: StorePlayListIdStateAction) => state.setPlaylistId
+    (state: StorePlayListIdStateAction) => state.setPlaylistId,
   );
   const setPlayList = useDirectPlayBack(
-    (state: DirectPlayBackAction) => state.setPlayList
+    (state: DirectPlayBackAction) => state.setPlayList,
   );
 
   useEffect(() => {
@@ -90,7 +90,7 @@ const MediaSessionButton = (
         if (!playListArray || playListArray.idArray.length === 0) return;
         const currentIndex = outputCurrentIndex(
           playListArray.idArray,
-          id_scope
+          id_scope,
         );
         if (currentIndex <= 0) return;
 
@@ -123,7 +123,7 @@ const MediaSessionButton = (
         if (!playListArray || playListArray.idArray.length === 0) return;
         const currentIndex = outputCurrentIndex(
           playListArray.idArray,
-          id_scope
+          id_scope,
         );
         if (currentIndex >= playListArray.idArray.length - 1) return;
         const {

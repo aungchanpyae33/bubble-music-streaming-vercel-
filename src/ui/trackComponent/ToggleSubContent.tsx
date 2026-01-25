@@ -1,9 +1,9 @@
 import { RefObject, useRef } from "react";
-import { useToggleContentPosition } from "@/lib/CustomHooks/ToggleContentPosition";
 import clsx from "clsx";
-import OutterClickSub from "@/lib/OutterClickSub";
 import useFocusOnOpen from "@/lib/CustomHooks/useFocusOnOpen";
 import FocusTrap from "../Footer/audioFull/FocusTrap";
+import { useToggleContentPosition } from "@/lib/CustomHooks/useToggleContentPosition";
+import useOutterClickSub from "@/lib/CustomHooks/useOutterClickSub";
 
 interface ToggleSubContentProps extends React.ComponentProps<"div"> {
   parentRef: RefObject<HTMLButtonElement | null>;
@@ -23,13 +23,13 @@ function ToggleSubContent({
     containerRef,
   });
   // outterclickSub is to detect only click is inside portal and targert parent trigger
-  OutterClickSub(containerRef, stackNum);
+  useOutterClickSub(containerRef, stackNum);
   useFocusOnOpen(stayShow, containerRef);
   return (
     <FocusTrap refFocus={containerRef}>
       <div
         className={clsx(
-          " fixed  z-30 max-w-full bg-[#222222]   overflow-auto max-h-full   border-opacity-25 border   border-neutral-200 left-0 top-0 p-1 rounded-md"
+          " fixed  z-30 max-w-full bg-[#222222]   overflow-auto max-h-full   border-opacity-25 border   border-neutral-200 left-0 top-0 p-1 rounded-md",
         )}
         ref={containerRef}
         style={position}

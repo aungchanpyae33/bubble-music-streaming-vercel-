@@ -1,6 +1,6 @@
 import { RefObject, useEffect } from "react";
 
-function SetFocusMounted({
+function useSetFocusMounted({
   refFocus,
 }: {
   refFocus: RefObject<HTMLElement | null>;
@@ -10,4 +10,4 @@ function SetFocusMounted({
     refFocus.current.focus();
   }, [refFocus]);
 }
-export default SetFocusMounted;
+export default useSetFocusMounted;

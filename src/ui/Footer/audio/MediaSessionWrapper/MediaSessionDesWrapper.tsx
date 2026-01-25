@@ -1,5 +1,5 @@
 import { Artist } from "@/database/data";
-import MediaSessionDes from "@/lib/MediaSession/MediaSessionDescription";
+import MediaSessionDes from "@/lib/CustomHooks/MediaSession/MediaSessionDescription";
 
 function MediaSessionDesWrapper({
   name,

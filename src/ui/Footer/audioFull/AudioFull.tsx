@@ -11,7 +11,6 @@ import TimeIndicatorDur from "../audio/Time/TimeIndicatorDur";
 import AudioSeekBar from "../audio/SliderUi/AudioSeekBar";
 import TimeIndicatorCur from "../audio/Time/TimeIndicatorCur";
 import AudioFullInfoWrapper from "./AudioFullInfoWrapper";
-import CloseFunctoionForFull from "@/lib/CloseFunctionForFull";
 import Volume from "../volume/Volume";
 
 import { AnimatePresence } from "motion/react";
@@ -24,6 +23,7 @@ import FocusTrap from "./FocusTrap";
 import LyricToggleBtn from "./LyricToggleBtn";
 import QueueToggle from "./QueueToggle";
 import ContextAudioFullRef from "./ContextAudioFullRef";
+import useCloseFunctoionForFull from "@/lib/CustomHooks/useCloseFunctionForFull";
 
 function AudioFull({
   footerRef,
@@ -41,7 +41,7 @@ function AudioFull({
   const { open, setOpen } = useContext(Context);
   const refFocus = useRef<HTMLDivElement | null>(null);
 
-  CloseFunctoionForFull(open, setOpen, toggleRef, refFocus);
+  useCloseFunctoionForFull(open, setOpen, toggleRef, refFocus);
   return (
     <ContextAudioFullRef footerRef={footerRef} open={open}>
       <AnimatePresence>
@@ -50,7 +50,7 @@ function AudioFull({
             <FocusTrap refFocus={refFocus}>
               <AudioFullBackGround
                 className={clsx(
-                  "w-full h-full flex flex-col items-center justify-center   "
+                  "w-full h-full flex flex-col items-center justify-center   ",
                 )}
                 ref={refFocus}
               >

@@ -1,4 +1,4 @@
-import useOverflowCheck from "@/lib/CustomHooks/OverFlowCheck";
+import useOverflowCheck from "@/lib/CustomHooks/useOverFlowCheck";
 import clsx from "clsx";
 import { RefObject } from "react";
 function AudioInfoOverFlow({
@@ -17,7 +17,7 @@ function AudioInfoOverFlow({
         "w-fit  hover:ease-linear truncate hover:text-clip will-change-transform",
         {
           "animate-showtextoverflow": animate && isOverFlow.duration > 0,
-        }
+        },
       )}
       style={
         isOverFlow.duration > 0

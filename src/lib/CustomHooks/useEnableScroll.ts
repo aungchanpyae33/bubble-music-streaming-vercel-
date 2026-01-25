@@ -1,6 +1,8 @@
 import { RefObject, useEffect } from "react";
 
-export function EnableScroll(containerRef: RefObject<HTMLDivElement | null>) {
+export function useEnableScroll(
+  containerRef: RefObject<HTMLDivElement | null>,
+) {
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;

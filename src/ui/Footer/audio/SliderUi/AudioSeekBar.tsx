@@ -1,11 +1,13 @@
 import { ReactNode, useContext, useMemo, useRef } from "react";
-import useAudioSeek, { valueProps } from "@/lib/CustomHooks/AudioSeek";
+
 import AudioThumbSlider from "./AudioThumbSlider";
 import AudioProgressbar from "./AudioProgressbar";
 import AudioSliderActionWrapper from "./AudioSliderActionWrapper";
 import AudioSlider from "./AudioSlider";
 import clsx from "clsx";
 import { Context } from "@/lib/MediaSource/ContextMediaAudioFull";
+import type { valueProps } from "@/lib/CustomHooks/useAudioSeek";
+import useAudioSeek from "@/lib/CustomHooks/useAudioSeek";
 export interface eventProp {
   e:
     | React.MouseEvent<HTMLInputElement>
@@ -31,7 +33,7 @@ function AudioSeekBar({
   const { open } = useContext(Context);
   const isPointer = useMemo(
     () => typeof window !== "undefined" && "onpointerdown" in window,
-    []
+    [],
   );
 
   const shouldRun = useMemo(() => (isFull ? open : !open), [isFull, open]);
@@ -40,7 +42,7 @@ function AudioSeekBar({
     () =>
       typeof window !== "undefined" &&
       ("ontouchstart" in window || navigator.maxTouchPoints > 0),
-    []
+    [],
   );
   const sliderRef = useRef<HTMLDivElement | null>(null);
   const progressRef = useRef<HTMLDivElement | null>(null);
@@ -63,7 +65,7 @@ function AudioSeekBar({
             {
               hidden: !isDragging,
               inline: isDragging,
-            }
+            },
           )}
           value={value}
         />
@@ -80,7 +82,7 @@ function AudioSeekBar({
           {
             "hidden sm:flex": hideSliderInSmScreen,
             flex: !hideSliderInSmScreen,
-          }
+          },
         )}
       >
         <AudioSliderActionWrapper
@@ -99,7 +101,7 @@ function AudioSeekBar({
                 {
                   hidden: !isDragging,
                   inline: isDragging,
-                }
+                },
               )}
               value={value}
             />

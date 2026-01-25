@@ -1,12 +1,12 @@
 "use client";
 
-import useGetDominantColor from "@/lib/GetDominantColor";
 import Image from "next/image";
 import { useContext, useRef } from "react";
 import { ContextAlbum } from "./AlbumUpperBackground";
 import { listInfo } from "@/database/data";
 import IconWrapper from "../general/IconWrapper";
 import { Folder } from "lucide-react";
+import useGetDominantColor from "@/lib/CustomHooks/useGetDominantColor";
 
 function AlbumImg({
   cover_url,
