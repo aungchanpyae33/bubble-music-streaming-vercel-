@@ -51,7 +51,7 @@ export interface ShouldFetchSongsListId {
 }
 export interface ShouldFetchSongsListIdAction {
   FetchSongsListIdAction: (
-    id: ShouldFetchSongsListId["FetchSongsListId"]
+    id: ShouldFetchSongsListId["FetchSongsListId"],
   ) => void;
 }
 export interface currentSongPlaylist {
@@ -73,7 +73,7 @@ export interface currentAddToNextAction {
   currentAddToNext: (
     song: Record<string, SongInfo>,
     id: string[],
-    curId: string
+    curId: string,
   ) => void;
 }
 export interface removeFromQueueAction {
@@ -88,7 +88,7 @@ export interface resetAction {
 }
 export interface previousSongPlaylistAction {
   setPreviousPlayListArray: (
-    newList: previousSongPlaylist["previousPlayListArray"]
+    newList: previousSongPlaylist["previousPlayListArray"],
   ) => void;
 }
 
@@ -190,7 +190,7 @@ export const useSong = create<SongState & SongActions & resetAction>()(
     reset: () => {
       set({ songCu: {} });
     },
-  })
+  }),
 );
 
 export const usePreviousPlayList = create<
@@ -219,7 +219,7 @@ export const useSongFunction = create<SongFunctionState & SongFunctionActions>(
             ],
         },
       })),
-  })
+  }),
 );
 
 export const useStorePlayListId = create<
@@ -373,13 +373,13 @@ export const useRepeatAndCurrentPlayList = create<
     };
 
     const playlistArray = Object.values(
-      get().playListArray
+      get().playListArray,
     )[0] as listSongsSection;
     const currentIndex = outputCurrentIndex(playlistArray.idArray, id);
 
     const extract = Math.min(
       currentIndex + 1,
-      playlistArray.idArray.length - 1
+      playlistArray.idArray.length - 1,
     );
     const { id: id_scope, url } =
       playlistArray.songs[playlistArray.idArray[extract]];
@@ -432,7 +432,7 @@ export const useAudioValue = create<AudioValueState & AudioValueActions>(
       set(() => ({
         value: newValue,
       })),
-  })
+  }),
 );
 
 // no need to select with object key
@@ -457,8 +457,8 @@ export const useVolumeValue = create<VolumeValueState & VolumeValueActions>()(
     }),
     {
       name: "volume-storage", // key in localStorage
-    }
-  )
+    },
+  ),
 );
 
 export const useVolumeDragging = create<
@@ -500,7 +500,7 @@ export const useNotInputFocus = create<focusState & focusStateAction>(
   (set) => ({
     isInputFocus: false,
     setIsInputFocus: (value: boolean) => set(() => ({ isInputFocus: value })),
-  })
+  }),
 );
 
 export const usePlaylistFolder = create<
@@ -531,10 +531,10 @@ export const useSongsStoreData = create<addSongProps & addSongAction>(
           addSong: { ...value },
         };
       }),
-  })
+  }),
 );
 
-import outputCurrentIndex from "./CustomHooks/OutputCurrentIndex";
+import outputCurrentIndex from "./OutputCurrentIndex";
 
 export interface songExist {
   playlistId: string;
@@ -591,7 +591,7 @@ export const useEditToPlaylist = create<editToPlaylist & editToPlaylistAction>(
       set(() => ({
         editToPlaylist: value,
       })),
-  })
+  }),
 );
 export interface ShowBlock {
   showBlock: { type: "lyric" | "queue" | undefined; open: boolean };
@@ -683,8 +683,8 @@ export const useSongTrack = create<SongTrackState & SetSongTrackAction>()(
     }),
     {
       name: "track-song-storage",
-    }
-  )
+    },
+  ),
 );
 
 export interface listTrackState {
@@ -711,7 +711,7 @@ export const useListTrack = create<listTrackState & SetListTrackAction>(
           },
         };
       }),
-  })
+  }),
 );
 
 export interface likeActionState {
@@ -727,5 +727,5 @@ export const useLikeActionStore = create<likeActionState & setLikeAction>(
       set(() => ({
         likeAction: value,
       })),
-  })
+  }),
 );

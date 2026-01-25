@@ -1,4 +1,3 @@
-import useVolumeSeek from "@/lib/CustomHooks/VolumeSeek";
 import { useContext, useMemo, useRef } from "react";
 import AudioThumbSlider from "../audio/SliderUi/AudioThumbSlider";
 import AudioProgressbar from "../audio/SliderUi/AudioProgressbar";
@@ -11,20 +10,21 @@ import VolumeContainer from "./VolumeContainer";
 import VolumeToggleButton from "./VolumeToggleButton";
 import { Context } from "@/lib/MediaSource/ContextMediaAudioFull";
 import { DataContext } from "@/lib/MediaSource/ContextMedia";
+import useVolumeSeek from "@/lib/CustomHooks/useVolumeSeek";
 
 function Volume({ isFull }: { isFull: boolean }) {
   const { dataAudio } = useContext(DataContext);
   const { open } = useContext(Context);
   const isPointer = useMemo(
     () => typeof window !== "undefined" && "onpointerdown" in window,
-    []
+    [],
   );
   const shouldRun = useMemo(() => (isFull ? open : !open), [isFull, open]);
   const isTouchDevice = useMemo(
     () =>
       typeof window !== "undefined" &&
       ("ontouchstart" in window || navigator.maxTouchPoints > 0),
-    []
+    [],
   );
   const sliderRef = useRef<HTMLDivElement | null>(null);
   const progressRef = useRef<HTMLDivElement | null>(null);
@@ -69,7 +69,7 @@ function Volume({ isFull }: { isFull: boolean }) {
                 <AudioThumbSlider
                   value={value}
                   className={clsx(
-                    "absolute  w-[14px] rounded-full h-[14px] top-1/2 -translate-y-1/2  -translate-x-[7px] bg-white"
+                    "absolute  w-[14px] rounded-full h-[14px] top-1/2 -translate-y-1/2  -translate-x-[7px] bg-white",
                   )}
                 />
               </div>

@@ -19,16 +19,16 @@ import ToolTip from "../general/ToolTip";
 import ContextLike from "../trackComponent/ContextLike";
 import QueueItemContainer from "./QueueItemContainer";
 import { Virtuoso } from "react-virtuoso";
-import outputCurrentIndex from "@/lib/CustomHooks/OutputCurrentIndex";
 import QueueLoader from "./QueueLoader";
 import { motion } from "motion/react";
 import VerticalThreeDots from "../general/icon/VerticalThreeDots";
+import outputCurrentIndex from "@/lib/OutputCurrentIndex";
 function QueueFull() {
   const playListArray = useRepeatAndCurrentPlayList(
-    (state: currentSongPlaylist) => Object.values(state.playListArray)[0] || []
+    (state: currentSongPlaylist) => Object.values(state.playListArray)[0] || [],
   ) as listSongsSection;
   const dataSongId = useSong(
-    (state: SongState) => (state.songCu as Record<string, string>).id
+    (state: SongState) => (state.songCu as Record<string, string>).id,
   );
   const scrollRef = useRef<HTMLElement>(null);
   const currendIndex = outputCurrentIndex(playListArray.idArray, dataSongId);
@@ -48,7 +48,7 @@ function QueueFull() {
       <QueueLoader queeRef={scrollRef} length={trimArray.length} />
       <div
         className={clsx(
-          "overflow-auto relative   no-scrollbar    h-full flex-1 "
+          "overflow-auto relative   no-scrollbar    h-full flex-1 ",
         )}
       >
         <Virtuoso
@@ -69,7 +69,7 @@ function QueueFull() {
                 key={item.id}
                 data-id={item.id}
                 className={clsx(
-                  "flex z-50 gap-x-2   bg-[#222222]   p-1 group hover:bg-[#333333] items-center justify-center"
+                  "flex z-50 gap-x-2   bg-[#222222]   p-1 group hover:bg-[#333333] items-center justify-center",
                 )}
               >
                 <div className="w-[50px] relative">

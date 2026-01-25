@@ -1,9 +1,9 @@
 "use client";
-import React, { RefObject } from "react";
+import { RefObject } from "react";
 import { Movie } from "@/database/data";
 
-import useTest from "@/lib/CustomHooks/NaviHook";
 import SearchResultItem from "./SearchResultItem";
+import useNaviSearch from "@/lib/CustomHooks/useNaviSearch";
 
 interface prop {
   data: Movie[];
@@ -11,7 +11,7 @@ interface prop {
 }
 
 function SearchResult({ data, inputRef }: prop) {
-  const [arrow] = useTest({ run: false, number: -1 }, inputRef, data);
+  const [arrow] = useNaviSearch({ run: false, number: -1 }, inputRef, data);
 
   return (
     <div className="SearchResult w-full absolute bg-[#222222] rounded-md -bottom-1 translate-y-full  border border-neutral-200 border-opacity-25  py-3  shadow-md shadow-overlay text-start">

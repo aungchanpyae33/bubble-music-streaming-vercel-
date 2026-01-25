@@ -1,6 +1,6 @@
 import { listSongsSection } from "@/database/data";
-import outputCurrentIndex from "@/lib/CustomHooks/OutputCurrentIndex";
 import excludeCurrentSongs from "@/lib/excludeCurrentSongs";
+import outputCurrentIndex from "@/lib/OutputCurrentIndex";
 import shufflePlaylist from "@/lib/shufflePlaylist";
 import {
   currentSongPlaylisthuffleAction,
@@ -22,18 +22,18 @@ interface Props extends React.ComponentProps<"button"> {
 function AudioFunctionShuffle({ className, listSong, id }: Props) {
   const [isShuffle, setIsShuffle] = useState(false);
   const previousPlayListArray = usePreviousPlayList(
-    (state: previousSongPlaylist) => state.previousPlayListArray
+    (state: previousSongPlaylist) => state.previousPlayListArray,
   ) as listSongsSection;
 
   const playlistId = useStorePlayListId(
-    (state: StorePlayListIdState) => Object.values(state.playlistId)[0] || []
+    (state: StorePlayListIdState) => Object.values(state.playlistId)[0] || [],
   ) as string[];
 
   const shufflePlayListArray = useRepeatAndCurrentPlayList(
-    (state: currentSongPlaylisthuffleAction) => state.shufflePlayListArray
+    (state: currentSongPlaylisthuffleAction) => state.shufflePlayListArray,
   );
   const setPreviousPlayListArray = usePreviousPlayList(
-    (state: previousSongPlaylistAction) => state.setPreviousPlayListArray
+    (state: previousSongPlaylistAction) => state.setPreviousPlayListArray,
   );
 
   function shuffle() {
@@ -43,14 +43,14 @@ function AudioFunctionShuffle({ className, listSong, id }: Props) {
     const currentSong = listSong.idArray[currentIndex];
     const excludeCurrentSongsArray = excludeCurrentSongs(
       listSong,
-      currentIndex
+      currentIndex,
     );
     const shufflePlaylistOutput = shufflePlaylist(
       excludeCurrentSongsArray,
       isShuffle,
       listSong,
       currentSong,
-      previousPlayListArray
+      previousPlayListArray,
     );
     setPreviousPlayListArray(listSong);
     shufflePlayListArray({

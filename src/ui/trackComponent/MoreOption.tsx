@@ -1,11 +1,11 @@
 "use client";
 import { useContext, useRef } from "react";
 import ToggleContent from "./ToggleContent";
-import { DisableScroll } from "@/lib/CustomHooks/DisableScroll";
 import { ContextMoreOption } from "./MoreOptionContext";
 import { createPortal } from "react-dom";
 import MoreOptionStackContext from "./MoreOptionStackContext";
 import MoreOptionUniqueContext from "./MoreOptionUniqueContext";
+import { useDisableScroll } from "@/lib/CustomHooks/useDisableScroll";
 interface MoreOptionProps extends React.ComponentProps<"div"> {
   targetElement: React.ReactNode;
   triggerEl: React.ReactNode;
@@ -23,7 +23,7 @@ function MoreOption({
 }: MoreOptionProps) {
   const { show, setShow } = useContext(ContextMoreOption);
   const parentRef = useRef<HTMLButtonElement>(null);
-  DisableScroll(show);
+  useDisableScroll(show);
   return (
     <div>
       <button
@@ -50,7 +50,7 @@ function MoreOption({
               </ToggleContent>
             </MoreOptionUniqueContext>
           </MoreOptionStackContext>,
-          relativeRoot ? relativeRoot : document.body
+          relativeRoot ? relativeRoot : document.body,
         )}
     </div>
   );

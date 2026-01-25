@@ -1,7 +1,7 @@
-import CloseFunctoion from "@/lib/CloseFunction";
 import { X } from "lucide-react";
 import { SetStateAction, useRef } from "react";
 import IconWrapper from "../general/IconWrapper";
+import useCloseFunctoion from "@/lib/CustomHooks/useCloseFunction";
 
 function NavSidebarToggle({
   setOpen,
@@ -11,7 +11,7 @@ function NavSidebarToggle({
   open: boolean;
 }) {
   const closeElement = useRef<HTMLButtonElement | null>(null);
-  CloseFunctoion(open, setOpen);
+  useCloseFunctoion(open, setOpen);
   return (
     <button
       onClick={() => {

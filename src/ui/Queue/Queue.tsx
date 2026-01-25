@@ -18,18 +18,18 @@ import QueueItemContainer from "./QueueItemContainer";
 import ContextLike from "../trackComponent/ContextLike";
 import ArtistWrapper from "../general/ArtistWrapper";
 import ToolTip from "../general/ToolTip";
-import outputCurrentIndex from "@/lib/CustomHooks/OutputCurrentIndex";
 import { AudioFullRefContext } from "../Footer/audioFull/ContextAudioFullRef";
 import QueueLoader from "./QueueLoader";
 import { Virtuoso } from "react-virtuoso";
 import VerticalThreeDots from "../general/icon/VerticalThreeDots";
+import outputCurrentIndex from "@/lib/OutputCurrentIndex";
 function Queue() {
   const playListArray = useRepeatAndCurrentPlayList(
-    (state: currentSongPlaylist) => Object.values(state.playListArray)[0] || []
+    (state: currentSongPlaylist) => Object.values(state.playListArray)[0] || [],
   ) as listSongsSection;
   const { audioFullRef } = useContext(AudioFullRefContext);
   const dataSongId = useSong(
-    (state: SongState) => (state.songCu as Record<string, string>).id
+    (state: SongState) => (state.songCu as Record<string, string>).id,
   );
   const queueRef = useRef<HTMLElement>(null);
   const currendIndex = outputCurrentIndex(playListArray.idArray, dataSongId);
@@ -39,7 +39,7 @@ function Queue() {
   return (
     <div
       className={clsx(
-        "h-full will-change-scroll   w-[20%] md:w-[25%] min-w-[250px] flex relative   max-w-[375px] overflow-hidden"
+        "h-full will-change-scroll   w-[20%] md:w-[25%] min-w-[250px] flex relative   max-w-[375px] overflow-hidden",
       )}
 
       // will chnage scroll for hardware acceleration , without this , it feels junky in chrome and some webkit browser
@@ -48,7 +48,7 @@ function Queue() {
       {/* <PlaceHolderQueue queueRef={queueRef} /> */}
       <div
         className={clsx(
-          "overflow-auto relative   no-scrollbar    h-full flex-1 "
+          "overflow-auto relative   no-scrollbar    h-full flex-1 ",
         )}
       >
         <Virtuoso
@@ -69,7 +69,7 @@ function Queue() {
                 key={item.id}
                 data-id={item.id}
                 className={clsx(
-                  "flex z-50 gap-x-2  bg-[#222222]   p-1 group hover:bg-[#333333] items-center justify-center"
+                  "flex z-50 gap-x-2  bg-[#222222]   p-1 group hover:bg-[#333333] items-center justify-center",
                 )}
               >
                 <div className="w-[50px] relative">

@@ -1,4 +1,4 @@
-import { useVirtuosoLoader } from "@/lib/CustomHooks/VirtuosoLoader";
+import { useVirtuosoLoader } from "@/lib/CustomHooks/useVirtuosoLoader";
 import { RefObject } from "react";
 
 function PlaylistFolderContainerLoader({

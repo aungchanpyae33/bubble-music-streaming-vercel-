@@ -2,8 +2,8 @@ import clsx from "clsx";
 import Image from "next/image";
 import { ContextBackGround } from "./AudioFullBackGround";
 import { useContext, useRef } from "react";
-import useGetDominantColor from "@/lib/GetDominantColor";
 import { DataContext } from "@/lib/MediaSource/ContextMedia";
+import useGetDominantColor from "@/lib/CustomHooks/useGetDominantColor";
 
 function AudioCurImg() {
   const { cover_url } = useContext(DataContext);
@@ -14,7 +14,7 @@ function AudioCurImg() {
   return (
     <div
       className={clsx(
-        " w-full pb-[100%] aspect-square shrink-0 grow-0  bg-[#333333]  overflow-hidden relative"
+        " w-full pb-[100%] aspect-square shrink-0 grow-0  bg-[#333333]  overflow-hidden relative",
       )}
     >
       {cover_url && (

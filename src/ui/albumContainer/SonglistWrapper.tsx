@@ -4,7 +4,7 @@ import { createPortal } from "react-dom";
 import { ContainerContext } from "./ContextContainer";
 import ScrollLeftButton from "./ScrollLeftButton";
 import ScrollRightButton from "./ScrollRightButton";
-import { useScrollArrows } from "@/lib/CustomHooks/scrollArrow";
+import { useScrollArrows } from "@/lib/CustomHooks/useScrollArrow";
 
 function SonglistWrapper({ children }: { children: React.ReactNode }) {
   const { arrowNaviRef, playlistWrapperRef } = useContext(ContainerContext);

@@ -1,5 +1,6 @@
 import { listSongsSection } from "@/database/data";
-import outputCurrentIndex from "@/lib/CustomHooks/OutputCurrentIndex";
+import outputCurrentIndex from "@/lib/OutputCurrentIndex";
+
 import {
   useDirectPlayBack,
   useSong,
@@ -23,16 +24,16 @@ interface Props extends React.ComponentProps<"button"> {
 function AudioFunctionPre({ listSong, className, id }: Props) {
   const updateSongCu = useSong((state: SongActions) => state.updateSongCu);
   const playlistId = useStorePlayListId(
-    (state: StorePlayListIdState) => Object.values(state.playlistId)[0] || []
+    (state: StorePlayListIdState) => Object.values(state.playlistId)[0] || [],
   ) as string[];
   const setPlay = useSongFunction(
-    (state: SongFunctionActions) => state.setPlay
+    (state: SongFunctionActions) => state.setPlay,
   );
   const setPlaylistId = useStorePlayListId(
-    (state: StorePlayListIdStateAction) => state.setPlaylistId
+    (state: StorePlayListIdStateAction) => state.setPlaylistId,
   );
   const setPlayList = useDirectPlayBack(
-    (state: DirectPlayBackAction) => state.setPlayList
+    (state: DirectPlayBackAction) => state.setPlayList,
   );
 
   function songFunctionPre(id_scope = id) {
