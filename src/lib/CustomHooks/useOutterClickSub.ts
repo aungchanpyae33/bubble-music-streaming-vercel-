@@ -1,9 +1,9 @@
 import { RefObject, useContext, useEffect } from "react";
 import { ContextMoreOptionStack } from "@/ui/trackComponent/MoreOptionStackContext";
 // this function handles clicks inside the sub component to manage the stack , it does not manage the outter click of main parent element
-function OutterClickSub(
+function useOutterClickSub(
   portalElRef: RefObject<HTMLDivElement | null>,
-  stackNum: number
+  stackNum: number,
 ) {
   const { stack, setStack } = useContext(ContextMoreOptionStack);
   // stack are 0 === parent , 1 === child , 2 === grand child etc..
@@ -27,4 +27,4 @@ function OutterClickSub(
   }, [portalElRef, stack, setStack, stackNum]);
 }
 
-export default OutterClickSub;
+export default useOutterClickSub;

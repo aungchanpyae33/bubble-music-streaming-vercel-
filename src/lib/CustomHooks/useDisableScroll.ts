@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-export function DisableScroll(show: boolean) {
+export function useDisableScroll(show: boolean) {
   useEffect(() => {
     function preventDefault(e: WheelEvent | TouchEvent) {
       e.preventDefault();

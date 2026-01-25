@@ -5,10 +5,10 @@ interface NaviState {
   run: boolean;
   number: number; // Allow null for no selection
 }
-function useTest(
+function useNaviSearch(
   initialState: NaviState,
   inputRef: RefObject<HTMLInputElement | null>,
-  data: Movie[]
+  data: Movie[],
 ): [NaviState] {
   const [navi, setnavi] = useState(initialState);
 
@@ -71,4 +71,4 @@ function useTest(
 
   return [navi];
 }
-export default useTest;
+export default useNaviSearch;

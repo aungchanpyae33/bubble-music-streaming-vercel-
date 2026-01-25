@@ -1,6 +1,6 @@
 import { RefObject, useEffect } from "react";
-import { playBackRate } from "../MediaSource/playBackRate";
-import AbortFetch from "../MediaSource/AbortFetch";
+import { playBackRate } from "../../MediaSource/playBackRate";
+import AbortFetch from "../../MediaSource/AbortFetch";
 
 const MediaSessionSeek = (
   fetching: RefObject<{ isFetch: boolean; fetchingseg: number }>,
@@ -11,7 +11,7 @@ const MediaSessionSeek = (
   loadNextSegment: React.RefObject<(() => Promise<void>) | null>,
   duration: number,
   bufferThreshold: number,
-  song_time_stamp: Array<number>
+  song_time_stamp: Array<number>,
 ) => {
   // Extract the `value` from the event beforehand to avoid issues with `e` in dependencies
 

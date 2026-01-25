@@ -1,12 +1,12 @@
 import { useEffect } from "react";
-import { useDirectPlayBack, useSongFunction } from "../zustand";
-import type { DirectPlayBackAction, SongFunctionActions } from "../zustand";
+import { useDirectPlayBack, useSongFunction } from "../../zustand";
+import type { DirectPlayBackAction, SongFunctionActions } from "../../zustand";
 const MediaSessionToggle = () => {
   const setPlay = useSongFunction(
-    (state: SongFunctionActions) => state.setPlay
+    (state: SongFunctionActions) => state.setPlay,
   );
   const setPlayList = useDirectPlayBack(
-    (state: DirectPlayBackAction) => state.setPlayList
+    (state: DirectPlayBackAction) => state.setPlayList,
   );
   useEffect(() => {
     if (!("mediaSession" in navigator)) return;
