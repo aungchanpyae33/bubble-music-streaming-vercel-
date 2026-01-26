@@ -12,13 +12,13 @@ interface isOverFlowProp {
   clientWidth: number;
 }
 const useOverflowCheck = (
-  element: RefObject<HTMLDivElement | null>
+  element: RefObject<HTMLDivElement | null>,
 ): [
   isOverFlowProp,
   boolean,
   React.Dispatch<React.SetStateAction<boolean>>,
   React.Dispatch<React.SetStateAction<isOverFlowProp>>,
-  RefObject<number>
+  RefObject<number>,
 ] => {
   const [isOverFlow, setIsOverFlow] = useState({
     duration: 0,

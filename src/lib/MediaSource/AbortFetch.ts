@@ -3,7 +3,7 @@ import { RefObject } from "react";
 const AbortFetch = (
   fetching: RefObject<{ isFetch: boolean; fetchingseg: number }>,
   abortController: RefObject<AbortController | null>,
-  seekSeg: number
+  seekSeg: number,
 ) => {
   if (fetching.current.isFetch) {
     if (abortController.current && fetching.current.fetchingseg !== seekSeg) {

@@ -26,11 +26,11 @@ function ContextLike({
   id: string;
 }) {
   const setLikeAction = useLikeActionStore(
-    (state: setLikeAction) => state.setLikeAction
+    (state: setLikeAction) => state.setLikeAction,
   );
   // zustand store that listen with id(to listend toggle case )
   const likeAction = useLikeActionStore(
-    (state: likeActionState) => state.likeAction[id || ""]
+    (state: likeActionState) => state.likeAction[id || ""],
   );
   const { data: queryData, error: queryError } = useQuery({
     queryKey: ["liked-id"],

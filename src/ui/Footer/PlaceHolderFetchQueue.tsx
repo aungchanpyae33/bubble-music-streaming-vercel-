@@ -14,10 +14,10 @@ function PlaceHolderFetchQueue() {
   const abortController = useRef<AbortController | null>(null);
   const FetchSongsListIdPreRef = useRef<string | null>(null);
   const FetchSongsListId = useShouldFetchSongsList(
-    (state: ShouldFetchSongsListId) => state.FetchSongsListId
+    (state: ShouldFetchSongsListId) => state.FetchSongsListId,
   );
   const currentAddToQueue = useRepeatAndCurrentPlayList(
-    (state: currentAddToQueueAction) => state.currentAddToQueue
+    (state: currentAddToQueueAction) => state.currentAddToQueue,
   );
   const { song_id } = useSong((state: SongState) => state.songCu) as SongDetail;
   useEffect(() => {
@@ -35,7 +35,7 @@ function PlaceHolderFetchQueue() {
         abortController.current = new AbortController();
         const { data, error } = await getSimilarSongQueueClient(
           song_id,
-          abortController
+          abortController,
         );
         if (!data || error) return null;
         if (!data || error) return;

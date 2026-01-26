@@ -9,10 +9,10 @@ import { Repeat } from "lucide-react";
 
 function AudioFunctionRepeat({ className }: React.ComponentProps<"button">) {
   const isRepeat = useRepeatAndCurrentPlayList(
-    (state: IsRepeatState) => state.isRepeat
+    (state: IsRepeatState) => state.isRepeat,
   );
   const setRepeat = useRepeatAndCurrentPlayList(
-    (state: RepeatAction) => state.setRepeat
+    (state: RepeatAction) => state.setRepeat,
   );
   return (
     <button className={className} onClick={() => setRepeat()}>

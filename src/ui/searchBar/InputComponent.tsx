@@ -10,7 +10,7 @@ interface InputComponentProps {
 function InputComponent({ inputRef, setShow, setValue }: InputComponentProps) {
   const { setOpen } = useContext(ContextToggle);
   const setIsInputFocus = useNotInputFocus(
-    (state: focusStateAction) => state.setIsInputFocus
+    (state: focusStateAction) => state.setIsInputFocus,
   );
   const searchParams = useSearchParams();
   const defaultValueRef = searchParams.get("query") || "";

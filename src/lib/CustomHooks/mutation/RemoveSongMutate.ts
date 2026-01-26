@@ -35,7 +35,7 @@ const useRemoveSongMutate = (id: string) => {
                     };
                     error: null | string;
                   }
-                | undefined
+                | undefined,
             ) => {
               if (!oldData) return oldData;
 
@@ -55,7 +55,7 @@ const useRemoveSongMutate = (id: string) => {
                 },
                 error: null,
               };
-            }
+            },
           );
         }
         queryClient.setQueryData(["playlist", id], { data, error: null });

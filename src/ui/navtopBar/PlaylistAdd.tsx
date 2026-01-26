@@ -51,7 +51,7 @@ function PlaylistAdd({ stackNum }: { stackNum: number }) {
                     }
                     const { data, error } = await insertDataAction(
                       playlistname,
-                      check_type
+                      check_type,
                     );
                     if (error) return;
                     if (data) {

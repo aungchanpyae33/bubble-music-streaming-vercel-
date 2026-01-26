@@ -1,6 +1,6 @@
 const debounce = <T extends (...args: never[]) => void>(
   fn: T,
-  delay: number
+  delay: number,
 ) => {
   // console.log("run");
   let id: ReturnType<typeof setTimeout> | undefined;

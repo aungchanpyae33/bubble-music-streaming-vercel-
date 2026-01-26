@@ -8,7 +8,7 @@ export const fetchSegment = async (
   Num: number,
   abortController: RefObject<AbortController | null>,
   segNum: RefObject<number>,
-  fetching: RefObject<FetchingState>
+  fetching: RefObject<FetchingState>,
 ) => {
   const fetchOptions: RequestInit = {
     signal: abortController!.current!.signal,

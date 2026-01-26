@@ -6,7 +6,7 @@ import { deepMapById } from "@/lib/returnById";
 
 export const addToLibrary = async (
   id: string,
-  type: listSongsSection["type"]
+  type: listSongsSection["type"],
 ): Promise<{
   data: UserLibMappedProps | null;
   error: unknown;

@@ -21,7 +21,7 @@ const SearchResultItem = memo(({ title, index, show }: prop) => {
         "hover:bg-[#333333] pl-[85px] sm:pl-4  pr-2 h-[40px] flex items-center cursor-pointer",
         {
           "bg-[#333333]": show,
-        }
+        },
       )}
       key={title}
       onMouseDown={() => {

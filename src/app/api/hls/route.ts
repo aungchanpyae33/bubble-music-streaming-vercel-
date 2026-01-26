@@ -39,7 +39,7 @@ ${segments}
       {
         status: 500,
         headers: { "Content-Type": "application/vnd.apple.mpegurl" },
-      }
+      },
     );
   }
 }

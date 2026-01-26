@@ -7,7 +7,7 @@ import {
 
 export const generateValue = (
   isDataExist: navbarList,
-  list: listInfo | SearchProfile | listSongsSection
+  list: listInfo | SearchProfile | listSongsSection,
 ) => {
   if (isDataExist) {
     return { ...list, ...isDataExist };

@@ -22,10 +22,10 @@ function PlayNextQueueSongList() {
   const { setShow } = useContext(ContextMoreOption);
   const { id, type } = useContext(SongListContext) as SongListValue;
   const currentAddToNext = useRepeatAndCurrentPlayList(
-    (state: currentAddToNextAction) => state.currentAddToNext
+    (state: currentAddToNextAction) => state.currentAddToNext,
   );
   const { id: id_scoope } = useSong(
-    (state: SongState) => state.songCu
+    (state: SongState) => state.songCu,
   ) as SongDetail;
   if (!id_scoope) return null;
   async function addToNextSonglist() {

@@ -14,14 +14,14 @@ import IconWrapper from "@/ui/general/IconWrapper";
 type Props = React.ComponentProps<"button">;
 function ToggleButton({ className }: Props) {
   const Isplay = useSongFunction(
-    (state: SongFunctionState) => Object.values(state.Isplay)[0]
+    (state: SongFunctionState) => Object.values(state.Isplay)[0],
   );
 
   const setPlay = useSongFunction(
-    (state: SongFunctionActions) => state.setPlay
+    (state: SongFunctionActions) => state.setPlay,
   );
   const setPlayList = useDirectPlayBack(
-    (state: DirectPlayBackAction) => state.setPlayList
+    (state: DirectPlayBackAction) => state.setPlayList,
   );
 
   return (

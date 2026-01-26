@@ -5,7 +5,7 @@ import { useState } from "react";
 function DescriptionInput({ initValue }: { initValue?: string }) {
   const [textValue, setTextValue] = useState(initValue ? initValue : "");
   const setIsInputFocus = useNotInputFocus(
-    (state: focusStateAction) => state.setIsInputFocus
+    (state: focusStateAction) => state.setIsInputFocus,
   );
   const [shake, setShake] = useState({
     setUp: false,

@@ -31,7 +31,7 @@ function ContextAudioFullRef({
           {
             "translate-y-full ": !open,
             "translate-y-0 ": open,
-          }
+          },
         )}
         ref={audioFullRef}
         aria-hidden={!open}

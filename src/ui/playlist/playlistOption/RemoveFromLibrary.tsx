@@ -20,7 +20,7 @@ function RemoveFromLibraryChild() {
     setShow(false);
     const { data, error } = await removeFromLibrary(
       id,
-      source as "create" | "reference"
+      source as "create" | "reference",
     );
 
     if (error) {

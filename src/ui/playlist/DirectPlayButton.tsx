@@ -31,7 +31,7 @@ const hasData = async (
     error: PostgrestError | unknown | null;
   }> | null>,
   listId: string,
-  type: Database["public"]["Enums"]["media_item_type"]
+  type: Database["public"]["Enums"]["media_item_type"],
 ) => {
   if (!dataFromFetch.current) {
     dataFromFetch.current = getListDirectClient(listId, type);
@@ -51,42 +51,42 @@ function DirectPlayButton({ listId, type, className }: DirectPlayButtonProps) {
 
   // toggle playlistfolder
   const IsPlayList = useDirectPlayBack(
-    (state: DirectPlayBackState) => state.IsPlayList[listId || ""]
+    (state: DirectPlayBackState) => state.IsPlayList[listId || ""],
   );
 
   // current playlist id and current song
   const playlistId = useStorePlayListId(
     (state: StorePlayListIdState) =>
-      (state.playlistId as Record<string, Array<string>>)[listId || ""]
+      (state.playlistId as Record<string, Array<string>>)[listId || ""],
   );
   const playlist_songId = playlistId ? playlistId[1] : undefined;
   const playListArray = useRepeatAndCurrentPlayList(
     (state: currentSongPlaylist) =>
       (state.playListArray as Record<string, listSongsSection | undefined>)[
         listId
-      ]
+      ],
   );
 
   const setPlaylistId = useStorePlayListId(
-    (state: StorePlayListIdStateAction) => state.setPlaylistId
+    (state: StorePlayListIdStateAction) => state.setPlaylistId,
   );
 
   const setPlay = useSongFunction(
-    (state: SongFunctionActions) => state.setPlay
+    (state: SongFunctionActions) => state.setPlay,
   );
   const setPlayList = useDirectPlayBack(
-    (state: DirectPlayBackAction) => state.setPlayList
+    (state: DirectPlayBackAction) => state.setPlayList,
   );
   const updateSongCu = useSong((state: SongActions) => state.updateSongCu);
 
   const setPlayListArray = useRepeatAndCurrentPlayList(
-    (state: currentSongPlaylistAction) => state.setPlayListArray
+    (state: currentSongPlaylistAction) => state.setPlayListArray,
   );
   const FetchSongsListIdAction = useShouldFetchSongsList(
-    (state: ShouldFetchSongsListIdAction) => state.FetchSongsListIdAction
+    (state: ShouldFetchSongsListIdAction) => state.FetchSongsListIdAction,
   );
   const setIsFallBackAudio = useInstantFallBackAudioFull(
-    (state: isFallBackAudioActions) => state.setIsFallBackAudio
+    (state: isFallBackAudioActions) => state.setIsFallBackAudio,
   );
   async function getData() {
     const returnData = await hasData(dataFromFetch, listId, type);

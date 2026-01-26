@@ -25,7 +25,7 @@ function getSourceType(
     idArray: string[];
   },
   source: "create" | "reference" | "none" | undefined,
-  id: string | undefined
+  id: string | undefined,
 ) {
   if (source) {
     const { source } = userLib[id || ""] ?? { source: "none" };

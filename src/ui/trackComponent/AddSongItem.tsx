@@ -23,13 +23,13 @@ function AddSongItem({
 }) {
   const playlistId = playlistSongs.id;
   const setIsSongExist = useIsExistSongs(
-    (state: songExistAction) => state.setIsSongExist
+    (state: songExistAction) => state.setIsSongExist,
   );
   const { songId, cover_url } = useAddSongsToPlaylist(
-    (state: songsToPlaylist) => state.songsToPlaylist
+    (state: songsToPlaylist) => state.songsToPlaylist,
   ) as addSongsToPlaylistProps;
   const addSongsToPlaylist = useAddSongsToPlaylist(
-    (state: addSongsToPlaylist) => state.addSongsToPlaylist
+    (state: addSongsToPlaylist) => state.addSongsToPlaylist,
   );
   const { data: queryData, error: queryError } = useQuery({
     queryKey: ["user-library"],

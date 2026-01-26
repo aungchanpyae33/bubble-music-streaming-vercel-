@@ -38,7 +38,7 @@ function AudioFooterContainer({
       <div
         className={clsx(
           " w-full h-full flex gap-4 sm:gap-5 md:gap-6 bg-[#0A0A0A]  lg:gap-10 justify-between",
-          {}
+          {},
         )}
       >
         {children}

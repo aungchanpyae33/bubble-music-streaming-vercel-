@@ -14,7 +14,7 @@ function AddSongButton() {
   const songId = song?.song_id;
   const cover_url = song?.cover_url;
   const addSongsToPlaylist = useAddSongsToPlaylist(
-    (state: addSongsToPlaylist) => state.addSongsToPlaylist
+    (state: addSongsToPlaylist) => state.addSongsToPlaylist,
   );
   const { setShow } = useContext(ContextMoreOption);
   if (!songId) return null;

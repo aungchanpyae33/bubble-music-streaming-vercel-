@@ -13,7 +13,7 @@ import LyricPaddingBlock from "./LyricPaddingBlock";
 function AudioFullInfoWrapper({ children }: { children: React.ReactNode }) {
   const showBlock = useShowBlock((state: ShowBlock) => state.showBlock);
   const setShowBlock = useShowBlock(
-    (state: ShowBlockAction) => state.setShowBlock
+    (state: ShowBlockAction) => state.setShowBlock,
   );
   const { name, artists, cover_url } = useContext(DataContext);
   useEffect(() => {
@@ -29,19 +29,19 @@ function AudioFullInfoWrapper({ children }: { children: React.ReactNode }) {
           {
             " scale-100 translate-y-0  opacity-100": !showBlock.open,
             " scale-90 -translate-y-10 opacity-0": showBlock.open,
-          }
+          },
         )}
       >
         <div
           className={clsx(
-            " flex items-center shrink-0 grow-0  overflow-hidden w-[90%] max-w-[384px] lg:w-[270px]"
+            " flex items-center shrink-0 grow-0  overflow-hidden w-[90%] max-w-[384px] lg:w-[270px]",
           )}
         >
           {children}
         </div>
         <div
           className={clsx(
-            "min-h-[60px] max-w-fit  flex  items-center self-start lg:self-auto"
+            "min-h-[60px] max-w-fit  flex  items-center self-start lg:self-auto",
           )}
         >
           <div className="flex items-start  p-1 justify-center flex-col ">
@@ -62,14 +62,14 @@ function AudioFullInfoWrapper({ children }: { children: React.ReactNode }) {
           {
             "translate-y-0": showBlock.open,
             "translate-y-[103%]": !showBlock.open,
-          }
+          },
         )}
         tabIndex={-1}
       >
         <div className=" w-full h-full lg:grid-rows-[1fr]  grid-rows-[60px_1fr] grid relative">
           <div
             className={clsx(
-              "flex lg:hidden gap-x-3   border-b border-white      items-center w-full"
+              "flex lg:hidden gap-x-3   border-b border-white      items-center w-full",
             )}
           >
             <div

@@ -14,7 +14,7 @@ function calcMenuPosition(
   viewportWidthStoreRef: RefObject<number | null>,
   viewportHeightStoreRef: RefObject<number | null>,
   staticDrop?: boolean,
-  staticUp?: boolean
+  staticUp?: boolean,
 ): PositionStyle | undefined {
   // parent is vertical icon cantainer
   // container is content
@@ -152,7 +152,7 @@ export const useToggleContentPosition = ({
         viewportWidthStoreRef,
         viewportHeightStoreRef,
         staticDrop,
-        staticUp
+        staticUp,
       );
       if (!newPos) return;
       setPosition(newPos);

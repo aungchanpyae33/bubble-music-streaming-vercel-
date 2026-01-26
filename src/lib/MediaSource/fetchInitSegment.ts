@@ -8,7 +8,7 @@ export const fetchInitSegment = async (
   fetching: RefObject<FetchingState>,
   segNum: RefObject<number>,
   abortController: RefObject<AbortController | null>,
-  initAbortController: RefObject<AbortController | null>
+  initAbortController: RefObject<AbortController | null>,
 ) => {
   const fetchInitOptions: RequestInit = {
     signal: initAbortController!.current!.signal,
@@ -50,7 +50,7 @@ export const fetchInitSegment = async (
         fetching,
         segNum,
         initSegment,
-        true
+        true,
       );
       console.warn("Init segment appended");
     }
@@ -62,7 +62,7 @@ export const fetchInitSegment = async (
         fetching,
         segNum,
         seg1Segment,
-        false
+        false,
       );
     }
 
@@ -83,7 +83,7 @@ const appendBufferFn = (
   fetching: RefObject<FetchingState>,
   segNum: RefObject<number>,
   buffer: ArrayBuffer,
-  isInit: boolean
+  isInit: boolean,
 ): Promise<void> => {
   return new Promise((resolve, reject) => {
     try {

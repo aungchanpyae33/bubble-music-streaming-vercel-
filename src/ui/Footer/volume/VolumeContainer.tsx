@@ -29,7 +29,7 @@ function VolumeContainer({
           "flex bg-[#222222] lg:bg-inherit": isDragging,
           "flex   bg-[#222222]": open,
           hidden: !open,
-        }
+        },
       )}
       tabIndex={0}
       ref={containerRef}

@@ -29,16 +29,16 @@ function AudioSliderActionWrapper({
             },
           }
         : isTouchDevice
-        ? {
-            onTouchStart: (e) => {
-              AudioSeekHandleDown({ sliderRef, e, setIsDragging, setValue });
-            },
-          }
-        : {
-            onMouseDown: (e) => {
-              AudioSeekHandleDown({ sliderRef, e, setIsDragging, setValue });
-            },
-          })}
+          ? {
+              onTouchStart: (e) => {
+                AudioSeekHandleDown({ sliderRef, e, setIsDragging, setValue });
+              },
+            }
+          : {
+              onMouseDown: (e) => {
+                AudioSeekHandleDown({ sliderRef, e, setIsDragging, setValue });
+              },
+            })}
     >
       {children}
     </div>

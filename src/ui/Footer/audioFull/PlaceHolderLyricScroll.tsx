@@ -3,7 +3,7 @@ import { RefObject, useContext, useEffect, useRef } from "react";
 
 function getElementByDataId(
   container: HTMLElement | null,
-  id: string | number
+  id: string | number,
 ): HTMLElement | null {
   if (!container) return null;
   return container.querySelector(`[data-id="${id}"]`) as HTMLElement | null;
@@ -25,7 +25,7 @@ function scrollContainerToElement(
   container: HTMLElement | null,
   element: HTMLElement | null,
   offset: number = 30,
-  smooth: boolean = true
+  smooth: boolean = true,
 ) {
   if (!container || !element) return;
 

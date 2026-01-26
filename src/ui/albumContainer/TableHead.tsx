@@ -13,7 +13,7 @@ function TableHead({ children }: { children: React.ReactNode }) {
         {
           " bg-gray-700": isStuck,
           " bg-inherit ": !isStuck,
-        }
+        },
       )}
     >
       {children}

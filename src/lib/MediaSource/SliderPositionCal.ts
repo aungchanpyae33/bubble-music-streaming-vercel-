@@ -17,7 +17,7 @@ const getClientX = (
     | React.MouseEvent
     | React.TouchEvent
     | PointerEvent
-    | React.PointerEvent
+    | React.PointerEvent,
 ): number => {
   if ("clientX" in e) {
     return e.clientX;

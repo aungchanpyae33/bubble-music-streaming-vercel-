@@ -16,10 +16,10 @@ import CheckType from "@/ui/navtopBar/createPlaylist/CheckType";
 
 function EditContentBox() {
   const { id, name } = useEditToPlaylist(
-    (state: editToPlaylist) => state.editToPlaylist
+    (state: editToPlaylist) => state.editToPlaylist,
   ) as editToPlaylistProps;
   const editToPlaylistAction = useEditToPlaylist(
-    (state: editToPlaylistAction) => state.editToPlaylistAction
+    (state: editToPlaylistAction) => state.editToPlaylistAction,
   );
   const [isPending, startTransition] = useTransition();
   const mutation = useEditPlaylistMutate();

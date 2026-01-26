@@ -37,30 +37,30 @@ function VolumeSliderActionWrapper({
             },
           }
         : isTouchDevice
-        ? {
-            onTouchStart: (e) => {
-              if (!sliderRef.current) return;
-              setIsDragging(true);
-              const { percentage, seekCalReturn } = sliderPositionCal({
-                sliderRef,
-                e,
-              });
-              dataAudioRef!.current!.volume = seekCalReturn;
-              setValue(percentage);
-            },
-          }
-        : {
-            onMouseDown: (e) => {
-              if (!sliderRef.current) return;
-              setIsDragging(true);
-              const { percentage, seekCalReturn } = sliderPositionCal({
-                sliderRef,
-                e,
-              });
-              dataAudioRef!.current!.volume = seekCalReturn;
-              setValue(percentage);
-            },
-          })}
+          ? {
+              onTouchStart: (e) => {
+                if (!sliderRef.current) return;
+                setIsDragging(true);
+                const { percentage, seekCalReturn } = sliderPositionCal({
+                  sliderRef,
+                  e,
+                });
+                dataAudioRef!.current!.volume = seekCalReturn;
+                setValue(percentage);
+              },
+            }
+          : {
+              onMouseDown: (e) => {
+                if (!sliderRef.current) return;
+                setIsDragging(true);
+                const { percentage, seekCalReturn } = sliderPositionCal({
+                  sliderRef,
+                  e,
+                });
+                dataAudioRef!.current!.volume = seekCalReturn;
+                setValue(percentage);
+              },
+            })}
     >
       {children}
     </div>

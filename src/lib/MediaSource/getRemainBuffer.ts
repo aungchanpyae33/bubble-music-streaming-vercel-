@@ -4,7 +4,7 @@ const EPSILON = 1;
 function binarySearchWithTolerance(
   arr: number[],
   target: number,
-  epsilon: number
+  epsilon: number,
 ): number {
   let left = 0;
   let right = arr.length - 1;
@@ -23,7 +23,7 @@ function binarySearchWithTolerance(
 }
 export function getRemainingBufferDuration(
   dataAudio: RefObject<HTMLAudioElement | null>,
-  song_time_stamp: number[]
+  song_time_stamp: number[],
 ) {
   const audio = dataAudio.current;
   if (!audio) return { remainingBuffer: 0, segData: -1 };

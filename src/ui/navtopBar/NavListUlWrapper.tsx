@@ -29,7 +29,7 @@ function NavListUlWrapper({
               // to remove from tab order
               "-translate-x-full invisible": !open,
               "translate-x-0 visible": open,
-            }
+            },
           )}
           ref={ulRef}
           aria-hidden={!open}
@@ -39,7 +39,7 @@ function NavListUlWrapper({
             <NavSidebarToggle setOpen={setOpen} open={open} />
             <button
               className={clsx(
-                "flex flex-1 items-center   justify-start  h-[70px]"
+                "flex flex-1 items-center   justify-start  h-[70px]",
               )}
               aria-hidden={true}
             >

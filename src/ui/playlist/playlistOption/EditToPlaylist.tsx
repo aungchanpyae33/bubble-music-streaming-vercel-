@@ -14,7 +14,7 @@ function EditToPlaylistChild() {
   const { id, name } = useContext(SongListContext) as SongListValue;
 
   const EditToPlaylistAction = useEditToPlaylist(
-    (state: editToPlaylistAction) => state.editToPlaylistAction
+    (state: editToPlaylistAction) => state.editToPlaylistAction,
   );
   if (!id || !name) return null;
 

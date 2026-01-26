@@ -5,7 +5,7 @@ import { useContext, useEffect } from "react";
 function useTriggerButtonSub(
   parentRef: React.RefObject<HTMLButtonElement | null>,
   stackNum: number,
-  uuid: string
+  uuid: string,
 ) {
   const { stack, setStack } = useContext(ContextMoreOptionStack);
   const { uuidState, setUuidState } = useContext(ContextMoreOptionUnique);

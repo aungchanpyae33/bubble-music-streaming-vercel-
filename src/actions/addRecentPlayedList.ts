@@ -8,7 +8,7 @@ import { getRecentReturn } from "@/database/data";
 
 export const addRecentlyPlayedList = async (
   id: string,
-  type: Database["public"]["Enums"]["media_item_type"]
+  type: Database["public"]["Enums"]["media_item_type"],
 ): Promise<{
   data: getRecentReturn | null;
   error: PostgrestError | unknown | null;

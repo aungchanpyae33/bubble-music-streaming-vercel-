@@ -6,7 +6,7 @@ import { deepMapById } from "@/lib/returnById";
 
 export const insertDataAction = async (
   playlist_name: string,
-  check_type: boolean
+  check_type: boolean,
 ): Promise<{
   data: UserLibMappedProps | null;
   error: unknown;

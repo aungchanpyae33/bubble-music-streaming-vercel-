@@ -9,13 +9,13 @@ import {
 import { useEffect } from "react";
 function ToggleButtonSpaceKey() {
   const setPlayList = useDirectPlayBack(
-    (state: DirectPlayBackAction) => state.setPlayList
+    (state: DirectPlayBackAction) => state.setPlayList,
   );
   const setPlay = useSongFunction(
-    (state: SongFunctionActions) => state.setPlay
+    (state: SongFunctionActions) => state.setPlay,
   );
   const isInputFocus = useNotInputFocus(
-    (state: focusState) => state.isInputFocus
+    (state: focusState) => state.isInputFocus,
   );
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {

@@ -1,19 +1,22 @@
 export function mapById<T extends { id: string }>(
   array: T[] | null | undefined,
-  idArray: string[]
+  idArray: string[],
 ) {
   if (!array) return {} as Record<string, T>;
-  return array.reduce((acc, item) => {
-    acc[item.id] = item;
-    idArray.push(item.id);
-    return acc;
-  }, {} as Record<string, T>);
+  return array.reduce(
+    (acc, item) => {
+      acc[item.id] = item;
+      idArray.push(item.id);
+      return acc;
+    },
+    {} as Record<string, T>,
+  );
 }
 type UnknownRecord = Record<string, unknown>;
 
 export function deepMapById<T extends UnknownRecord>(
   obj: T,
-  paths: string[]
+  paths: string[],
 ): T {
   const result: UnknownRecord = { ...obj };
 

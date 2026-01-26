@@ -32,13 +32,13 @@ const useVolumeSeek = ({
 }: audioSeekProp): useAudioSeekReturnType => {
   const value = useVolumeValue((state: VolumeValueState) => state.value);
   const setValue = useVolumeValue(
-    (state: VolumeValueActions) => state.setValue
+    (state: VolumeValueActions) => state.setValue,
   );
   const isDragging = useVolumeDragging(
-    (state: VolumeDraggingState) => state.isDragging
+    (state: VolumeDraggingState) => state.isDragging,
   );
   const setIsDragging = useVolumeDragging(
-    (state: VolumeDraggingActions) => state.setIsDragging
+    (state: VolumeDraggingActions) => state.setIsDragging,
   );
   useEffect(() => {
     function handleMove(e: PointerEvent | TouchEvent | MouseEvent) {

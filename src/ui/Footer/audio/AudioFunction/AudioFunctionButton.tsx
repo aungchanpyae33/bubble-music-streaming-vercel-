@@ -7,7 +7,7 @@ interface AudioFunctionButtonProps {
 }
 function AudioFunctionButton({ children }: AudioFunctionButtonProps) {
   const playListArray = useRepeatAndCurrentPlayList(
-    (state: currentSongPlaylist) => Object.values(state.playListArray)[0] || []
+    (state: currentSongPlaylist) => Object.values(state.playListArray)[0] || [],
   ) as listSongsSection;
   return children(playListArray);
 }

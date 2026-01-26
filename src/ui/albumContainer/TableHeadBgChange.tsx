@@ -29,7 +29,7 @@ function TableHeadBgChange({ children }: { children: React.ReactNode }) {
       {
         threshold: 0,
         rootMargin: "0px 0px 0px 0px",
-      }
+      },
     );
     observer.observe(copyRef);
 

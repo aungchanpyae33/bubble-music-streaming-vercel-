@@ -152,7 +152,7 @@ export interface getSearchPageReturn {
 }
 
 export const getSearchPage = async (
-  query: string
+  query: string,
 ): Promise<{
   data: getSearchPageReturn | null;
   error: PostgrestError | unknown | null;
@@ -176,7 +176,7 @@ export interface getPlaylistPageProps {
   songs: listSongsSection | null;
 }
 export const getPlaylistSongs = async (
-  playlistId: string
+  playlistId: string,
 ): Promise<{
   data: getPlaylistPageProps | null;
   error: PostgrestError | unknown | null;
@@ -199,7 +199,7 @@ export interface getSongTrackReturnType {
 }
 
 export const getSongTrack = async (
-  songId: string
+  songId: string,
 ): Promise<{
   data: getSongTrackReturnType | null;
   error: PostgrestError | null | unknown;
@@ -224,7 +224,7 @@ export interface getAlbumPageProps {
 }
 
 export const getAlbumSongs = async (
-  albumId: string
+  albumId: string,
 ): Promise<{
   data: getAlbumPageProps | null;
   error: PostgrestError | unknown | null;
@@ -279,7 +279,7 @@ export interface getArtistPageProps {
   albums: (Record<string, listInfo> & { idArray: string[] }) | null;
 }
 export const getArtistPage = async (
-  artistId: string
+  artistId: string,
 ): Promise<{
   data: getArtistPageProps | null;
   error: PostgrestError | null | unknown;
@@ -313,7 +313,7 @@ export interface getUserPageProps {
   playlists: (Record<string, listInfo> & { idArray: string[] }) | null;
 }
 export const getUserPage = async (
-  userId: string
+  userId: string,
 ): Promise<{
   data: getUserPageProps | null;
   error: PostgrestError | null | unknown;
@@ -336,7 +336,7 @@ export interface getSongListProps {
 
 const fetchSongListByType = async (
   id: string,
-  type: Database["public"]["Enums"]["media_item_type"]
+  type: Database["public"]["Enums"]["media_item_type"],
 ) => {
   try {
     const supabase = await createClient();
@@ -362,7 +362,7 @@ const fetchSongListByType = async (
 
 export const getSongList = async (
   id: string,
-  type: Database["public"]["Enums"]["media_item_type"]
+  type: Database["public"]["Enums"]["media_item_type"],
 ): Promise<{
   data: getSongListProps | null;
   error: PostgrestError | unknown | null;
@@ -389,7 +389,7 @@ export interface getListDirectProps {
 
 const fetchListDirectByType = async (
   id: string,
-  type: Database["public"]["Enums"]["media_item_type"]
+  type: Database["public"]["Enums"]["media_item_type"],
 ) => {
   try {
     const supabase = await createClient();
@@ -415,7 +415,7 @@ const fetchListDirectByType = async (
 
 export const getListDirect = async (
   id: string,
-  type: Database["public"]["Enums"]["media_item_type"]
+  type: Database["public"]["Enums"]["media_item_type"],
 ): Promise<{
   data: getListDirectProps | null;
   error: PostgrestError | unknown | null;
@@ -434,7 +434,7 @@ export const getListDirect = async (
 
 export const checkSongsBeforeAdd = async (
   playlistId: string,
-  songId: string
+  songId: string,
 ) => {
   try {
     const supabase = await createClient();
@@ -458,7 +458,7 @@ export const checkSongsBeforeAdd = async (
 };
 
 export const getSimilarSongQueue = async (
-  id: string
+  id: string,
 ): Promise<{
   data: getSongListProps | null;
   error: PostgrestError | unknown | null;
@@ -489,7 +489,7 @@ export interface getLyricReturn {
 }
 
 export const getLyric = async (
-  songId: string
+  songId: string,
 ): Promise<{
   data: getLyricReturn | null;
   error: PostgrestError | unknown | null;

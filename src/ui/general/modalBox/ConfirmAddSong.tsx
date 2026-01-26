@@ -13,13 +13,13 @@ import { useEffect } from "react";
 
 function ConfirmAddSong() {
   const { playlistId, songId } = useIsExistSongs(
-    (state: isSongExist) => state.isSongExist
+    (state: isSongExist) => state.isSongExist,
   ) as songExist;
   const { cover_url } = useAddSongsToPlaylist(
-    (state: songsToPlaylist) => state.songsToPlaylist
+    (state: songsToPlaylist) => state.songsToPlaylist,
   ) as addSongsToPlaylistProps;
   const setIsSongExist = useIsExistSongs(
-    (state: songExistAction) => state.setIsSongExist
+    (state: songExistAction) => state.setIsSongExist,
   );
   const mutation = useAddSongMutate(playlistId, cover_url);
   function handleAdd() {

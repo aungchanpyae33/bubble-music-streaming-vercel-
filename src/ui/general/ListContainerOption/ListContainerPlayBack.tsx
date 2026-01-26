@@ -29,34 +29,34 @@ interface ListContainerPlayBackProps {
 function ListContainerPlayBack({ list }: ListContainerPlayBackProps) {
   const playListId = list!.id;
   const IsPlayList = useDirectPlayBack(
-    (state: DirectPlayBackState) => state.IsPlayList[playListId || ""]
+    (state: DirectPlayBackState) => state.IsPlayList[playListId || ""],
   );
   const { id: id_scope } = useSong(
-    (state: SongState) => state.songCu
+    (state: SongState) => state.songCu,
   ) as SongDetail;
   // current playlist id and current song
   const playlistId = useStorePlayListId(
     (state: StorePlayListIdState) =>
-      (state.playlistId as Record<string, Array<string>>)[playListId || ""]
+      (state.playlistId as Record<string, Array<string>>)[playListId || ""],
   );
   const setPlaylistId = useStorePlayListId(
-    (state: StorePlayListIdStateAction) => state.setPlaylistId
+    (state: StorePlayListIdStateAction) => state.setPlaylistId,
   );
   const setPlay = useSongFunction(
-    (state: SongFunctionActions) => state.setPlay
+    (state: SongFunctionActions) => state.setPlay,
   );
   const setPlayList = useDirectPlayBack(
-    (state: DirectPlayBackAction) => state.setPlayList
+    (state: DirectPlayBackAction) => state.setPlayList,
   );
   const updateSongCu = useSong((state: SongActions) => state.updateSongCu);
   const FetchSongsListIdAction = useShouldFetchSongsList(
-    (state: ShouldFetchSongsListIdAction) => state.FetchSongsListIdAction
+    (state: ShouldFetchSongsListIdAction) => state.FetchSongsListIdAction,
   );
   const setPlayListArray = useRepeatAndCurrentPlayList(
-    (state: currentSongPlaylistAction) => state.setPlayListArray
+    (state: currentSongPlaylistAction) => state.setPlayListArray,
   );
   const setIsFallBackAudio = useInstantFallBackAudioFull(
-    (state: isFallBackAudioActions) => state.setIsFallBackAudio
+    (state: isFallBackAudioActions) => state.setIsFallBackAudio,
   );
   if (list?.idArray.length === 0) return null; // no render the toggle playback
   const handlePlayClick = async () => {

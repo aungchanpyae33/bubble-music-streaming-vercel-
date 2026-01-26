@@ -4,7 +4,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const useEditPlaylistMutate = () => {
   const editToPlaylistAction = useEditToPlaylist(
-    (state: editToPlaylistAction) => state.editToPlaylistAction
+    (state: editToPlaylistAction) => state.editToPlaylistAction,
   );
   const queryClient = useQueryClient();
   const mutation = useMutation({

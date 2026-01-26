@@ -20,10 +20,10 @@ function AudioWrapper({ children }: { children: ReactNode }) {
   const attchVol = useRef(false);
   const Isplay = useSongFunction(
     (state: SongFunctionState) =>
-      Object.values(state.Isplay as Record<string, boolean>)[0]
+      Object.values(state.Isplay as Record<string, boolean>)[0],
   );
   const value = useVolumeValue((state: VolumeValueState) =>
-    !attchVol.current ? state.value : undefined
+    !attchVol.current ? state.value : undefined,
   );
   useEffect(() => {
     if (!attchVol.current) {

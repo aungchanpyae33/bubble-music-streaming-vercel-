@@ -4,7 +4,7 @@ export function useHoverable() {
   const hoverQueryInitial = window.matchMedia("(hover: hover)");
   const pointerQueryInitial = window.matchMedia("(pointer: fine)");
   const [isHoverable, setIsHoverable] = useState(
-    hoverQueryInitial.matches && pointerQueryInitial.matches
+    hoverQueryInitial.matches && pointerQueryInitial.matches,
   );
 
   useEffect(() => {

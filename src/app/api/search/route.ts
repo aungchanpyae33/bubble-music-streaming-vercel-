@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
           {
             status: 500,
             headers: { "Content-Type": "application/json" },
-          }
+          },
         );
       }
 
@@ -40,7 +40,7 @@ export async function GET(request: NextRequest) {
         {
           status: 500,
           headers: { "Content-Type": "application/json" },
-        }
+        },
       );
     }
   }

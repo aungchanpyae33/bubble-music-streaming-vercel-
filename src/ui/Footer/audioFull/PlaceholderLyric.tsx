@@ -20,7 +20,7 @@ function PlaceholderLyric({
   function binarySearchLyric(
     lyric: { time: number; line: string }[],
     currentTime: number,
-    epsilon: number
+    epsilon: number,
   ): number {
     let left = 0;
     let right = lyric.length - 1;

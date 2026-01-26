@@ -35,7 +35,7 @@ const useMediaSourceBuffer = (
   sege: number,
   song_time_stamp: Array<number>,
   id: string,
-  dataAudioRef: React.RefObject<HTMLAudioElement | null>
+  dataAudioRef: React.RefObject<HTMLAudioElement | null>,
 ) => {
   const fetchingRef = useRef<FetchingState>({
     isFetch: false,
@@ -56,7 +56,7 @@ const useMediaSourceBuffer = (
   const isCalledPrefetchRef = useRef(false);
 
   const prefetchSegment = useRepeatAndCurrentPlayList(
-    (state) => state.prefetchSegment
+    (state) => state.prefetchSegment,
   );
 
   useEffect(() => {
@@ -110,7 +110,7 @@ const useMediaSourceBuffer = (
           Num,
           abortControllerRef,
           segNumRef,
-          fetchingRef
+          fetchingRef,
         );
       }
     };
@@ -118,7 +118,7 @@ const useMediaSourceBuffer = (
     const loadNextSegment = async () => {
       const { remainingBuffer, segData } = getRemainingBufferDuration(
         dataAudioRef,
-        song_time_stamp
+        song_time_stamp,
       );
 
       if (
@@ -200,18 +200,18 @@ const useMediaSourceBuffer = (
             fetchingRef,
             segNumRef,
             abortControllerRef,
-            initAbortControllerRef
+            initAbortControllerRef,
           );
         }
 
         sourceBufferRef.current!.addEventListener(
           "updateend",
-          updateendLoadNextSegment
+          updateendLoadNextSegment,
         );
 
         dataAudioRef.current!.addEventListener(
           "timeupdate",
-          throttleLoadNextSegment
+          throttleLoadNextSegment,
         );
       }
     };
@@ -227,7 +227,7 @@ const useMediaSourceBuffer = (
       if (sourceBufferRef.current) {
         sourceBufferRef.current.removeEventListener(
           "updateend",
-          updateendLoadNextSegment
+          updateendLoadNextSegment,
         );
         sourceBufferRef.current = null;
       }

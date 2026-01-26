@@ -13,7 +13,7 @@ import { Database } from "../../database.types";
 
 export const getListDirectClient = async (
   id: string,
-  type: Database["public"]["Enums"]["media_item_type"]
+  type: Database["public"]["Enums"]["media_item_type"],
 ): Promise<{
   data: getListDirectProps | null;
   error: PostgrestError | unknown | null;
@@ -74,7 +74,7 @@ export const getRecentClient = async (): Promise<
 };
 
 export const getPlaylistSongsClient = async (
-  playlistId: string
+  playlistId: string,
 ): Promise<{
   data: getPlaylistPageProps | null;
   error: PostgrestError | unknown | null;
@@ -92,7 +92,7 @@ export const getPlaylistSongsClient = async (
 };
 export const getSimilarSongQueueClient = async (
   id: string,
-  abortController: RefObject<AbortController | null>
+  abortController: RefObject<AbortController | null>,
 ): Promise<{
   data: getSongListProps | null;
   error: PostgrestError | unknown | null;
@@ -116,7 +116,7 @@ export const getSimilarSongQueueClient = async (
 
 export const getSongListClient = async (
   id: string,
-  type: Database["public"]["Enums"]["media_item_type"]
+  type: Database["public"]["Enums"]["media_item_type"],
 ): Promise<{
   data: getSongListProps | null;
   error: PostgrestError | unknown | null;
@@ -155,7 +155,7 @@ export const checkSongsBeforeAddClient = async ({
 };
 
 export const getLyricClient = async (
-  songId: string
+  songId: string,
 ): Promise<{
   data: getLyricReturn | null;
   error: PostgrestError | unknown | null;

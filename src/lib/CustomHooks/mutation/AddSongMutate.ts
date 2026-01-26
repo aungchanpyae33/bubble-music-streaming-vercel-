@@ -29,7 +29,7 @@ const useAddSongMutate = (playlistId: string, cover_url: string | null) => {
                     };
                     error: null | string;
                   }
-                | undefined
+                | undefined,
             ) => {
               if (!oldData) return oldData;
 
@@ -46,7 +46,7 @@ const useAddSongMutate = (playlistId: string, cover_url: string | null) => {
                 },
                 error: null,
               };
-            }
+            },
           );
         }
       }

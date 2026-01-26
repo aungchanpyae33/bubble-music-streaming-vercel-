@@ -29,7 +29,7 @@ function SonglistsContainer({
     <div
       role={`cell${index + 1}`}
       className={clsx(
-        "peer snap-center space-y-3 w-[165px] isolate md:w-[175px] lg:w-[185px] shrink-0 grow-0 "
+        "peer snap-center space-y-3 w-[165px] isolate md:w-[175px] lg:w-[185px] shrink-0 grow-0 ",
       )}
     >
       <div className="flex relative w-full imageContainer  rounded  group">

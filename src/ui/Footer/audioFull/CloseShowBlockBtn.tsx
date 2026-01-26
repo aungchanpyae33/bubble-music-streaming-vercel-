@@ -4,7 +4,7 @@ import { ChevronDown } from "lucide-react";
 
 function CloseShowBlockBtn() {
   const setShowBlock = useShowBlock(
-    (state: ShowBlockAction) => state.setShowBlock
+    (state: ShowBlockAction) => state.setShowBlock,
   );
   return (
     <button

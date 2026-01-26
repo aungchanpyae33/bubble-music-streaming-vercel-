@@ -5,7 +5,7 @@ import { deepMapById } from "@/lib/returnById";
 
 export const removeFromLibrary = async (
   id: string,
-  source: "create" | "reference"
+  source: "create" | "reference",
 ): Promise<{
   data: UserLibMappedProps | null;
   error: unknown;

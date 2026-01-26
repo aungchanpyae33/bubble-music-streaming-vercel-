@@ -12,7 +12,7 @@ async function Main({ children }: { children: ReactNode }) {
         {
           // padding pl-[70px] make extra bleed width overflow when children element is sticky top
           "md:ml-[70px]": deviceFromUserAgent === "desktop",
-        }
+        },
       )}
     >
       <div className="max-w-[1324px] mx-auto lg:p-10 md:p-6 sm:p-3 p-2 ">

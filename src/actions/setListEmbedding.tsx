@@ -4,7 +4,7 @@ import { createClient } from "@/database/server";
 
 export const setListEmbedding = async (
   type: "album" | "playlist" | "artist",
-  id: string
+  id: string,
 ) => {
   try {
     const supabase = await createClient();

@@ -6,7 +6,7 @@ import { Logs } from "lucide-react";
 
 function QueueToggle() {
   const setShowBlock = useShowBlock(
-    (state: ShowBlockAction) => state.setShowBlock
+    (state: ShowBlockAction) => state.setShowBlock,
   );
   return (
     <button

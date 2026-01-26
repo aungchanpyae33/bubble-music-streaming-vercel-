@@ -5,7 +5,7 @@ const shufflePlaylist = (
   isShuffle: boolean,
   listProp: listSongsSection,
   currentSongs: string,
-  previousPlayListArray: listSongsSection
+  previousPlayListArray: listSongsSection,
 ) => {
   const newCopyArray = array.slice();
   for (let i = newCopyArray.length - 1; i > 0; i--) {

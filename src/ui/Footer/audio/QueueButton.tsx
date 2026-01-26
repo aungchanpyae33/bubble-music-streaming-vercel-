@@ -5,7 +5,7 @@ import { Logs } from "lucide-react";
 function QueueButton() {
   const isQueue = useOnlyOneSider((state: queueState) => state.isQueue);
   const setIsQueue = useOnlyOneSider(
-    (state: queueStateAction) => state.setIsQueue
+    (state: queueStateAction) => state.setIsQueue,
   );
   // console.log("queue", isQueue);
   return (

@@ -17,7 +17,7 @@ function FocusTrap({ children, refFocus, open }: Props) {
       const selector =
         'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), details, [tabindex]:not([tabindex="-1"])';
       const elements = Array.from(
-        container.querySelectorAll(selector)
+        container.querySelectorAll(selector),
       ) as HTMLElement[];
       return elements;
     };
@@ -27,7 +27,7 @@ function FocusTrap({ children, refFocus, open }: Props) {
       const selector =
         'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), details, [tabindex]:not([tabindex="-1"])';
       const elements = Array.from(
-        container.querySelectorAll(selector)
+        container.querySelectorAll(selector),
       ) as HTMLElement[];
 
       // Filter for visibility (offsetParent is null if element or parent is display: none)

@@ -10,7 +10,7 @@ function FooterNavi({ device }: { device: contextProps["device"] }) {
         "w-full h-[70px] z-10 flex overflow-hidden overShort:hidden justify-around items-center",
         {
           hidden: device !== "mobile",
-        }
+        },
       )}
     >
       <Link href={"/setting"} className="bg-red-950 p-2">

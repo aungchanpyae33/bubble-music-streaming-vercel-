@@ -19,7 +19,7 @@ function AddToQueue() {
   const { setShow } = useContext(ContextMoreOption);
   const { song } = useContext(InfoTrackContext);
   const currentAddToQueue = useRepeatAndCurrentPlayList(
-    (state: currentAddToQueueAction) => state.currentAddToQueue
+    (state: currentAddToQueueAction) => state.currentAddToQueue,
   );
 
   const { id } = useSong((state: SongState) => state.songCu) as SongDetail;

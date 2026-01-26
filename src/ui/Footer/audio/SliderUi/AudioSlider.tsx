@@ -61,9 +61,9 @@ function AudioSlider({
           const per = Math.min(
             Math.max(
               offsetWidth / sliderRef!.current!.getBoundingClientRect().width,
-              0
+              0,
             ),
-            1
+            1,
           );
           AudioSeeked({
             per,

@@ -1,6 +1,6 @@
 const throttle = <T extends (...args: never[]) => void>(
   fn: T,
-  delay: number
+  delay: number,
 ) => {
   // console.log("run");
   let lastTime = 0;

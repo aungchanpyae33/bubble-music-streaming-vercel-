@@ -50,7 +50,7 @@ const useTooltipOverflow = ({
           tooltipRect.left + tooltipRect.width / 2 - goRect.width / 2;
         const positionX = Math.max(
           8,
-          Math.min(data, innerWidth - goRect.width - 8)
+          Math.min(data, innerWidth - goRect.width - 8),
         );
         const positionTop = tooltipRectTop - goRect.height;
         const positionBottom = tooltipRect.bottom;

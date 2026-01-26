@@ -35,33 +35,34 @@ const ToggleElement = ({
   const playlistId = playlistSong ? playlistSong.id : `create-on-fly-${uniUrl}`;
   // for toggle audio
   const Isplay = useSongFunction(
-    (state: SongFunctionState) => state.Isplay[uniUrl || ""]
+    (state: SongFunctionState) => state.Isplay[uniUrl || ""],
   );
   //  for current song with presist
   const songCuUrl = useSong(
-    (state: SongState) => (state.songCu as Record<string, string>)[uniUrl || ""]
+    (state: SongState) =>
+      (state.songCu as Record<string, string>)[uniUrl || ""],
   );
 
   const FetchSongsListIdAction = useShouldFetchSongsList(
-    (state: ShouldFetchSongsListIdAction) => state.FetchSongsListIdAction
+    (state: ShouldFetchSongsListIdAction) => state.FetchSongsListIdAction,
   );
   // for current playlist(id and song currentSongUrl as to know for directplayback button)
   const setPlaylistId = useStorePlayListId(
-    (state: StorePlayListIdStateAction) => state.setPlaylistId
+    (state: StorePlayListIdStateAction) => state.setPlaylistId,
   );
 
   const setPlay = useSongFunction(
-    (state: SongFunctionActions) => state.setPlay
+    (state: SongFunctionActions) => state.setPlay,
   );
   const setPlayListArray = useRepeatAndCurrentPlayList(
-    (state: currentSongPlaylistAction) => state.setPlayListArray
+    (state: currentSongPlaylistAction) => state.setPlayListArray,
   );
   const updateSongCu = useSong((state: SongActions) => state.updateSongCu);
   const setIsFallBackAudio = useInstantFallBackAudioFull(
-    (state: isFallBackAudioActions) => state.setIsFallBackAudio
+    (state: isFallBackAudioActions) => state.setIsFallBackAudio,
   );
   const setPlayList = useDirectPlayBack(
-    (state: DirectPlayBackAction) => state.setPlayList
+    (state: DirectPlayBackAction) => state.setPlayList,
   );
   return (
     <button

@@ -45,7 +45,7 @@ function AudioFullBackGround({ children, className, ref }: Props) {
             "absolute inset-0 -z-10 transition-opacity duration-1000 opacity-0 bg-black",
             {
               "opacity-55": bgValue === undefined,
-            }
+            },
           )}
         ></div>
         {children}

@@ -21,7 +21,7 @@ export function playBackRate({
   dataAudio.current!.currentTime = data;
   const { remainingBuffer, segData } = getRemainingBufferDuration(
     dataAudio,
-    song_time_stamp
+    song_time_stamp,
   );
   // console.log("10", remainingBuffer);
   //only return updated the segNum with conditional to prevent segment chagne to previous already loaded segment

@@ -6,7 +6,7 @@ import { SquareChartGantt } from "lucide-react";
 
 function LyricToggleBtn() {
   const setShowBlock = useShowBlock(
-    (state: ShowBlockAction) => state.setShowBlock
+    (state: ShowBlockAction) => state.setShowBlock,
   );
   return (
     <button

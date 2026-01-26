@@ -12,7 +12,7 @@ const AudioPlayerLazy = dynamic(() => import("./AudioPLayer"), {
 function AudioPlayerWrapper({ children }: { children: React.ReactNode }) {
   const footerRef = useRef<HTMLDivElement | null>(null);
   const isFullBackAudio = useInstantFallBackAudioFull(
-    (state: isFallBackAudioState) => state.isFallBackAudio
+    (state: isFallBackAudioState) => state.isFallBackAudio,
   );
   return (
     <ContextMediaAudioFull footerNaviRef={children}>

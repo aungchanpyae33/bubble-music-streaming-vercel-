@@ -3,10 +3,10 @@ import { RefObject } from "react";
 export const FocusElement = (
   targeElement: HTMLElement,
   selector: string,
-  number: RefObject<number>
+  number: RefObject<number>,
 ) => {
   const target = targeElement.querySelector(
-    `[data-focus="${selector}${number.current}"]`
+    `[data-focus="${selector}${number.current}"]`,
   ) as HTMLElement;
   if (!target) return;
   target.focus();

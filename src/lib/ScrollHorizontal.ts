@@ -2,7 +2,7 @@ import { RefObject } from "react";
 
 function ScrollHorizontal(
   direction: "left" | "right",
-  divRef: RefObject<HTMLDivElement | null>
+  divRef: RefObject<HTMLDivElement | null>,
 ) {
   if (divRef.current) {
     const clientWidth = divRef.current.clientWidth;

@@ -2,7 +2,7 @@ import { listSongsSection } from "@/database/data";
 
 const excludeCurrentSongs = (
   urlProp: listSongsSection,
-  currentIndex: number
+  currentIndex: number,
 ) => {
   return [
     ...urlProp.idArray.slice(0, currentIndex),

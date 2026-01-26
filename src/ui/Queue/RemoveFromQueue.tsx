@@ -18,10 +18,10 @@ function RemoveFromQueue() {
   const { setShow } = useContext(ContextMoreOption);
   const { song } = useContext(InfoTrackContext);
   const removeFromQueue = useRepeatAndCurrentPlayList(
-    (state: removeFromQueueAction) => state.removeFromQueue
+    (state: removeFromQueueAction) => state.removeFromQueue,
   );
   const { id: id_scope } = useSong(
-    (state: SongState) => state.songCu
+    (state: SongState) => state.songCu,
   ) as SongDetail;
 
   if (!song) return null;

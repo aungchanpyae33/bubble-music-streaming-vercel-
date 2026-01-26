@@ -38,7 +38,7 @@ interface TooltipProps {
 
 export function isInside(
   targetElement: HTMLDivElement,
-  pointerPosition: RefObject<pointerPosition>
+  pointerPosition: RefObject<pointerPosition>,
 ) {
   const x = pointerPosition!.current!.clientX;
   const y = pointerPosition!.current!.clientY;

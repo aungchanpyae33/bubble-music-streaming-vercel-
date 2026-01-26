@@ -8,7 +8,7 @@ function ArrowNavi(
   ascendingDr: string,
   descendingDir: string,
   MaxLength: number,
-  focusAttribute: string
+  focusAttribute: string,
 ) {
   if (e.key === "Tab" || e.key === "Escape") {
     if (!containerRef.current) return;
