@@ -51,7 +51,7 @@ function LoginFormContainer() {
     <FormProvider {...methods}>
       <form onSubmit={methods.handleSubmit(loginAction)} className=" space-y-5">
         <EmailInput />
-        <PasswordInput />
+        <PasswordInput forgetPasswordLink={true} />
         <RootErrorText />
         <SubmitButton
           actionText="login"

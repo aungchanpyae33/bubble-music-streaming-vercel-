@@ -7,40 +7,29 @@ import { useTranslations } from "next-intl";
 import { authErrorReturn } from "@/lib/auth/authErrorReturn";
 import { useNaviSet } from "@/lib/CustomHooks/useNaviSet";
 import { supabase } from "@/database/supabase";
-import EmailInput from "../AuthItemGeneral/EmailInput";
 import PasswordInput from "../AuthItemGeneral/PasswordInput";
 import RootErrorText from "../AuthItemGeneral/RootErrorText";
 import SubmitButton from "../AuthItemGeneral/SubmitButton";
-import NameInput from "../AuthItemGeneral/UserName/NameInput";
-type SignUpValues = {
-  email: string;
+type UpdatePasswordFormValue = {
   password: string;
-  display_name: string;
 };
-function SignUpFormContainer() {
+function UpdatePasswordFromContainer() {
   const router = useRouter();
   const loader = useTopLoader();
   const [isNavigating, setIsNavigating] = useNaviSet();
   const e = useTranslations("ErrorMsg");
-  const methods = useForm<SignUpValues>();
-  async function signUpFunction(data: SignUpValues) {
+  const methods = useForm<UpdatePasswordFormValue>();
+  async function resetA(data: UpdatePasswordFormValue) {
     if (isNavigating) return;
     try {
       loader.start();
-      const { error } = await supabase.auth.signUp({
-        email: data.email,
+      const { error } = await supabase.auth.updateUser({
         password: data.password,
-        options: {
-          data: {
-            display_name: data.display_name,
-          },
-          emailRedirectTo: `${window.location.origin}`,
-        },
       });
 
       if (error) throw error;
       setIsNavigating(true);
-      router.push("/auth/sign-up-success");
+      router.push("/");
     } catch (error: unknown) {
       if (isAuthApiError(error)) {
         const message = authErrorReturn(error);
@@ -60,16 +49,11 @@ function SignUpFormContainer() {
   }
   return (
     <FormProvider {...methods}>
-      <form
-        onSubmit={methods.handleSubmit(signUpFunction)}
-        className=" space-y-5"
-      >
-        <EmailInput />
+      <form onSubmit={methods.handleSubmit(resetA)} className="space-y-5">
         <PasswordInput />
-        <NameInput />
         <RootErrorText />
         <SubmitButton
-          actionText="signUp"
+          actionText="updatePassword"
           isPending={
             isNavigating ||
             methods.formState.isValidating ||
@@ -81,4 +65,4 @@ function SignUpFormContainer() {
   );
 }
 
-export default SignUpFormContainer;
+export default UpdatePasswordFromContainer;

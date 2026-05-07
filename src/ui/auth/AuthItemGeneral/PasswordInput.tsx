@@ -3,10 +3,15 @@ import IconWrapper from "@/ui/general/IconWrapper";
 import clsx from "clsx";
 import { Lock } from "lucide-react";
 import { useTranslations } from "next-intl";
+import Link from "next/link";
 import { get, useFormContext } from "react-hook-form";
 const name = "password";
 const minLengthPassword = 6;
-function PasswordInput() {
+function PasswordInput({
+  forgetPasswordLink = false,
+}: {
+  forgetPasswordLink?: boolean;
+}) {
   const {
     register,
     formState: { errors },
@@ -16,7 +21,15 @@ function PasswordInput() {
   const fieldError = get(errors, name);
   return (
     <div className=" space-y-2">
-      <h4>{au("password")}</h4>
+      <div className="flex justify-between">
+        <h4>{au("password")}</h4>
+        {forgetPasswordLink && (
+          <Link href="/auth/forgot-password" className="hover:underline">
+            {au("forgotPassword")}
+          </Link>
+        )}
+      </div>
+
       <div
         className={clsx(
           "flex min-h-12 gap-5 overflow-hidden border border-seperate-soft rounded-md relative",

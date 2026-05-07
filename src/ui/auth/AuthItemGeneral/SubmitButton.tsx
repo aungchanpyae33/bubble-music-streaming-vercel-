@@ -9,7 +9,7 @@ function SubmitButton({
   actionText,
 }: {
   isPending: boolean;
-  actionText: "login" | "signup";
+  actionText: string;
 }) {
   const au = useTranslations("Auth");
   return (
@@ -18,7 +18,7 @@ function SubmitButton({
       type="submit"
       className={cn(
         UpStepButtonStyle,
-        "flex w-2/3 mx-auto h-10 items-center justify-center rounded-md border text-inherit border-gray-200 bg-section px-3.5 text-base font-medium disabled:cursor-not-allowed disabled:opacity-65",
+        "flex w-2/3 mx-auto min-h-10 items-center justify-center rounded-md border text-inherit border-gray-200 bg-section px-3.5 text-base font-medium disabled:cursor-not-allowed disabled:opacity-65",
       )}
     >
       {isPending ? (
@@ -26,7 +26,7 @@ function SubmitButton({
           <SpinnerIcon className=" animate-spin size-6" />
         </span>
       ) : (
-        <span>{actionText === "login" ? au("login") : au("signUp")}</span>
+        <span>{au(actionText)}</span>
       )}
     </Button>
   );
