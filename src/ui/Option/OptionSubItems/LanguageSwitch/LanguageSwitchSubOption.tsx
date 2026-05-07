@@ -1,4 +1,4 @@
-import type { Locale } from "@/i18n/request";
+import { Locale } from "@/i18n/request";
 import IconWrapper from "@/ui/general/IconWrapper";
 import { Check } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
@@ -50,20 +50,14 @@ function LanItem({
 function LanguageSub() {
   const router = useRouter();
   const loader = useTopLoader();
-  function handleLanguageChange(locale: Locale) {
+  function handleLanguageChange(locale: "my" | "en") {
     loader.start();
     document.cookie = `locale=${locale}; path=/; max-age=31536000`;
 
     router.refresh();
   }
 
-  const mapData: LanOption[] = [
-    { id: "en" },
-    { id: "my" },
-    { id: "ja" },
-    { id: "ko" },
-    { id: "es" },
-  ];
+  const mapData: LanOption[] = [{ id: "en" }, { id: "my" }];
   // loader for language change
   useEffect(() => {
     loader.done();
