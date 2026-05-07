@@ -2661,7 +2661,7 @@ BEGIN
   -- 3. Fetch user embedding IF user exists
   IF uid IS NOT NULL THEN
     SELECT u.song_embedding INTO user_embedding
-    FROM public."user" u
+    FROM public.users u
     WHERE u.id = uid;
   END IF;
 
