@@ -7,6 +7,14 @@ export function authErrorReturn(authError: AuthApiError): string {
 
     case "email_exists":
       return "alreadyEmail";
+    case "same_password":
+      return "samePassword";
+
+    case "over_email_send_rate_limit":
+      return "emailRateLimitExceeded";
+
+    case "over_request_rate_limit":
+      return "requestRateLimitExceeded";
 
     case "email_not_confirmed":
       return "notConfirmEmail";

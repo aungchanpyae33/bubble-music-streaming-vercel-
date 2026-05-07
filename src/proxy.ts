@@ -41,7 +41,11 @@ async function updateSession(request: NextRequest) {
   const { data } = await supabase.auth.getClaims();
   const user = data?.claims;
   // 2️ If user IS logged in and tries to access /auth pages, redirect to /root
-  if (user && request.nextUrl.pathname.startsWith("/auth")) {
+  if (
+    user &&
+    !request.nextUrl.pathname.startsWith("/auth/update-password") &&
+    request.nextUrl.pathname.startsWith("/auth")
+  ) {
     const url = request.nextUrl.clone();
     url.pathname = "/"; // back to   default root page
     return NextResponse.redirect(url);

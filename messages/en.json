@@ -36,6 +36,7 @@
       "playlist": "Go to creator"
     },
     "share": "Share",
+    "updatePassword": "Update Password",
     "searchPage": {
       "searchResultFor": "Search results for {searchKeyword}"
     },
@@ -112,6 +113,9 @@
     "wrongEmail": "Please provide valid email address",
     "wentWrong": "Something went wrong",
     "alreadyEmail": "This email is alreay exist",
+    "samePassword": "Updated password is the same as previous one. Please use the new one",
+    "emailRateLimitExceeded": "Email delivery is a bit busy right now. Please try again later.",
+    "requestRateLimitExceeded": "Too many requests. Please try again later.",
     "notConfirmEmail": "Please comfirm the email first",
     "wrongCredentials": "The credentials you typed are incorrect",
     "alreadyUser": "User is already exist. Please sign in",
@@ -119,7 +123,9 @@
     "notFieldChange": "Input field datas are not changed",
     "globalErrorTitle": "This page couldn't load.",
     "globalErrorText": " Please reload to try again or go back.",
-    "searchError": "An error occurred while searching."
+    "searchError": "An error occurred while searching.",
+    "authErrorTitle": "Authentication Error",
+    "authErrorText": "There was an error with your authentication. Please try again."
   },
   "Warning": {
     "notice": "Notice",
@@ -146,9 +152,104 @@
 
     "contactTitle": "Contact",
     "contactDescription": "I am currently looking for new opportunities.",
-
+    "legal": "Legal Information",
+    "privacy": "Privacy Policy",
+    "terms": "Terms & Conditions",
     "copyright": "© {year} Bubble. Built by AungChanPyae",
     "demoNote": "This project was created for demonstration purposes only."
+  },
+
+  "Privacy": {
+    "title": "Privacy Policy — Bubble",
+    "lastUpdated": "Last updated : ",
+    "date": "6 May 2026",
+    "intro": "Bubble respects your privacy. This Privacy Policy explains how we collect and use your data to provide a personalized music streaming experience.",
+
+    "section1": {
+      "title": "1. Information We Collect",
+      "desc": "To provide our streaming services, we collect the following information:",
+      "personal": "Account Info: Name and Email address.",
+      "activity": "Listening Activity: Your last 50 played songs and your last recently played playlists, artists, and albums.",
+      "library": "Library Data: Your created playlists, liked songs, playlists, artists, albums.",
+      "media": "Media: Bubble does not allow user media uploads. All music and art are served via our internal API."
+    },
+
+    "section2": {
+      "title": "2. How We Use Your Data",
+      "use": "To manage your music library and playlists.\nTo provide personalized recommendations using our recommendation engine.\nTo analyze internal popularity trends (no third-party tracking).\nTo synchronize your experience across sessions.",
+      "no": "We do not:\nUse Google Analytics, Mixpanel, or other third-party trackers.\nSell your listening history to advertisers."
+    },
+
+    "section3": {
+      "title": "3. Storage & Technology",
+      "desc": "Your data is stored securely using Supabase (Postgres for data and Storage for audio files).",
+      "cookies": "Cookies: Used to remember your language preferences and theme settings.",
+      "local": "LocalStorage: Used to save your volume levels and to batch playback signals (e.g., tracking the last 5 songs played) to generate recommendation embeddings."
+    },
+
+    "section4": {
+      "title": "4. Authentication",
+      "desc": "We use Supabase Auth for secure login via Email/Password or Google OAuth."
+    },
+
+    "section5": {
+      "title": "5. Data Sharing",
+      "desc": "Your personal data and listening history are never shared with third parties, except for our core infrastructure providers (Supabase and Vercel)."
+    },
+
+    "section6": {
+      "title": "6. User Control & Deletion",
+      "desc": "As Bubble is currently in a demo project, automated account deletion through the dashboard is not yet supported. If you wish to have your data removed, please contact us via email."
+    },
+
+    "section7": {
+      "title": "7. Security",
+      "desc": "We implement standard security practices to protect your account and listening data, though no internet-based system is 100% secure."
+    },
+
+    "section8": {
+      "title": "8. Support",
+      "contact": "contact : ",
+      "email": "aung.c.pyae@outlook.com"
+    }
+  },
+  "Terms": {
+    "title": "Terms & Conditions – Bubble",
+    "lastUpdated": "Last updated : ",
+    "date": "6 May 2026",
+    "intro": "By accessing Bubble, you agree to the following terms and conditions:",
+
+    "section1": {
+      "title": "1. Project Nature",
+      "desc": "Bubble is a non-commercial, personal demonstration project developed by Aung Chan Pyae",
+      "demo": "As this is a demo, features may change, service may go offline without notice, and user data (like playlists) may be reset at any time."
+    },
+
+    "section2": {
+      "title": "2. Intellectual Property Disclaimer",
+      "warning": "⚠️ Disclaimer: This project is a non-commercial personal demonstration project. I do not own or claim copyright for any songs or images stored or used in this application. All media content is used strictly for demonstration purposes. I only own the source code written for this project."
+    },
+
+    "section3": {
+      "title": "3. Music Usage & Downloads",
+      "items": "• Music is provided primarily for streaming demonstration.\n• Users may download music files for personal use at their own risk.\n• You agree not to distribute downloaded files using the 'Bubble' name or brand.\n• This service must not be used for public or commercial broadcasting (e.g., in shops or cafes)."
+    },
+
+    "section4": {
+      "title": "4. User Accounts",
+      "items": "• You may use nicknames; real names are not required.\n• Multiple people are permitted to share a single account.\n• We reserve the right to ban or block any user who attempts to hack, exploit, or abuse the system/API."
+    },
+
+    "section5": {
+      "title": "5. Limitation of Liability",
+      "desc": "The developer is not responsible for any copyright issues arising from user downloads or any damages/data loss caused by using this demo application. The service is provided 'as-is'."
+    },
+
+    "section6": {
+      "title": "6. Support",
+      "contact": "For inquiries : ",
+      "email": "aung.c.pyae@outlook.com"
+    }
   },
   "ListTitle": {
     "topMix": "Top Mix",
@@ -214,12 +315,22 @@
     "createAccount": "Create a new Account",
     "loginAccount": "Login to an Account",
     "email": "email",
+    "signInWithGoogle": "Sign in with Google",
+    "signUpWithGoogle": "Sign up with Google",
     "display_name": "Your Name",
     "emailPlaceholder": "email@example.com",
     "password": "Password",
+    "forgotPassword": "Forgot password?",
+    "forgotPasswordDescription": "Enter your email address and we will send a link to reset your password.",
+    "updatePasswordInstruction": "Please enter your new password below.",
+    "resetPassword": "Reset Your Password",
+    "checkEmail": "Check your email",
+    "updatePassword": "Update Password",
+    "resetPasswordLinkSuccessContent": "The reset password link has been sent to your email address. Please check your email and click the link. If you don’t see it, check your spam folder.",
     "passwordPlaceholder": "password",
     "login": "Login",
     "signUp": "Sign Up",
+    "sendResetLink": "Send Reset Link",
     "unAuthTitle": "Authentication Required",
     "unAuthText": "You need to log in to view this page.",
     "noAcc": "Don't have an account? <link>Register here</link>",
@@ -235,6 +346,14 @@
     "searchPage": {
       "title": "Search For {query}",
       "description": "Are you looking for something? Find songs , albums , artists and playlists you loved in Bubble"
+    },
+    "termsPage": {
+      "title": "Terms & Conditions",
+      "description": "Learn the Terms & Conditions of Bubble web app"
+    },
+    "privacyPage": {
+      "title": "Privacy Policy",
+      "description": "Learn the Privacy Policy of Bubble web app"
     },
     "explorePage": {
       "title": "Explore",
@@ -288,6 +407,22 @@
     "authSignup": {
       "title": "Sign up",
       "description": "Create your new Bubble account and enjoy building your personalized music world."
+    },
+    "forgotPassword": {
+      "title": "Forgot Password",
+      "description": "Enter your email address and we’ll send you a link to reset your password and regain access to your Miney account."
+    },
+    "checkResetLinkEmail": {
+      "title": "Check Your Email",
+      "description": "We’ve sent a password reset link to your email. Please check the email."
+    },
+    "updatePassword": {
+      "title": "Update Password",
+      "description": "Fill your new password to change the current password. Please use the one that different to previous password"
+    },
+    "authError": {
+      "title": "Authentication Error",
+      "description": "There was an error with your authentication. Please try again."
     },
     "authConfirm": {
       "title": "Verify Account",
