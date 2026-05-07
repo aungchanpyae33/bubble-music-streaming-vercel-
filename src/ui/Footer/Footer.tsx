@@ -5,7 +5,7 @@ function Footer() {
   const f = useTranslations("Footer");
   return (
     <footer className="w-full bg-inherit  border-t border-seperate-soft  py-8 px-4">
-      <div className="grid grid-cols-1  lg:grid-cols-3 sm:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
         <div className="space-y-4 sm:col-span-2 lg:col-auto col-auto">
           <h3 className="text-foreground font-bold text-lg">
             {f("aboutTitle")}
@@ -99,6 +99,27 @@ function Footer() {
               ကျွန်တော်ဧ။် ပို့ဖိုလီယိုကို ကြည့်ရှုရန်
             </Link> */}
           </div>
+        </div>
+        <div className="space-y-4">
+          <h3 className="text-foreground font-bold text-lg">{f("legal")}</h3>
+          <ul className="grid grid-cols-2 gap-2">
+            <li className="text-ink-400 text-sm">
+              <div className=" flex gap-1">
+                <span>•</span>
+                <Link href={"/privacy"}>
+                  <span>{f("privacy")}</span>
+                </Link>
+              </div>
+            </li>
+            <li className="text-ink-400 text-sm">
+              <div className=" flex gap-1">
+                <span>•</span>
+                <Link href={"/terms"}>
+                  <span>{f("terms")}</span>
+                </Link>
+              </div>
+            </li>
+          </ul>
         </div>
       </div>
 
