@@ -15,6 +15,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontSize: {
+        "sm-base": ["0.9375rem", { lineHeight: "1.4rem" }], // 15px
+      },
       screens: {
         short: { raw: "(max-height: 400px)" },
         overShort: { raw: "(max-height: 280px)" },
