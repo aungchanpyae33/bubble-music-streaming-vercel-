@@ -16,9 +16,6 @@
     "changeLanguage": "Language",
     "en": "English",
     "my": "မြန်မာ",
-    "ja": "日本語",
-    "ko": "한국어",
-    "es": "Español",
     "like": {
       "addLike": "Add like",
       "removeLike": "Remove like"
