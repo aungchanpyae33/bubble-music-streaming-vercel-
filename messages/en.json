@@ -40,6 +40,7 @@
       "playlist": "Go to creator"
     },
     "share": "Share",
+    "updatePassword": "Update Password",
     "searchPage": {
       "searchResultFor": "Search results for {searchKeyword}"
     },
@@ -116,6 +117,9 @@
     "wrongEmail": "Please provide valid email address",
     "wentWrong": "Something went wrong",
     "alreadyEmail": "This email is alreay exist",
+    "samePassword": "Updated password is the same as previous one. Please use the new one",
+    "emailRateLimitExceeded": "Email delivery is a bit busy right now. Please try again later.",
+    "requestRateLimitExceeded": "Too many requests. Please try again later.",
     "notConfirmEmail": "Please comfirm the email first",
     "wrongCredentials": "The credentials you typed are incorrect",
     "alreadyUser": "User is already exist. Please sign in",
@@ -123,7 +127,9 @@
     "notFieldChange": "Input field datas are not changed",
     "globalErrorTitle": "This page couldn't load.",
     "globalErrorText": " Please reload to try again or go back.",
-    "searchError": "An error occurred while searching."
+    "searchError": "An error occurred while searching.",
+    "authErrorTitle": "Authentication Error",
+    "authErrorText": "There was an error with your authentication. Please try again."
   },
   "Warning": {
     "notice": "Notice",
@@ -313,12 +319,22 @@
     "createAccount": "Create a new Account",
     "loginAccount": "Login to an Account",
     "email": "email",
+    "signInWithGoogle": "Sign in with Google",
+    "signUpWithGoogle": "Sign up with Google",
     "display_name": "Your Name",
     "emailPlaceholder": "email@example.com",
     "password": "Password",
+    "forgotPassword": "Forgot password?",
+    "forgotPasswordDescription": "Enter your email address and we will send a link to reset your password.",
+    "updatePasswordInstruction": "Please enter your new password below.",
+    "resetPassword": "Reset Your Password",
+    "checkEmail": "Check your email",
+    "updatePassword": "Update Password",
+    "resetPasswordLinkSuccessContent": "The reset password link has been sent to your email address. Please check your email and click the link. If you don’t see it, check your spam folder.",
     "passwordPlaceholder": "password",
     "login": "Login",
     "signUp": "Sign Up",
+    "sendResetLink": "Send Reset Link",
     "unAuthTitle": "Authentication Required",
     "unAuthText": "You need to log in to view this page.",
     "noAcc": "Don't have an account? <link>Register here</link>",
@@ -395,6 +411,22 @@
     "authSignup": {
       "title": "Sign up",
       "description": "Create your new Bubble account and enjoy building your personalized music world."
+    },
+    "forgotPassword": {
+      "title": "Forgot Password",
+      "description": "Enter your email address and we’ll send you a link to reset your password and regain access to your Miney account."
+    },
+    "checkResetLinkEmail": {
+      "title": "Check Your Email",
+      "description": "We’ve sent a password reset link to your email. Please check the email."
+    },
+    "updatePassword": {
+      "title": "Update Password",
+      "description": "Fill your new password to change the current password. Please use the one that different to previous password"
+    },
+    "authError": {
+      "title": "Authentication Error",
+      "description": "There was an error with your authentication. Please try again."
     },
     "authConfirm": {
       "title": "Verify Account",

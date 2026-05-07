@@ -1,6 +1,7 @@
 import { outputBaseUrl } from "@/lib/outputBaseUrl";
 import AuthContainer from "@/ui/auth/AuthContainer";
 import BrandTitle from "@/ui/auth/BrandTitle";
+import GoogleAuthButton from "@/ui/auth/googleAuth/GoogleAuthButton";
 import LoginFormContainer from "@/ui/auth/loginForm/LoginFormContainer";
 import SignUpText from "@/ui/auth/loginForm/SignUpText";
 import TitleLogin from "@/ui/auth/loginForm/TitleLogin";
@@ -33,6 +34,7 @@ export default function Page() {
       <BrandTitle />
       <TitleLogin />
       <LoginFormContainer />
+      <GoogleAuthButton displayText="signInWithGoogle" />
       <SignUpText />
     </AuthContainer>
   );
