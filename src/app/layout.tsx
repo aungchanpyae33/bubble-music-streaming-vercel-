@@ -1,8 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "../globals.css";
-
-const inter = Inter({ subsets: ["latin"] });
 import { ThemeProvider } from "next-themes";
 export const metadata: Metadata = {
   title: {
@@ -45,9 +42,7 @@ export default async function RootLayout({
   return (
     <Suspense fallback={<AppLoading />}>
       <LayoutLocalFetch>
-        <body
-          className={`${inter.className} overflow-hidden relative h-full flex flex-col`}
-        >
+        <body className="antialiased overflow-hidden relative h-full flex flex-col">
           <Toaster
             position="bottom-center"
             toastOptions={{
