@@ -2,7 +2,7 @@ import { getRequestConfig } from "next-intl/server";
 import { cacheLife } from "next/cache";
 import { cookies, headers } from "next/headers";
 
-const SUPPORTED_LOCALES = ["en", "my"] as const;
+const SUPPORTED_LOCALES = ["en", "my", "ja", "ko", "es"] as const;
 export type Locale = (typeof SUPPORTED_LOCALES)[number];
 
 function isSupported(locale: string | undefined): locale is Locale {
