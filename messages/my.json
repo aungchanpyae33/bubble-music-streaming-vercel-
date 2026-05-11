@@ -16,6 +16,9 @@
     "changeLanguage": "ဘာသာစကား",
     "en": "English",
     "my": "မြန်မာ",
+    "ja": "日本語",
+    "ko": "한국어",
+    "es": "Español",
     "like": {
       "addLike": "နှစ်သက်သည်",
       "removeLike": "မနှစ်သက်တော့ပါ"
