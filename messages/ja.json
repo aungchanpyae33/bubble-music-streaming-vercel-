@@ -1,0 +1,415 @@
+{
+  "block": {
+    "home": "ホーム",
+    "back": "戻る",
+    "reload": "再読み込み",
+    "close": "閉じる",
+    "login": "ログイン",
+    "signUp": "新規登録",
+    "logout": "ログアウト",
+    "profile": {
+      "title": "プロフィール"
+    },
+    "theme": "テーマ",
+    "light": "ライト",
+    "dark": "ダーク",
+    "deviceTheme": "端末のテーマ",
+    "changeLanguage": "言語",
+    "en": "English",
+    "my": "မြန်မာ",
+    "ja": "日本語",
+    "ko": "한국어",
+    "es": "Español",
+    "like": {
+      "addLike": "お気に入りに追加",
+      "removeLike": "お気に入りから削除"
+    },
+    "removeFromPlaylist": "プレイリストから削除",
+    "addToPlaylist": "プレイリストに追加",
+    "removeFromQueue": "キューから削除",
+    "removeFromLibrary": "ライブラリから削除",
+    "deletePlaylist": "プレイリストを削除",
+    "editPlaylist": "プレイリストを編集",
+    "addToQueue": "キューに追加",
+    "addToPlayNext": "次に再生リストに追加",
+    "addToLibrary": "ライブラリに追加",
+    "goToAlbum": "アルバムへ移動",
+    "goToRelative": {
+      "album": "アーティストへ移動",
+      "track": "アーティストへ移動",
+      "playlist": "クリエイターへ移動"
+    },
+    "share": "共有",
+    "updatePassword": "パスワードを更新",
+    "searchPage": {
+      "searchResultFor": "「{searchKeyword}」の検索結果"
+    },
+    "searchInputPlaceholder": "検索",
+    "noExistLyric": "歌詞はまだ利用できません。",
+    "create": "作成",
+    "edit": "編集",
+    "newPlaylist": "新しいプレイリスト",
+    "editedPlaylist": "プレイリストを編集",
+    "navLink": {
+      "exploreDescription": "見つける",
+      "likeDescription": "お気に入りの曲",
+      "libraryDescription": "ライブラリ"
+    },
+    "emptySongList": "プレイリストに曲がありません",
+    "playlistForm": {
+      "title": "タイトル",
+      "privacy": "プライバシー設定",
+      "public": "公開",
+      "private": "非公開"
+    },
+    "listHeader": {
+      "title": "タイトル",
+      "album": "アルバム"
+    }
+  },
+  "Toast": {
+    "loading": "処理中… しばらくお待ちください。",
+    "like": {
+      "addLikeSuccess": "曲をお気に入りに追加しました。",
+      "addLikeError": "曲をお気に入りに追加できませんでした。もう一度お試しください。",
+      "removeLikeSuccess": "曲をお気に入りから削除しました。",
+      "removeLikeError": "お気に入りから削除できませんでした。もう一度お試しください。"
+    },
+    "share": {
+      "shareCopy": "共有リンクをコピーしました"
+    },
+    "playlistAction": {
+      "playlistCreate": "プレイリストを正常に作成しました",
+      "playlistEdit": "プレイリストを正常に編集しました"
+    },
+    "removeFromLib": {
+      "removeFromLibSuccess": "ライブラリから正常に削除しました"
+    },
+    "addToLib": {
+      "addToLibSuccess": "ライブラリに正常に追加しました"
+    },
+    "addSongToPlaylist": {
+      "addSongToPlaylistSuccess": "曲をプレイリストに正常に追加しました"
+    },
+    "removeSongFromPlaylist": {
+      "removeSongFromPlaylistSuccess": "曲をプレイリストから正常に削除しました"
+    },
+    "removeFromQueueAction": "キューから正常に削除しました",
+    "addToQueueAction": "キューに正常に追加しました",
+    "addToPlayNextAction": "次に再生する曲として正常に追加しました"
+  },
+  "ModalBox": {
+    "addSongToPlaylist": {
+      "title": "プレイリストに曲を追加"
+    }
+  },
+  "Loading": {
+    "loadingLyric": "歌詞を読み込んでいます..."
+  },
+  "ErrorMsg": {
+    "errorLyric": "歌詞の取得中にエラーが発生しました",
+    "required": "送信するには {label} 項目を入力する必要があります",
+    "maxLength": "最大文字数は {max} 文字です",
+    "minLength": "最小文字数は {min} 文字です",
+    "minLengthPassword": "パスワードは少なくとも {min} 文字である必要があります",
+    "passwordComplexity": "パスワードには大文字、小文字、数字、記号を含め、少なくとも {min} 文字である必要があります",
+    "wrongEmail": "有効なメールアドレスを入力してください",
+    "wentWrong": "問題が発生しました",
+    "alreadyEmail": "このメールアドレスは既に登録されています",
+    "samePassword": "新しいパスワードが以前のものと同じです。別のパスワードを使用してください",
+    "emailRateLimitExceeded": "現在、メールの配信が混み合っています。後でもう一度お試しください。",
+    "requestRateLimitExceeded": "リクエストが多すぎます。後でもう一度お試しください。",
+    "notConfirmEmail": "先にメールアドレスの確認を行ってください",
+    "wrongCredentials": "入力された認証情報が間違っています",
+    "alreadyUser": "ユーザーは既に存在します。ログインしてください",
+    "notFoundUser": "ユーザーが存在しません。新規登録してください",
+    "notFieldChange": "入力項目のデータが変更されていません",
+    "globalErrorTitle": "このページを読み込めませんでした。",
+    "globalErrorText": "再読み込みしてもう一度お試しいただくか、前のページに戻ってください。",
+    "searchError": "検索中にエラーが発生しました。",
+    "authErrorTitle": "認証エラー",
+    "authErrorText": "認証中にエラーが発生しました。もう一度お試しください。"
+  },
+  "Warning": {
+    "notice": "お知らせ",
+    "songAlreadyExist": "曲は既に存在します。追加しますか？",
+    "add": "追加",
+    "cancel": "キャンセル",
+    "needToLogin": "この機能を使用するにはログインする必要があります",
+    "needToLoginSidebar": "お気に入りを保存するにはログインしてください。",
+    "NotFound": "見つかりません",
+    "noHlsSupport": "お使いのブラウザは曲の再生をサポートしていません。別のブラウザをお試しください。",
+    "globalNotFoundTitle": "ページが見つかりません",
+    "globalNotFoundText": "別のキーワードで検索してみてください",
+    "currentlyEmpty": "まだ何もありません。現在、空です。",
+    "noSearchResult": "検索結果が見つかりませんでした"
+  },
+  "Footer": {
+    "aboutTitle": "このプロジェクトについて",
+    "aboutDescription": "TypeScript、React、Next.js で構築された洗練された音楽ストリーミングウェブアプリ。ユーザーは洗練されたインターフェースを通じて音楽を見つけ、個人のライブラリを管理し、カスタムプレイリストを作成できます。",
+    "disclaimer": "⚠️ 免責事項 - このプロジェクトは非商用の個人的なデモプロジェクトです。このアプリに保存または使用されている曲や画像について、私は著作権を所有または主張しません。すべてのメディアコンテンツはデモ目的でのみ使用されています。私はこのプロジェクトのために書かれたソースコードのみを所有しています。",
+    "techTitle": "使用技術",
+    "contactTitle": "お問い合わせ",
+    "contactDescription": "現在、新しい機会を探しています。",
+    "legal": "法的情報",
+    "privacy": "プライバシーポリシー",
+    "terms": "利用規約",
+    "copyright": "© {year} バブル (Bubble). Built by AungChanPyae",
+    "demoNote": "このプロジェクトはデモ目的でのみ作成されました。"
+  },
+  "Privacy": {
+    "title": "プライバシーポリシー — バブル (Bubble)",
+    "lastUpdated": "最終更新日：",
+    "date": "2026年5月6日",
+    "intro": "バブル (Bubble) はお客様のプライバシーを尊重します。このプライバシーポリシーでは、パーソナライズされた音楽ストリーミング体験を提供するために、当社がどのようにお客様のデータを収集し使用するかを説明します。",
+    "section1": {
+      "title": "1. 収集する情報",
+      "desc": "ストリーミングサービスを提供するため、以下の情報を収集します：",
+      "personal": "アカウント情報：名前およびメールアドレス。",
+      "activity": "視聴履歴：最近再生した50曲、および最近再生したプレイリスト、アーティスト、アルバム。",
+      "library": "ライブラリデータ：作成したプレイリスト、お気に入りの曲、プレイリスト、アーティスト、アルバム。",
+      "media": "メディア：ユーザーによるメディアのアップロードは許可されていません。すべての音楽とアートは内部API経由で提供されます。"
+    },
+    "section2": {
+      "title": "2. データの利用方法",
+      "use": "音楽ライブラリおよびプレイリストの管理。\nレコメンドエンジンを使用したパーソナライズされたおすすめの提供。\n内部の人気トレンドの分析（サードパーティによる追跡なし）。\nセッション間での体験の同期。",
+      "no": "当社は以下を行いません：\nGoogle Analytics、Mixpanel、またはその他のサードパーティトラッカーの使用。\n視聴履歴の広告主への販売。"
+    },
+    "section3": {
+      "title": "3. 保存およびテクノロジー",
+      "desc": "データは Supabase（データ用の Postgres およびオーディオファイル用の Storage）を使用して安全に保存されます。",
+      "cookies": "クッキー：言語の設定およびテーマの選択を記憶するために使用されます。",
+      "local": "ローカルストレージ：音量の保存、およびおすすめ情報を生成するための再生シグナル（直近5曲の記録など）を処理するために使用されます。"
+    },
+    "section4": {
+      "title": "4. 認証",
+      "desc": "メール/パスワードまたは Google OAuth を介した安全なログインに Supabase Auth を使用しています。"
+    },
+    "section5": {
+      "title": "5. データの共有",
+      "desc": "コアインフラプロバイダー（Supabase および Vercel）を除き、お客様の個人データや視聴履歴を第三者と共有することは一切ありません。"
+    },
+    "section6": {
+      "title": "6. ユーザーの制御と削除",
+      "desc": "現在デモプロジェクトのため、ダッシュボードからの自動アカウント削除機能はまだサポートされていません。データの削除をご希望の場合は、メールにてお問い合わせください。"
+    },
+    "section7": {
+      "title": "7. セキュリティ",
+      "desc": "お客様のアカウントおよび視聴データを保護するために標準的なセキュリティ対策を実施していますが、インターネット上のシステムで100%安全なものはありません。"
+    },
+    "section8": {
+      "title": "8. サポート",
+      "contact": "お問い合わせ：",
+      "email": "aung.c.pyae@outlook.com"
+    }
+  },
+  "Terms": {
+    "title": "利用規約 – バブル (Bubble)",
+    "lastUpdated": "最終更新日：",
+    "date": "2026年5月6日",
+    "intro": "バブル (Bubble) にアクセスすることにより、以下の利用規約に同意したものとみなされます：",
+    "section1": {
+      "title": "1. プロジェクトの性質",
+      "desc": "バブル (Bubble) は Aung Chan Pyae によって開発された非商用の個人的なデモプロジェクトです。",
+      "demo": "デモ版であるため、機能が変更される場合や、予告なしにサービスがオフラインになる場合、ユーザーデータ（プレイリストなど）がいつでもリセットされる場合があります。"
+    },
+    "section2": {
+      "title": "2. 知的財産権に関する免責事項",
+      "warning": "⚠️ 免責事項：このプロジェクトは非商用の個人的なデモプロジェクトです。このアプリに保存または使用されている曲や画像について、私は著作権を所有または主張しません。すべてのメディアコンテンツはデモ目的でのみ使用されています。私はこのプロジェクトのために書かれたソースコードのみを所有しています。"
+    },
+    "section3": {
+      "title": "3. 音楽の使用およびダウンロード",
+      "items": "• 音楽は主にストリーミングのデモンストレーション目的で提供されています。\n• ユーザーは自身の責任において個人目的で音楽ファイルをダウンロードすることができます。\n• ダウンロードしたファイルを「バブル (Bubble)」の名前やブランドを使用して配布しないことに同意するものとします。\n• このサービスを公共または商用の放送（店舗やカフェなど）に使用してはなりません。"
+    },
+    "section4": {
+      "title": "4. ユーザーアカウント",
+      "items": "• ニックネームを使用できます。本名は必要ありません。\n• 複数の人が1つのアカウントを共有することが許可されています。\n• ハッキング、悪用、またはシステム/APIへの不正アクセスを試みるユーザーを禁止またはブロックする権利を留保します。"
+    },
+    "section5": {
+      "title": "5. 責任の制限",
+      "desc": "開発者は、ユーザーのダウンロードから生じる著作権問題、またはこのデモアプリの使用によって生じるいかなる損害/データ損失に対しても責任を負いません。サービスは「現状のまま」提供されます。"
+    },
+    "section6": {
+      "title": "6. サポート",
+      "contact": "お問い合わせ：",
+      "email": "aung.c.pyae@outlook.com"
+    }
+  },
+  "ListTitle": {
+    "topMix": "トップミックス",
+    "topOfficialPlaylistWeek": "今週の バブル (Bubble) トッププレイリスト",
+    "topCommunityPlaylistWeek": "今週の コミュニティトッププレイリスト",
+    "topPlaylistWeek": "今週のトッププレイリスト",
+    "topAlbumWeek": "今週のトップアルバム",
+    "topArtistWeek": "今週のトップアーティスト",
+    "artistForYou": "おすすめのアーティスト",
+    "albumForYou": "おすすめのアルバム",
+    "songForYou": "おすすめの曲",
+    "playlistForYou": "おすすめのプレイリスト",
+    "recentlyPlayed": "最近再生した曲",
+    "trendingSongs": "トレンドの曲",
+    "trendingSongsWeek": "今週のトレンド曲",
+    "publicPlaylist": "公開プレイリスト",
+    "album": "アルバム",
+    "artist": "アーティスト",
+    "playlist": "プレイリスト",
+    "track": "曲",
+    "profile": "プロフィール",
+    "topResult": "トップ結果",
+    "topSongsArtist": "人気の曲",
+    "newlyAddedSongs": "最近追加された曲",
+    "newlyAddedPlaylists": "最近追加されたプレイリスト",
+    "newlyAddedAlbums": "最近追加されたアルバム",
+    "newlyAddedArtists": "最近追加されたアーティスト",
+    "genre": "ジャンル",
+    "mood": "ムード",
+    "showMore": "すべて表示",
+    "lastLikedSongs": "お気に入りの曲",
+    "lastSavedAlbums": "保存したアルバム",
+    "lastSavedPlaylists": "保存したプレイリスト",
+    "lastCreatedPlaylists": "作成したプレイリスト",
+    "lastSavedArtists": "お気に入りのアーティスト",
+    "overview": "概要",
+    "create-playlist": "マイプレイリスト",
+    "liked-songs": "お気に入りの曲",
+    "recently": "最近再生した曲",
+    "recommended": "おすすめの {name} プレイリスト",
+    "popular": "今週のトップ {name} プレイリスト",
+    "recent": "最近追加された {name} プレイリスト"
+  },
+  "Genre": {
+    "mix": "ミックス",
+    "electronic": "エレクトロニック",
+    "k-pop": "K-POP",
+    "rap": "ラップ",
+    "pop": "ポップ",
+    "hip-hop": "ヒップホップ",
+    "rock": "ロック",
+    "soul": "ソウル"
+  },
+  "Mood": {
+    "energy": "エナジー",
+    "love": "ラブ",
+    "sad": "悲しい",
+    "happy": "ハッピー",
+    "chill": "チル",
+    "sleep": "睡眠"
+  },
+  "Auth": {
+    "createAccount": "新しいアカウントを作成",
+    "loginAccount": "アカウントにログイン",
+    "email": "メールアドレス",
+    "signInWithGoogle": "Google でログイン",
+    "signUpWithGoogle": "Google で登録",
+    "display_name": "お名前",
+    "emailPlaceholder": "email@example.com",
+    "password": "パスワード",
+    "forgotPassword": "パスワードをお忘れですか？",
+    "forgotPasswordDescription": "メールアドレスを入力すると、パスワードリセットのリンクをお送りします。",
+    "updatePasswordInstruction": "以下に新しいパスワードを入力してください。",
+    "resetPassword": "パスワードをリセット",
+    "checkEmail": "メールを確認してください",
+    "updatePassword": "パスワードを更新",
+    "resetPasswordLinkSuccessContent": "パスワードリセットのリンクがメールアドレスに送信されました。メールを確認してリンクをクリックしてください。見当たらない場合は迷惑メールフォルダを確認してください。",
+    "passwordPlaceholder": "パスワード",
+    "login": "ログイン",
+    "signUp": "新規登録",
+    "sendResetLink": "リセットリンクを送信",
+    "unAuthTitle": "認証が必要です",
+    "unAuthText": "このページを表示するにはログインする必要があります。",
+    "noAcc": "アカウントをお持ちではないですか？ <link>こちらで登録</link>",
+    "alreadyAcc": "既にアカウントをお持ちですか？ <link>こちらでログイン</link>",
+    "signUpSuccess": "メールアドレスを確認",
+    "signUpSuccessContent": "登録が完了しました！メールを確認してアカウントを有効化してください。見当たらない場合は迷惑メールフォルダを確認してください。"
+  },
+  "MetaData": {
+    "default": {
+      "title": "バブル (Bubble)",
+      "description": "バブル (Bubble) は、ユーザーが好きな曲を自由にコントロールして聴くことができる音楽ストリーミングプラットフォームです。"
+    },
+    "searchPage": {
+      "title": "「{query}」の検索",
+      "description": "何かお探しですか？バブル (Bubble) でお気に入りの曲、アルバム、アーティスト、プレイリストを見つけてください。"
+    },
+    "termsPage": {
+      "title": "利用規約",
+      "description": "バブル (Bubble) ウェブアプリの利用規約を確認してください。"
+    },
+    "privacyPage": {
+      "title": "プライバシーポリシー",
+      "description": "バブル (Bubble) ウェブアプリのプライバシーポリシーを確認してください。"
+    },
+    "explorePage": {
+      "title": "見つける",
+      "description": "あなたのために新しく追加された新鮮な曲を見つけてください。バブル (Bubble) の最新リリースをお見逃しなく。"
+    },
+    "moodPage": {
+      "title": "{mood} ムード",
+      "description": "バブル (Bubble) であなたにぴったりの {mood} ムードの曲をお楽しみください。"
+    },
+    "genrePage": {
+      "title": "{genre} ジャンル",
+      "description": "バブル (Bubble) であなたにぴったりの {genre} ジャンルの曲をお楽しみください。"
+    },
+    "albumPage": {
+      "title": "{album} - アルバム",
+      "description": "バブル (Bubble) で {artistName} のアルバム「{album}」を今すぐお聴きください。"
+    },
+    "trackPage": {
+      "title": "{track} - 曲",
+      "description": "バブル (Bubble) で「{track}」という曲をお聴きください。"
+    },
+    "playlistPage": {
+      "title": "{playlist} - プレイリスト",
+      "description": "バブル (Bubble) で「{playlist}」というプレイリストをお聴きください。"
+    },
+    "libraryPage": {
+      "title": "ライブラリ",
+      "description": "バブル (Bubble) のあなた専用の音楽ライブラリ。"
+    },
+    "profilePage": {
+      "title": "{name}",
+      "description": "バブル (Bubble) の {name} のプロフィールページをチェックしてください。"
+    },
+    "artistPage": {
+      "title": "{name} - アーティスト",
+      "description": "バブル (Bubble) で {name} の曲をチェックしてください。"
+    },
+    "likedSongPage": {
+      "title": "お気に入りの曲",
+      "description": "バブル (Bubble) のお気に入りの曲のプレイリスト。"
+    },
+    "profilePlaylist": {
+      "title": "プレイリスト",
+      "description": "バブル (Bubble) で作成されたプレイリストをお聴きください。"
+    },
+    "authLogin": {
+      "title": "ログイン",
+      "description": "バブル (Bubble) アカウントにログインして、パーソナライズされた音楽の世界をお楽しみください。"
+    },
+    "authSignup": {
+      "title": "新規登録",
+      "description": "新しい バブル (Bubble) アカウントを作成して、パーソナライズされた音楽の世界を構築してください。"
+    },
+    "forgotPassword": {
+      "title": "パスワードの紛失",
+      "description": "メールアドレスを入力すると、パスワードをリセットし、バブル (Bubble) アカウントへのアクセスを回復するためのリンクをお送りします。"
+    },
+    "checkResetLinkEmail": {
+      "title": "メールを確認してください",
+      "description": "メールにパスワードリセットのリンクをお送りしました。メールを確認してください。"
+    },
+    "updatePassword": {
+      "title": "パスワードを更新",
+      "description": "現在のパスワードを変更するために新しいパスワードを入力してください。以前のパスワードとは異なるものを使用してください。"
+    },
+    "authError": {
+      "title": "認証エラー",
+      "description": "認証中にエラーが発生しました。もう一度お試しください。"
+    },
+    "authConfirm": {
+      "title": "アカウントの確認",
+      "description": "メールに送信された確認リンクを使用してアカウントを確認してください。"
+    }
+  }
+}
