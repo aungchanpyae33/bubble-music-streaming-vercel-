@@ -6,6 +6,7 @@ import OptionButton from "../../OptionUI/OptionButton";
 import OptionIconEl from "../../OptionUI/OptionIconEl";
 import OptionText from "../../OptionUI/OptionText";
 import OptionContainer from "../../OptionUI/OptionContainer";
+import { useTranslations } from "next-intl";
 
 type ThemeOption = {
   id: "light" | "dark" | "system";
@@ -44,12 +45,13 @@ function ThemeItem({
 }
 
 function ThemeSwitchSubItem() {
+  const b = useTranslations("block");
   const { setTheme } = useTheme();
 
   const mapData: ThemeOption[] = [
-    { id: "light", themeName: "light", Icon: Sun },
-    { id: "dark", themeName: "dark", Icon: Moon },
-    { id: "system", themeName: "device theme", Icon: Laptop },
+    { id: "light", themeName: b("light"), Icon: Sun },
+    { id: "dark", themeName: b("dark"), Icon: Moon },
+    { id: "system", themeName: b("deviceTheme"), Icon: Laptop },
   ];
 
   const handleSwitch = (theme: ThemeOption["id"]) => {
