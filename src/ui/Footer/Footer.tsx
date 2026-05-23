@@ -124,10 +124,12 @@ function Footer() {
       </div>
 
       <div className="mt-8 pt-6 border-t border-seperate-soft flex flex-col md:flex-row justify-between items-center">
-        <p className="text-ink-500 text-sm">
+        <p className="text-ink-500 text-center text-sm">
           {f("copyright", { year: new Date().getFullYear() })}
         </p>
-        <p className="text-ink-500 text-sm mt-2 md:mt-0">{f("demoNote")}</p>
+        <p className="text-ink-500 text-center text-sm mt-2 md:mt-0">
+          {f("demoNote")}
+        </p>
       </div>
     </footer>
   );
