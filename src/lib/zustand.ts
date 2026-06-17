@@ -137,6 +137,13 @@ export interface VolumeDraggingActions {
   setIsDragging: (newState: boolean) => void;
 }
 
+export interface isDelInPageViewState {
+  isDelInPageView: boolean;
+}
+export interface isDelInPageViewActions {
+  setIsDelInPageView: (newState: boolean) => void;
+}
+
 export interface queueState {
   isQueue: boolean;
 }
@@ -372,6 +379,16 @@ export const useVolumeValue = create<
     },
   ),
 );
+
+export const useIsDelInPageView = create<
+  isDelInPageViewState & isDelInPageViewActions
+>((set) => ({
+  isDelInPageView: false,
+  setIsDelInPageView: (newState: boolean) =>
+    set(() => ({
+      isDelInPageView: newState,
+    })),
+}));
 
 export const useVolumeDragging = create<
   VolumeDraggingState & VolumeDraggingActions

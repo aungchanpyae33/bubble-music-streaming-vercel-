@@ -11,6 +11,7 @@ import PlaylistUpperWrapper from "./PlaylistUpperWrapper";
 import ListOption from "../ListContainer/ListOption";
 import ContextSongListContainer from "@/Context/ContextSongListContainer";
 import EditablePageTrackItemContainer from "./EditablePageTrackItemContainer";
+import ContextSongsData from "@/Context/ContextSongsData";
 const inPage = true;
 function OwnEditable({
   queryClient,
@@ -27,21 +28,20 @@ function OwnEditable({
     <HydrationBoundary state={dehydrate(queryClient)}>
       <div className=" w-full my-5 ">
         <ContextSongListContainer inPage={inPage} id={songs.id} list={songs}>
-          <PlaylistUpperWrapper />
-          <ListContainer>
-            <ListContainerPlayBack list={songs} />
-            {!songs.flag && songs.flag !== "user-specific" && (
-              <ListContainerAddToLibrary />
-            )}
-            <div>
-              <ListOption inPage={inPage} list={songs} />
-            </div>
-          </ListContainer>
+          <ContextSongsData playlistId={id}>
+            <PlaylistUpperWrapper />
+            <ListContainer>
+              <ListContainerPlayBack list={songs} />
+              {!songs.flag && songs.flag !== "user-specific" && (
+                <ListContainerAddToLibrary />
+              )}
+              <div>
+                <ListOption inPage={inPage} list={songs} />
+              </div>
+            </ListContainer>
 
-          <EditablePageTrackItemContainer
-            playlistId={id}
-            description={description}
-          />
+            <EditablePageTrackItemContainer description={description} />
+          </ContextSongsData>
         </ContextSongListContainer>
       </div>
     </HydrationBoundary>
