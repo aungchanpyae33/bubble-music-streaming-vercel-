@@ -13,11 +13,17 @@ import type {
 } from "../../../../database.types-fest";
 import { useSongListContext } from "@/Context/ContextSongListContainer";
 import { useUserInfoContext } from "@/Context/ContextUserInfo";
-import { SignInModalBoxAction, useSignInModalBox } from "@/lib/zustand";
+import {
+  isDelInPageViewActions,
+  SignInModalBoxAction,
+  useIsDelInPageView,
+  useSignInModalBox,
+} from "@/lib/zustand";
 import { guardToSignIn } from "@/lib/guardToSignIn";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 import { useTopLoader } from "nextjs-toploader";
+import { usePathname } from "next/navigation";
 
 interface ListContainerAddToLibraryProps {
   id: string;
@@ -57,11 +63,15 @@ async function ActionToLibraryFn({
 function ListContainerAddToLibrary() {
   const { id, type, source } = useSongListContext();
   const router = useRouter();
+  const pathName = usePathname();
   const queryClient = useQueryClient();
   const [itemSource, setItemSource] = useState(isAdd(source));
   const { userInfo } = useUserInfoContext();
   const signInModalBoxAction = useSignInModalBox(
     (state: SignInModalBoxAction) => state.signInModalBoxAction,
+  );
+  const setIsDelInPageView = useIsDelInPageView(
+    (state: isDelInPageViewActions) => state.setIsDelInPageView,
   );
   const toa = useTranslations("Toast");
   const loader = useTopLoader();
@@ -102,15 +112,16 @@ function ListContainerAddToLibrary() {
             queryClient.setQueryData(["recentlyPlayed"], updatedRecentData);
           }
         }
+        if (pathName.includes(id)) {
+          setIsDelInPageView(true);
+        }
       }
-
       queryClient.setQueryData(["user-library"], {
         data,
         error: null,
       });
-
       if (source === "create") {
-        router.push("/");
+        router.replace("/");
       }
       if (!context.toastId) return;
       toast.success(

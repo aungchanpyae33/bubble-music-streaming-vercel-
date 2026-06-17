@@ -2,7 +2,7 @@ import IconWrapper from "@/ui/general/IconWrapper";
 import { BookmarkX } from "lucide-react";
 import { removeFromLibrary } from "@/actions/removeFromLibrary";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import type { GetRecent } from "@/database/data-types-return";
 import { useSongListContext } from "@/Context/ContextSongListContainer";
@@ -10,6 +10,7 @@ import OptionItem from "../OptionUI/OptionItem";
 import OptionButton from "../OptionUI/OptionButton";
 import OptionIconEl from "../OptionUI/OptionIconEl";
 import OptionText from "../OptionUI/OptionText";
+import { isDelInPageViewActions, useIsDelInPageView } from "@/lib/zustand";
 import { toast } from "sonner";
 import type { MediaItemSource } from "../../../../database.types-fest";
 async function removeFromLibraryFn({
@@ -35,10 +36,13 @@ function RemoveFromLibraryChild() {
   const b = useTranslations("block");
   const toa = useTranslations("Toast");
   const router = useRouter();
+  const pathName = usePathname();
   const { id, source, type } = useSongListContext();
   const isOwnPlaylist = source === "create" && type === "playlist";
   const queryClient = useQueryClient();
-
+  const setIsDelInPageView = useIsDelInPageView(
+    (state: isDelInPageViewActions) => state.setIsDelInPageView,
+  );
   const mutation = useMutation({
     mutationFn: removeFromLibraryFn,
     onMutate: () => {
@@ -71,6 +75,9 @@ function RemoveFromLibraryChild() {
             queryClient.setQueryData(["recentlyPlayed"], updatedRecentData);
           }
         }
+        if (pathName.includes(id)) {
+          setIsDelInPageView(true);
+        }
       }
 
       queryClient.setQueryData(["user-library"], {
@@ -79,7 +86,7 @@ function RemoveFromLibraryChild() {
       });
 
       if (source === "create") {
-        router.push("/");
+        router.replace("/");
       }
       if (!context.toastId) return;
       toast.success(toa("removeFromLib.removeFromLibSuccess"), {
