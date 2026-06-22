@@ -59,13 +59,6 @@ CREATE EXTENSION IF NOT EXISTS "index_advisor" WITH SCHEMA "extensions";
 
 
 
-CREATE EXTENSION IF NOT EXISTS "pg_graphql" WITH SCHEMA "graphql";
-
-
-
-
-
-
 CREATE EXTENSION IF NOT EXISTS "pg_stat_statements" WITH SCHEMA "extensions";
 
 
@@ -203,10 +196,15 @@ CREATE OR REPLACE FUNCTION "public"."add_recent_song"("p_song_id" "uuid") RETURN
     SET "search_path" TO ''
     AS $$
 DECLARE
-  v_user_id TEXT;
+  v_user_id uuid;
 BEGIN
   -- Get current user ID
-  v_user_id := public.get_user_id();
+  v_user_id := auth.uid();
+
+  -- Guard rail against unauthenticated requests
+  IF v_user_id IS NULL THEN
+    RETURN;
+  END IF;
 
   -- Insert or update user's song play count
   INSERT INTO public.user_song_plays (user_id, song_id, played_at, play_count)
@@ -216,16 +214,17 @@ BEGIN
     played_at = EXCLUDED.played_at,
     play_count = public.user_song_plays.play_count + 1;
 
-  -- Keep only the 50 most recent songs for this user
+  -- Keep only the 50 most recent songs for this user using a CTE and tie-breaker
+  WITH kept_plays AS (
+    SELECT id
+    FROM public.user_song_plays
+    WHERE user_id = v_user_id
+    ORDER BY played_at DESC, id DESC -- 'id' breaks ties if timestamps match exactly
+    LIMIT 50
+  )
   DELETE FROM public.user_song_plays
   WHERE user_id = v_user_id
-    AND id NOT IN (
-      SELECT id
-      FROM public.user_song_plays
-      WHERE user_id = v_user_id
-      ORDER BY played_at DESC
-      LIMIT 50
-    );
+    AND id NOT IN (SELECT id FROM kept_plays);
 END;
 $$;
 
@@ -274,25 +273,44 @@ CREATE OR REPLACE FUNCTION "public"."add_recently_played"("p_item_id" "text", "p
     AS $$
 DECLARE
   recent_played JSONB;
+  v_user_id uuid := auth.uid();
 BEGIN
+  -- Guard rail against unauthenticated sessions
+  IF v_user_id IS NULL THEN
+    RETURN NULL;
+  END IF;
+
   -- Insert or update the user's recently played item
-  INSERT INTO public.recently_played_list (user_id, item_id, type, played_at, play_count)
-  VALUES (public.get_user_id(), p_item_id, p_type, NOW(), 1)
+  INSERT INTO public.recently_played_list (
+    user_id,
+    item_id,
+    type,
+    played_at,
+    play_count
+  )
+  VALUES (
+    v_user_id,
+    p_item_id,
+    p_type,
+    NOW(),
+    1
+  )
   ON CONFLICT (user_id, item_id, type, week_start)
   DO UPDATE SET 
     played_at = EXCLUDED.played_at,
     play_count = public.recently_played_list.play_count + 1;
 
-  -- Keep only 50 most recent items
+  -- Keep only 50 most recent items using a predictable CTE structure
+  WITH kept_plays AS (
+    SELECT id
+    FROM public.recently_played_list
+    WHERE user_id = v_user_id
+    ORDER BY played_at DESC, id DESC -- 'id' resolves ties if timestamps collide
+    LIMIT 50
+  )
   DELETE FROM public.recently_played_list
-  WHERE user_id = public.get_user_id()
-    AND id NOT IN (
-      SELECT id
-      FROM public.recently_played_list
-      WHERE user_id = public.get_user_id()
-      ORDER BY played_at DESC
-      LIMIT 50
-    );
+  WHERE user_id = v_user_id
+    AND id NOT IN (SELECT id FROM kept_plays);
 
   -- Return the full recent list as JSONB
   SELECT * INTO recent_played FROM public.get_recent_list();
@@ -309,6 +327,8 @@ CREATE OR REPLACE FUNCTION "public"."add_recently_played_batch"("p_items" "jsonb
     LANGUAGE "plpgsql"
     SET "search_path" TO ''
     AS $$
+DECLARE
+  v_user_id uuid := auth.uid();
 BEGIN
     -- Bulk insert using the played_at from p_items
     INSERT INTO public.recently_played_list (user_id, item_id, type, played_at, play_count)
@@ -326,11 +346,11 @@ BEGIN
 
     -- Keep only 50 most recent items
     DELETE FROM public.recently_played_list
-    WHERE user_id = public.get_user_id()
+    WHERE user_id = v_user_id
       AND id NOT IN (
           SELECT id
           FROM public.recently_played_list
-          WHERE user_id = public.get_user_id()
+          WHERE user_id = v_user_id
           ORDER BY played_at DESC
           LIMIT 50
       );
@@ -341,6 +361,44 @@ $$;
 ALTER FUNCTION "public"."add_recently_played_batch"("p_items" "jsonb", "p_user_id" "text") OWNER TO "postgres";
 
 
+CREATE OR REPLACE FUNCTION "public"."add_recently_played_batch"("p_items" "jsonb", "p_user_id" "uuid") RETURNS "void"
+    LANGUAGE "plpgsql"
+    SET "search_path" TO ''
+    AS $$
+DECLARE
+  v_user_id uuid := auth.uid();
+BEGIN
+    -- Bulk insert using the played_at from p_items
+    INSERT INTO public.recently_played_list (user_id, item_id, type, played_at, play_count)
+    SELECT
+        p_user_id,
+        item ->> 'id' AS item_id,
+        (item ->> 'type')::public.media_item_type AS type,
+        (item ->> 'played_at')::timestamptz AS played_at,
+        1 AS play_count
+    FROM jsonb_array_elements(p_items) AS t(item)
+    ON CONFLICT (user_id, item_id, type, week_start)
+    DO UPDATE
+      SET played_at = EXCLUDED.played_at,
+          play_count = public.recently_played_list.play_count + 1;
+
+    -- Keep only 50 most recent items
+    DELETE FROM public.recently_played_list
+    WHERE user_id = v_user_id
+      AND id NOT IN (
+          SELECT id
+          FROM public.recently_played_list
+          WHERE user_id = v_user_id
+          ORDER BY played_at DESC
+          LIMIT 50
+      );
+END;
+$$;
+
+
+ALTER FUNCTION "public"."add_recently_played_batch"("p_items" "jsonb", "p_user_id" "uuid") OWNER TO "postgres";
+
+
 CREATE OR REPLACE FUNCTION "public"."add_to_library"("p_item_id" "text", "p_item_type" "public"."media_item_type") RETURNS TABLE("id" "text", "name" "text", "related_id" "text", "related_name" "text", "cover_url" "text", "source" "public"."media_source_type", "type" "public"."media_item_type", "is_public" boolean, "created_at" timestamp with time zone)
     LANGUAGE "plpgsql"
     SET "search_path" TO ''
@@ -348,7 +406,7 @@ CREATE OR REPLACE FUNCTION "public"."add_to_library"("p_item_id" "text", "p_item
 BEGIN
   -- Insert into user's library, skip if already exists
   INSERT INTO public.user_reference_items (user_id, item_id, item_type)
-  VALUES (public.get_user_id(), p_item_id, p_item_type)
+  VALUES (auth.uid(), p_item_id, p_item_type)
   ON CONFLICT (user_id, item_id, item_type) DO NOTHING;
 
   -- Return full user library
@@ -368,7 +426,7 @@ CREATE OR REPLACE FUNCTION "public"."addlike"("p_song_id" "uuid") RETURNS "void"
 BEGIN
   -- Insert like, skip if already exists
   INSERT INTO public.likes (user_id, song_id)
-  VALUES (public.get_user_id(), p_song_id)
+  VALUES (auth.uid(), p_song_id)
   ON CONFLICT (user_id, song_id) DO NOTHING;
 END;
 $$;
@@ -434,6 +492,30 @@ $$;
 
 
 ALTER FUNCTION "public"."can_access_recently_played"("p_user_id" "text", "p_item_id" "text", "p_type" "public"."media_item_type") OWNER TO "postgres";
+
+
+CREATE OR REPLACE FUNCTION "public"."can_access_recently_played"("p_user_id" "uuid", "p_item_id" "text", "p_type" "public"."media_item_type") RETURNS boolean
+    LANGUAGE "plpgsql" STABLE
+    SET "search_path" TO ''
+    AS $$
+BEGIN
+    -- albums and artists are always public
+    IF p_type != 'playlist' THEN
+        RETURN true;
+    END IF;
+
+    -- check playlist
+    RETURN EXISTS (
+        SELECT 1
+        FROM public.playlist p
+        WHERE p.id = p_item_id
+          AND (p.is_public = true OR p.user_id = p_user_id)
+    );
+END;
+$$;
+
+
+ALTER FUNCTION "public"."can_access_recently_played"("p_user_id" "uuid", "p_item_id" "text", "p_type" "public"."media_item_type") OWNER TO "postgres";
 
 
 CREATE OR REPLACE FUNCTION "public"."delete_playlist_song"("p_id" "text", "target_id" "uuid") RETURNS "jsonb"
@@ -515,7 +597,7 @@ CREATE OR REPLACE FUNCTION "public"."delete_user_playlist_item"("p_item_id" "tex
     AS $$
 BEGIN
     DELETE FROM public.playlist ps
-    WHERE ps.user_id = public.get_user_id()
+    WHERE ps.user_id = auth.uid()
       AND ps.id = p_item_id;
 
     RETURN QUERY SELECT * FROM public.get_user_library();
@@ -532,7 +614,7 @@ CREATE OR REPLACE FUNCTION "public"."delete_user_reference_item"("refer_item_id"
     AS $$
 BEGIN
     DELETE FROM public.user_reference_items
-    WHERE user_id = public.get_user_id()
+    WHERE user_id = auth.uid()
       AND item_id = refer_item_id;
 
     RETURN QUERY SELECT * FROM public.get_user_library();
@@ -570,7 +652,7 @@ CREATE OR REPLACE FUNCTION "public"."fake_user_generate_list_plays"() RETURNS "v
     SET "search_path" TO ''
     AS $$
 DECLARE
-    v_user_id text := '39770997-20a3-4964-ace5-0e5426ef88e4';
+    v_user_id uuid := '39770997-20a3-4964-ace5-0e5426ef88e4';
     v_item_record record;
     v_official_limit int;
     v_user_limit int;
@@ -650,19 +732,33 @@ BEGIN
         UNION ALL
         SELECT item_id, 'artist' AS type FROM artists_sub
     LOOP
+        -- 1. Insert or update the play using clock_timestamp() to prevent sorting collisions
         INSERT INTO public.recently_played_list
         (user_id, item_id, type, played_at, play_count)
         VALUES (
             v_user_id,
             v_item_record.item_id,
             v_item_record.type::public.media_item_type,
-            now(),
+            clock_timestamp(),
             1
         )
         ON CONFLICT (user_id, item_id, type, week_start)
         DO UPDATE SET
-            played_at = now(),
+            played_at = EXCLUDED.played_at,
             play_count = public.recently_played_list.play_count + 1;
+
+        -- 2. Inline the stable CTE-driven cleanup routine to enforce the 50 item cap
+        WITH kept_plays AS (
+            SELECT id
+            FROM public.recently_played_list
+            WHERE user_id = v_user_id
+            ORDER BY played_at DESC, id DESC
+            LIMIT 50
+        )
+        DELETE FROM public.recently_played_list
+        WHERE user_id = v_user_id
+          AND id NOT IN (SELECT id FROM kept_plays);
+          
     END LOOP;
 
 END;
@@ -677,25 +773,44 @@ CREATE OR REPLACE FUNCTION "public"."fake_user_generate_song_plays"() RETURNS "v
     SET "search_path" TO ''
     AS $$
 DECLARE
-    v_user_id text := '39770997-20a3-4964-ace5-0e5426ef88e4';
+    v_user_id uuid := '39770997-20a3-4964-ace5-0e5426ef88e4';
     v_song uuid;
     i int;
 BEGIN
     -- simulate 30 plays
     FOR i IN 1..30 LOOP
         
+        -- 1. Grab a random song ID
         SELECT id
         INTO v_song
         FROM public.song
         ORDER BY random()
         LIMIT 1;
 
-        INSERT INTO public.user_song_plays (user_id, song_id, played_at, play_count)
-        VALUES (v_user_id, v_song, now(), 1)
-        ON CONFLICT (user_id, song_id, day_start)
-        DO UPDATE SET
-            played_at = now(),
-            play_count = public.user_song_plays.play_count + 1;
+        IF v_song IS NOT NULL THEN
+            
+            -- 2. Inline the main tracking query using the explicit hardcoded user ID.
+            -- Using clock_timestamp() guarantees unique sorting increments inside a fast loop.
+            INSERT INTO public.user_song_plays (user_id, song_id, played_at, play_count)
+            VALUES (v_user_id, v_song, clock_timestamp(), 1)
+            ON CONFLICT (user_id, song_id, day_start)
+            DO UPDATE SET
+                played_at = EXCLUDED.played_at,
+                play_count = public.user_song_plays.play_count + 1;
+
+            -- 3. Inline the fixed CTE cleanup block to tightly enforce the 50-row limit
+            WITH kept_plays AS (
+                SELECT id
+                FROM public.user_song_plays
+                WHERE user_id = v_user_id
+                ORDER BY played_at DESC, id DESC
+                LIMIT 50
+            )
+            DELETE FROM public.user_song_plays
+            WHERE user_id = v_user_id
+              AND id NOT IN (SELECT id FROM kept_plays);
+
+        END IF;
 
     END LOOP;
 END;
@@ -1103,54 +1218,55 @@ CREATE OR REPLACE FUNCTION "public"."get_artist_songs_queue"("p_artist_id" "text
 DECLARE
   song_items JSON[];
 BEGIN
-  SELECT
-    CASE
-      WHEN COUNT(s.id) > 0 THEN
-        array_agg(
-          json_build_object(
-            'id', gen_random_uuid(),
-            'song_id', s.id,
-            'name', s.name,
-            'url', s.url,
-            'type', 'track', 
-            'cover_url', s.cover_url,
-            'is_lyric', s.is_lyric,
-            'duration', s.duration,
-            'artists', (
-              SELECT json_agg(
-                json_build_object(
-                  'id', ar.id,
-                  'name', ar.name,
-                  'role', sa.role
-                )
-                ORDER BY
-                  CASE
-                    WHEN sa.role = 'main' THEN 0
-                    WHEN sa.role = 'feat' THEN 1
-                    ELSE 2
-                  END,
-                  ar.name
-              )
-              FROM public.song_artists sa
-              JOIN public.artist ar ON ar.id = sa.artist_id
-              WHERE sa.song_id = s.id
-            ),
-            'album', json_build_object(
-              'id', al.id,
-              'name', al.title
-            )
-          )
-          ORDER BY s.play_count DESC NULLS LAST
-        )
-      ELSE '{}'::json[]
-    END
+  SELECT COALESCE(array_agg(sub.song_obj), '{}'::json[])
   INTO song_items
-  FROM public.artist a
-  LEFT JOIN public.song_artists sa ON sa.artist_id = a.id
-  LEFT JOIN public.song s ON s.id = sa.song_id
-  LEFT JOIN public.album al ON al.id = s.album_id
-  WHERE a.id = p_artist_id
-  GROUP BY a.id, a.name;
+  FROM (
+    SELECT
+      json_build_object(
+        'id', gen_random_uuid(),
+        'song_id', s.id,
+        'name', s.name,
+        'url', s.url,
+        'type', 'track', 
+        'cover_url', s.cover_url,
+        'is_lyric', s.is_lyric,
+        'duration', s.duration,
+        'artists', (
+          SELECT json_agg(
+            json_build_object(
+              'id', ar.id,
+              'name', ar.name,
+              'role', sa.role
+            )
+            ORDER BY
+              CASE
+                WHEN sa.role = 'main' THEN 0
+                WHEN sa.role = 'featured' THEN 1
+                ELSE 2
+              END,
+              ar.name
+          )
+          FROM public.song_artists sa
+          JOIN public.artist ar ON ar.id = sa.artist_id
+          WHERE sa.song_id = s.id
+        ),
+        'album', json_build_object(
+          'id', al.id,
+          'name', al.title
+        )
+      ) AS song_obj
+    FROM public.song s
+    JOIN public.song_artists sa2 ON sa2.song_id = s.id
+    LEFT JOIN public.album al ON al.id = s.album_id
+    LEFT JOIN (
+        SELECT song_id, SUM(play_count) AS total_play_count
+        FROM public.daily_song_play_counts
+        GROUP BY song_id
+    ) play_counts ON play_counts.song_id = s.id
+    WHERE sa2.artist_id = p_artist_id
+    ORDER BY COALESCE(play_counts.total_play_count, 0) DESC
+    LIMIT 8
+  ) sub;
 
   RETURN song_items;
 END;
@@ -1422,7 +1538,7 @@ BEGIN
   SELECT public.users.playlist_embedding
   INTO user_playlist_embedding
   FROM public.users
-  WHERE public.users.user_id = public.get_user_id();
+  WHERE public.users.user_id = auth.uid();
 
   -- Recommended for you (by genre)
   IF user_playlist_embedding IS NOT NULL THEN
@@ -1528,7 +1644,7 @@ BEGIN
     FROM public.playlist p
     JOIN public.users u 
       ON u.user_id = p.user_id
-    WHERE p.user_id = public.get_user_id()
+    WHERE p.user_id = auth.uid()
     ORDER BY p.created_at DESC
   ) sub;
 
@@ -1608,7 +1724,7 @@ BEGIN
   LEFT JOIN public.likes l ON l.user_id = u.user_id
   LEFT JOIN public.song s ON s.id = l.song_id
   LEFT JOIN public.album al ON al.id = s.album_id
-  WHERE u.user_id = public.get_user_id()
+  WHERE u.user_id = auth.uid()
   GROUP BY u.user_id, u.user_name;
 
   RETURN track_data;
@@ -1642,7 +1758,7 @@ BEGIN
       ON al.id = uri.item_id
     JOIN public.artist ar 
       ON ar.id = al.artist_id
-    WHERE uri.user_id = public.get_user_id()
+    WHERE uri.user_id = auth.uid()
       AND uri.item_type = 'album'
     ORDER BY uri.created_at DESC
   ) sub;
@@ -1678,7 +1794,7 @@ BEGIN
     FROM public.user_reference_items uri
     JOIN public.artist ar 
       ON ar.id = uri.item_id
-    WHERE uri.user_id = public.get_user_id()
+    WHERE uri.user_id = auth.uid()
       AND uri.item_type = 'artist'
     ORDER BY uri.created_at DESC
   ) sub;
@@ -1717,7 +1833,7 @@ BEGIN
       ON p.id = uri.item_id
     JOIN public.users u 
       ON u.user_id = p.user_id
-    WHERE uri.user_id = public.get_user_id()
+    WHERE uri.user_id = auth.uid()
       AND uri.item_type = 'playlist'
     ORDER BY uri.created_at DESC
   ) sub;
@@ -1743,6 +1859,7 @@ DECLARE
   last_created_playlists JSONB;
   last_saved_artists    JSONB;
   recently_played_items JSONB;
+  v_user_id uuid := auth.uid();
 BEGIN
   -----------------------------------------------------------------
   -- 1. Last Liked Songs (from likes table)
@@ -1776,7 +1893,7 @@ BEGIN
     FROM public.likes l
     JOIN public.song s ON s.id = l.song_id
     LEFT JOIN public.album al ON al.id = s.album_id
-    WHERE l.user_id = public.get_user_id()
+    WHERE l.user_id = v_user_id
     ORDER BY l.created_at DESC
     LIMIT 8
   ) sub;
@@ -1798,7 +1915,7 @@ BEGIN
     FROM public.user_reference_items uri
     JOIN public.album al ON al.id = uri.item_id
     JOIN public.artist ar ON ar.id = al.artist_id
-    WHERE uri.user_id = public.get_user_id()
+    WHERE uri.user_id = v_user_id
       AND uri.item_type = 'album'
     ORDER BY uri.created_at DESC
     LIMIT 8
@@ -1821,7 +1938,7 @@ BEGIN
     FROM public.user_reference_items uri
     JOIN public.playlist p ON p.id = uri.item_id
     JOIN public.users u ON u.user_id = p.user_id
-    WHERE uri.user_id = public.get_user_id()
+    WHERE uri.user_id = v_user_id
       AND uri.item_type = 'playlist'
     ORDER BY uri.created_at DESC
     LIMIT 8
@@ -1843,7 +1960,7 @@ BEGIN
     ) AS item
     FROM public.playlist p
     JOIN public.users u ON u.user_id = p.user_id
-    WHERE p.user_id = public.get_user_id()
+    WHERE p.user_id = v_user_id
     ORDER BY p.created_at DESC
     LIMIT 8
   ) sub;
@@ -1864,7 +1981,7 @@ BEGIN
     ) AS item
     FROM public.user_reference_items uri
     JOIN public.artist ar ON ar.id = uri.item_id
-    WHERE uri.user_id = public.get_user_id()
+    WHERE uri.user_id = v_user_id
       AND uri.item_type = 'artist'
     ORDER BY uri.created_at DESC
     LIMIT 8
@@ -1882,7 +1999,7 @@ BEGIN
         'id', rpl.item_id,
         'name', COALESCE(p.name, al.title, ar.name),
         'cover_url', COALESCE(p.cover_url, al.cover_url, ar.cover_url),
-        'related_id', COALESCE(p.user_id, al.artist_id, ar.id),
+        'related_id', COALESCE(p.user_id::text, al.artist_id, ar.id),
         'related_name', COALESCE(u.user_name, al_ar.name, ar.name),
         'type', rpl.type,
         'played_at', rpl.played_at
@@ -1893,7 +2010,7 @@ BEGIN
     LEFT JOIN public.album al ON (rpl.type = 'album' AND al.id = rpl.item_id)
     LEFT JOIN public.artist al_ar ON (al.artist_id = al_ar.id)
     LEFT JOIN public.artist ar ON (rpl.type = 'artist' AND ar.id = rpl.item_id)
-    WHERE rpl.user_id = public.get_user_id()
+    WHERE rpl.user_id = v_user_id
     ORDER BY rpl.type, rpl.item_id, rpl.played_at DESC
     LIMIT 8
   ) AS sub;
@@ -1926,12 +2043,12 @@ DECLARE
   recent      JSONB;
   user_playlist_embedding extensions.vector(384);
 BEGIN
+
   SELECT u.playlist_embedding
   INTO user_playlist_embedding
   FROM public.users u
-  WHERE u.user_id = public.get_user_id();
+  WHERE u.user_id = auth.uid();
 
-  -- Recommended for you (by mood)
   IF user_playlist_embedding IS NOT NULL THEN
     SELECT jsonb_agg(item)
     INTO recommended
@@ -1945,8 +2062,10 @@ BEGIN
         'type', 'playlist'
       ) AS item
       FROM public.playlist p
-      JOIN public.playlist_moods pm ON pm.playlist_id = p.id
-      JOIN public.users u ON u.user_id = p.user_id
+      JOIN public.playlist_moods pm 
+        ON pm.playlist_id = p.id
+      JOIN public.users u 
+        ON u.user_id = p.user_id
       WHERE pm.mood_id = p_mood_id
       ORDER BY p.embedding OPERATOR(extensions.<->) user_playlist_embedding
       LIMIT 8
@@ -1955,33 +2074,34 @@ BEGIN
     recommended := '[]'::jsonb;
   END IF;
 
-  -- Popular playlists in mood (Fixed - same logic as genre & discover)
   SELECT jsonb_agg(item)
   INTO popular
   FROM (
-    SELECT 
-      jsonb_build_object(
-        'id', p.id,
-        'name', p.name,
-        'related_id', p.user_id,
-        'cover_url', p.cover_url,
-        'related_name', u.user_name,
-        'type', 'playlist',
-        'play_count', SUM(w.play_count)
-      ) AS item
+    SELECT jsonb_build_object(
+      'id', p.id,
+      'name', p.name,
+      'related_id', p.user_id,
+      'cover_url', p.cover_url,
+      'related_name', u.user_name,
+      'type', 'playlist',
+      'play_count', w.play_count
+    ) AS item
     FROM public.weekly_list_play_counts w
-    JOIN public.playlist p ON p.id = w.item_id
-    JOIN public.playlist_moods pm ON pm.playlist_id = p.id
-    JOIN public.users u ON u.user_id = p.user_id
+    JOIN public.playlist p 
+      ON p.id = w.item_id
+    JOIN public.playlist_moods pm 
+      ON pm.playlist_id = p.id
+    JOIN public.users u 
+      ON u.user_id = p.user_id
     WHERE w.item_type = 'playlist'
       AND pm.mood_id = p_mood_id
-      AND w.week_start >= (date_trunc('week', current_date) - interval '7 day')
-    GROUP BY p.id, p.name, p.user_id, p.cover_url, u.user_name
-    ORDER BY SUM(w.play_count) DESC
+      AND w.week_start >= (
+        date_trunc('week', current_date) - interval '7 day'
+      )
+    ORDER BY w.play_count DESC
     LIMIT 8
   ) sub;
 
-  -- Recently added playlists in mood
   SELECT jsonb_agg(item)
   INTO recent
   FROM (
@@ -1994,8 +2114,10 @@ BEGIN
       'type', 'playlist'
     ) AS item
     FROM public.playlist p
-    JOIN public.playlist_moods pm ON pm.playlist_id = p.id
-    JOIN public.users u ON u.user_id = p.user_id
+    JOIN public.playlist_moods pm 
+      ON pm.playlist_id = p.id
+    JOIN public.users u 
+      ON u.user_id = p.user_id
     WHERE pm.mood_id = p_mood_id
     ORDER BY p.created_at DESC
     LIMIT 8
@@ -2006,6 +2128,7 @@ BEGIN
     'popular',     COALESCE(popular, '[]'::jsonb),
     'recent',      COALESCE(recent, '[]'::jsonb)
   );
+
 END;
 $$;
 
@@ -2142,11 +2265,11 @@ $$;
 ALTER FUNCTION "public"."get_newly"() OWNER TO "postgres";
 
 
-CREATE OR REPLACE FUNCTION "public"."get_official_id"() RETURNS "text"
+CREATE OR REPLACE FUNCTION "public"."get_official_id"() RETURNS "uuid"
     LANGUAGE "sql" IMMUTABLE
     SET "search_path" TO ''
     AS $$
-  SELECT 'c2fa7d7f-440d-4fbd-a94c-cdb8209c1312';
+  SELECT 'c2fa7d7f-440d-4fbd-a94c-cdb8209c1312'::uuid;
 $$;
 
 
@@ -2168,6 +2291,7 @@ DECLARE
   user_album_embedding extensions.vector(384);
   user_playlist_embedding extensions.vector(384);
   user_song_embedding extensions.vector(384);
+  v_user_id uuid := auth.uid();
 BEGIN
   -- Get user embeddings
   SELECT 
@@ -2181,11 +2305,13 @@ BEGIN
     user_playlist_embedding,
     user_song_embedding
   FROM public.users u
-  WHERE u.user_id = public.get_user_id();
+  WHERE u.user_id = v_user_id;
 
   -- recently played 
-  SELECT jsonb_agg(sub.item ORDER BY sub.last_played DESC)
-  INTO recently_played_items
+SELECT jsonb_agg(sub.item ORDER BY sub.last_played DESC)
+INTO recently_played_items
+FROM (
+  SELECT *
   FROM (
     SELECT DISTINCT ON (rpl.type, rpl.item_id)
       rpl.played_at AS last_played,
@@ -2193,7 +2319,7 @@ BEGIN
         'id', rpl.item_id,
         'name', COALESCE(p.name, al.title, ar.name),
         'cover_url', COALESCE(p.cover_url, al.cover_url, ar.cover_url),
-        'related_id', COALESCE(p.user_id, al.artist_id, ar.id),
+        'related_id', COALESCE(p.user_id::text, al.artist_id, ar.id),
         'related_name', COALESCE(u.user_name, al_ar.name, ar.name),
         'type', rpl.type,
         'played_at', rpl.played_at
@@ -2204,10 +2330,12 @@ BEGIN
       LEFT JOIN public.album al ON (rpl.type = 'album' AND al.id = rpl.item_id)
       LEFT JOIN public.artist al_ar ON (al.artist_id = al_ar.id)
       LEFT JOIN public.artist ar ON (rpl.type = 'artist' AND ar.id = rpl.item_id)
-    WHERE rpl.user_id = public.get_user_id()
+    WHERE rpl.user_id = v_user_id
     ORDER BY rpl.type, rpl.item_id, rpl.played_at DESC
-    LIMIT 8
-  ) AS sub;
+  ) base
+  ORDER BY last_played DESC
+  LIMIT 8
+) AS sub;
 
   -- ArtistForYou 
   IF user_artist_embedding IS NOT NULL THEN
@@ -2260,14 +2388,14 @@ BEGIN
       SELECT jsonb_build_object(
         'id', p.id,
         'name', p.name,
-        'related_id', p.user_id,
+        'related_id', p.user_id::text,
         'cover_url', p.cover_url,
         'related_name', u.user_name,
         'type', 'playlist'
       ) AS item
       FROM public.playlist p
       JOIN public.users u ON u.user_id = p.user_id
-      WHERE p.user_id != public.get_user_id()
+      WHERE p.user_id != v_user_id
         AND p.is_public = true
         AND p.embedding IS NOT NULL
       ORDER BY p.embedding OPERATOR(extensions.<=>) user_playlist_embedding
@@ -2556,39 +2684,42 @@ CREATE OR REPLACE FUNCTION "public"."get_recent_list"() RETURNS "jsonb"
     AS $$
 DECLARE
   recently_played_items JSONB;
-  userId TEXT;
+  userId uuid;
 BEGIN
-  -- Get official user id dynamically
-  userId := public.get_user_id();
+  
+  userId := auth.uid();
 
-  -- Fetch recently played items (latest per item, sorted by most recent)
   SELECT
     jsonb_agg(sub.item ORDER BY sub.last_played DESC)
   INTO
     recently_played_items
   FROM (
-    SELECT DISTINCT ON (rpl.type, rpl.item_id)
-      rpl.played_at AS last_played,
-      jsonb_build_object(
-        'id', rpl.item_id,
-        'name', COALESCE(p.name, al.title, ar.name),
-        'cover_url', COALESCE(p.cover_url, al.cover_url, ar.cover_url),
-        'related_id', COALESCE(p.user_id, al.artist_id, ar.id),
-        'related_name', COALESCE(u.user_name, al_ar.name, ar.name),
-        'type', rpl.type,
-        'played_at', rpl.played_at
-      ) AS item
-    FROM public.recently_played_list AS rpl
-      LEFT JOIN public.playlist p ON (rpl.type = 'playlist' AND p.id = rpl.item_id)
-      LEFT JOIN public.users u ON (p.user_id = u.user_id)
-      LEFT JOIN public.album al ON (rpl.type = 'album' AND al.id = rpl.item_id)
-      LEFT JOIN public.artist al_ar ON (al.artist_id = al_ar.id)
-      LEFT JOIN public.artist ar ON (rpl.type = 'artist' AND ar.id = rpl.item_id)
-    WHERE rpl.user_id = userId
-    ORDER BY rpl.type, rpl.item_id, rpl.played_at DESC
+    SELECT *
+    FROM (
+      SELECT DISTINCT ON (rpl.type, rpl.item_id)
+        rpl.played_at AS last_played,
+        jsonb_build_object(
+          'id', rpl.item_id,
+          'name', COALESCE(p.name, al.title, ar.name),
+          'cover_url', COALESCE(p.cover_url, al.cover_url, ar.cover_url),
+          'related_id', COALESCE(p.user_id::text, al.artist_id, ar.id),
+          'related_name', COALESCE(u.user_name, al_ar.name, ar.name),
+          'type', rpl.type,
+          'played_at', rpl.played_at
+        ) AS item
+      FROM public.recently_played_list AS rpl
+        LEFT JOIN public.playlist p ON (rpl.type = 'playlist' AND p.id = rpl.item_id)
+        LEFT JOIN public.users u ON (p.user_id = u.user_id)
+        LEFT JOIN public.album al ON (rpl.type = 'album' AND al.id = rpl.item_id)
+        LEFT JOIN public.artist al_ar ON (al.artist_id = al_ar.id)
+        LEFT JOIN public.artist ar ON (rpl.type = 'artist' AND ar.id = rpl.item_id)
+      WHERE rpl.user_id = userId
+      ORDER BY rpl.type, rpl.item_id, rpl.played_at DESC
+    ) AS base
+    ORDER BY last_played DESC
+    LIMIT 8
   ) AS sub;
 
-  -- Return combined JSON object
   RETURN jsonb_build_object(
     'recentlyPlayed', COALESCE(recently_played_items, '[]'::jsonb)
   );
@@ -2615,7 +2746,7 @@ BEGIN
         'id', rpl.item_id,
         'name', COALESCE(p.name, al.title, ar.name),
         'cover_url', COALESCE(p.cover_url, al.cover_url, ar.cover_url),
-        'related_id', COALESCE(p.user_id, al.artist_id, ar.id),
+        'related_id', COALESCE(p.user_id::text, al.artist_id, ar.id),
         'related_name', COALESCE(u.user_name, al_ar.name, ar.name),
         'type', rpl.type,
         'played_at', rpl.played_at
@@ -2626,7 +2757,7 @@ BEGIN
       LEFT JOIN public.album al ON (rpl.type = 'album' AND al.id = rpl.item_id)
       LEFT JOIN public.artist al_ar ON (al.artist_id = al_ar.id)
       LEFT JOIN public.artist ar ON (rpl.type = 'artist' AND ar.id = rpl.item_id)
-    WHERE rpl.user_id = public.get_user_id()
+    WHERE rpl.user_id = auth.uid()
     ORDER BY rpl.type, rpl.item_id, rpl.played_at DESC
   ) AS sub;
 
@@ -2656,7 +2787,7 @@ BEGIN
   WHERE s.id = input_song_id;
 
   -- 2. Get current user
-  uid := public.get_user_id();
+  uid := auth.uid();
 
   -- 3. Fetch user embedding IF user exists
   IF uid IS NOT NULL THEN
@@ -2818,31 +2949,22 @@ $$;
 ALTER FUNCTION "public"."get_song_track"("p_song_id" "uuid") OWNER TO "postgres";
 
 
-CREATE OR REPLACE FUNCTION "public"."get_user_id"() RETURNS "text"
-    LANGUAGE "sql" STABLE
-    SET "search_path" TO ''
-    AS $$
-  SELECT auth.uid();
-$$;
-
-
-ALTER FUNCTION "public"."get_user_id"() OWNER TO "postgres";
-
-
 CREATE OR REPLACE FUNCTION "public"."get_user_library"() RETURNS TABLE("id" "text", "name" "text", "related_id" "text", "related_name" "text", "cover_url" "text", "source" "public"."media_source_type", "type" "public"."media_item_type", "is_public" boolean, "created_at" timestamp with time zone)
     LANGUAGE "plpgsql"
     SET "search_path" TO ''
     AS $$
+DECLARE
+  v_user_id uuid := auth.uid();
 BEGIN
   RETURN QUERY
   SELECT
     uri.item_id AS id,
     COALESCE(p.name, al.title, ar.name) AS name,
-    COALESCE(u.user_id, al.artist_id, ar.id) AS related_id,
+    COALESCE(u.user_id::text, al.artist_id, ar.id) AS related_id,
     COALESCE(u.user_name, al_ar.name, ar.name) AS related_name,
     COALESCE(p.cover_url,al.cover_url, ar.cover_url) AS cover_url,
     CASE
-      WHEN uri.item_type = 'playlist' AND p.user_id = public.get_user_id() THEN 'create'::public.media_source_type
+      WHEN uri.item_type = 'playlist' AND p.user_id = v_user_id THEN 'create'::public.media_source_type
       ELSE 'reference'::public.media_source_type
     END AS source,
     uri.item_type::public.media_item_type AS type,
@@ -2854,14 +2976,14 @@ BEGIN
   LEFT JOIN public.album al ON (uri.item_type = 'album' AND al.id = uri.item_id)
   LEFT JOIN public.artist al_ar ON (al.artist_id = al_ar.id)
   LEFT JOIN public.artist ar ON (uri.item_type = 'artist' AND ar.id = uri.item_id)
-  WHERE uri.user_id = public.get_user_id()
+  WHERE uri.user_id = v_user_id
 
   UNION ALL
   -- Add playlists created by the user that are not in user_reference_items
   SELECT
     p.id,
     p.name,
-    u.user_id as related_id,
+    u.user_id::text as related_id,
     u.user_name as related_name,
     p.cover_url,
     'create'::public.media_source_type,
@@ -2870,10 +2992,10 @@ BEGIN
     p.created_at
   FROM public.playlist p
   JOIN public.users u ON u.user_id = p.user_id
-  WHERE p.user_id = public.get_user_id()
+  WHERE p.user_id = v_user_id
     AND NOT EXISTS (
       SELECT 1 FROM public.user_reference_items uri2
-      WHERE uri2.user_id = public.get_user_id()
+      WHERE uri2.user_id = v_user_id
         AND uri2.item_type = 'playlist'
         AND uri2.item_id = p.id
     )
@@ -2885,7 +3007,7 @@ $$;
 ALTER FUNCTION "public"."get_user_library"() OWNER TO "postgres";
 
 
-CREATE OR REPLACE FUNCTION "public"."get_user_page"("p_user_id" "text") RETURNS "jsonb"
+CREATE OR REPLACE FUNCTION "public"."get_user_page"("p_user_id" "uuid") RETURNS "jsonb"
     LANGUAGE "plpgsql"
     SET "search_path" TO ''
     AS $$
@@ -2942,10 +3064,10 @@ END;
 $$;
 
 
-ALTER FUNCTION "public"."get_user_page"("p_user_id" "text") OWNER TO "postgres";
+ALTER FUNCTION "public"."get_user_page"("p_user_id" "uuid") OWNER TO "postgres";
 
 
-CREATE OR REPLACE FUNCTION "public"."get_user_playlist_profile"("p_user_id" "text") RETURNS "jsonb"
+CREATE OR REPLACE FUNCTION "public"."get_user_playlist_profile"("p_user_id" "uuid") RETURNS "jsonb"
     LANGUAGE "plpgsql"
     SET "search_path" TO ''
     AS $$
@@ -2980,7 +3102,7 @@ END;
 $$;
 
 
-ALTER FUNCTION "public"."get_user_playlist_profile"("p_user_id" "text") OWNER TO "postgres";
+ALTER FUNCTION "public"."get_user_playlist_profile"("p_user_id" "uuid") OWNER TO "postgres";
 
 
 CREATE OR REPLACE FUNCTION "public"."getlikedid"() RETURNS TABLE("id" "uuid")
@@ -2991,7 +3113,7 @@ BEGIN
   RETURN QUERY
     SELECT l.song_id as id
     FROM public.likes l
-    WHERE l.user_id = public.get_user_id();
+    WHERE l.user_id = auth.uid();
 END;
 $$;
 
@@ -3002,17 +3124,24 @@ ALTER FUNCTION "public"."getlikedid"() OWNER TO "postgres";
 CREATE OR REPLACE FUNCTION "public"."handle_new_user"() RETURNS "trigger"
     LANGUAGE "plpgsql" SECURITY DEFINER
     SET "search_path" TO ''
-    AS $$
-declare
+    AS $$declare
   full_name text;
 begin
-  full_name := trim(both ' ' from (new.raw_user_meta_data ->> 'display_name'));
-  -- Insert into public.users table
+  full_name := trim(both ' ' from coalesce(
+    new.raw_user_meta_data ->> 'display_name',
+    new.raw_user_meta_data ->> 'full_name',
+    new.raw_user_meta_data ->> 'name',
+    new.raw_user_meta_data ->> 'user_name',
+    new.raw_user_meta_data ->> 'login',   -- GitHub fallback
+    new.email
+  ));
+
   insert into public.users (user_id, user_name, user_email)
-  values (new.id, full_name, new.email);
+  values (new.id, full_name, new.email)
+  on conflict (user_id) do nothing;
+
   return new;
-end;
-$$;
+end;$$;
 
 
 ALTER FUNCTION "public"."handle_new_user"() OWNER TO "postgres";
@@ -3050,7 +3179,7 @@ CREATE OR REPLACE FUNCTION "public"."insert_playlist"("playlist_name" "text", "p
 BEGIN
   -- Insert the playlist
   INSERT INTO public.playlist (name, user_id , is_public)
-  VALUES (playlist_name, public.get_user_id() , p_is_public);
+  VALUES (playlist_name, auth.uid() , p_is_public);
 
   -- Return the full updated user library (reuse your get_user_library function here)
   RETURN QUERY SELECT * FROM public.get_user_library();
@@ -3069,7 +3198,7 @@ DECLARE
   new_playlist public.playlist%ROWTYPE;
 BEGIN
   INSERT INTO public.playlist (name, user_id)
-  VALUES (playlist_name, (SELECT public.get_user_id()))
+  VALUES (playlist_name, auth.uid())
   RETURNING * INTO new_playlist;
 
   INSERT INTO public.playlist_songs (playlist_id, song_id)
@@ -3160,7 +3289,7 @@ CREATE OR REPLACE FUNCTION "public"."is_playlist_owner"("playlist_id" "text") RE
     SELECT 1
     FROM public.playlist p
     WHERE p.id = playlist_id
-      AND p.user_id = public.get_user_id()
+      AND p.user_id = auth.uid()
   );
 $$;
 
@@ -3209,7 +3338,7 @@ CREATE OR REPLACE FUNCTION "public"."removelike"("song_id" "uuid") RETURNS "void
     AS $$
 BEGIN
   DELETE FROM public.likes l
-  WHERE l.user_id = public.get_user_id()
+  WHERE l.user_id = auth.uid()
     AND l.song_id = removeLike.song_id;
 END;
 $$;
@@ -3586,7 +3715,7 @@ BEGIN
       LIMIT 1
     )
     WHERE p.id = OLD.playlist_id
-      AND p.id <> public.get_official_id();
+      AND p.user_id <> public.get_official_id();
 
     -- If playlist is empty → remove cover
     UPDATE public.playlist p
@@ -3631,7 +3760,7 @@ BEGIN
          FROM (
              SELECT u.%I AS e
              FROM public.users u
-             WHERE u.user_id = public.get_user_id()
+             WHERE u.user_id = auth.uid()
                AND u.%I IS NOT NULL
              UNION ALL
              SELECT t.embedding
@@ -3648,7 +3777,7 @@ BEGIN
         EXECUTE format(
             'UPDATE public.users
              SET %I = $1
-             WHERE user_id = public.get_user_id()',
+             WHERE user_id = auth.uid()',
             col_name
         )
         USING new_avg;
@@ -3666,13 +3795,14 @@ CREATE OR REPLACE FUNCTION "public"."update_user_song_embedding"("p_song_ids" "u
     AS $$
 DECLARE
   new_avg_embedding extensions.vector;
+  v_user_id uuid := auth.uid();
 BEGIN
   SELECT extensions.avg(e)::extensions.vector
   INTO new_avg_embedding
   FROM (
     SELECT u.song_embedding AS e
     FROM public.users u
-    WHERE u.user_id = public.get_user_id()
+    WHERE u.user_id = v_user_id
       AND u.song_embedding IS NOT NULL
     UNION ALL
     SELECT s.embedding
@@ -3684,7 +3814,7 @@ BEGIN
   IF new_avg_embedding IS NOT NULL THEN
     UPDATE public.users
     SET song_embedding = new_avg_embedding
-    WHERE user_id = public.get_user_id();
+    WHERE user_id = v_user_id;
   END IF;
 END;
 $$;
@@ -3746,7 +3876,7 @@ ALTER TABLE "public"."genres" OWNER TO "postgres";
 
 CREATE TABLE IF NOT EXISTS "public"."likes" (
     "id" "uuid" DEFAULT "extensions"."gen_random_uuid"() NOT NULL,
-    "user_id" "text" NOT NULL,
+    "user_id" "uuid" NOT NULL,
     "song_id" "uuid" NOT NULL,
     "created_at" timestamp with time zone DEFAULT "now"() NOT NULL
 );
@@ -3777,7 +3907,7 @@ CREATE TABLE IF NOT EXISTS "public"."playlist" (
     "id" "text" DEFAULT "left"("replace"("replace"("encode"("extensions"."gen_random_bytes"(9), 'base64'::"text"), '/'::"text", ''::"text"), '+'::"text", ''::"text"), 12) NOT NULL,
     "name" "text" NOT NULL,
     "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
-    "user_id" "text",
+    "user_id" "uuid",
     "is_public" boolean DEFAULT true NOT NULL,
     "cover_url" "text",
     "embedding" "extensions"."vector"(384),
@@ -3819,7 +3949,7 @@ ALTER TABLE "public"."playlist_songs" OWNER TO "postgres";
 
 CREATE TABLE IF NOT EXISTS "public"."recently_played_list" (
     "id" bigint NOT NULL,
-    "user_id" "text" DEFAULT ''::"text" NOT NULL,
+    "user_id" "uuid" NOT NULL,
     "item_id" "text" NOT NULL,
     "played_at" timestamp with time zone DEFAULT "now"() NOT NULL,
     "type" "public"."media_item_type" NOT NULL,
@@ -3871,7 +4001,7 @@ ALTER TABLE "public"."song_artists" OWNER TO "postgres";
 
 
 CREATE TABLE IF NOT EXISTS "public"."user_reference_items" (
-    "user_id" "text" NOT NULL,
+    "user_id" "uuid" NOT NULL,
     "item_id" "text" NOT NULL,
     "item_type" "public"."media_item_type" NOT NULL,
     "created_at" timestamp with time zone DEFAULT "now"() NOT NULL
@@ -3882,7 +4012,7 @@ ALTER TABLE "public"."user_reference_items" OWNER TO "postgres";
 
 
 CREATE TABLE IF NOT EXISTS "public"."user_song_plays" (
-    "user_id" "text" NOT NULL,
+    "user_id" "uuid" NOT NULL,
     "played_at" timestamp with time zone DEFAULT "now"() NOT NULL,
     "song_id" "uuid" NOT NULL,
     "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
@@ -3897,7 +4027,7 @@ ALTER TABLE "public"."user_song_plays" OWNER TO "postgres";
 CREATE TABLE IF NOT EXISTS "public"."users" (
     "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
     "created_at" timestamp with time zone DEFAULT ("now"() AT TIME ZONE 'utc'::"text") NOT NULL,
-    "user_id" "text" NOT NULL,
+    "user_id" "uuid" NOT NULL,
     "user_name" "text",
     "user_email" "text",
     "song_embedding" "extensions"."vector"(384),
@@ -3993,7 +4123,12 @@ ALTER TABLE ONLY "public"."playlist"
 
 
 ALTER TABLE ONLY "public"."recently_played_list"
-    ADD CONSTRAINT "recently_played_list_pkey" PRIMARY KEY ("user_id", "item_id", "type", "week_start");
+    ADD CONSTRAINT "recently_played_list_pkey" PRIMARY KEY ("id");
+
+
+
+ALTER TABLE ONLY "public"."recently_played_list"
+    ADD CONSTRAINT "recently_played_user_item_week_idx" UNIQUE ("user_id", "item_id", "type", "week_start");
 
 
 
@@ -4207,23 +4342,13 @@ ALTER TABLE ONLY "public"."playlist_songs"
 
 
 
-ALTER TABLE ONLY "public"."user_song_plays"
-    ADD CONSTRAINT "fk_user" FOREIGN KEY ("user_id") REFERENCES "public"."users"("user_id") ON DELETE CASCADE;
-
-
-
-ALTER TABLE ONLY "public"."recently_played_list"
-    ADD CONSTRAINT "fk_user_id" FOREIGN KEY ("user_id") REFERENCES "public"."users"("user_id") ON DELETE CASCADE;
-
-
-
 ALTER TABLE ONLY "public"."likes"
     ADD CONSTRAINT "likes_song_id_fkey" FOREIGN KEY ("song_id") REFERENCES "public"."song"("id") ON DELETE CASCADE;
 
 
 
 ALTER TABLE ONLY "public"."likes"
-    ADD CONSTRAINT "likes_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "public"."users"("user_id");
+    ADD CONSTRAINT "likes_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "public"."users"("user_id") ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 
@@ -4258,7 +4383,12 @@ ALTER TABLE ONLY "public"."playlist_songs"
 
 
 ALTER TABLE ONLY "public"."playlist"
-    ADD CONSTRAINT "playlists_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "public"."users"("user_id");
+    ADD CONSTRAINT "playlist_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "public"."users"("user_id") ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+
+ALTER TABLE ONLY "public"."recently_played_list"
+    ADD CONSTRAINT "recently_played_list_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "public"."users"("user_id") ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 
@@ -4278,12 +4408,22 @@ ALTER TABLE ONLY "public"."song_artists"
 
 
 ALTER TABLE ONLY "public"."user_reference_items"
-    ADD CONSTRAINT "user_reference_items_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "public"."users"("user_id") ON DELETE CASCADE;
+    ADD CONSTRAINT "user_reference_items_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "public"."users"("user_id") ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 
 ALTER TABLE ONLY "public"."user_song_plays"
     ADD CONSTRAINT "user_song_plays_song_id_fkey" FOREIGN KEY ("song_id") REFERENCES "public"."song"("id") ON DELETE CASCADE;
+
+
+
+ALTER TABLE ONLY "public"."user_song_plays"
+    ADD CONSTRAINT "user_song_plays_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "public"."users"("user_id") ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+
+ALTER TABLE ONLY "public"."users"
+    ADD CONSTRAINT "users_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "auth"."users"("id") ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 
@@ -4304,7 +4444,7 @@ CREATE POLICY "Enable delete for users based on user_id" ON "public"."genres" FO
 
 
 
-CREATE POLICY "Enable delete for users based on user_id" ON "public"."likes" FOR DELETE TO "authenticated" USING ((( SELECT "public"."get_user_id"() AS "get_user_id") = "user_id"));
+CREATE POLICY "Enable delete for users based on user_id" ON "public"."likes" FOR DELETE TO "authenticated" USING ((( SELECT "auth"."uid"() AS "uid") = "user_id"));
 
 
 
@@ -4312,7 +4452,7 @@ CREATE POLICY "Enable delete for users based on user_id" ON "public"."moods" FOR
 
 
 
-CREATE POLICY "Enable delete for users based on user_id" ON "public"."playlist" FOR DELETE TO "authenticated" USING ((( SELECT "public"."get_user_id"() AS "get_user_id") = "user_id"));
+CREATE POLICY "Enable delete for users based on user_id" ON "public"."playlist" FOR DELETE TO "authenticated" USING ((( SELECT "auth"."uid"() AS "uid") = "user_id"));
 
 
 
@@ -4332,11 +4472,11 @@ CREATE POLICY "Enable delete for users based on user_id" ON "public"."song_artis
 
 
 
-CREATE POLICY "Enable delete for users based on user_id" ON "public"."user_reference_items" FOR DELETE USING ((( SELECT "public"."get_user_id"() AS "get_user_id") = "user_id"));
+CREATE POLICY "Enable delete for users based on user_id" ON "public"."user_reference_items" FOR DELETE USING ((( SELECT "auth"."uid"() AS "uid") = "user_id"));
 
 
 
-CREATE POLICY "Enable delete for users based on user_id" ON "public"."users" FOR DELETE TO "authenticated" USING (( SELECT ("public"."get_user_id"() = "users"."user_id")));
+CREATE POLICY "Enable delete for users based on user_id" ON "public"."users" FOR DELETE TO "authenticated" USING ((( SELECT "auth"."uid"() AS "uid") = "user_id"));
 
 
 
@@ -4348,7 +4488,7 @@ CREATE POLICY "Enable insert for authenticated users only" ON "public"."moods" F
 
 
 
-CREATE POLICY "Enable insert for authenticated users only" ON "public"."playlist" FOR INSERT TO "authenticated" WITH CHECK (("user_id" = "public"."get_user_id"()));
+CREATE POLICY "Enable insert for authenticated users only" ON "public"."playlist" FOR INSERT TO "authenticated" WITH CHECK (("user_id" = ( SELECT "auth"."uid"() AS "uid")));
 
 
 
@@ -4364,7 +4504,7 @@ CREATE POLICY "Enable insert for authenticated users only" ON "public"."song" FO
 
 
 
-CREATE POLICY "Enable insert for authenticated users only" ON "public"."user_reference_items" FOR INSERT TO "authenticated" WITH CHECK (("public"."get_user_id"() = "user_id"));
+CREATE POLICY "Enable insert for authenticated users only" ON "public"."user_reference_items" FOR INSERT TO "authenticated" WITH CHECK ((( SELECT "auth"."uid"() AS "uid") = "user_id"));
 
 
 
@@ -4380,11 +4520,11 @@ CREATE POLICY "Enable insert for dashboard users only" ON "public"."playlist_gen
 
 
 
-CREATE POLICY "Enable insert for users based on user_id" ON "public"."likes" FOR INSERT WITH CHECK (("public"."get_user_id"() = "user_id"));
+CREATE POLICY "Enable insert for users based on user_id" ON "public"."likes" FOR INSERT WITH CHECK ((( SELECT "auth"."uid"() AS "uid") = "user_id"));
 
 
 
-CREATE POLICY "Enable insert for users based on user_id" ON "public"."recently_played_list" FOR INSERT TO "authenticated" WITH CHECK (("public"."get_user_id"() = "user_id"));
+CREATE POLICY "Enable insert for users based on user_id" ON "public"."recently_played_list" FOR INSERT TO "authenticated" WITH CHECK ((( SELECT "auth"."uid"() AS "uid") = "user_id"));
 
 
 
@@ -4392,7 +4532,7 @@ CREATE POLICY "Enable insert for users based on user_id" ON "public"."song_artis
 
 
 
-CREATE POLICY "Enable insert for users based on user_id" ON "public"."user_song_plays" FOR INSERT WITH CHECK (("public"."get_user_id"() = "user_id"));
+CREATE POLICY "Enable insert for users based on user_id" ON "public"."user_song_plays" FOR INSERT WITH CHECK ((( SELECT "auth"."uid"() AS "uid") = "user_id"));
 
 
 
@@ -4460,7 +4600,7 @@ CREATE POLICY "Enable read access for all users" ON "public"."weekly_list_play_c
 
 
 
-CREATE POLICY "Enable read access for all users with public true or own playli" ON "public"."playlist" FOR SELECT USING ((("is_public" = true) OR ("user_id" = "public"."get_user_id"())));
+CREATE POLICY "Enable read access for all users with public true or own playli" ON "public"."playlist" FOR SELECT USING ((("is_public" = true) OR ("user_id" = ( SELECT "auth"."uid"() AS "uid"))));
 
 
 
@@ -4484,15 +4624,15 @@ CREATE POLICY "Policy with table joins" ON "public"."song_artists" FOR UPDATE TO
 
 
 
-CREATE POLICY "Policy with table joins" ON "public"."user_reference_items" FOR UPDATE USING ((( SELECT "public"."get_user_id"() AS "get_user_id") = "user_id"));
+CREATE POLICY "Policy with table joins" ON "public"."user_reference_items" FOR UPDATE USING ((( SELECT "auth"."uid"() AS "uid") = "user_id"));
 
 
 
-CREATE POLICY "Policy with table joins" ON "public"."user_song_plays" FOR UPDATE USING (( SELECT ("public"."get_user_id"() = "user_song_plays"."user_id")));
+CREATE POLICY "Policy with table joins" ON "public"."user_song_plays" FOR UPDATE USING ((( SELECT "auth"."uid"() AS "uid") = "user_id"));
 
 
 
-CREATE POLICY "Policy with table joins" ON "public"."users" FOR UPDATE USING (( SELECT ("public"."get_user_id"() = "users"."user_id")));
+CREATE POLICY "Policy with table joins" ON "public"."users" FOR UPDATE USING ((( SELECT "auth"."uid"() AS "uid") = "user_id"));
 
 
 
@@ -4517,15 +4657,15 @@ CREATE POLICY "delete" ON "public"."lyric" FOR DELETE TO "service_role" USING (t
 
 
 
-CREATE POLICY "enable delete to authenticated user onlt" ON "public"."recently_played_list" FOR DELETE TO "authenticated" USING (("public"."get_user_id"() = "user_id"));
+CREATE POLICY "enable delete to authenticated user onlt" ON "public"."recently_played_list" FOR DELETE TO "authenticated" USING ((( SELECT "auth"."uid"() AS "uid") = "user_id"));
 
 
 
-CREATE POLICY "enable update authen" ON "public"."recently_played_list" FOR UPDATE TO "authenticated" USING (("public"."get_user_id"() = "user_id"));
+CREATE POLICY "enable update authen" ON "public"."recently_played_list" FOR UPDATE TO "authenticated" USING ((( SELECT "auth"."uid"() AS "uid") = "user_id"));
 
 
 
-CREATE POLICY "enable update on user_id" ON "public"."playlist" FOR UPDATE TO "authenticated" USING ((( SELECT "public"."get_user_id"() AS "get_user_id") = "user_id"));
+CREATE POLICY "enable update on user_id" ON "public"."playlist" FOR UPDATE TO "authenticated" USING (("user_id" = ( SELECT "auth"."uid"() AS "uid")));
 
 
 
@@ -5715,9 +5855,6 @@ GRANT USAGE ON SCHEMA "public" TO "service_role";
 
 
 
-
-
-
 GRANT ALL ON FUNCTION "public"."add_playlist_song"("p_id" "text", "s_id" "uuid") TO "anon";
 GRANT ALL ON FUNCTION "public"."add_playlist_song"("p_id" "text", "s_id" "uuid") TO "authenticated";
 GRANT ALL ON FUNCTION "public"."add_playlist_song"("p_id" "text", "s_id" "uuid") TO "service_role";
@@ -5748,6 +5885,12 @@ GRANT ALL ON FUNCTION "public"."add_recently_played_batch"("p_items" "jsonb", "p
 
 
 
+GRANT ALL ON FUNCTION "public"."add_recently_played_batch"("p_items" "jsonb", "p_user_id" "uuid") TO "anon";
+GRANT ALL ON FUNCTION "public"."add_recently_played_batch"("p_items" "jsonb", "p_user_id" "uuid") TO "authenticated";
+GRANT ALL ON FUNCTION "public"."add_recently_played_batch"("p_items" "jsonb", "p_user_id" "uuid") TO "service_role";
+
+
+
 GRANT ALL ON FUNCTION "public"."add_to_library"("p_item_id" "text", "p_item_type" "public"."media_item_type") TO "anon";
 GRANT ALL ON FUNCTION "public"."add_to_library"("p_item_id" "text", "p_item_type" "public"."media_item_type") TO "authenticated";
 GRANT ALL ON FUNCTION "public"."add_to_library"("p_item_id" "text", "p_item_type" "public"."media_item_type") TO "service_role";
@@ -5769,6 +5912,12 @@ GRANT ALL ON FUNCTION "public"."batch_update_playlist_embeddings"() TO "service_
 GRANT ALL ON FUNCTION "public"."can_access_recently_played"("p_user_id" "text", "p_item_id" "text", "p_type" "public"."media_item_type") TO "anon";
 GRANT ALL ON FUNCTION "public"."can_access_recently_played"("p_user_id" "text", "p_item_id" "text", "p_type" "public"."media_item_type") TO "authenticated";
 GRANT ALL ON FUNCTION "public"."can_access_recently_played"("p_user_id" "text", "p_item_id" "text", "p_type" "public"."media_item_type") TO "service_role";
+
+
+
+GRANT ALL ON FUNCTION "public"."can_access_recently_played"("p_user_id" "uuid", "p_item_id" "text", "p_type" "public"."media_item_type") TO "anon";
+GRANT ALL ON FUNCTION "public"."can_access_recently_played"("p_user_id" "uuid", "p_item_id" "text", "p_type" "public"."media_item_type") TO "authenticated";
+GRANT ALL ON FUNCTION "public"."can_access_recently_played"("p_user_id" "uuid", "p_item_id" "text", "p_type" "public"."media_item_type") TO "service_role";
 
 
 
@@ -5976,27 +6125,21 @@ GRANT ALL ON FUNCTION "public"."get_song_track"("p_song_id" "uuid") TO "service_
 
 
 
-GRANT ALL ON FUNCTION "public"."get_user_id"() TO "anon";
-GRANT ALL ON FUNCTION "public"."get_user_id"() TO "authenticated";
-GRANT ALL ON FUNCTION "public"."get_user_id"() TO "service_role";
-
-
-
 GRANT ALL ON FUNCTION "public"."get_user_library"() TO "anon";
 GRANT ALL ON FUNCTION "public"."get_user_library"() TO "authenticated";
 GRANT ALL ON FUNCTION "public"."get_user_library"() TO "service_role";
 
 
 
-GRANT ALL ON FUNCTION "public"."get_user_page"("p_user_id" "text") TO "anon";
-GRANT ALL ON FUNCTION "public"."get_user_page"("p_user_id" "text") TO "authenticated";
-GRANT ALL ON FUNCTION "public"."get_user_page"("p_user_id" "text") TO "service_role";
+GRANT ALL ON FUNCTION "public"."get_user_page"("p_user_id" "uuid") TO "anon";
+GRANT ALL ON FUNCTION "public"."get_user_page"("p_user_id" "uuid") TO "authenticated";
+GRANT ALL ON FUNCTION "public"."get_user_page"("p_user_id" "uuid") TO "service_role";
 
 
 
-GRANT ALL ON FUNCTION "public"."get_user_playlist_profile"("p_user_id" "text") TO "anon";
-GRANT ALL ON FUNCTION "public"."get_user_playlist_profile"("p_user_id" "text") TO "authenticated";
-GRANT ALL ON FUNCTION "public"."get_user_playlist_profile"("p_user_id" "text") TO "service_role";
+GRANT ALL ON FUNCTION "public"."get_user_playlist_profile"("p_user_id" "uuid") TO "anon";
+GRANT ALL ON FUNCTION "public"."get_user_playlist_profile"("p_user_id" "uuid") TO "authenticated";
+GRANT ALL ON FUNCTION "public"."get_user_playlist_profile"("p_user_id" "uuid") TO "service_role";
 
 
 
